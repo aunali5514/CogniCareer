@@ -1,0 +1,837 @@
+﻿@page
+@model CogniCareer.Pages.Student.DashboardModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Student Dashboard";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard — CogniCareer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f0e0d;--ink-2:#1e1c1a;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime:#b8ff35;--lime-d:#8fd400;--red:#ff3f3f;--blue:#3b7fff;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px;--r-lg:12px;--shadow:0 2px 16px rgba(15,14,13,.08);--shadow-lg:0 8px 48px rgba(15,14,13,.16)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:pointer}
+h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-spacing:-.03em}
+input,select,textarea{font-family:var(--f-sans)}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--lime-d)}
+::selection{background:var(--lime);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-sans);font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r-sm);border:1.5px solid transparent;cursor:pointer;transition:all .16s;white-space:nowrap;user-select:none}
+.btn-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn-dark:hover{background:var(--ink-2);transform:translateY(-2px);box-shadow:0 6px 22px rgba(15,14,13,.22)}
+.btn-lime{background:var(--lime);color:var(--ink);border-color:var(--lime)}.btn-lime:hover{background:var(--lime-d);border-color:var(--lime-d);transform:translateY(-2px);box-shadow:0 8px 28px rgba(143,212,0,.35)}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}.btn-outline:hover{background:var(--ink);color:var(--paper);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-sm{font-size:10px;padding:7px 14px;letter-spacing:.06em}
+.btn-w{width:100%;justify-content:center}
+.field{margin-bottom:18px}.field-label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.field-input,.field-select,.field-textarea{width:100%;padding:11px 14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-sans);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s;appearance:none}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--lime-d)!important;box-shadow:0 0 0 3px rgba(143,212,0,.15),0 1px 4px rgba(15,14,13,.06)!important}
+.field-textarea{resize:vertical;min-height:90px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.badge{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-sm);border:1px solid;display:inline-block;white-space:nowrap;transition:transform .12s,box-shadow .12s}
+.badge:hover{transform:scale(1.05);box-shadow:0 2px 10px rgba(15,14,13,.09)}
+.badge-default{color:var(--muted);border-color:var(--line);background:var(--warm)}
+.badge-dark{color:var(--paper);border-color:var(--ink);background:var(--ink)}
+.badge-lime{color:var(--ink);border-color:var(--lime);background:var(--lime)}
+.badge-red{color:var(--red);border-color:rgba(255,63,63,.3);background:rgba(255,63,63,.06)}
+.badge-blue{color:var(--blue);border-color:rgba(59,127,255,.3);background:rgba(59,127,255,.06)}
+.badge-green{color:#1a7a3a;border-color:rgba(26,122,58,.3);background:rgba(26,122,58,.06)}
+.status{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:5px}
+.status::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.st-active{background:rgba(26,122,58,.08);color:#1a7a3a}.st-active::before{background:#1a7a3a}
+.st-pending{background:rgba(180,100,0,.08);color:#b46400}.st-pending::before{background:#b46400}
+.st-review{background:rgba(59,127,255,.08);color:var(--blue)}.st-review::before{background:var(--blue)}
+.st-reject{background:rgba(255,63,63,.08);color:var(--red)}.st-reject::before{background:var(--red)}
+.st-done{background:rgba(15,14,13,.08);color:var(--ink)}.st-done::before{background:var(--ink)}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .22s,transform .22s}
+.card:hover{box-shadow:0 10px 40px rgba(15,14,13,.09),0 0 0 1px rgba(143,212,0,.07)!important;transform:translateY(-1px)}
+.card-head{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,var(--warm) 0%,rgba(245,240,232,.5) 100%)!important}
+.card-title{font-family:var(--f-serif);font-size:15px;font-weight:700;letter-spacing:-.01em}
+.card-body{padding:22px}
+.card-body-p0{padding:0}
+.notice{padding:11px 14px;border-radius:var(--r-sm);font-size:12px;line-height:1.5;margin-bottom:16px}
+.notice-info{background:rgba(59,127,255,.06);border:1px solid rgba(59,127,255,.2);color:var(--blue)}
+.notice-warn{background:rgba(255,63,63,.05);border:1px solid rgba(255,63,63,.2);color:var(--red)}
+.notice-ok{background:rgba(26,122,58,.06);border:1px solid rgba(26,122,58,.2);color:#1a7a3a}
+.toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:var(--r-lg);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);max-width:340px;pointer-events:none;border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(14px)}
+.toast.show{transform:translateY(0);opacity:1}.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.toast.t-lime .toast-dot{background:var(--lime)}.toast.t-lime{border-color:rgba(184,255,53,.18)!important}
+.toast.t-red .toast-dot{background:var(--red)}.toast.t-red{border-color:rgba(255,63,63,.22)!important}
+.toast.t-blue .toast-dot{background:var(--blue)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dash-shell{display:flex;height:100vh;overflow:hidden}
+.dash-sidebar{width:220px;flex-shrink:0;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;position:relative;z-index:10}
+.sidebar-logo{font-family:var(--f-serif);font-size:17px;font-weight:900;letter-spacing:-.04em;padding:20px 22px 16px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.sidebar-logo span{color:var(--lime-d);font-style:italic;font-weight:400}
+.sb-section{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--line);padding:18px 22px 6px;font-weight:400}
+.sb-link{display:flex;align-items:center;gap:10px;padding:9px 22px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .14s;border-left:2px solid transparent;text-decoration:none}
+.sb-link:hover{color:var(--ink);background:var(--paper)}
+.sb-link.on{color:var(--ink);background:linear-gradient(to right,rgba(143,212,0,.07),transparent)!important;border-left:2.5px solid var(--lime-d)!important;font-weight:700}
+.sb-ico{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-badge{font-family:var(--f-mono);font-size:8px;padding:2px 7px;background:var(--red);color:#fff;border-radius:100px;font-weight:700}
+.sb-foot{margin-top:auto;padding:14px 16px;border-top:1px solid var(--line)}
+.sb-user{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sb-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:700;flex-shrink:0;background:var(--ink);color:var(--lime)}
+.sb-uname{font-size:13px;font-weight:700;letter-spacing:-.01em}
+.sb-urole{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.04em}
+.sb-signout{width:100%;padding:8px;border:1px solid var(--line);background:transparent;border-radius:var(--r-sm);font-family:var(--f-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .14s}
+.sb-signout:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.dash-main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.dash-topbar{position:sticky;top:0;z-index:9;height:54px;background:rgba(245,240,232,.95)!important;backdrop-filter:blur(18px) saturate(1.5)!important;-webkit-backdrop-filter:blur(18px) saturate(1.5)!important;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
+.dash-topbar-title{font-family:var(--f-serif);font-size:17px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.dash-topbar-title::before{content:'';width:3px;height:18px;background:var(--lime-d);border-radius:2px;display:inline-block}
+.dash-content{padding:28px;flex:1}
+.panel{display:none}.panel.active{display:block;animation:pageReveal .35s cubic-bezier(.4,0,.2,1) both}
+@@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.metric-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white);margin-bottom:22px}
+.metric-cell{padding:18px 22px;border-right:1px solid var(--line);position:relative;transition:background .15s}
+.metric-cell:last-child{border-right:none}
+.metric-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.m-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:4px;display:inline-block;transition:transform .2s}
+.metric-cell:hover .m-value{transform:scale(1.05)}
+.m-sub{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.progress-track{height:3px;background:var(--warm);border-radius:0;overflow:hidden}
+.progress-fill{height:100%;border-radius:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.pf-ink{background:var(--ink)}.pf-lime{background:var(--lime-d)}.pf-red{background:var(--red)}.pf-muted{background:var(--muted)}.pf-blue{background:var(--blue)}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--line);text-align:left;background:var(--warm);font-weight:400}
+.data-table td{padding:12px 16px;border-bottom:1px solid var(--warm);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:linear-gradient(to right,rgba(143,212,0,.035),var(--paper),rgba(143,212,0,.035))!important}
+/* Welcome banner */
+.hc-banner{background:var(--ink);border-radius:var(--r-lg);padding:28px 32px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:28px;position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px)}
+.hc-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;border-radius:50%;background:rgba(184,255,53,.05);pointer-events:none}
+.hc-kicker{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:8px}
+.hc-name{font-family:var(--f-serif);font-size:26px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1}
+.hc-name em{color:var(--lime);font-style:italic;font-weight:400}
+.hc-right{display:flex;gap:16px;flex-shrink:0}
+.hc-stat{text-align:center;padding:10px 18px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);transition:border-color .15s}
+.hc-stat:hover{border-color:rgba(184,255,53,.3)}
+.hc-score{font-family:var(--f-serif);font-size:28px;font-weight:900;color:var(--lime);letter-spacing:-.04em;line-height:1}
+.hc-slabel{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
+/* Application cards */
+.appl-card-rich{display:flex;gap:14px;padding:16px 22px;border-bottom:1px solid var(--line);position:relative;transition:background .15s,padding-left .16s;cursor:default}
+.appl-card-rich::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lime-d);border-radius:0 2px 2px 0;transform:scaleY(0);transform-origin:center;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.appl-card-rich:hover{background:rgba(245,240,232,.6);padding-left:28px}
+.appl-card-rich:hover::before{transform:scaleY(1)}
+.appl-card-rich:last-child{border-bottom:none}
+.acr-logo{width:48px;height:48px;flex-shrink:0;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid var(--line);transition:transform .18s;background:rgba(59,127,255,.07)}
+.appl-card-rich:hover .acr-logo{transform:scale(1.08) rotate(-3deg)}
+.acr-body{flex:1;min-width:0}
+.acr-top{display:flex;gap:12px;justify-content:space-between;margin-bottom:10px}
+.acr-job{font-family:var(--f-serif);font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:3px}
+.acr-company{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.06em;color:var(--muted);margin-bottom:7px}
+.acr-tags{display:flex;gap:5px;flex-wrap:wrap}
+.acr-bar-row{display:flex;align-items:center;gap:10px;padding-top:8px;border-top:1px solid var(--warm)}
+.acr-bar-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+.acr-bar-track{flex:1;height:5px;background:var(--warm);border-radius:3px;overflow:hidden}
+.acr-bar-fill{height:100%;border-radius:3px;width:0%;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
+.acr-bar-pct{font-family:var(--f-serif);font-size:13px;font-weight:900;letter-spacing:-.03em;flex-shrink:0}
+.acr-ring{position:relative;flex-shrink:0;width:44px;height:44px}
+/* App stat cards */
+.app-stat-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:22px}
+.app-stat-card{border-radius:var(--r-lg);padding:16px 18px;background:var(--white);border:1px solid var(--line);position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s;cursor:default}
+.app-stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(15,14,13,.1)}
+.app-stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.asc-total::before{background:var(--ink)}.asc-pending::before{background:#b46400}.asc-short::before{background:var(--lime-d)}.asc-inter::before{background:var(--blue)}.asc-reject::before{background:var(--red)}
+.app-stat-icon{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
+.asi-total{background:rgba(15,14,13,.07)}.asi-pending{background:rgba(180,100,0,.1)}.asi-short{background:rgba(143,212,0,.12)}.asi-inter{background:rgba(59,127,255,.1)}.asi-reject{background:rgba(255,63,63,.08)}
+.app-stat-num{font-family:var(--f-serif);font-size:32px;font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:4px}
+.app-stat-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* Job cards */
+.job-row-wow{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--line);position:relative;cursor:pointer;transition:background .12s,padding-left .15s}
+.job-row-wow::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .15s}
+.job-row-wow:hover::before{background:var(--lime-d)}
+.job-row-wow:hover{padding-left:26px;background:rgba(245,240,232,.6)}
+.job-row-wow:last-child{border-bottom:none}
+.job-logo-bubble{width:44px;height:44px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--line);transition:transform .15s}
+.job-row-wow:hover .job-logo-bubble{transform:scale(1.08)}
+.jlb-blue{background:rgba(59,127,255,.07)}.jlb-green{background:rgba(26,122,58,.07)}.jlb-orange{background:rgba(180,100,0,.07)}.jlb-purple{background:rgba(123,94,167,.07)}.jlb-teal{background:rgba(0,180,150,.07)}.jlb-red{background:rgba(255,63,63,.07)}
+/* Match ring */
+.match-ring-wow{width:58px;height:58px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.match-ring-wow svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.match-ring-wow svg circle{fill:none;stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
+.match-ring-wow .ring-track{stroke:var(--warm)}
+.match-ring-wow .ring-fill-high{stroke:#1a7a3a;filter:drop-shadow(0 0 5px rgba(26,122,58,.55))}
+.match-ring-wow .ring-fill-mid{stroke:#b46400;filter:drop-shadow(0 0 4px rgba(180,100,0,.4))}
+.match-ring-wow .ring-fill-low{stroke:var(--red)}
+.ring-pct{font-family:var(--f-serif);font-weight:900;font-size:12px;letter-spacing:-.04em;line-height:1;z-index:1}
+.ring-pct-high{color:#1a7a3a}.ring-pct-mid{color:#b46400}.ring-pct-low{color:var(--red)}
+/* Gap analysis */
+.gap-visual-section{display:flex;gap:0;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:22px}
+.gap-col{flex:1;padding:22px 24px}
+.gap-col-have{border-right:1px solid var(--line)}
+.gap-col-head{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.gap-col-head-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.gap-skill-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:var(--r-sm);margin-bottom:7px;font-size:13px;font-weight:600;border:1px solid}
+.gap-row-have{background:rgba(26,122,58,.05);border-color:rgba(26,122,58,.2);color:#1a7a3a}
+.gap-row-miss{background:rgba(255,63,63,.04);border-color:rgba(255,63,63,.2);color:var(--red)}
+/* Skill section */
+.skill-card-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--white);margin-bottom:8px;transition:border-color .15s,transform .15s,box-shadow .15s;cursor:default}
+.skill-card-item:hover{border-color:var(--ink);transform:translateX(4px);box-shadow:0 2px 12px rgba(15,14,13,.07)}
+.skill-card-item:last-child{margin-bottom:0}
+.sci-icon{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.sci-body{flex:1}.sci-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+.sci-bar-row{display:flex;align-items:center;gap:8px}
+.sci-track{flex:1;height:4px;background:var(--warm);border-radius:2px;overflow:hidden}
+.sci-fill{height:100%;border-radius:2px;transition:width 1s ease}
+.scif-adv{background:var(--lime-d)}.scif-int{background:var(--blue)}.scif-beg{background:var(--muted)}
+.sci-pct{font-family:var(--f-mono);font-size:10px;color:var(--muted);min-width:28px}
+.sci-pct{font-family:var(--f-mono);font-size:10px;color:var(--muted);min-width:28px}
+/* Profile */
+.profile-hero{background:var(--ink);border-radius:var(--r-lg);margin-bottom:20px;overflow:hidden;position:relative}
+.profile-hero-inner{position:relative;z-index:1;display:flex;align-items:center;gap:28px;padding:28px 32px}
+.profile-av-circle{width:72px;height:72px;border-radius:50%;background:var(--ink-2);border:2px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:26px;font-weight:900;color:var(--lime);flex-shrink:0}
+.profile-hero-name{font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1;margin-bottom:4px}
+.profile-hero-sub{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px}
+.profile-hero-chips{display:flex;gap:7px;flex-wrap:wrap}
+.profile-hero-chip{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid;display:inline-flex;align-items:center;gap:5px}
+.phc-uni{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.05)}
+.phc-deg{color:var(--lime);border-color:rgba(184,255,53,.25);background:rgba(184,255,53,.07)}
+.profile-section-block{background:var(--white);border:1px solid var(--line);border-left:3px solid transparent;border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.profile-section-block:hover{border-left-color:var(--lime-d);box-shadow:0 4px 24px rgba(15,14,13,.07)}
+.psb-header{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line);background:linear-gradient(to right,var(--warm),var(--white))}
+.psb-icon{width:34px;height:34px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.psb-title{font-size:14px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.psb-body{padding:20px 22px}
+/* Alert cards */
+.alert-card-wow{display:flex;align-items:flex-start;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);position:relative;cursor:default}
+.alert-card-wow::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0;transition:width .2s ease}
+.alert-card-wow:hover::before{width:4px}
+.alert-card-wow.aw-app::before{background:var(--lime-d)}
+.alert-card-wow.aw-job::before{background:var(--blue)}
+.alert-card-wow.aw-alert::before{background:var(--red)}
+.alert-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.alert-body{flex:1}
+.alert-msg{font-size:13px;font-weight:500;margin-bottom:3px}
+.alert-time{font-family:var(--f-mono);font-size:9.5px;color:var(--muted);letter-spacing:.04em}
+/* Proficiency UI */
+.prof-row{display:flex;gap:6px}
+.prof-btn{padding:5px 12px;border:1.5px solid var(--line);border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;background:transparent;color:var(--muted)}
+.prof-btn.p-beg{border-color:rgba(59,127,255,.5);background:rgba(59,127,255,.1);color:var(--blue)}
+.prof-btn.p-int{border-color:rgba(180,100,0,.5);background:rgba(180,100,0,.1);color:#b46400}
+.prof-btn.p-adv{border-color:rgba(143,212,0,.5);background:rgba(143,212,0,.12);color:var(--lime-d);box-shadow:0 0 0 2px rgba(143,212,0,.3),0 2px 8px rgba(143,212,0,.2)}
+/* Skill dropdown */
+.skill-dd-wrap{position:relative}
+.skill-dd{position:absolute;left:0;right:0;top:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-lg);z-index:100;display:none;max-height:200px;overflow-y:auto}
+.skill-opt{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;transition:background .12s}
+.skill-opt:hover{background:var(--lime)!important;color:var(--ink)}
+.skill-opt-name{font-size:13px;font-weight:600}
+.skill-opt-cat{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.06em}
+.peer-bench{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white);margin-bottom:22px}
+.peer-cell{padding:18px 22px;border-right:1px solid var(--line);position:relative;overflow:hidden;transition:background .15s;cursor:default}
+.peer-cell:last-child{border-right:none}
+.peer-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--lime-d);transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.4,0,.2,1)}
+.peer-cell:hover::before{transform:scaleX(1)}
+.peer-cell:hover{background:var(--warm)}
+.peer-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.peer-value{font-family:var(--f-serif);font-size:28px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.demand-bar-item{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.demand-bar-item:last-child{margin-bottom:0}
+.dbi-rank{font-family:var(--f-mono);font-size:10px;color:var(--muted);width:22px;flex-shrink:0}
+.dbi-name{font-size:12px;font-weight:600;width:80px;flex-shrink:0}
+.dbi-track{flex:1;height:6px;background:var(--warm);border-radius:3px;overflow:hidden}
+.dbi-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.dbi-pct{font-family:var(--f-mono);font-size:11px;color:var(--muted);width:32px;text-align:right;flex-shrink:0}
+@@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.au{animation:fadeUp .55s ease both}
+</style>
+</head>
+<body>
+<div id="toast" class="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+
+<div class="dash-shell">
+  <!-- Sidebar -->
+  <aside class="dash-sidebar">
+    <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
+    <div class="sb-section">Student</div>
+    <a class="sb-link on" id="lnk-overview" onclick="sw('sp-overview','Overview')">
+      <span class="sb-ico">📊</span>Overview
+    </a>
+    <a class="sb-link" id="lnk-browse" onclick="sw('sp-browse','Browse Jobs')">
+      <span class="sb-ico">🔍</span>Browse Jobs
+    </a>
+    <a class="sb-link" id="lnk-apps" onclick="sw('sp-apps','My Applications')">
+      <span class="sb-ico">📋</span>Applications
+    </a>
+    <a class="sb-link" id="lnk-skills" onclick="sw('sp-skills','My Skills')">
+      <span class="sb-ico">⚡</span>Skills
+    </a>
+    <a class="sb-link" id="lnk-gap" onclick="sw('sp-gap','Skill Gap Analysis')">
+      <span class="sb-ico">🎯</span>Skill Gap
+    </a>
+    <a class="sb-link" id="lnk-profile" onclick="sw('sp-profile','My Profile')">
+      <span class="sb-ico">👤</span>Profile
+    </a>
+    <a class="sb-link" id="lnk-alerts" onclick="sw('sp-alerts','Alerts')">
+      <span class="sb-ico">🔔</span>Alerts
+      @if (Model.UnreadAlerts > 0)
+      { <span class="sb-badge">@Model.UnreadAlerts</span> }
+    </a>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-avatar">@Model.Initials</div>
+        <div>
+          <div class="sb-uname">@Model.UserName</div>
+          <div class="sb-urole">Student</div>
+        </div>
+      </div>
+      <form method="post" asp-page-handler="Logout">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="sb-signout">Sign Out</button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="dash-topbar-title" id="page-title">Overview</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        @if(!Model.ProfileComplete)
+        {
+          <span class="badge badge-red" style="font-size:9px">Profile Incomplete</span>
+        }
+        <span class="badge badge-default">@DateTime.Now.ToString("MMM dd, yyyy")</span>
+      </div>
+    </div>
+    <div class="dash-content">
+
+      <!-- ── OVERVIEW ── -->
+      <div class="panel active" id="sp-overview">
+        <div class="hc-banner au">
+          <div>
+            <div class="hc-kicker">Welcome back</div>
+            <div class="hc-name">@Model.UserName.Split(' ')[0],<br><em>let's find your match.</em></div>
+          </div>
+          <div class="hc-right">
+            <div class="hc-stat">
+              <div class="hc-score">@Model.TotalApplications</div>
+              <div class="hc-slabel">Applications</div>
+            </div>
+            <div class="hc-stat">
+              <div class="hc-score">@Model.TotalSkills</div>
+              <div class="hc-slabel">Skills</div>
+            </div>
+            <div class="hc-stat">
+              <div class="hc-score" style="color:var(--lime)">@Model.AvgMatchScore%</div>
+              <div class="hc-slabel">Avg Match</div>
+            </div>
+          </div>
+        </div>
+
+        @if (!Model.ProfileComplete)
+        {
+          <div class="notice notice-warn">⚠ Complete your profile to start applying for jobs. <a onclick="sw('sp-profile','My Profile')" style="cursor:pointer;text-decoration:underline">Set up profile →</a></div>
+        }
+
+        <div class="metric-strip au">
+          <div class="metric-cell" style="--c:var(--muted)">
+            <div class="metric-cell" style="position:relative">
+              <div class="m-label">Applied</div>
+              <div class="m-value">@Model.TotalApplications</div>
+              <div class="m-sub">total jobs</div>
+              <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-ink" style="width:@(Model.TotalApplications > 0 ? Math.Min(Model.TotalApplications * 10, 100) : 0)%"></div></div>
+            </div>
+          </div>
+          <div class="metric-cell">
+            <div class="m-label">Shortlisted</div>
+            <div class="m-value">@Model.ShortlistedCount</div>
+            <div class="m-sub">in review</div>
+            <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-lime" style="width:@(Model.TotalApplications > 0 ? Model.ShortlistedCount * 100 / Model.TotalApplications : 0)%"></div></div>
+          </div>
+          <div class="metric-cell">
+            <div class="m-label">Skills</div>
+            <div class="m-value">@Model.TotalSkills</div>
+            <div class="m-sub">in profile</div>
+          </div>
+          <div class="metric-cell">
+            <div class="m-label">Avg Match</div>
+            <div class="m-value" style="color:var(--lime-d)">@Model.AvgMatchScore%</div>
+            <div class="m-sub">across apps</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-head"><span class="card-title">Recent Applications</span><a onclick="sw('sp-apps','My Applications')" style="cursor:pointer" class="btn btn-ghost btn-sm">View All →</a></div>
+            <div class="card-body-p0">
+              @if (!Model.RecentApplications.Any())
+              {
+                <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No applications yet. <a onclick="sw('sp-browse','Browse Jobs')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Browse jobs →</a></div>
+              }
+              @foreach (var app in Model.RecentApplications)
+              {
+                var scoreColor = app.MatchScore >= 80 ? "#1a7a3a" : app.MatchScore >= 60 ? "#b46400" : "var(--red)";
+                <div class="job-row-wow">
+                  <div class="job-logo-bubble jlb-blue">🏢</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">@app.JobTitle</div>
+                    <div style="font-family:var(--f-mono);font-size:9.5px;color:var(--muted)">@app.CompanyName · @app.AppliedAt.ToString("MMM dd")</div>
+                  </div>
+                  <span class="status @CogniCareer.Helpers.SessionHelper.GetStatusClass(app.CurrentStatus)">@app.CurrentStatus</span>
+                  <div style="font-family:var(--f-serif);font-size:14px;font-weight:900;color:@scoreColor;min-width:36px;text-align:right">@app.MatchScore%</div>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Top Matched Jobs</span><a onclick="sw('sp-browse','Browse Jobs')" style="cursor:pointer" class="btn btn-dark btn-sm">Browse All →</a></div>
+            <div class="card-body-p0">
+              @if (!Model.TopMatchedJobs.Any())
+              {
+                <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">Complete your profile and add skills to see matches.</div>
+              }
+              @foreach (var jm in Model.TopMatchedJobs.Take(5))
+              {
+                var scoreColor = jm.MatchScore >= 80 ? "#1a7a3a" : jm.MatchScore >= 60 ? "#b46400" : "var(--red)";
+                <div class="job-row-wow">
+                  <div class="job-logo-bubble jlb-green">💼</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">@jm.Job.Title</div>
+                    <div style="font-family:var(--f-mono);font-size:9.5px;color:var(--muted)">@jm.Job.CompanyName · @jm.Job.JobType · Due @jm.Job.Deadline.ToString("MMM dd")</div>
+                  </div>
+                  <div style="font-family:var(--f-serif);font-size:16px;font-weight:900;color:@scoreColor">@jm.MatchScore%</div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BROWSE JOBS ── -->
+      <div class="panel" id="sp-browse">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Active Jobs — Ranked by Match</span>
+            <span class="badge badge-default">@Model.AllJobs.Count jobs</span>
+          </div>
+          <div class="card-body-p0">
+            @if (!Model.AllJobs.Any())
+            {
+              <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No active jobs available right now.</div>
+            }
+            @foreach (var jm in Model.AllJobs)
+            {
+              var sc = jm.MatchScore;
+              var scoreColor = sc >= 80 ? "#1a7a3a" : sc >= 60 ? "#b46400" : "var(--red)";
+              var ringClass = sc >= 80 ? "ring-fill-high" : sc >= 60 ? "ring-fill-mid" : "ring-fill-low";
+              var pctClass = sc >= 80 ? "ring-pct-high" : sc >= 60 ? "ring-pct-mid" : "ring-pct-low";
+              var offset = Math.Round(145 - (sc / 100m * 145), 1);
+              var alreadyApplied = Model.AppliedJobIds.Contains(jm.Job.JobID);
+              <div class="job-row-wow" style="align-items:flex-start;gap:16px">
+                <div class="job-logo-bubble jlb-blue">💼</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-family:var(--f-serif);font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px">@jm.Job.Title</div>
+                  <div style="font-family:var(--f-mono);font-size:9.5px;color:var(--muted);margin-bottom:7px">@jm.Job.CompanyName · @jm.Job.JobType · Deadline: @jm.Job.Deadline.ToString("MMM dd, yyyy")</div>
+                  <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px">@(jm.Job.Description.Length > 100 ? jm.Job.Description.Substring(0, 100) + "…" : jm.Job.Description)</div>
+                  @if (alreadyApplied)
+                  {
+                    <span class="badge badge-dark">✓ Applied</span>
+                  }
+                  else if (jm.Job.Deadline < DateTime.Now)
+                  {
+                    <span class="badge badge-red">Closed</span>
+                  }
+                  else
+                  {
+                    <form method="post" asp-page-handler="Apply" style="display:inline">
+                      @Html.AntiForgeryToken()
+                      <input type="hidden" name="jobId" value="@jm.Job.JobID">
+                      <input type="hidden" name="matchScore" value="@jm.MatchScore">
+                      <button type="submit" class="btn btn-dark btn-sm">Apply Now →</button>
+                    </form>
+                  }
+                </div>
+                <div class="match-ring-wow" style="margin-top:4px">
+                  <svg viewBox="0 0 58 58"><circle class="ring-track" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="0"/><circle class="@ringClass" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="@offset"/></svg>
+                  <span class="ring-pct @pctClass">@sc%</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MY APPLICATIONS ── -->
+      <div class="panel" id="sp-apps">
+        <div class="app-stat-cards">
+          <div class="app-stat-card asc-total"><div class="app-stat-icon asi-total">📋</div><div class="app-stat-num">@Model.TotalApplications</div><div class="app-stat-lbl">Total</div></div>
+          <div class="app-stat-card asc-pending"><div class="app-stat-icon asi-pending">⏳</div><div class="app-stat-num">@Model.PendingCount</div><div class="app-stat-lbl">Applied</div></div>
+          <div class="app-stat-card asc-short"><div class="app-stat-icon asi-short">⭐</div><div class="app-stat-num">@Model.ShortlistedCount</div><div class="app-stat-lbl">Shortlisted</div></div>
+          <div class="app-stat-card asc-inter"><div class="app-stat-icon asi-inter">🎙️</div><div class="app-stat-num">@Model.InterviewCount</div><div class="app-stat-lbl">Interview</div></div>
+          <div class="app-stat-card asc-reject"><div class="app-stat-icon asi-reject">✕</div><div class="app-stat-num">@Model.RejectedCount</div><div class="app-stat-lbl">Not Selected</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">My Applications</span><span class="badge badge-default">@Model.TotalApplications total</span></div>
+          <div class="card-body-p0">
+            @if (!Model.Applications.Any())
+            {
+              <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">You haven't applied to any jobs yet. <a onclick="sw('sp-browse','Browse Jobs')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Browse jobs →</a></div>
+            }
+            @foreach (var app in Model.Applications)
+            {
+              var sc = app.MatchScore;
+              var scoreColor = sc >= 80 ? "#1a7a3a" : sc >= 60 ? "#b46400" : "var(--red)";
+              var offset = Math.Round(113 - (sc / 100m * 113), 1);
+              var stClass = CogniCareer.Helpers.SessionHelper.GetStatusClass(app.CurrentStatus);
+              <div class="appl-card-rich">
+                <div class="acr-logo">🏢</div>
+                <div class="acr-body">
+                  <div class="acr-top">
+                    <div>
+                      <div class="acr-job">@app.JobTitle</div>
+                      <div class="acr-company">@app.CompanyName &nbsp;·&nbsp; Applied @app.AppliedAt.ToString("MMM dd, yyyy")</div>
+                    </div>
+                    <span class="status @stClass">@app.CurrentStatus</span>
+                  </div>
+                  <div class="acr-bar-row">
+                    <span class="acr-bar-label">Match Score</span>
+                    <div class="acr-bar-track"><div class="acr-bar-fill" style="background:@scoreColor;width:@sc%"></div></div>
+                    <span class="acr-bar-pct" style="color:@scoreColor">@sc%</span>
+                    <div class="acr-ring">
+                      <svg viewBox="0 0 44 44" style="width:44px;height:44px;transform:rotate(-90deg)">
+                        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--warm)" stroke-width="3.5"/>
+                        <circle cx="22" cy="22" r="18" fill="none" stroke="@scoreColor" stroke-width="3.5" stroke-dasharray="113" stroke-dashoffset="@offset" stroke-linecap="round"/>
+                      </svg>
+                      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:10px;font-weight:900;color:@scoreColor">@sc%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MY SKILLS ── -->
+      <div class="panel" id="sp-skills">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-head"><span class="card-title">My Skills</span><button class="btn btn-dark btn-sm" onclick="toggleSkillAdd()">+ Add Skill</button></div>
+            <div class="card-body">
+              <div id="skill-add-area" style="display:none;margin-bottom:20px;padding:14px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper)">
+                <form method="post" asp-page-handler="AddSkill">
+                  @Html.AntiForgeryToken()
+                  <div class="skill-dd-wrap" style="margin-bottom:10px">
+                    <input class="field-input" id="skill-q" name="skillSearch" placeholder="Search skill (e.g. Docker, React...)" oninput="searchSkills(this.value)" onblur="setTimeout(closeSkillDD,200)" autocomplete="off">
+                    <input type="hidden" name="skillId" id="skill-id-input">
+                    <div class="skill-dd" id="skill-dd"></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                    <span style="font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Level:</span>
+                    <div class="prof-row" id="prof-row">
+                      <button type="button" class="prof-btn" onclick="setProf(this,'Beginner')">Beginner</button>
+                      <button type="button" class="prof-btn" onclick="setProf(this,'Intermediate')">Intermediate</button>
+                      <button type="button" class="prof-btn" onclick="setProf(this,'Advanced')">Advanced</button>
+                    </div>
+                    <input type="hidden" name="proficiency" id="prof-input" value="Intermediate">
+                  </div>
+                  <button type="submit" class="btn btn-dark btn-sm btn-w">Add to Profile</button>
+                </form>
+              </div>
+              <div id="skills-list">
+                @if (!Model.StudentSkills.Any())
+                {
+                  <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">No skills added yet. Add your first skill above.</div>
+                }
+                @foreach (var sk in Model.StudentSkills)
+                {
+                  var pct = sk.ProficiencyLevel == "Advanced" ? 90 : sk.ProficiencyLevel == "Intermediate" ? 60 : 35;
+                  var fillClass = sk.ProficiencyLevel == "Advanced" ? "scif-adv" : sk.ProficiencyLevel == "Intermediate" ? "scif-int" : "scif-beg";
+                  var badgeClass = sk.ProficiencyLevel == "Advanced" ? "badge-lime" : "badge-default";
+                  <div class="skill-card-item">
+                    <div class="sci-icon" style="background:rgba(59,127,255,.1)">⚡</div>
+                    <div class="sci-body">
+                      <div class="sci-name">@sk.SkillName</div>
+                      <div class="sci-bar-row">
+                        <div class="sci-track"><div class="sci-fill @fillClass" style="width:@pct%"></div></div>
+                        <span class="sci-pct">@pct%</span>
+                        <span class="badge @badgeClass" style="font-size:9px">@sk.ProficiencyLevel</span>
+                        <form method="post" asp-page-handler="DeleteSkill" style="display:inline;margin-left:6px">
+                          @Html.AntiForgeryToken()
+                          <input type="hidden" name="studentSkillId" value="@sk.StudentSkillID">
+                          <button type="submit" class="btn btn-ghost btn-sm" style="padding:3px 8px;color:var(--red)">✕</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Market Demand</span></div>
+            <div class="card-body">
+              <p style="font-size:12px;color:var(--muted);margin-bottom:18px;font-weight:300">How often your skills appear in active job postings</p>
+              @if (!Model.StudentSkills.Any())
+              {
+                <div style="text-align:center;color:var(--muted);font-size:13px">Add skills to see demand data.</div>
+              }
+              @{ int rankIdx = 1; }
+              @foreach (var sk in Model.StudentSkills.Take(6))
+              {
+                var demandPct = Math.Max(20, Math.Min(95, 88 - (rankIdx - 1) * 10));
+                var demandClass = rankIdx == 1 ? "pf-ink" : rankIdx == 2 ? "pf-lime" : "pf-muted";
+                <div class="demand-bar-item">
+                  <span class="dbi-rank">#@rankIdx</span>
+                  <span class="dbi-name">@sk.SkillName</span>
+                  <div class="dbi-track"><div class="dbi-fill @demandClass" style="width:@demandPct%"></div></div>
+                  <span class="dbi-pct">@demandPct%</span>
+                </div>
+                rankIdx++;
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SKILL GAP ── -->
+      <div class="panel" id="sp-gap">
+        @if (!Model.Applications.Any())
+        {
+          <div class="notice notice-info">Apply to a job first to see your skill gap analysis for that role.</div>
+        }
+        else
+        {
+          var topApp = Model.Applications.OrderByDescending(a => a.MatchScore).First();
+          var gap = Model.TopGap;
+          <div class="card" style="margin-bottom:20px">
+            <div class="card-head">
+              <span class="card-title">Skill Gap — @topApp.JobTitle  @topApp.CompanyName</span>
+              <span class="badge badge-dark">@topApp.MatchScore% Match</span>
+            </div>
+            <div class="card-body">
+              <div class="gap-visual-section">
+                <div class="gap-col gap-col-have">
+                  <div class="gap-col-head">
+                    <div class="gap-col-head-dot" style="background:#1a7a3a"></div>
+                    <span style="color:#1a7a3a">You Have</span>
+                    <span style="margin-left:auto;color:var(--muted)">@gap.MatchedSkills.Count matched</span>
+                  </div>
+                  @if (!gap.MatchedSkills.Any())
+                  { <div style="font-size:12px;color:var(--muted)">No matching skills yet.</div> }
+                  @foreach (var ms in gap.MatchedSkills)
+                  {
+                    <div class="gap-skill-row gap-row-have">
+                      <span>@ms.SkillName</span>
+                      <span style="font-family:var(--f-mono);font-size:9px">@ms.Priority</span>
+                    </div>
+                  }
+                </div>
+                <div class="gap-col">
+                  <div class="gap-col-head">
+                    <div class="gap-col-head-dot" style="background:var(--red)"></div>
+                    <span style="color:var(--red)">Missing</span>
+                    <span style="margin-left:auto;color:var(--muted)">@gap.MissingSkills.Count gaps</span>
+                  </div>
+                  @if (!gap.MissingSkills.Any())
+                  { <div style="font-size:12px;color:#1a7a3a;font-weight:600">🎉 You have all required skills!</div> }
+                  @foreach (var ms in gap.MissingSkills)
+                  {
+                    <div class="gap-skill-row gap-row-miss">
+                      <span>@ms.SkillName</span>
+                      <span style="font-family:var(--f-mono);font-size:9px">@ms.Priority</span>
+                    </div>
+                  }
+                </div>
+              </div>
+              <div class="peer-bench">
+                <div class="peer-cell"><div class="peer-label">Total Applicants</div><div class="peer-value">@Model.TopBenchmark.TotalApplicants</div></div>
+                <div class="peer-cell"><div class="peer-label">Top Score</div><div class="peer-value">@Model.TopBenchmark.TopScore%</div></div>
+                <div class="peer-cell"><div class="peer-label">Your Score</div><div class="peer-value" style="color:var(--lime-d)">@Model.TopBenchmark.MyScore%</div></div>
+                <div class="peer-cell"><div class="peer-label">Your Percentile</div><div class="peer-value">@Model.TopBenchmark.Percentile%</div></div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- ── PROFILE ── -->
+      <div class="panel" id="sp-profile">
+        <div class="profile-hero">
+          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(184,255,53,.06),transparent 70%)"></div>
+          <div class="profile-hero-inner">
+            <div class="profile-av-circle">@Model.Initials</div>
+            <div>
+              <div class="profile-hero-name">@Model.UserName</div>
+              <div class="profile-hero-sub">@(Model.Profile?.Degree ?? "Add your degree") · @(Model.Profile?.University ?? "Add your university")</div>
+              <div class="profile-hero-chips">
+                @if (Model.Profile != null)
+                {
+                  <span class="profile-hero-chip phc-uni">@Model.Profile.University</span>
+                  <span class="profile-hero-chip phc-deg">@Model.Profile.Degree</span>
+                  <span class="profile-hero-chip" style="color:rgba(120,170,255,.9);border-color:rgba(59,127,255,.25);background:rgba(59,127,255,.08)">Sem @Model.Profile.Semester</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ProfileMessage))
+        {
+          <div class="notice notice-ok">@Model.ProfileMessage</div>
+        }
+
+        <div class="profile-section-block">
+          <div class="psb-header">
+            <div class="psb-icon" style="background:rgba(59,127,255,.1)">🎓</div>
+            <div><div class="psb-title">Academic Information</div></div>
+          </div>
+          <div class="psb-body">
+            <form method="post" asp-page-handler="SaveProfile">
+              @Html.AntiForgeryToken()
+              <div class="field-row">
+                <div class="field">
+                  <label class="field-label">University</label>
+                  <input name="University" class="field-input" placeholder="e.g. NUST, LUMS, UET" value="@(Model.Profile?.University ?? "")">
+                </div>
+                <div class="field">
+                  <label class="field-label">Degree</label>
+                  <input name="Degree" class="field-input" placeholder="e.g. BS Computer Science" value="@(Model.Profile?.Degree ?? "")">
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label class="field-label">Current Semester</label>
+                  <select name="Semester" class="field-input field-select">
+                    @for (int s = 1; s <= 8; s++)
+                    {
+                      <option value="@s" selected="@(Model.Profile?.Semester == s ? "selected" : null)">Semester @s</option>
+                    }
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field-label">GPA</label>
+                  <input name="GPA" type="number" step="0.01" min="0" max="4" class="field-input" placeholder="e.g. 3.5" value="@(Model.Profile?.GPA.ToString("F2") ?? "")">
+                </div>
+              </div>
+              <div class="field">
+                <label class="field-label">Expected Graduation Year</label>
+                <select name="ExpectedGradYear" class="field-input field-select">
+                  @for (int y = DateTime.Now.Year; y <= DateTime.Now.Year + 6; y++)
+                  {
+                    <option value="@y" selected="@(Model.Profile?.ExpectedGradYear == y ? "selected" : null)">@y</option>
+                  }
+                </select>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(to right,var(--ink),var(--ink-2));border-radius:var(--r-lg);margin-top:4px">
+                <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;color:rgba(255,255,255,.3);text-transform:uppercase;display:flex;align-items:center;gap:7px">
+                  <div style="width:5px;height:5px;border-radius:50%;background:var(--lime-d)"></div>
+                  Profile auto-saved to your account
+                </div>
+                <button type="submit" class="btn btn-lime">Save Profile →</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ALERTS ── -->
+      <div class="panel" id="sp-alerts">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">🔔 Alerts & Notifications</span>
+            @if (Model.UnreadAlerts > 0)
+            {
+              <form method="post" asp-page-handler="MarkAllRead" style="display:inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-ghost btn-sm">Mark All Read</button>
+              </form>
+            }
+          </div>
+          <div class="card-body-p0">
+            @if (!Model.Alerts.Any())
+            {
+              <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No alerts yet. Apply to jobs to get started!</div>
+            }
+            @foreach (var alert in Model.Alerts)
+            {
+              var awClass = alert.AlertType == "Application" ? "aw-app" : alert.AlertType == "Job" ? "aw-job" : "aw-alert";
+              var iconBg = alert.AlertType == "Application" ? "rgba(143,212,0,.12)" : alert.AlertType == "Job" ? "rgba(59,127,255,.1)" : "rgba(255,63,63,.08)";
+              var icon = alert.AlertType == "Application" ? "📋" : alert.AlertType == "Job" ? "💼" : "🔔";
+              <div class="alert-card-wow @awClass" style="@(alert.IsRead ? "opacity:.6" : "")">
+                <div class="alert-icon" style="background:@iconBg">@icon</div>
+                <div class="alert-body">
+                  <div class="alert-msg">@alert.Message</div>
+                  <div class="alert-time">@alert.CreatedAt.ToString("MMM dd, yyyy · h:mm tt")</div>
+                </div>
+                @if (!alert.IsRead)
+                {
+                  <form method="post" asp-page-handler="MarkRead" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="alertId" value="@alert.AlertID">
+                    <button type="submit" class="btn btn-ghost btn-sm">✓</button>
+                  </form>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /dash-content -->
+  </div><!-- /dash-main -->
+</div><!-- /dash-shell -->
+
+<script>
+var allSkills = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllSkillsJson));
+
+function sw(panelId, title) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById(panelId);
+  if (el) el.classList.add('active');
+  document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('on'); });
+  var lnkMap = {'sp-overview':'lnk-overview','sp-browse':'lnk-browse','sp-apps':'lnk-apps','sp-skills':'lnk-skills','sp-gap':'lnk-gap','sp-profile':'lnk-profile','sp-alerts':'lnk-alerts'};
+  var lnk = document.getElementById(lnkMap[panelId]);
+  if (lnk) lnk.classList.add('on');
+  document.getElementById('page-title').textContent = title;
+}
+function showToast(msg, cls) {
+  var t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.className = 'toast ' + (cls || 't-lime');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3200);
+}
+function toggleSkillAdd() {
+  var el = document.getElementById('skill-add-area');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+function searchSkills(q) {
+  var dd = document.getElementById('skill-dd');
+  if (!q || q.length < 1) { dd.style.display = 'none'; return; }
+  var filtered = allSkills.filter(function(s){ return s.skillName.toLowerCase().includes(q.toLowerCase()); });
+  if (!filtered.length) { dd.style.display = 'none'; return; }
+  dd.innerHTML = filtered.slice(0, 8).map(function(s){
+    return '<div class="skill-opt" onmousedown="selectSkill('+s.skillID+',\''+s.skillName+'\')"><span class="skill-opt-name">'+s.skillName+'</span><span class="skill-opt-cat">'+s.category+'</span></div>';
+  }).join('');
+  dd.style.display = 'block';
+}
+function selectSkill(id, name) {
+  document.getElementById('skill-q').value = name;
+  document.getElementById('skill-id-input').value = id;
+  document.getElementById('skill-dd').style.display = 'none';
+}
+function closeSkillDD() {
+  document.getElementById('skill-dd').style.display = 'none';
+}
+function setProf(btn, level) {
+  document.querySelectorAll('#prof-row .prof-btn').forEach(function(b){ b.className = 'prof-btn'; });
+  var cls = level === 'Beginner' ? 'p-beg' : level === 'Intermediate' ? 'p-int' : 'p-adv';
+  btn.className = 'prof-btn ' + cls;
+  document.getElementById('prof-input').value = level;
+}
+@if (!string.IsNullOrEmpty(Model.ToastMessage))
+{
+  <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
+}
+</script>
+</body>
+</html>

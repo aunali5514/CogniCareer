@@ -1,0 +1,70 @@
+﻿@page
+@model CogniCareer.Pages.Auth.AdminAuthModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — CogniCareer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f0e0d;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime:#b8ff35;--lime-d:#8fd400;--red:#ff3f3f;--blue:#3b7fff;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+h1{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-spacing:-.03em}
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r-sm);border:1.5px solid transparent;cursor:pointer;transition:all .16s}
+.btn-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn-dark:hover{filter:brightness(.9)}
+.btn-lg{font-size:13px;padding:14px 36px}
+.field{margin-bottom:18px}
+.field-label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.field-input{padding:11px 14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-sans);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s;max-width:360px;width:100%}
+.field-input:focus{border-color:var(--ink)}
+.notice-warn{padding:11px 14px;border-radius:var(--r-sm);font-size:12px;margin-bottom:16px;background:rgba(255,63,63,.05);border:1px solid rgba(255,63,63,.2);color:var(--red);max-width:360px}
+.auth-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.auth-back{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:inline-block;margin-bottom:32px;text-decoration:none}
+.auth-back:hover{color:var(--ink)}
+.auth-right{background:#1a0000;padding:60px;display:flex;flex-direction:column;justify-content:center}
+.ar-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px}
+.ar-title{font-family:var(--f-serif);font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.0;margin-bottom:28px}
+.ar-title em{color:#ff6b6b;font-style:italic;font-weight:400}
+.ar-features{display:flex;flex-direction:column;gap:20px}
+.ar-feat{display:flex;gap:16px}
+.ar-num{font-family:var(--f-serif);font-size:13px;font-weight:900;color:rgba(255,255,255,.18);flex-shrink:0;margin-top:2px}
+.ar-feat-title{font-size:13px;font-weight:700;color:var(--paper);margin-bottom:3px}
+.ar-feat-desc{font-size:12px;color:rgba(255,255,255,.38);line-height:1.55;font-weight:300}
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div style="padding:60px;display:flex;flex-direction:column;justify-content:center">
+    <a href="/" class="auth-back">← Back to Platform</a>
+    <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Admin Panel</div>
+    <h1 style="font-family:var(--f-serif);font-size:42px;font-weight:900;letter-spacing:-.04em;line-height:1.0;margin-bottom:14px">Platform<br><em style="font-style:italic;font-weight:400">control.</em></h1>
+    <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:28px;font-weight:300">Full access to platform analytics, account management, and the master skills library.</p>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    { <div class="notice-warn">@Model.ErrorMessage</div> }
+
+    <form method="post">
+      @Html.AntiForgeryToken()
+      <div class="field"><label class="field-label">Email</label><input name="Email" class="field-input" type="email" placeholder="admin@cognicareer.com" required></div>
+      <div class="field"><label class="field-label">Password</label><input name="Password" class="field-input" type="password" placeholder="••••••••" required></div>
+      <button type="submit" class="btn btn-dark btn-lg" style="margin-top:8px">Access Dashboard →</button>
+    </form>
+  </div>
+  <div class="auth-right">
+    <div class="ar-label">Admin Access</div>
+    <div class="ar-title">Full visibility.<br><em>Full control.</em></div>
+    <div class="ar-features">
+      <div class="ar-feat"><div class="ar-num">01</div><div><div class="ar-feat-title">Platform Analytics</div><div class="ar-feat-desc">Real-time insights on students, companies, jobs, applications, and skill trends across the platform.</div></div></div>
+      <div class="ar-feat"><div class="ar-num">02</div><div><div class="ar-feat-title">Company Approvals</div><div class="ar-feat-desc">Review and approve or reject company registrations before they can access the platform.</div></div></div>
+      <div class="ar-feat"><div class="ar-num">03</div><div><div class="ar-feat-title">Skills Library</div><div class="ar-feat-desc">Curate the master list of skills and categories that power the match algorithm.</div></div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

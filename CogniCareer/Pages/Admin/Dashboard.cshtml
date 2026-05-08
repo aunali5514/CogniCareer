@@ -1,0 +1,450 @@
+﻿@page
+@model CogniCareer.Pages.Admin.DashboardModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin Dashboard";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — CogniCareer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f0e0d;--ink-2:#1e1c1a;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime:#b8ff35;--lime-d:#8fd400;--red:#ff3f3f;--blue:#3b7fff;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px;--r-lg:12px;--shadow:0 2px 16px rgba(15,14,13,.08);--shadow-lg:0 8px 48px rgba(15,14,13,.16)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:pointer}
+h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-spacing:-.03em}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--lime-d)}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-sans);font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r-sm);border:1.5px solid transparent;cursor:pointer;transition:all .16s;white-space:nowrap;user-select:none}
+.btn-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn-dark:hover{background:var(--ink-2)}
+.btn-lime{background:var(--lime);color:var(--ink);border-color:var(--lime)}.btn-lime:hover{background:var(--lime-d)}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}.btn-outline:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}.btn-sm{font-size:10px;padding:7px 14px;letter-spacing:.06em}
+.btn-w{width:100%;justify-content:center}
+.field{margin-bottom:18px}.field-label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.field-input,.field-select{width:100%;padding:11px 14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-sans);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s;appearance:none}
+.field-input:focus,.field-select:focus{border-color:var(--lime-d)!important;box-shadow:0 0 0 3px rgba(143,212,0,.15)!important}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.badge{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-sm);border:1px solid;display:inline-block;white-space:nowrap}
+.badge-default{color:var(--muted);border-color:var(--line);background:var(--warm)}
+.badge-dark{color:var(--paper);border-color:var(--ink);background:var(--ink)}
+.badge-lime{color:var(--ink);border-color:var(--lime);background:var(--lime)}
+.badge-red{color:var(--red);border-color:rgba(255,63,63,.3);background:rgba(255,63,63,.06)}
+.status{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:5px}
+.status::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.st-active{background:rgba(26,122,58,.08);color:#1a7a3a}.st-active::before{background:#1a7a3a}
+.st-pending{background:rgba(180,100,0,.08);color:#b46400}.st-pending::before{background:#b46400}
+.st-reject{background:rgba(255,63,63,.08);color:var(--red)}.st-reject::before{background:var(--red)}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.card-head{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,var(--warm),rgba(245,240,232,.5))!important}
+.card-title{font-family:var(--f-serif);font-size:15px;font-weight:700;letter-spacing:-.01em}
+.card-body{padding:22px}
+.card-body-p0{padding:0}
+.notice{padding:11px 14px;border-radius:var(--r-sm);font-size:12px;line-height:1.5;margin-bottom:16px}
+.notice-ok{background:rgba(26,122,58,.06);border:1px solid rgba(26,122,58,.2);color:#1a7a3a}
+.notice-warn{background:rgba(255,63,63,.05);border:1px solid rgba(255,63,63,.2);color:var(--red)}
+.toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:var(--r-lg);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);max-width:340px;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.toast.t-lime .toast-dot{background:var(--lime)}.toast.t-red .toast-dot{background:var(--red)}
+.dash-shell{display:flex;height:100vh;overflow:hidden}
+.dash-sidebar{width:220px;flex-shrink:0;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-logo{font-family:var(--f-serif);font-size:17px;font-weight:900;letter-spacing:-.04em;padding:20px 22px 16px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.sidebar-logo span{color:var(--lime-d);font-style:italic;font-weight:400}
+.sb-section{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--line);padding:18px 22px 6px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:9px 22px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .14s;border-left:2px solid transparent}
+.sb-link:hover{color:var(--ink);background:var(--paper)}
+.sb-link.on{color:var(--ink);background:linear-gradient(to right,rgba(143,212,0,.07),transparent)!important;border-left:2.5px solid var(--lime-d)!important;font-weight:700}
+.sb-ico{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-badge{font-family:var(--f-mono);font-size:8px;padding:2px 7px;background:var(--red);color:#fff;border-radius:100px;font-weight:700}
+.sb-foot{margin-top:auto;padding:14px 16px;border-top:1px solid var(--line)}
+.sb-user{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sb-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:700;flex-shrink:0;background:var(--red);color:#fff}
+.sb-uname{font-size:13px;font-weight:700;letter-spacing:-.01em}
+.sb-urole{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.04em}
+.sb-signout{width:100%;padding:8px;border:1px solid var(--line);background:transparent;border-radius:var(--r-sm);font-family:var(--f-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .14s}
+.sb-signout:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.dash-main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.dash-topbar{position:sticky;top:0;z-index:9;height:54px;background:rgba(245,240,232,.95)!important;backdrop-filter:blur(18px)!important;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
+.dash-topbar-title{font-family:var(--f-serif);font-size:17px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.dash-topbar-title::before{content:'';width:3px;height:18px;background:var(--red);border-radius:2px;display:inline-block}
+.dash-content{padding:28px;flex:1}
+.panel{display:none}.panel.active{display:block;animation:pageReveal .35s cubic-bezier(.4,0,.2,1) both}
+@@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.metric-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white);margin-bottom:22px}
+.metric-cell{padding:18px 22px;border-right:1px solid var(--line);position:relative}
+.metric-cell:last-child{border-right:none}
+.m-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.m-sub{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--line);text-align:left;background:var(--warm);font-weight:400}
+.data-table td{padding:12px 16px;border-bottom:1px solid var(--warm);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--paper)}
+.ap-welcome-banner{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;margin-bottom:22px;background:var(--ink);border-radius:var(--r-lg);position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px)}
+.ap-welcome-banner::before{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,63,63,.06);pointer-events:none}
+.admin-access-chip{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(255,63,63,.08);border:1px solid rgba(255,63,63,.2);color:var(--red);margin-top:4px}
+.admin-access-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--red)}
+.account-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:10px;font-weight:700}
+.account-av-student{background:var(--ink);color:var(--lime)}
+.account-av-company{background:var(--lime);color:var(--ink)}
+.skills-filter-bar{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--warm);align-items:center}
+.acf-btn{padding:5px 12px;border:1.5px solid var(--line);border-radius:100px;font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--muted);cursor:pointer;transition:all .14s}
+.acf-btn.on,.acf-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.skill-demand-wrap{display:flex;align-items:center;gap:8px}
+.skill-demand-track{width:80px;height:4px;background:var(--warm);border-radius:2px;overflow:hidden;flex-shrink:0}
+.skill-demand-fill{height:100%;border-radius:2px}
+.pf-lime{background:var(--lime-d)}.pf-ink{background:var(--ink)}.pf-muted{background:var(--muted)}
+.skill-demand-num{font-family:var(--f-mono);font-size:10px;color:var(--muted)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cp-pending-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:14px;display:flex;align-items:center;gap:16px;transition:box-shadow .18s}
+.cp-pending-card:hover{box-shadow:0 4px 20px rgba(15,14,13,.09)}
+.cp-pending-card:last-child{margin-bottom:0}
+</style>
+</head>
+<body>
+<div id="toast" class="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+
+<div class="dash-shell">
+  <aside class="dash-sidebar">
+    <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
+    <div class="sb-section">Admin</div>
+    <a class="sb-link on" id="lnk-overview" onclick="sw('ap-overview','Overview')"><span class="sb-ico">📊</span>Overview</a>
+    <a class="sb-link" id="lnk-companies" onclick="sw('ap-companies','Company Approvals')">
+      <span class="sb-ico">🏢</span>Companies
+      @if (Model.PendingCompanies.Any())
+      { <span class="sb-badge">@Model.PendingCompanies.Count</span> }
+    </a>
+    <a class="sb-link" id="lnk-skills" onclick="sw('ap-skills','Skills Library')"><span class="sb-ico">🧠</span>Skills</a>
+    <a class="sb-link" id="lnk-accounts" onclick="sw('ap-accounts','User Accounts')"><span class="sb-ico">👥</span>Accounts</a>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-avatar">AD</div>
+        <div>
+          <div class="sb-uname">@Model.UserName</div>
+          <div>
+            <div class="sb-urole">Admin</div>
+            <div class="admin-access-chip"><div class="admin-access-chip-dot"></div>Full Access</div>
+          </div>
+        </div>
+      </div>
+      <form method="post" asp-page-handler="Logout">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="sb-signout">Sign Out</button>
+      </form>
+    </div>
+  </aside>
+
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="dash-topbar-title" id="page-title">Overview</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        @if (Model.PendingCompanies.Any())
+        {
+          <span class="badge badge-red">@Model.PendingCompanies.Count Pending Approvals</span>
+        }
+        <span class="badge badge-default">@DateTime.Now.ToString("MMM dd, yyyy")</span>
+      </div>
+    </div>
+    <div class="dash-content">
+
+      <!-- ── OVERVIEW ── -->
+      <div class="panel active" id="ap-overview">
+        <div class="ap-welcome-banner">
+          <div style="position:relative;z-index:1">
+            <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px">Admin Control Center</div>
+            <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1">Platform <em style="color:#ff6b6b;font-style:italic;font-weight:400">Intelligence.</em></div>
+          </div>
+          <div style="display:flex;gap:12px;position:relative;z-index:1">
+            <div style="text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm)">
+              <div style="font-family:var(--f-serif);font-size:22px;font-weight:900;color:var(--lime);line-height:1">@Model.Stats.TotalStudents</div>
+              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Students</div>
+            </div>
+            <div style="text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm)">
+              <div style="font-family:var(--f-serif);font-size:22px;font-weight:900;color:var(--lime);line-height:1">@Model.Stats.TotalCompanies</div>
+              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Companies</div>
+            </div>
+            <div style="text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm)">
+              <div style="font-family:var(--f-serif);font-size:22px;font-weight:900;color:#ff6b6b;line-height:1">@Model.Stats.PendingApprovals</div>
+              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Pending</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-strip">
+          <div class="metric-cell"><div class="m-label">Total Students</div><div class="m-value">@Model.Stats.TotalStudents</div><div class="m-sub">registered</div></div>
+          <div class="metric-cell"><div class="m-label">Companies</div><div class="m-value">@Model.Stats.TotalCompanies</div><div class="m-sub">approved</div></div>
+          <div class="metric-cell"><div class="m-label">Active Jobs</div><div class="m-value">@Model.Stats.TotalActiveJobs</div><div class="m-sub">live now</div></div>
+          <div class="metric-cell"><div class="m-label">Applications</div><div class="m-value">@Model.Stats.TotalApplications</div><div class="m-sub">total</div></div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Pending Company Approvals</span>
+              @if (Model.PendingCompanies.Any())
+              {<span class="badge badge-red">@Model.PendingCompanies.Count pending</span>}
+            </div>
+            <div class="card-body">
+              @if (!Model.PendingCompanies.Any())
+              {
+                <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">All companies approved. ✓</div>
+              }
+              @foreach (var c in Model.PendingCompanies)
+              {
+                <div class="cp-pending-card">
+                  <div style="width:42px;height:42px;border-radius:var(--r);background:var(--lime);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:16px;font-weight:900;flex-shrink:0">@c.CompanyName[0]</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:700">@c.CompanyName</div>
+                    <div style="font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.04em">@c.Industry @(string.IsNullOrEmpty(c.Website) ? "" : "· " + c.Website)</div>
+                    @if (!string.IsNullOrEmpty(c.Description))
+                    {<div style="font-size:11px;color:var(--muted);margin-top:2px">@(c.Description.Length > 60 ? c.Description.Substring(0, 60) + "…" : c.Description)</div>}
+                  </div>
+                  <div style="display:flex;gap:6px;flex-shrink:0">
+                    <form method="post" asp-page-handler="ApproveCompany" style="display:inline">
+                      @Html.AntiForgeryToken()
+                      <input type="hidden" name="companyId" value="@c.CompanyID">
+                      <button type="submit" class="btn btn-lime btn-sm">Approve ✓</button>
+                    </form>
+                    <form method="post" asp-page-handler="RejectCompany" style="display:inline">
+                      @Html.AntiForgeryToken()
+                      <input type="hidden" name="companyId" value="@c.CompanyID">
+                      <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Reject</button>
+                    </form>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Platform Stats</span></div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
+                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em">@Model.Stats.AverageMatchScore%</div>
+                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Avg Match Score</div>
+                </div>
+                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
+                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em">@Model.AllSkills.Count</div>
+                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Skills in Library</div>
+                </div>
+                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
+                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--red)">@Model.Stats.PendingApprovals</div>
+                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Pending Approvals</div>
+                </div>
+                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
+                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em">@Model.AllUsers.Count</div>
+                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Total Users</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COMPANIES ── -->
+      <div class="panel" id="ap-companies">
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-head">
+            <span class="card-title">⏳ Pending Company Approvals</span>
+            <span class="badge badge-red">@Model.PendingCompanies.Count pending</span>
+          </div>
+          <div class="card-body">
+            @if (!Model.PendingCompanies.Any())
+            {
+              <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">All companies are approved.</div>
+            }
+            @foreach (var c in Model.PendingCompanies)
+            {
+              <div class="cp-pending-card">
+                <div style="width:42px;height:42px;border-radius:var(--r);background:var(--lime);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:16px;font-weight:900;flex-shrink:0">@c.CompanyName[0]</div>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:700">@c.CompanyName</div>
+                  <div style="font-family:var(--f-mono);font-size:9px;color:var(--muted)">@c.Industry · @c.Website</div>
+                  <div style="font-size:11px;color:var(--muted);margin-top:2px">@c.Description</div>
+                </div>
+                <div style="display:flex;gap:6px">
+                  <form method="post" asp-page-handler="ApproveCompany" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="companyId" value="@c.CompanyID">
+                    <button type="submit" class="btn btn-lime btn-sm">✓ Approve</button>
+                  </form>
+                  <form method="post" asp-page-handler="RejectCompany" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="companyId" value="@c.CompanyID">
+                    <button type="submit" class="btn btn-red btn-sm">✕ Reject</button>
+                  </form>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">All Companies</span><span class="badge badge-default">@Model.AllCompanies.Count total</span></div>
+          <div class="card-body-p0">
+            <table class="data-table">
+              <thead><tr><th>Company</th><th>Industry</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                @foreach (var c in Model.AllCompanies)
+                {
+                  <tr>
+                    <td><strong>@c.CompanyName</strong></td>
+                    <td><span class="badge badge-default">@c.Industry</span></td>
+                    <td><span class="status @(c.IsApproved ? "st-active" : "st-pending")">@(c.IsApproved ? "Approved" : "Pending")</span></td>
+                    <td>
+                      @if (!c.IsApproved)
+                      {
+                        <form method="post" asp-page-handler="ApproveCompany" style="display:inline">
+                          @Html.AntiForgeryToken()
+                          <input type="hidden" name="companyId" value="@c.CompanyID">
+                          <button type="submit" class="btn btn-lime btn-sm">Approve</button>
+                        </form>
+                        <form method="post" asp-page-handler="RejectCompany" style="display:inline">
+                          @Html.AntiForgeryToken()
+                          <input type="hidden" name="companyId" value="@c.CompanyID">
+                          <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Reject</button>
+                        </form>
+                      }
+                      else
+                      {
+                        <span style="font-family:var(--f-mono);font-size:10px;color:var(--muted)">Active</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SKILLS ── -->
+      <div class="panel" id="ap-skills">
+        @if (!string.IsNullOrEmpty(Model.SkillMessage))
+        {
+          <div class="notice @(Model.SkillSuccess ? "notice-ok" : "notice-warn")">@Model.SkillMessage</div>
+        }
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-head"><span class="card-title">➕ Add New Skill</span></div>
+          <div class="card-body">
+            <form method="post" asp-page-handler="AddSkill">
+              @Html.AntiForgeryToken()
+              <div class="field-row">
+                <div class="field">
+                  <label class="field-label">Skill Name</label>
+                  <input name="SkillName" class="field-input" placeholder="e.g. TypeScript, Docker, React" required>
+                </div>
+                <div class="field">
+                  <label class="field-label">Category</label>
+                  <select name="Category" class="field-input field-select">
+                    <option>Frontend</option><option>Backend</option><option>DevOps</option><option>Cloud</option><option>Language</option><option>Database</option><option>Mobile</option><option>AI/ML</option><option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-dark">Add to Library →</button>
+            </form>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">🧠 Master Skills Library</span><span class="badge badge-default">@Model.AllSkills.Count skills</span></div>
+          <div class="card-body-p0">
+            <table class="data-table">
+              <thead><tr><th>Skill</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                @foreach (var skill in Model.AllSkills)
+                {
+                  <tr>
+                    <td><strong>@skill.SkillName</strong></td>
+                    <td><span class="badge badge-default">@skill.Category</span></td>
+                    <td><span class="status @(skill.IsActive ? "st-active" : "st-reject")">@(skill.IsActive ? "Active" : "Inactive")</span></td>
+                    <td>
+                      <form method="post" asp-page-handler="DeleteSkill" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="skillId" value="@skill.SkillID">
+                        <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">🗑️ Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── USER ACCOUNTS ── -->
+      <div class="panel" id="ap-accounts">
+        <div class="card">
+          <div class="card-head"><span class="card-title">👥 All User Accounts</span><span class="badge badge-default">@Model.AllUsers.Count users</span></div>
+          <div class="card-body-p0">
+            <div style="overflow:auto">
+              <table class="data-table">
+                <thead><tr><th></th><th>Name</th><th>Role</th><th>Email</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  @foreach (var user in Model.AllUsers)
+                  {
+                    var avClass = user.Role == "Student" ? "account-av-student" : user.Role == "Company" ? "account-av-company" : "";
+                    var initials = CogniCareer.Helpers.SessionHelper.GetInitials(user.FullName);
+                    <tr>
+                      <td style="padding:10px 6px 10px 14px;width:36px"><div class="account-av @avClass">@initials</div></td>
+                      <td><strong>@user.FullName</strong></td>
+                      <td><span class="badge @(user.Role == "Student" ? "badge-dark" : user.Role == "Company" ? "badge-lime" : "badge-red")">@user.Role</span></td>
+                      <td style="font-family:var(--f-mono);font-size:11px">@user.Email</td>
+                      <td style="font-family:var(--f-mono);font-size:11px">@user.CreatedAt.ToString("MMM dd")</td>
+                      <td><span class="status @(user.IsActive ? "st-active" : "st-reject")">@(user.IsActive ? "Active" : "Inactive")</span></td>
+                      <td>
+                        @if (user.Role != "Admin")
+                        {
+                          <form method="post" asp-page-handler="ToggleUser" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="userId" value="@user.UserID">
+                            <input type="hidden" name="isActive" value="@(!user.IsActive)">
+                            <button type="submit" class="btn btn-ghost btn-sm" style="@(user.IsActive ? "color:var(--red)" : "color:#1a7a3a")">
+                              @(user.IsActive ? "Deactivate" : "Activate")
+                            </button>
+                          </form>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function sw(panelId, title) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById(panelId);
+  if (el) el.classList.add('active');
+  document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('on'); });
+  var lnkMap = {'ap-overview':'lnk-overview','ap-companies':'lnk-companies','ap-skills':'lnk-skills','ap-accounts':'lnk-accounts'};
+  var lnk = document.getElementById(lnkMap[panelId]);
+  if (lnk) lnk.classList.add('on');
+  document.getElementById('page-title').textContent = title;
+}
+function showToast(msg, cls) {
+  var t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.className = 'toast ' + (cls || 't-lime');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3200);
+}
+@if (!string.IsNullOrEmpty(Model.ToastMessage))
+{
+  <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
+}
+</script>
+</body>
+</html>

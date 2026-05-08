@@ -1,0 +1,125 @@
+﻿@page
+@model CogniCareer.Pages.Auth.CompanyAuthModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Company Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Portal — CogniCareer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f0e0d;--ink-2:#1e1c1a;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime:#b8ff35;--lime-d:#8fd400;--red:#ff3f3f;--blue:#3b7fff;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+h1{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-spacing:-.03em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r-sm);border:1.5px solid transparent;cursor:pointer;transition:all .16s;width:100%}
+.btn-lime{background:var(--lime);color:var(--ink);border-color:var(--lime)}.btn-lime:hover{background:var(--lime-d)}
+.btn-lg{font-size:13px;padding:14px 36px}
+.field{margin-bottom:18px}
+.field-label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.field-input,.field-select,.field-textarea{width:100%;padding:11px 14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-sans);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s;appearance:none}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--ink)}
+.field-textarea{resize:vertical;min-height:80px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tab-row{display:flex;border:1.5px solid var(--line);border-radius:var(--r-sm);overflow:hidden;margin-bottom:28px}
+.tab-btn{flex:1;padding:10px;border:none;background:transparent;font-family:var(--f-sans);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .15s}
+.tab-btn.on{background:var(--ink);color:var(--paper)}
+.notice{padding:11px 14px;border-radius:var(--r-sm);font-size:12px;line-height:1.5;margin-bottom:16px}
+.notice-warn{background:rgba(255,63,63,.05);border:1px solid rgba(255,63,63,.2);color:var(--red)}
+.notice-ok{background:rgba(26,122,58,.06);border:1px solid rgba(26,122,58,.2);color:#1a7a3a}
+.notice-info{background:rgba(59,127,255,.06);border:1px solid rgba(59,127,255,.2);color:var(--blue)}
+.auth-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.auth-back{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:inline-block;margin-bottom:32px;text-decoration:none}
+.auth-back:hover{color:var(--ink)}
+.auth-eyebrow{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.auth-h{font-family:var(--f-serif);font-size:42px;font-weight:900;letter-spacing:-.04em;line-height:1.0;margin-bottom:14px}
+.auth-sub{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:28px;font-weight:300}
+.auth-right{background:#0a1a00;padding:60px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.ar-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px}
+.ar-title{font-family:var(--f-serif);font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.0;margin-bottom:28px}
+.ar-title em{color:var(--lime);font-style:italic;font-weight:400}
+.ar-features{display:flex;flex-direction:column;gap:20px}
+.ar-feat{display:flex;gap:16px}
+.ar-num{font-family:var(--f-serif);font-size:13px;font-weight:900;color:rgba(255,255,255,.18);flex-shrink:0;margin-top:2px}
+.ar-feat-title{font-size:13px;font-weight:700;color:var(--paper);margin-bottom:3px}
+.ar-feat-desc{font-size:12px;color:rgba(255,255,255,.38);line-height:1.55;font-weight:300}
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div style="padding:60px;display:flex;flex-direction:column;justify-content:center">
+    <div style="max-width:440px;margin:0 auto;width:100%">
+      <a href="/" class="auth-back">← Back to Platform</a>
+      <div class="auth-eyebrow">Company Portal</div>
+      <h1 class="auth-h">Hire<br><em style="font-style:italic;font-weight:400">smarter.</em></h1>
+      <p class="auth-sub">Post jobs, receive ranked applicants automatically, and manage your entire hiring pipeline.</p>
+
+      @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+      { <div class="notice notice-warn">@Model.ErrorMessage</div> }
+      @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+      { <div class="notice notice-ok">@Model.SuccessMessage</div> }
+
+      <div class="tab-row">
+        <button class="tab-btn on" id="tab-login" onclick="switchTab('login')">Sign In</button>
+        <button class="tab-btn" id="tab-reg" onclick="switchTab('reg')">Register</button>
+      </div>
+
+      <div id="login-form">
+        <div class="notice notice-info">New company accounts require admin approval before login is enabled.</div>
+        <form method="post" asp-page-handler="Login">
+          @Html.AntiForgeryToken()
+          <div class="field"><label class="field-label">Company Email</label><input name="Email" class="field-input" type="email" placeholder="hr@company.com" required></div>
+          <div class="field"><label class="field-label">Password</label><input name="Password" class="field-input" type="password" placeholder="••••••••" required></div>
+          <button type="submit" class="btn btn-lime btn-lg" style="margin-top:6px">Sign In →</button>
+        </form>
+      </div>
+
+      <div id="reg-form" style="display:none">
+        <form method="post" asp-page-handler="Register">
+          @Html.AntiForgeryToken()
+          <div class="field-row">
+            <div class="field"><label class="field-label">Company Name</label><input name="CompanyName" class="field-input" placeholder="Acme Inc." required></div>
+            <div class="field"><label class="field-label">Industry</label>
+              <select name="Industry" class="field-select field-input">
+                <option>Technology</option><option>Finance</option><option>Healthcare</option><option>Education</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label class="field-label">Website</label><input name="Website" class="field-input" type="url" placeholder="https://yourcompany.com"></div>
+          <div class="field"><label class="field-label">Description</label><textarea name="Description" class="field-textarea field-input" rows="2" placeholder="Brief company description..."></textarea></div>
+          <div class="field"><label class="field-label">Full Name</label><input name="FullName" class="field-input" placeholder="Your full name" required></div>
+          <div class="field"><label class="field-label">Email</label><input name="Email" class="field-input" type="email" placeholder="hr@company.com" required></div>
+          <div class="field"><label class="field-label">Password</label><input name="Password" class="field-input" type="password" placeholder="Create a password" required></div>
+          <button type="submit" class="btn btn-lime btn-lg" style="margin-top:6px">Submit for Approval →</button>
+        </form>
+      </div>
+
+      <p style="margin-top:18px;font-size:12px;color:var(--muted)">Student? <a href="/Auth/StudentAuth" style="color:var(--ink);text-decoration:underline">Login here →</a></p>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="ar-label">Why Companies Use CogniCareer</div>
+    <div class="ar-title">Ranked applicants.<br><em>Instantly.</em></div>
+    <div class="ar-features">
+      <div class="ar-feat"><div class="ar-num">01</div><div><div class="ar-feat-title">Auto-ranked Applicants</div><div class="ar-feat-desc">Every applicant is automatically ranked by match score the moment they apply. No manual screening.</div></div></div>
+      <div class="ar-feat"><div class="ar-num">02</div><div><div class="ar-feat-title">Skill-based Filtering</div><div class="ar-feat-desc">Filter by specific skill requirements and proficiency levels.</div></div></div>
+      <div class="ar-feat"><div class="ar-num">03</div><div><div class="ar-feat-title">One-click Status Updates</div><div class="ar-feat-desc">Shortlist, schedule interviews, or reject with one click. Candidates notified automatically.</div></div></div>
+    </div>
+  </div>
+</div>
+<script>
+function switchTab(tab) {
+  document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('reg-form').style.display = tab === 'reg' ? 'block' : 'none';
+  document.getElementById('tab-login').className = 'tab-btn' + (tab === 'login' ? ' on' : '');
+  document.getElementById('tab-reg').className = 'tab-btn' + (tab === 'reg' ? ' on' : '');
+}
+@if (Model.ShowRegisterTab) { <text>switchTab('reg');</text> }
+</script>
+</body>
+</html>
