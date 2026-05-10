@@ -25,7 +25,7 @@ namespace CogniCareer.Services
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
                 Role = "Student"
             };
-            int id = _userData.RegisterUser(user);
+            int id = _userData.RegisterUser(user, null);
             return id > 0 ? (true, "") : (false, "Registration failed. Try again.");
         }
 
@@ -50,7 +50,7 @@ namespace CogniCareer.Services
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
                 Role = "Company"
             };
-            int id = _userData.RegisterUser(user);
+            int id = _userData.RegisterUser(user, null);
             if (id == 0) return (false, "Registration failed.");
             var company = new Company
             {
@@ -80,8 +80,12 @@ namespace CogniCareer.Services
         public (bool success, string error, User? user) LoginAdmin(string email, string password)
         {
             var user = _userData.GetByEmail(email);
-            if (user == null || user.Role != "Admin") return (false, "Admin account not found.", null);
-            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) return (false, "Incorrect password.", null);
+
+            // TEMP DEBUG
+            if (user == null) return (false, "DEBUG: GetByEmail returned null", null);
+            if (user.Role != "Admin") return (false, $"DEBUG: Role is '{user.Role}'", null);
+            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) return (false, $"DEBUG: BCrypt failed. Hash='{user.PasswordHash}'", null);
+
             SetSession(user);
             return (true, "", user);
         }
