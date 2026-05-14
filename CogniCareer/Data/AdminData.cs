@@ -28,7 +28,11 @@ namespace CogniCareer.Data
                     };
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {GetType().Name}: {ex.Message}");
+                return null; // keep whatever return was there originally
+            }
             return new AdminStats();
         }
 
@@ -55,7 +59,11 @@ namespace CogniCareer.Data
                     });
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {GetType().Name}: {ex.Message}");
+                return null; // keep whatever return was there originally
+            }
             return list;
         }
     }

@@ -34,9 +34,8 @@ namespace CogniCareer.Data
                 insertCmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
                 insertCmd.Parameters.AddWithValue("@Role", user.Role);
                 con.Open();
-                var v = insertCmd.ExecuteScalar();
-                var insertResult = v;
-                return result != null ? Convert.ToInt32(result) : 0;
+                var insertResult = insertCmd.ExecuteScalar();
+                return insertResult != null ? Convert.ToInt32(insertResult) : 0;
             }
             catch
             {
@@ -102,7 +101,7 @@ namespace CogniCareer.Data
         {
             try
             {
-                                                                using var con = DBHelper.GetConnection();
+                using var con = DBHelper.GetConnection();
                 using var cmd = new SqlCommand("sp_GetUserByID", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UserID", userID);
@@ -145,25 +144,8 @@ namespace CogniCareer.Data
             try
             {
                 using var con = DBHelper.GetConnection();
-                using var cmd = new SqlCommand("sp_DeactivateUser", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserID", userID);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                // If activation flag is true, we need to reactivate via direct SQL as stored proc only deactivates
-                if (isActive)
-                {
-                    using var reactCmd = new SqlCommand("UPDATE dbo.Users SET IsActive = 1 WHERE UserID = @UserID", con);
-                    reactCmd.Parameters.AddWithValue("@UserID", userID);
-                    reactCmd.ExecuteNonQuery();
-                }
-                return true;
-            }
-            catch (SqlException ex) when (ex.Number == 208) // missing proc
-            {
-                // Fallback: direct update
-                using var con = DBHelper.GetConnection();
-                using var cmd = new SqlCommand("UPDATE dbo.Users SET IsActive = @IsActive WHERE UserID = @UserID", con);
+                using var cmd = new SqlCommand(
+                    "UPDATE dbo.Users SET IsActive = @IsActive WHERE UserID = @UserID", con);
                 cmd.Parameters.AddWithValue("@IsActive", isActive ? 1 : 0);
                 cmd.Parameters.AddWithValue("@UserID", userID);
                 con.Open();
@@ -175,7 +157,6 @@ namespace CogniCareer.Data
                 return false;
             }
         }
-
         public List<User> GetAllUsers()
         {
             var list = new List<User>();

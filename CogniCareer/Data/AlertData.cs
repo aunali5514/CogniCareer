@@ -20,7 +20,7 @@ namespace CogniCareer.Data
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch { return false; }
+            catch (Exception ex) { Console.WriteLine($"[ERROR] {GetType().Name}: {ex.Message}"); return false; }
         }
 
         public List<Alert> GetUnread(int userID)
@@ -47,7 +47,11 @@ namespace CogniCareer.Data
                     });
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {GetType().Name}: {ex.Message}");
+                return null; // keep whatever return was there originally
+            }
             return list;
         }
 
@@ -63,7 +67,7 @@ namespace CogniCareer.Data
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch { return false; }
+            catch (Exception ex) { Console.WriteLine($"[ERROR] {GetType().Name}: {ex.Message}"); return false; }
         }
 
         public bool MarkAllRead(int userID)
@@ -78,7 +82,7 @@ namespace CogniCareer.Data
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch { return false; }
+            catch (Exception ex) { Console.WriteLine($"[ERROR] {GetType().Name}: {ex.Message}"); return false; }
         }
     }
 }

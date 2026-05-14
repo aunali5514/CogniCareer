@@ -99,12 +99,14 @@ namespace CogniCareer.Pages.Company
             return RedirectToPage();
         }
 
-        public IActionResult OnPostUpdateStatus(int applicationId, string status)
+        public IActionResult OnPostUpdateStatus(int applicationId, string status, int jobId)
         {
             if (!_auth.IsCompany()) return RedirectToPage("/Auth/CompanyAuth");
             _appService.UpdateStatus(applicationId, status, _auth.GetUserID()!.Value);
             TempData["Toast"] = "Status updated to " + status + ".";
             TempData["ToastClass"] = "t-lime";
+            TempData["ActiveTab"] = "cp-applicants";
+            TempData["ActiveJobId"] = jobId;
             return RedirectToPage();
         }
 

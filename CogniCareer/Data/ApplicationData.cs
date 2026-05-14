@@ -14,13 +14,17 @@ namespace CogniCareer.Data
                 using var cmd = new SqlCommand("sp_InsertApplication", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@JobID", a.JobID);
-                cmd.Parameters.AddWithValue("@UserID", a.UserID);
+                cmd.Parameters.AddWithValue("@UserID", a.UserID);   // sp_ wrapper remaps to @StudentID
                 cmd.Parameters.AddWithValue("@MatchScore", a.MatchScore);
                 con.Open();
                 var result = cmd.ExecuteScalar();
                 return result != null ? Convert.ToInt32(result) : 0;
             }
-            catch { return 0; }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] ApplicationData.InsertApplication: {ex.Message}");
+                return 0;
+            }
         }
 
         public List<Application> GetByUser(int userID)
@@ -34,22 +38,12 @@ namespace CogniCareer.Data
                 cmd.Parameters.AddWithValue("@UserID", userID);
                 con.Open();
                 using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    list.Add(new Application
-                    {
-                        ApplicationID = Convert.ToInt32(reader["ApplicationID"]),
-                        JobID = Convert.ToInt32(reader["JobID"]),
-                        UserID = Convert.ToInt32(reader["UserID"]),
-                        MatchScore = Convert.ToDecimal(reader["MatchScore"]),
-                        AppliedAt = Convert.ToDateTime(reader["AppliedAt"]),
-                        CurrentStatus = reader["CurrentStatus"].ToString() ?? "",
-                        JobTitle = reader["JobTitle"].ToString() ?? "",
-                        CompanyName = reader["CompanyName"].ToString() ?? ""
-                    });
-                }
+                while (reader.Read()) list.Add(MapApplication(reader));
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] ApplicationData.GetByUser: {ex.Message}");
+            }
             return list;
         }
 
@@ -64,22 +58,12 @@ namespace CogniCareer.Data
                 cmd.Parameters.AddWithValue("@JobID", jobID);
                 con.Open();
                 using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    list.Add(new Application
-                    {
-                        ApplicationID = Convert.ToInt32(reader["ApplicationID"]),
-                        JobID = Convert.ToInt32(reader["JobID"]),
-                        UserID = Convert.ToInt32(reader["UserID"]),
-                        MatchScore = Convert.ToDecimal(reader["MatchScore"]),
-                        AppliedAt = Convert.ToDateTime(reader["AppliedAt"]),
-                        CurrentStatus = reader["CurrentStatus"].ToString() ?? "",
-                        JobTitle = reader["JobTitle"].ToString() ?? "",
-                        CompanyName = reader["CompanyName"].ToString() ?? ""
-                    });
-                }
+                while (reader.Read()) list.Add(MapApplication(reader));
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] ApplicationData.GetByJob: {ex.Message}");
+            }
             return list;
         }
 
@@ -88,14 +72,22 @@ namespace CogniCareer.Data
             try
             {
                 using var con = DBHelper.GetConnection();
+                // FIX: applications.student_id references students.id, NOT Users.UserID.
+                // Resolve via students.user_id column first.
                 using var cmd = new SqlCommand(
-                    "SELECT COUNT(*) FROM Applications WHERE UserID=@UserID AND JobID=@JobID", con);
-                cmd.Parameters.AddWithValue("@UserID", userID);
-                cmd.Parameters.AddWithValue("@JobID", jobID);
+                    @"SELECT COUNT(*) FROM dbo.applications 
+                      WHERE student_id = (SELECT id FROM dbo.students WHERE user_id = @user_id)
+                      AND job_id = @job_id", con);
+                cmd.Parameters.AddWithValue("@user_id", userID);
+                cmd.Parameters.AddWithValue("@job_id", jobID);
                 con.Open();
                 return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] ApplicationData.ApplicationExists: {ex.Message}");
+                return false;
+            }
         }
 
         public bool UpdateMatchScore(int applicationID, decimal score)
@@ -103,15 +95,20 @@ namespace CogniCareer.Data
             try
             {
                 using var con = DBHelper.GetConnection();
+                // Real table: dbo.applications  |  columns: match_score, id
                 using var cmd = new SqlCommand(
-                    "UPDATE Applications SET MatchScore=@Score WHERE ApplicationID=@ApplicationID", con);
-                cmd.Parameters.AddWithValue("@Score", score);
-                cmd.Parameters.AddWithValue("@ApplicationID", applicationID);
+                    "UPDATE dbo.applications SET match_score=@score WHERE id=@id", con);
+                cmd.Parameters.AddWithValue("@score", score);
+                cmd.Parameters.AddWithValue("@id", applicationID);
                 con.Open();
                 cmd.ExecuteNonQuery();
                 return true;
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] ApplicationData.UpdateMatchScore: {ex.Message}");
+                return false;
+            }
         }
 
         public PeerBenchmark GetPeerBenchmark(int userID, int jobID)
@@ -136,8 +133,24 @@ namespace CogniCareer.Data
                     };
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] ApplicationData.GetPeerBenchmark: {ex.Message}");
+            }
             return new PeerBenchmark();
         }
+
+        // ── private helper ────────────────────────────────────────────────────
+        private static Application MapApplication(SqlDataReader r) => new Application
+        {
+            ApplicationID = Convert.ToInt32(r["ApplicationID"]),
+            JobID = Convert.ToInt32(r["JobID"]),
+            UserID = Convert.ToInt32(r["UserID"]),
+            MatchScore = Convert.ToDecimal(r["MatchScore"]),
+            AppliedAt = Convert.ToDateTime(r["AppliedAt"]),
+            CurrentStatus = r["CurrentStatus"].ToString() ?? "",
+            JobTitle = r["JobTitle"].ToString() ?? "",
+            CompanyName = r["CompanyName"].ToString() ?? ""
+        };
     }
 }

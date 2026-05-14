@@ -1,15 +1,15 @@
 ﻿@page
-@model CogniCareer.Pages.Admin.DashboardModel
+@model CogniCareer.Pages.Company.DashboardModel
 @{
     Layout = null;
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Company Dashboard";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard — CogniCareer</title>
+<title>Company Dashboard — CogniCareer</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#0f0e0d;--ink-2:#1e1c1a;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime:#b8ff35;--lime-d:#8fd400;--red:#ff3f3f;--blue:#3b7fff;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px;--r-lg:12px;--shadow:0 2px 16px rgba(15,14,13,.08);--shadow-lg:0 8px 48px rgba(15,14,13,.16)}
@@ -18,18 +18,24 @@ html{font-size:16px}body{background:var(--paper);color:var(--ink);font-family:va
 a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:pointer}
 h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-spacing:-.03em}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--lime-d)}
+::selection{background:var(--lime);color:var(--ink)}
 .btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-sans);font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r-sm);border:1.5px solid transparent;cursor:pointer;transition:all .16s;white-space:nowrap;user-select:none}
-.btn-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn-dark:hover{background:var(--ink-2)}
-.btn-lime{background:var(--lime);color:var(--ink);border-color:var(--lime)}.btn-lime:hover{background:var(--lime-d)}
-.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}.btn-outline:hover{background:var(--ink);color:var(--paper)}
+.btn-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn-dark:hover{background:var(--ink-2);transform:translateY(-2px);box-shadow:0 6px 22px rgba(15,14,13,.22)}
+.btn-lime{background:var(--lime);color:var(--ink);border-color:var(--lime);background-image:linear-gradient(105deg,var(--lime) 0%,#d6ff6a 45%,var(--lime) 90%);background-size:220% 100%;transition:background-position .45s ease,transform .13s,box-shadow .18s!important}.btn-lime:hover{background-position:right center;transform:translateY(-2px);box-shadow:0 8px 28px rgba(143,212,0,.35),0 2px 8px rgba(15,14,13,.08)}.btn-lime:active{transform:translateY(0) scale(.98)}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink);transition:all .22s cubic-bezier(.4,0,.2,1)!important}.btn-outline:hover{background:var(--ink);color:var(--paper);transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,14,13,.14)}
 .btn-ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
-.btn-red{background:var(--red);color:#fff;border-color:var(--red)}.btn-sm{font-size:10px;padding:7px 14px;letter-spacing:.06em}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-sm{font-size:10px;padding:7px 14px;letter-spacing:.06em}
+.btn-lg{font-size:13px;padding:14px 28px}
 .btn-w{width:100%;justify-content:center}
 .field{margin-bottom:18px}.field-label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-.field-input,.field-select{width:100%;padding:11px 14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-sans);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s;appearance:none}
-.field-input:focus,.field-select:focus{border-color:var(--lime-d)!important;box-shadow:0 0 0 3px rgba(143,212,0,.15)!important}
+.field-input,.field-select,.field-textarea{width:100%;padding:11px 14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-sans);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s;appearance:none}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--lime-d)!important;box-shadow:0 0 0 3px rgba(143,212,0,.15),0 1px 4px rgba(15,14,13,.06)!important}
+.field-textarea{resize:vertical;min-height:90px}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.badge{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-sm);border:1px solid;display:inline-block;white-space:nowrap}
+.field-hint{font-family:var(--f-mono);font-size:9px;letter-spacing:.06em;color:var(--line);margin-top:5px;text-align:right;transition:color .15s}
+.badge{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-sm);border:1px solid;display:inline-block;white-space:nowrap;transition:transform .12s,box-shadow .12s;cursor:default}
+.badge:hover{transform:scale(1.05);box-shadow:0 2px 10px rgba(15,14,13,.09)}
 .badge-default{color:var(--muted);border-color:var(--line);background:var(--warm)}
 .badge-dark{color:var(--paper);border-color:var(--ink);background:var(--ink)}
 .badge-lime{color:var(--ink);border-color:var(--lime);background:var(--lime)}
@@ -38,8 +44,10 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 .status::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .st-active{background:rgba(26,122,58,.08);color:#1a7a3a}.st-active::before{background:#1a7a3a}
 .st-pending{background:rgba(180,100,0,.08);color:#b46400}.st-pending::before{background:#b46400}
+.st-review{background:rgba(59,127,255,.08);color:var(--blue)}.st-review::before{background:var(--blue)}
 .st-reject{background:rgba(255,63,63,.08);color:var(--red)}.st-reject::before{background:var(--red)}
-.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .22s,transform .22s!important}
+.card:hover{box-shadow:0 10px 40px rgba(15,14,13,.09),0 0 0 1px rgba(143,212,0,.07)!important;transform:translateY(-1px)}
 .card-head{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,var(--warm),rgba(245,240,232,.5))!important}
 .card-title{font-family:var(--f-serif);font-size:15px;font-weight:700;letter-spacing:-.01em}
 .card-body{padding:22px}
@@ -47,9 +55,13 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 .notice{padding:11px 14px;border-radius:var(--r-sm);font-size:12px;line-height:1.5;margin-bottom:16px}
 .notice-ok{background:rgba(26,122,58,.06);border:1px solid rgba(26,122,58,.2);color:#1a7a3a}
 .notice-warn{background:rgba(255,63,63,.05);border:1px solid rgba(255,63,63,.2);color:var(--red)}
-.toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:var(--r-lg);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);max-width:340px;pointer-events:none}
+.notice-info{background:rgba(59,127,255,.06);border:1px solid rgba(59,127,255,.2);color:var(--blue)}
+.toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:var(--r-lg)!important;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);max-width:340px;pointer-events:none;border:1px solid rgba(255,255,255,.09)!important;backdrop-filter:blur(14px)}
 .toast.show{transform:translateY(0);opacity:1}.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.toast.t-lime .toast-dot{background:var(--lime)}.toast.t-red .toast-dot{background:var(--red)}
+.toast.t-lime .toast-dot{background:var(--lime)}.toast.t-lime{border-color:rgba(184,255,53,.18)!important}
+.toast.t-red .toast-dot{background:var(--red)}.toast.t-red{border-color:rgba(255,63,63,.22)!important}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+/* ── Dash shell ── */
 .dash-shell{display:flex;height:100vh;overflow:hidden}
 .dash-sidebar{width:220px;flex-shrink:0;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto}
 .sidebar-logo{font-family:var(--f-serif);font-size:17px;font-weight:900;letter-spacing:-.04em;padding:20px 22px 16px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
@@ -59,51 +71,312 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 .sb-link:hover{color:var(--ink);background:var(--paper)}
 .sb-link.on{color:var(--ink);background:linear-gradient(to right,rgba(143,212,0,.07),transparent)!important;border-left:2.5px solid var(--lime-d)!important;font-weight:700}
 .sb-ico{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sb-badge{font-family:var(--f-mono);font-size:8px;padding:2px 7px;background:var(--red);color:#fff;border-radius:100px;font-weight:700}
 .sb-foot{margin-top:auto;padding:14px 16px;border-top:1px solid var(--line)}
 .sb-user{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.sb-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:700;flex-shrink:0;background:var(--red);color:#fff}
+.sb-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:700;flex-shrink:0;background:var(--lime);color:var(--ink)}
+.av-company{background:var(--lime);color:var(--ink)}
+.av-student{background:var(--ink);color:var(--lime)}
 .sb-uname{font-size:13px;font-weight:700;letter-spacing:-.01em}
-.sb-urole{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.04em}
+.sb-urole{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.04em;display:flex;align-items:center;gap:5px}
+.sb-verified-dot{width:5px;height:5px;border-radius:50%;background:#1a7a3a;flex-shrink:0}
 .sb-signout{width:100%;padding:8px;border:1px solid var(--line);background:transparent;border-radius:var(--r-sm);font-family:var(--f-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .14s}
 .sb-signout:hover{background:var(--red);color:#fff;border-color:var(--red)}
+/* ── Main ── */
 .dash-main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
-.dash-topbar{position:sticky;top:0;z-index:9;height:54px;background:rgba(245,240,232,.95)!important;backdrop-filter:blur(18px)!important;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
+.dash-topbar{position:sticky;top:0;z-index:9;height:54px;background:rgba(245,240,232,.95)!important;backdrop-filter:blur(18px) saturate(1.5)!important;-webkit-backdrop-filter:blur(18px) saturate(1.5)!important;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
 .dash-topbar-title{font-family:var(--f-serif);font-size:17px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
-.dash-topbar-title::before{content:'';width:3px;height:18px;background:var(--red);border-radius:2px;display:inline-block}
-.dash-content{padding:28px;flex:1}
-.panel{display:none}.panel.active{display:block;animation:pageReveal .35s cubic-bezier(.4,0,.2,1) both}
-@@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.dash-topbar-title::before{content:'';width:3px;height:18px;background:var(--lime-d);border-radius:2px;display:inline-block}
+.topbar-right{display:flex;gap:9px;align-items:center}
+.cp-live-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--warm);border:1px solid var(--line);border-radius:100px;padding:3px 10px}
+.cp-live-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--lime-d);flex-shrink:0;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.dash-body{padding:32px 36px}
+/* ── Panel system ── */
+.panel{display:none}.panel.active{display:block;animation:panelIn .4s cubic-bezier(.4,0,.2,1) both}
+@@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+@@keyframes deadlinePulse{0%,100%{opacity:1}50%{opacity:.55}}
+@@keyframes spinSlow{to{transform:rotate(360deg)}}
+@@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(8px,-6px) scale(1.05)}66%{transform:translate(-5px,4px) scale(.97)}}
+@@keyframes progressPulse{0%,100%{opacity:1}50%{opacity:.5}}
+/* ── Metric strip (old overview) ── */
 .metric-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white);margin-bottom:22px}
-.metric-cell{padding:18px 22px;border-right:1px solid var(--line);position:relative}
+.metric-cell{padding:18px 22px;border-right:1px solid var(--line);position:relative;cursor:default}
 .metric-cell:last-child{border-right:none}
 .m-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:4px;display:inline-block;transition:transform .2s}
+.metric-cell:hover .m-value{transform:scale(1.05)}
 .m-sub{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+/* ── Data table ── */
 .data-table{width:100%;border-collapse:collapse;font-size:13px}
 .data-table th{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--line);text-align:left;background:var(--warm);font-weight:400}
 .data-table td{padding:12px 16px;border-bottom:1px solid var(--warm);vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:var(--paper)}
-.ap-welcome-banner{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;margin-bottom:22px;background:var(--ink);border-radius:var(--r-lg);position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px)}
-.ap-welcome-banner::before{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,63,63,.06);pointer-events:none}
-.admin-access-chip{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(255,63,63,.08);border:1px solid rgba(255,63,63,.2);color:var(--red);margin-top:4px}
-.admin-access-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--red)}
-.account-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:10px;font-weight:700}
-.account-av-student{background:var(--ink);color:var(--lime)}
-.account-av-company{background:var(--lime);color:var(--ink)}
-.skills-filter-bar{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--warm);align-items:center}
-.acf-btn{padding:5px 12px;border:1.5px solid var(--line);border-radius:100px;font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--muted);cursor:pointer;transition:all .14s}
-.acf-btn.on,.acf-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.skill-demand-wrap{display:flex;align-items:center;gap:8px}
-.skill-demand-track{width:80px;height:4px;background:var(--warm);border-radius:2px;overflow:hidden;flex-shrink:0}
-.skill-demand-fill{height:100%;border-radius:2px}
-.pf-lime{background:var(--lime-d)}.pf-ink{background:var(--ink)}.pf-muted{background:var(--muted)}
-.skill-demand-num{font-family:var(--f-mono);font-size:10px;color:var(--muted)}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.cp-pending-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:14px;display:flex;align-items:center;gap:16px;transition:box-shadow .18s}
-.cp-pending-card:hover{box-shadow:0 4px 20px rgba(15,14,13,.09)}
-.cp-pending-card:last-child{margin-bottom:0}
+.data-table tr:hover td{background:linear-gradient(to right,rgba(143,212,0,.035),var(--paper),rgba(143,212,0,.035))!important}
+/* ── Welcome banner ── */
+.cp-welcome-banner{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;min-height:110px;margin-bottom:22px;background:var(--ink);border-radius:var(--r-lg);position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px)}
+.cp-welcome-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(184,255,53,.06);pointer-events:none}
+.cp-welcome-banner::after{content:'';position:absolute;right:60px;bottom:-40px;width:80px;height:80px;border-radius:50%;background:rgba(184,255,53,.04);pointer-events:none}
+.cpwb-left{display:flex;flex-direction:column;gap:3px;position:relative;z-index:1}
+.cpwb-greeting{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.cpwb-name{font-family:var(--f-serif);font-size:20px;font-weight:900;letter-spacing:-.03em;color:var(--paper);line-height:1.1}
+.cpwb-name em{color:var(--lime);font-style:italic;font-weight:400}
+.cpwb-right{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.cpwb-stat{text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);transition:border-color .15s;position:relative;overflow:hidden}
+.cpwb-stat:hover{border-color:rgba(184,255,53,.3)}
+.cpwb-stat-val{font-family:var(--f-serif);font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--lime);line-height:1}
+.cpwb-stat-lbl{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(40px);animation:orbFloat 6s ease-in-out infinite}
+/* ── Enhanced metric strip (overview) ── */
+.cp-metric-enhanced{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:28px;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:var(--white);box-shadow:var(--shadow)}
+.cp-me-cell{padding:24px 26px;position:relative;overflow:hidden;transition:background .18s;cursor:default;border-right:1px solid var(--line)}
+.cp-me-cell:last-child{border-right:none}
+.cp-me-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.cp-me-cell-1::before{background:var(--lime-d)}.cp-me-cell-2::before{background:var(--lime-d)}.cp-me-cell-3::before{background:var(--blue)}.cp-me-cell-4::before{background:var(--red)}
+.cp-me-cell:hover{background:var(--paper)}
+.cp-me-ico{width:36px;height:36px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex-shrink:0}
+.cp-me-ico svg{width:16px;height:16px;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.cp-me-cell-1 .cp-me-ico{background:rgba(143,212,0,.12)}.cp-me-cell-1 .cp-me-ico svg{stroke:var(--lime-d)}
+.cp-me-cell-2 .cp-me-ico{background:rgba(143,212,0,.12)}.cp-me-cell-2 .cp-me-ico svg{stroke:var(--lime-d)}
+.cp-me-cell-3 .cp-me-ico{background:rgba(59,127,255,.1)}.cp-me-cell-3 .cp-me-ico svg{stroke:var(--blue)}
+.cp-me-cell-4 .cp-me-ico{background:rgba(255,63,63,.08)}.cp-me-cell-4 .cp-me-ico svg{stroke:var(--red)}
+.cp-me-val{font-family:var(--f-serif);font-size:36px;font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:4px;color:var(--ink)}
+.cp-me-cell-3 .cp-me-val{color:var(--blue)}.cp-me-cell-4 .cp-me-val{color:var(--red)}
+.cp-me-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.cp-me-delta{font-family:var(--f-mono);font-size:9px;letter-spacing:.04em;display:flex;align-items:center;gap:4px;margin-top:8px;color:var(--muted)}
+.cp-me-up{color:#1a7a3a}.cp-me-warn{color:#b46400}
+/* ── Pipeline funnel ── */
+.pipeline-funnel-wrap{margin-bottom:22px}
+.pipeline-funnel{display:flex;align-items:stretch;gap:0;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white)}
+.pf-stage{flex:1;padding:16px 20px;border-right:1px solid var(--line);position:relative;transition:background .15s;cursor:default}
+.pf-stage:last-child{border-right:none}
+.pf-stage:hover{background:var(--paper)}
+.pf-stage::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transition:opacity .2s}
+.pf-s1::before{background:var(--muted)}.pf-s2::before{background:var(--blue)}.pf-s3::before{background:var(--lime-d)}.pf-s4::before{background:var(--ink)}
+.pf-arrow{display:flex;align-items:center;padding:0 2px;color:var(--line);font-size:16px;flex-shrink:0;border-right:1px solid var(--line);background:var(--warm);font-family:var(--f-mono);transition:color .15s,background .15s}
+.pf-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.pf-val{font-family:var(--f-serif);font-size:28px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:3px}
+.pf-sub{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.pf-pct{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;color:var(--line);margin-top:6px}
+/* ── Bar list ── */
+.bar-list{display:flex;flex-direction:column;gap:13px}
+.bar-list>div{padding-bottom:13px;border-bottom:1px solid var(--warm)}
+.bar-list>div:last-child{border-bottom:none;padding-bottom:0}
+.bar-row-label{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:10px;color:var(--muted);margin-bottom:6px}
+.progress-track{height:4px;background:var(--warm);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;position:relative;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.progress-fill::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%}
+.pf-lime{background:var(--lime-d)}.pf-lime::after{background:var(--lime-d);box-shadow:0 0 7px 2px rgba(143,212,0,.55)}
+.pf-ink{background:var(--ink)}.pf-ink::after{background:var(--ink);box-shadow:0 0 5px 2px rgba(15,14,13,.3)}
+.pf-blue{background:var(--blue)}.pf-blue::after{background:var(--blue);box-shadow:0 0 5px 2px rgba(59,127,255,.4)}
+.pf-muted{background:var(--muted)}
+/* ── Applicants ── */
+.appl-row{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);transition:background .15s}
+.appl-row:hover{background:var(--paper)}
+.appl-row:last-child{border-bottom:none}
+.appl-rank{font-family:var(--f-serif);font-size:13px;font-weight:900;color:var(--muted);width:28px;flex-shrink:0}
+.appl-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:700;flex-shrink:0;background:var(--ink);color:var(--lime)}
+.appl-score{font-family:var(--f-serif);font-size:18px;font-weight:900;letter-spacing:-.04em;padding:4px 10px;border-radius:var(--r-sm);flex-shrink:0}
+.appl-score-tier-high{color:#1a7a3a;background:rgba(26,122,58,.08)}
+.appl-score-tier-mid{color:#b46400;background:rgba(180,100,0,.08)}
+.appl-score-tier-low{color:var(--muted);background:var(--warm)}
+.appl-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.appl-skills-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.appl-skill-tag{font-family:var(--f-mono);font-size:8px;letter-spacing:.05em;padding:2px 7px;border-radius:var(--r-sm);border:1px solid rgba(26,122,58,.2);background:rgba(26,122,58,.05);color:#1a7a3a}
+/* Applicant summary bar */
+.appl-summary-bar{display:flex;border-bottom:1px solid var(--line);background:var(--warm)}
+.asb-cell{flex:1;padding:12px 20px;border-right:1px solid var(--line);display:flex;align-items:center;gap:10px;transition:background .14s;cursor:default}
+.asb-cell:last-child{border-right:none}
+.asb-cell:hover{background:var(--paper)}
+.asb-val{font-family:var(--f-serif);font-size:22px;font-weight:900;letter-spacing:-.04em;line-height:1;transition:color .15s}
+.asb-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);line-height:1.4}
+.asb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* ── Job postings ── */
+.jp-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px}
+.jp-header-eye{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:7px}
+.jp-header-eye::before{content:'';width:18px;height:1px;background:var(--muted)}
+.jp-header-title{font-family:var(--f-serif);font-size:clamp(24px,3vw,38px);font-weight:900;letter-spacing:-.04em;line-height:1.05;margin-bottom:6px}
+.jp-header-sub{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.jp-header-right{display:flex;align-items:center;gap:14px}
+.jp-filter-strip{display:flex;border:1.5px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.jp-filter-btn{padding:7px 16px;border:none;background:transparent;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .14s}
+.jp-filter-btn.jpf-on{background:var(--ink);color:var(--paper)}
+.jp-filter-btn:not(.jpf-on):hover{background:var(--warm)}
+.jp-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.jp-card{position:relative;border-radius:var(--r-lg);border:1.5px solid var(--line);background:var(--white);overflow:hidden;cursor:pointer;transition:transform .22s cubic-bezier(.4,0,.2,1),box-shadow .22s cubic-bezier(.4,0,.2,1),border-color .22s;box-shadow:0 2px 12px rgba(15,14,13,.06)}
+.jp-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(15,14,13,.14);border-color:var(--ink)}
+.jp-card--urgent{border-color:rgba(255,63,63,.3)}
+.jp-card--urgent:hover{border-color:var(--red);box-shadow:0 16px 48px rgba(255,63,63,.12)}
+.jp-card-accent{position:absolute;inset:0;background:linear-gradient(135deg,rgba(184,255,53,.12),rgba(184,255,53,.02));pointer-events:none}
+.jp-card-inner{position:relative;z-index:1;padding:22px 22px 0}
+.jp-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.jp-icon-wrap{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s}
+.jp-card:hover .jp-icon-wrap{transform:scale(1.08) rotate(-3deg)}
+.jp-icon-intern{background:rgba(184,255,53,.15);color:var(--lime-d)}
+.jp-icon-frontend{background:rgba(59,127,255,.12);color:var(--blue)}
+.jp-icon-backend{background:rgba(26,122,58,.12);color:#1a7a3a}
+.jp-icon-devops{background:rgba(255,63,63,.1);color:var(--red)}
+.jp-badges{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.jp-type-badge{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;border:1px solid}
+.jp-type-intern{color:var(--lime-d);background:rgba(184,255,53,.1);border-color:rgba(184,255,53,.3)}
+.jp-type-fulltime{color:var(--blue);background:rgba(59,127,255,.07);border-color:rgba(59,127,255,.2)}
+.jp-status-active,.jp-status-urgent{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.jp-status-active{color:#1a7a3a}
+.jp-status-urgent{color:var(--red);animation:deadlinePulse 1.8s ease-in-out infinite}
+.jp-card-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.jp-card-name{font-family:var(--f-serif);font-size:20px;font-weight:700;letter-spacing:-.03em;line-height:1.1;color:var(--ink);flex:1}
+.jp-match-arc{position:relative;flex-shrink:0;width:60px;height:60px}
+.jp-match-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:13px;font-weight:900;letter-spacing:-.03em;color:var(--lime-d)}
+.jp-card:hover .jp-match-pct{text-shadow:0 0 14px rgba(143,212,0,.45)}
+.jp-skills-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.jp-skill-chip{font-family:var(--f-mono);font-size:9px;letter-spacing:.06em;padding:4px 10px;border-radius:var(--r-sm);border:1px solid;font-weight:500;transition:transform .14px}
+.jp-card:hover .jp-skill-chip{transform:translateY(-1px)}
+.jp-skill-blue{color:var(--blue);background:rgba(59,127,255,.07);border-color:rgba(59,127,255,.2)}
+.jp-skill-green{color:#1a7a3a;background:rgba(26,122,58,.07);border-color:rgba(26,122,58,.22)}
+.jp-skill-orange{color:#b46400;background:rgba(180,100,0,.07);border-color:rgba(180,100,0,.22)}
+.jp-skill-red{color:var(--red);background:rgba(255,63,63,.06);border-color:rgba(255,63,63,.2)}
+.jp-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:0}
+.jp-meta-cell{display:flex;align-items:center;gap:7px;padding:9px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11.5px;color:var(--muted);font-weight:400;transition:background .12s}
+.jp-meta-cell:nth-child(2n){border-right:none}
+.jp-meta-cell:nth-child(3),.jp-meta-cell:nth-child(4){border-bottom:none}
+.jp-card:hover .jp-meta-cell{background:var(--paper)}
+.jp-meta-ico{font-size:12px;flex-shrink:0}
+.jp-meta-val{font-size:11px;font-weight:500;color:var(--ink)}
+.jp-deadline-soon{color:#b46400!important}
+.jp-deadline-alert .jp-meta-ico{animation:deadlinePulse 1.4s infinite}
+.jp-card-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 0 14px}
+.jp-appl-count{display:flex;align-items:center;gap:9px}
+.jp-appl-avatars{display:flex}
+.jp-appl-av{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:8px;font-weight:700;flex-shrink:0;margin-right:-6px;border:2px solid var(--white);transition:transform .14s}
+.jp-appl-av:nth-child(1){z-index:4}.jp-appl-av:nth-child(2){z-index:3}.jp-appl-av:nth-child(3){z-index:2}
+.jp-appl-more{background:var(--warm);color:var(--muted);font-size:8px;z-index:1;border:2px solid var(--white)}
+.jp-appl-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-left:10px}
+.jp-view-btn{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border:1.5px solid var(--ink);border-radius:var(--r-sm);background:transparent;color:var(--ink);cursor:pointer;transition:all .16s;font-weight:600}
+.jp-view-btn:hover{background:var(--ink);color:var(--paper)}
+.jp-view-btn--urgent{border-color:var(--red);color:var(--red)}
+.jp-view-btn--urgent:hover{background:var(--red);color:#fff}
+.jp-progress-bar{height:3px;background:var(--warm);margin:0 -22px}
+.jp-progress-fill{height:100%;border-radius:0;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
+.jp-progress-urgent{animation:progressPulse 1.6s infinite}
+.jp-urgent-ribbon{position:absolute;top:14px;left:-2px;display:flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-family:var(--f-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:4px 12px 4px 10px;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 50%,100% 100%,0 100%);z-index:2}
+.jp-urgent-dot{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+.jp-card.jp-hidden{display:none}
+/* ── Post Job hero ── */
+.cp-post-hero{background:var(--ink);border-radius:var(--r-lg);padding:36px 40px 32px;margin-bottom:28px;position:relative;overflow:hidden;border:1px solid rgba(184,255,53,.12);box-shadow:0 20px 60px rgba(15,14,13,.25),0 0 0 1px rgba(184,255,53,.05)}
+.cp-post-hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(184,255,53,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,255,53,.03) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)}
+.cp-post-hero-blob1{position:absolute;top:-80px;right:-40px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,255,53,.18) 0%,transparent 70%);pointer-events:none}
+.cp-post-hero-blob2{position:absolute;bottom:-60px;left:40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(59,127,255,.1) 0%,transparent 70%);pointer-events:none;animation:orbFloat 7s ease-in-out infinite}
+.cp-post-hero-corner{position:absolute;top:20px;right:24px;width:32px;height:32px;pointer-events:none;border-top:1.5px solid rgba(184,255,53,.3);border-right:1.5px solid rgba(184,255,53,.3);border-radius:0 4px 0 0}
+.cp-post-hero-corner2{position:absolute;bottom:20px;left:24px;width:24px;height:24px;pointer-events:none;border-bottom:1.5px solid rgba(184,255,53,.2);border-left:1.5px solid rgba(184,255,53,.2);border-radius:0 0 0 4px}
+.cp-post-hero-title{font-family:var(--f-serif);font-size:38px;font-weight:900;letter-spacing:-.05em;color:var(--paper);margin-bottom:8px;line-height:1;position:relative;z-index:1}
+.cp-post-hero-title .cp-post-accent{color:var(--lime);font-style:italic;font-weight:900;text-shadow:0 0 40px rgba(184,255,53,.4)}
+.cp-post-hero-sub{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);position:relative;z-index:1}
+.cp-post-hero-stats{display:flex;gap:0;margin-top:24px;position:relative;z-index:1;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);overflow:hidden;width:fit-content}
+.cp-post-hero-stat{padding:10px 20px;border-right:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);backdrop-filter:blur(4px);display:flex;flex-direction:column;gap:3px;transition:background .15s}
+.cp-post-hero-stat:last-child{border-right:none}
+.cp-post-hero-stat:hover{background:rgba(255,255,255,.07)}
+.cp-post-hero-stat-val{font-family:var(--f-mono);font-size:16px;font-weight:700;color:var(--lime);line-height:1;letter-spacing:-.02em}
+.cp-post-hero-stat-lbl{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.cp-post-live-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;background:rgba(184,255,53,.12);color:var(--lime);border:1px solid rgba(184,255,53,.25);border-radius:100px;padding:4px 12px;position:absolute;top:24px;left:40px;z-index:2}
+.cp-post-live-dot{width:5px;height:5px;border-radius:50%;background:var(--lime);flex-shrink:0;animation:pulseDot 1.4s infinite;box-shadow:0 0 6px rgba(184,255,53,.6)}
+#cp-post .card{border:1px solid var(--line);box-shadow:0 4px 32px rgba(15,14,13,.07);border-radius:var(--r-lg);overflow:hidden}
+.pj-section{padding:24px 0;border-bottom:1px solid var(--line);margin-bottom:0}
+.pj-section:last-of-type{border-bottom:none}
+.pj-section-label{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.pj-section-num{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:var(--ink);border-radius:var(--r-sm);padding:3px 8px;flex-shrink:0}
+.pj-section-title{font-family:var(--f-serif);font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.pj-section-line{flex:1;height:1px;background:linear-gradient(to right,var(--line),transparent)}
+.post-steps{display:flex;align-items:stretch;gap:0;background:var(--warm);border-radius:var(--r-sm);overflow:hidden;margin-bottom:28px;border:1px solid var(--line)}
+.post-step{flex:1;padding:14px 16px;display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);position:relative;border-right:1px solid var(--line);transition:background .15s}
+.post-step:last-child{border-right:none}
+.post-step-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--line);color:var(--muted);font-size:9px;font-weight:700;flex-shrink:0}
+.post-step.ps-done{background:rgba(26,122,58,.06);color:#1a7a3a;position:relative}
+.post-step.ps-done::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--lime)}
+.post-step.ps-done .post-step-num{background:#1a7a3a;color:#fff}
+.post-step.ps-now{background:var(--ink);color:var(--paper);position:relative}
+.post-step.ps-now::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ink)}
+.post-step.ps-now .post-step-num{background:var(--lime);color:var(--ink)}
+.skill-priority-strip{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.sps-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;padding:5px 11px;border-radius:var(--r-sm);border:1px solid;transition:transform .12s,box-shadow .12s;font-weight:600}
+.sps-chip:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.sps-chip-req{color:#1a7a3a;border-color:rgba(26,122,58,.3);background:rgba(26,122,58,.08)}
+.sps-chip-pref{color:#b46400;border-color:rgba(180,100,0,.3);background:rgba(180,100,0,.07)}
+.sps-remove{opacity:.4;cursor:pointer;transition:opacity .12s;margin-left:2px}
+.sps-remove:hover{opacity:1}
+.pj-skill-add-row{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.pj-action-bar{display:flex;align-items:center;gap:14px;padding:20px 22px;background:linear-gradient(to right,rgba(184,255,53,.06),transparent);border-top:1px solid rgba(184,255,53,.15);margin:-22px;margin-top:14px;border-radius:0 0 var(--r-lg) var(--r-lg)}
+.pj-action-hint{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;margin-left:auto}
+.pj-action-hint::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--lime-d);flex-shrink:0;animation:pulseDot 2s infinite}
+/* ── Skill dropdown (post job) ── */
+.pj-skills-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;min-height:32px;padding:8px;border:1px dashed var(--line);border-radius:var(--r-sm)}
+.skill-chip-added{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;background:rgba(143,212,0,.12);border:1px solid rgba(143,212,0,.3);font-size:11px;font-weight:600;color:var(--lime-d);margin:2px}
+.skill-dd-wrap{position:relative}
+.skill-dd{position:absolute;left:0;right:0;top:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-lg);z-index:100;display:none;max-height:200px;overflow-y:auto}
+.skill-opt{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;transition:background .12s}
+.skill-opt:hover{background:var(--lime)!important;color:var(--ink)}
+.skill-opt:hover .skill-opt-cat{color:var(--ink);opacity:.65}
+.skill-opt-name{font-size:13px;font-weight:600}
+.skill-opt-cat{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.06em}
+/* ── Company profile ── */
+.profile-hero{background:var(--ink);border-radius:var(--r-lg);margin-bottom:20px;overflow:hidden;position:relative}
+.profile-hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(184,255,53,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 20%,rgba(59,127,255,.05) 0%,transparent 60%)}
+.profile-hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:32px 32px}
+.profile-hero-inner{position:relative;z-index:1;display:flex;align-items:center;gap:28px;padding:28px 32px}
+.profile-avatar-ring{position:relative;flex-shrink:0}
+.profile-avatar-ring svg{position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);animation:spinSlow 8s linear infinite}
+.profile-av-circle{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-weight:700;flex-shrink:0;background:var(--lime);color:var(--ink);font-size:14px;letter-spacing:-.02em}
+.profile-hero-name{font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1;margin-bottom:4px}
+.profile-hero-sub{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px}
+.profile-hero-chips{display:flex;gap:7px;flex-wrap:wrap}
+.profile-hero-chip{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid;display:inline-flex;align-items:center;gap:5px}
+.phc-uni{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06)}
+.phc-deg{color:var(--lime);border-color:rgba(184,255,53,.25);background:rgba(184,255,53,.08)}
+.phc-sem{color:#7eb3ff;border-color:rgba(59,127,255,.2);background:rgba(59,127,255,.08)}
+.profile-hero-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.profile-completion-ring{position:relative;width:80px;height:80px}
+.profile-completion-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.profile-completion-ring svg circle{fill:none;stroke-width:4;stroke-linecap:round}
+.pcr-track{stroke:rgba(255,255,255,.08)}
+.pcr-fill{stroke:var(--lime);stroke-dasharray:220;stroke-dashoffset:55;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.pcr-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pcr-pct{font-family:var(--f-serif);font-size:18px;font-weight:900;color:var(--lime);letter-spacing:-.04em;line-height:1}
+.pcr-sub{font-family:var(--f-mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.profile-steps-strip{display:flex;border-top:1px solid rgba(255,255,255,.06)}
+.profile-step{flex:1;padding:14px 20px;border-right:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;transition:background .15s;cursor:default}
+.profile-step:last-child{border-right:none}
+.profile-step:hover{background:rgba(255,255,255,.025)}
+.ps-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ps-done .ps-icon{background:rgba(26,122,58,.2)}
+.ps-now .ps-icon{background:rgba(184,255,53,.12)}
+.ps-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;line-height:1.4}
+.ps-done .ps-label{color:rgba(255,255,255,.5)}
+.ps-now .ps-label{color:var(--lime);font-weight:600}
+.ps-check{margin-left:auto;font-size:11px}
+.ps-done .ps-check{color:rgba(26,122,58,.8)}
+.ps-now .ps-check{color:var(--lime)}
+.profile-section-block{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:box-shadow .2s,border-color .2s!important;border-left:3px solid transparent}
+.profile-section-block:hover{box-shadow:0 4px 24px rgba(15,14,13,.07);border-left-color:var(--lime-d)}
+.psb-header{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line);background:linear-gradient(to right,var(--warm),var(--white))}
+.psb-icon{width:34px;height:34px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.psb-title{font-family:var(--f-sans);font-size:14px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.psb-subtitle{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.psb-body{padding:20px 22px}
+.cp-stat-row{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;margin-bottom:24px;background:var(--warm)}
+.cp-stat-cell{padding:14px 18px;border-right:1px solid var(--line);text-align:center;position:relative;overflow:hidden}
+.cp-stat-cell:last-child{border-right:none}
+.cp-stat-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--lime-d),transparent);opacity:0;transition:opacity .2s}
+.cp-stat-cell:hover::before{opacity:1}
+.cp-stat-val{font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:3px}
+.cp-stat-lbl{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cp-completion-wrap{margin-bottom:0;margin-top:4px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper)}
+.cp-completion-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cp-completion-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cp-completion-pct{font-family:var(--f-serif);font-size:15px;font-weight:900;letter-spacing:-.03em;color:var(--lime-d)}
+.cp-completion-track{height:3px;background:var(--warm);border-radius:2px;overflow:hidden}
+.cp-completion-fill{height:100%;background:var(--ink);border-radius:2px;transition:width 1s ease}
+.profile-save-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(to right,var(--ink),var(--ink-2));border-radius:var(--r-lg);margin-top:4px}
+.psb-hint{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;color:rgba(255,255,255,.3);text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.psb-hint-dot{width:5px;height:5px;border-radius:50%;background:var(--lime-d);animation:pulseDot 2s infinite}
 </style>
 </head>
 <body>
@@ -112,324 +385,624 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 <div class="dash-shell">
   <aside class="dash-sidebar">
     <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
-    <div class="sb-section">Admin</div>
-    <a class="sb-link on" id="lnk-overview" onclick="sw('ap-overview','Overview')"><span class="sb-ico">📊</span>Overview</a>
-    <a class="sb-link" id="lnk-companies" onclick="sw('ap-companies','Company Approvals')">
-      <span class="sb-ico">🏢</span>Companies
-      @if (Model.PendingCompanies.Any())
-      { <span class="sb-badge">@Model.PendingCompanies.Count</span> }
-    </a>
-    <a class="sb-link" id="lnk-skills" onclick="sw('ap-skills','Skills Library')"><span class="sb-ico">🧠</span>Skills</a>
-    <a class="sb-link" id="lnk-accounts" onclick="sw('ap-accounts','User Accounts')"><span class="sb-ico">👥</span>Accounts</a>
+    <div class="sb-section">Hiring</div>
+    <a class="sb-link on" id="lnk-overview" onclick="sw('cp-overview','Dashboard')"><span class="sb-ico">◈</span> Dashboard</a>
+    <a class="sb-link" id="lnk-jobs" onclick="sw('cp-jobs','Job Postings')"><span class="sb-ico">📋</span> Job Postings</a>
+    <a class="sb-link" id="lnk-applicants" onclick="sw('cp-applicants','Applicants')"><span class="sb-ico">👥</span> Applicants</a>
+    <a class="sb-link" id="lnk-post" onclick="sw('cp-post','Post a Job')"><span class="sb-ico">✚</span> Post a Job</a>
+    <div class="sb-section">Account</div>
+    <a class="sb-link" id="lnk-profile" onclick="sw('cp-profile','Company Profile')"><span class="sb-ico">🏢</span> Company Profile</a>
     <div class="sb-foot">
       <div class="sb-user">
-        <div class="sb-avatar">AD</div>
+        <div class="sb-avatar av-company">@Model.Initials</div>
         <div>
-          <div class="sb-uname">@Model.UserName</div>
-          <div>
-            <div class="sb-urole">Admin</div>
-            <div class="admin-access-chip"><div class="admin-access-chip-dot"></div>Full Access</div>
-          </div>
+          <div class="sb-uname">@Model.CompanyName</div>
+          <div class="sb-urole"><span class="sb-verified-dot"></span>Company · Verified</div>
         </div>
       </div>
       <form method="post" asp-page-handler="Logout">
         @Html.AntiForgeryToken()
-        <button type="submit" class="sb-signout">Sign Out</button>
+        <button type="submit" class="sb-signout">← Sign Out</button>
       </form>
     </div>
   </aside>
 
-  <div class="dash-main">
+  <main class="dash-main">
     <div class="dash-topbar">
-      <div class="dash-topbar-title" id="page-title">Overview</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        @if (Model.PendingCompanies.Any())
-        {
-          <span class="badge badge-red">@Model.PendingCompanies.Count Pending Approvals</span>
-        }
-        <span class="badge badge-default">@DateTime.Now.ToString("MMM dd, yyyy")</span>
+      <div class="dash-topbar-title" id="page-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="cp-live-badge"><span class="cp-live-badge-dot"></span>@Model.TotalApplications applicants</div>
+        <button class="btn btn-lime btn-sm" onclick="sw('cp-post','Post a Job')">+ Post Job</button>
       </div>
     </div>
-    <div class="dash-content">
+    <div class="dash-body">
 
       <!-- ── OVERVIEW ── -->
-      <div class="panel active" id="ap-overview">
-        <div class="ap-welcome-banner">
-          <div style="position:relative;z-index:1">
-            <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px">Admin Control Center</div>
-            <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1">Platform <em style="color:#ff6b6b;font-style:italic;font-weight:400">Intelligence.</em></div>
+      <div class="panel active" id="cp-overview">
+
+        <!-- Welcome Banner -->
+        <div class="cp-welcome-banner">
+          <div class="hero-orb" style="width:200px;height:200px;top:-80px;right:20px;background:rgba(184,255,53,.05);animation-duration:9s;border-radius:50%;filter:blur(48px);pointer-events:none;position:absolute"></div>
+          <div class="hero-orb" style="width:120px;height:120px;bottom:-60px;right:260px;background:rgba(59,127,255,.04);animation-duration:12s;animation-delay:-4s;border-radius:50%;filter:blur(32px);pointer-events:none;position:absolute"></div>
+          <div class="cpwb-left">
+            <div class="cpwb-greeting">
+              <span style="width:5px;height:5px;border-radius:50%;background:var(--lime);display:inline-block;animation:blink 2s infinite;flex-shrink:0"></span>
+              Good morning — Company Dashboard
+            </div>
+            <div class="cpwb-name">Welcome back, <em>@Model.CompanyName</em></div>
+            <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:6px">Verified Partner</div>
           </div>
-          <div style="display:flex;gap:12px;position:relative;z-index:1">
-            <div style="text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm)">
-              <div style="font-family:var(--f-serif);font-size:22px;font-weight:900;color:var(--lime);line-height:1">@Model.Stats.TotalStudents</div>
-              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Students</div>
+          <div class="cpwb-right">
+            <div class="cpwb-stat" style="position:relative;overflow:hidden">
+              <div style="position:absolute;inset:0;background:rgba(184,255,53,.04);border-radius:var(--r-sm)"></div>
+              <div class="cpwb-stat-val">@Model.TotalJobs</div>
+              <div class="cpwb-stat-lbl">Active Jobs</div>
             </div>
-            <div style="text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm)">
-              <div style="font-family:var(--f-serif);font-size:22px;font-weight:900;color:var(--lime);line-height:1">@Model.Stats.TotalCompanies</div>
-              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Companies</div>
+            <div class="cpwb-stat" style="position:relative;overflow:hidden">
+              <div style="position:absolute;inset:0;background:rgba(59,127,255,.05);border-radius:var(--r-sm)"></div>
+              <div class="cpwb-stat-val" style="color:var(--blue)">@Model.TotalApplications</div>
+              <div class="cpwb-stat-lbl">Applicants</div>
             </div>
-            <div style="text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm)">
-              <div style="font-family:var(--f-serif);font-size:22px;font-weight:900;color:#ff6b6b;line-height:1">@Model.Stats.PendingApprovals</div>
-              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Pending</div>
+            <div class="cpwb-stat" style="position:relative;overflow:hidden">
+              <div style="position:absolute;inset:0;background:rgba(184,255,53,.06);border-radius:var(--r-sm)"></div>
+              <div class="cpwb-stat-val">@Model.AvgMatchScore%</div>
+              <div class="cpwb-stat-lbl">Avg Match</div>
+            </div>
+            <div class="cpwb-stat" style="position:relative;overflow:hidden">
+              <div style="position:absolute;inset:0;background:rgba(255,63,63,.05);border-radius:var(--r-sm)"></div>
+              <div class="cpwb-stat-val" style="color:var(--red)">@Model.ShortlistedCount</div>
+              <div class="cpwb-stat-lbl">Shortlisted</div>
             </div>
           </div>
         </div>
 
-        <div class="metric-strip">
-          <div class="metric-cell"><div class="m-label">Total Students</div><div class="m-value">@Model.Stats.TotalStudents</div><div class="m-sub">registered</div></div>
-          <div class="metric-cell"><div class="m-label">Companies</div><div class="m-value">@Model.Stats.TotalCompanies</div><div class="m-sub">approved</div></div>
-          <div class="metric-cell"><div class="m-label">Active Jobs</div><div class="m-value">@Model.Stats.TotalActiveJobs</div><div class="m-sub">live now</div></div>
-          <div class="metric-cell"><div class="m-label">Applications</div><div class="m-value">@Model.Stats.TotalApplications</div><div class="m-sub">total</div></div>
+        <!-- Enhanced Metric Strip -->
+        <div class="cp-metric-enhanced">
+          <div class="cp-me-cell cp-me-cell-1">
+            <div class="cp-me-ico">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            </div>
+            <div class="cp-me-lbl">Active Jobs</div>
+            <div class="cp-me-val">@Model.TotalJobs</div>
+            <div class="cp-me-delta cp-me-warn">Posted on platform</div>
+          </div>
+          <div class="cp-me-cell cp-me-cell-2">
+            <div class="cp-me-ico">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="cp-me-lbl">Total Applicants</div>
+            <div class="cp-me-val">@Model.TotalApplications</div>
+            <div class="cp-me-delta cp-me-up">↑ Across all jobs</div>
+          </div>
+          <div class="cp-me-cell cp-me-cell-3">
+            <div class="cp-me-ico">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="cp-me-lbl">Shortlisted</div>
+            <div class="cp-me-val">@Model.ShortlistedCount</div>
+            <div class="cp-me-delta" style="color:var(--blue)">In pipeline</div>
+          </div>
+          <div class="cp-me-cell cp-me-cell-4">
+            <div class="cp-me-ico">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="cp-me-lbl">Avg Match Score</div>
+            <div class="cp-me-val">@Model.AvgMatchScore%</div>
+            <div class="cp-me-delta cp-me-up">↑ Platform average</div>
+          </div>
         </div>
 
         <div class="two-col">
           <div class="card">
-            <div class="card-head">
-              <span class="card-title">Pending Company Approvals</span>
-              @if (Model.PendingCompanies.Any())
-              {<span class="badge badge-red">@Model.PendingCompanies.Count pending</span>}
-            </div>
-            <div class="card-body">
-              @if (!Model.PendingCompanies.Any())
+            <div class="card-head"><span class="card-title">My Active Jobs</span><button class="btn btn-lime btn-sm" onclick="sw('cp-post','Post a Job')">+ Post Job</button></div>
+            <div class="card-body-p0">
+              @if (!Model.Jobs.Any())
               {
-                <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">All companies approved. ✓</div>
+                <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No jobs posted yet. <a onclick="sw('cp-post','Post a Job')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Post your first job →</a></div>
               }
-              @foreach (var c in Model.PendingCompanies)
-              {
-                <div class="cp-pending-card">
-                  <div style="width:42px;height:42px;border-radius:var(--r);background:var(--lime);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:16px;font-weight:900;flex-shrink:0">@c.CompanyName[0]</div>
-                  <div style="flex:1;min-width:0">
-                    <div style="font-size:13px;font-weight:700">@c.CompanyName</div>
-                    <div style="font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.04em">@c.Industry @(string.IsNullOrEmpty(c.Website) ? "" : "· " + c.Website)</div>
-                    @if (!string.IsNullOrEmpty(c.Description))
-                    {<div style="font-size:11px;color:var(--muted);margin-top:2px">@(c.Description.Length > 60 ? c.Description.Substring(0, 60) + "…" : c.Description)</div>}
-                  </div>
-                  <div style="display:flex;gap:6px;flex-shrink:0">
-                    <form method="post" asp-page-handler="ApproveCompany" style="display:inline">
-                      @Html.AntiForgeryToken()
-                      <input type="hidden" name="companyId" value="@c.CompanyID">
-                      <button type="submit" class="btn btn-lime btn-sm">Approve ✓</button>
-                    </form>
-                    <form method="post" asp-page-handler="RejectCompany" style="display:inline">
-                      @Html.AntiForgeryToken()
-                      <input type="hidden" name="companyId" value="@c.CompanyID">
-                      <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Reject</button>
-                    </form>
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-head"><span class="card-title">Platform Stats</span></div>
-            <div class="card-body">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
-                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em">@Model.Stats.AverageMatchScore%</div>
-                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Avg Match Score</div>
-                </div>
-                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
-                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em">@Model.AllSkills.Count</div>
-                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Skills in Library</div>
-                </div>
-                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
-                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--red)">@Model.Stats.PendingApprovals</div>
-                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Pending Approvals</div>
-                </div>
-                <div style="padding:14px;border:1px solid var(--line);border-radius:var(--r);text-align:center">
-                  <div style="font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em">@Model.AllUsers.Count</div>
-                  <div style="font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px">Total Users</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── COMPANIES ── -->
-      <div class="panel" id="ap-companies">
-        <div class="card" style="margin-bottom:20px">
-          <div class="card-head">
-            <span class="card-title">⏳ Pending Company Approvals</span>
-            <span class="badge badge-red">@Model.PendingCompanies.Count pending</span>
-          </div>
-          <div class="card-body">
-            @if (!Model.PendingCompanies.Any())
-            {
-              <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">All companies are approved.</div>
-            }
-            @foreach (var c in Model.PendingCompanies)
-            {
-              <div class="cp-pending-card">
-                <div style="width:42px;height:42px;border-radius:var(--r);background:var(--lime);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:16px;font-weight:900;flex-shrink:0">@c.CompanyName[0]</div>
-                <div style="flex:1">
-                  <div style="font-size:13px;font-weight:700">@c.CompanyName</div>
-                  <div style="font-family:var(--f-mono);font-size:9px;color:var(--muted)">@c.Industry · @c.Website</div>
-                  <div style="font-size:11px;color:var(--muted);margin-top:2px">@c.Description</div>
-                </div>
-                <div style="display:flex;gap:6px">
-                  <form method="post" asp-page-handler="ApproveCompany" style="display:inline">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="companyId" value="@c.CompanyID">
-                    <button type="submit" class="btn btn-lime btn-sm">✓ Approve</button>
-                  </form>
-                  <form method="post" asp-page-handler="RejectCompany" style="display:inline">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="companyId" value="@c.CompanyID">
-                    <button type="submit" class="btn btn-red btn-sm">✕ Reject</button>
-                  </form>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-head"><span class="card-title">All Companies</span><span class="badge badge-default">@Model.AllCompanies.Count total</span></div>
-          <div class="card-body-p0">
-            <table class="data-table">
-              <thead><tr><th>Company</th><th>Industry</th><th>Status</th><th>Actions</th></tr></thead>
-              <tbody>
-                @foreach (var c in Model.AllCompanies)
-                {
-                  <tr>
-                    <td><strong>@c.CompanyName</strong></td>
-                    <td><span class="badge badge-default">@c.Industry</span></td>
-                    <td><span class="status @(c.IsApproved ? "st-active" : "st-pending")">@(c.IsApproved ? "Approved" : "Pending")</span></td>
-                    <td>
-                      @if (!c.IsApproved)
-                      {
-                        <form method="post" asp-page-handler="ApproveCompany" style="display:inline">
-                          @Html.AntiForgeryToken()
-                          <input type="hidden" name="companyId" value="@c.CompanyID">
-                          <button type="submit" class="btn btn-lime btn-sm">Approve</button>
-                        </form>
-                        <form method="post" asp-page-handler="RejectCompany" style="display:inline">
-                          @Html.AntiForgeryToken()
-                          <input type="hidden" name="companyId" value="@c.CompanyID">
-                          <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Reject</button>
-                        </form>
-                      }
-                      else
-                      {
-                        <span style="font-family:var(--f-mono);font-size:10px;color:var(--muted)">Active</span>
-                      }
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── SKILLS ── -->
-      <div class="panel" id="ap-skills">
-        @if (!string.IsNullOrEmpty(Model.SkillMessage))
-        {
-          <div class="notice @(Model.SkillSuccess ? "notice-ok" : "notice-warn")">@Model.SkillMessage</div>
-        }
-        <div class="card" style="margin-bottom:20px">
-          <div class="card-head"><span class="card-title">➕ Add New Skill</span></div>
-          <div class="card-body">
-            <form method="post" asp-page-handler="AddSkill">
-              @Html.AntiForgeryToken()
-              <div class="field-row">
-                <div class="field">
-                  <label class="field-label">Skill Name</label>
-                  <input name="SkillName" class="field-input" placeholder="e.g. TypeScript, Docker, React" required>
-                </div>
-                <div class="field">
-                  <label class="field-label">Category</label>
-                  <select name="Category" class="field-input field-select">
-                    <option>Frontend</option><option>Backend</option><option>DevOps</option><option>Cloud</option><option>Language</option><option>Database</option><option>Mobile</option><option>AI/ML</option><option>Other</option>
-                  </select>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-dark">Add to Library →</button>
-            </form>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">🧠 Master Skills Library</span><span class="badge badge-default">@Model.AllSkills.Count skills</span></div>
-          <div class="card-body-p0">
-            <table class="data-table">
-              <thead><tr><th>Skill</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
-              <tbody>
-                @foreach (var skill in Model.AllSkills)
-                {
-                  <tr>
-                    <td><strong>@skill.SkillName</strong></td>
-                    <td><span class="badge badge-default">@skill.Category</span></td>
-                    <td><span class="status @(skill.IsActive ? "st-active" : "st-reject")">@(skill.IsActive ? "Active" : "Inactive")</span></td>
-                    <td>
-                      <form method="post" asp-page-handler="DeleteSkill" style="display:inline">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="skillId" value="@skill.SkillID">
-                        <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">🗑️ Delete</button>
-                      </form>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── USER ACCOUNTS ── -->
-      <div class="panel" id="ap-accounts">
-        <div class="card">
-          <div class="card-head"><span class="card-title">👥 All User Accounts</span><span class="badge badge-default">@Model.AllUsers.Count users</span></div>
-          <div class="card-body-p0">
-            <div style="overflow:auto">
               <table class="data-table">
-                <thead><tr><th></th><th>Name</th><th>Role</th><th>Email</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+                <thead><tr><th>Job Title</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead>
                 <tbody>
-                  @foreach (var user in Model.AllUsers)
+                  @foreach (var job in Model.Jobs)
                   {
-                    var avClass = user.Role == "Student" ? "account-av-student" : user.Role == "Company" ? "account-av-company" : "";
-                    var initials = CogniCareer.Helpers.SessionHelper.GetInitials(user.FullName);
+                    var apps = Model.GetApplicationsByJob(job.JobID);
                     <tr>
-                      <td style="padding:10px 6px 10px 14px;width:36px"><div class="account-av @avClass">@initials</div></td>
-                      <td><strong>@user.FullName</strong></td>
-                      <td><span class="badge @(user.Role == "Student" ? "badge-dark" : user.Role == "Company" ? "badge-lime" : "badge-red")">@user.Role</span></td>
-                      <td style="font-family:var(--f-mono);font-size:11px">@user.Email</td>
-                      <td style="font-family:var(--f-mono);font-size:11px">@user.CreatedAt.ToString("MMM dd")</td>
-                      <td><span class="status @(user.IsActive ? "st-active" : "st-reject")">@(user.IsActive ? "Active" : "Inactive")</span></td>
-                      <td>
-                        @if (user.Role != "Admin")
-                        {
-                          <form method="post" asp-page-handler="ToggleUser" style="display:inline">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="userId" value="@user.UserID">
-                            <input type="hidden" name="isActive" value="@(!user.IsActive)">
-                            <button type="submit" class="btn btn-ghost btn-sm" style="@(user.IsActive ? "color:var(--red)" : "color:#1a7a3a")">
-                              @(user.IsActive ? "Deactivate" : "Activate")
-                            </button>
-                          </form>
-                        }
-                      </td>
+                      <td><strong>@job.Title</strong></td>
+                      <td><strong>@apps.Count</strong></td>
+                      <td><span class="status @(job.Status == "Active" ? "st-active" : "st-reject")">@job.Status</span></td>
+                      <td><button class="btn btn-ghost btn-sm" onclick="loadApplicants(@job.JobID,'@job.Title')">View Applicants</button></td>
                     </tr>
                   }
                 </tbody>
               </table>
             </div>
           </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Pipeline Summary</span></div>
+            <div class="card-body">
+              <div class="bar-list">
+                <div><div class="bar-row-label"><span>Total Applied</span><span>@Model.TotalApplications</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:100%"></div></div></div>
+                <div><div class="bar-row-label"><span>Shortlisted</span><span>@Model.ShortlistedCount</span></div><div class="progress-track"><div class="progress-fill pf-lime" style="width:@(Model.TotalApplications > 0 ? (int)((double)Model.ShortlistedCount / Model.TotalApplications * 100) : 0)%"></div></div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- ── JOB POSTINGS ── -->
+      <div class="panel" id="cp-jobs">
+        <div class="jp-header">
+          <div class="jp-header-left">
+            <div class="jp-header-eye">Active Listings</div>
+            <h2 class="jp-header-title">Job <em style="font-style:italic;color:var(--lime-d)">Postings</em></h2>
+            <div class="jp-header-sub">@Model.TotalJobs active · @Model.TotalApplications total applicants</div>
+          </div>
+          <div class="jp-header-right">
+            <div class="jp-filter-strip">
+              <button class="jp-filter-btn jpf-on" onclick="filterJobs('all',this)">All</button>
+              <button class="jp-filter-btn" onclick="filterJobs('active',this)">Active</button>
+              <button class="jp-filter-btn" onclick="filterJobs('closed',this)">Closed</button>
+            </div>
+            <button class="btn btn-lime" onclick="sw('cp-post','Post a Job')">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
+              Post New Job
+            </button>
+          </div>
+        </div>
+
+        @if (!Model.Jobs.Any())
+        {
+          <div style="padding:48px;text-align:center;color:var(--muted);font-size:13px;background:var(--white);border-radius:var(--r-lg);border:1px solid var(--line)">No jobs posted yet. <a onclick="sw('cp-post','Post a Job')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Post your first job →</a></div>
+        }
+        else
+        {
+          <div class="jp-cards-grid" id="jp-cards-grid">
+            @foreach (var job in Model.Jobs)
+            {
+              var apps = Model.GetApplicationsByJob(job.JobID);
+              var daysLeft = (job.Deadline - DateTime.Now).Days;
+              var isUrgent = daysLeft <= 7;
+              var deadlineClass = daysLeft <= 3 ? "color:var(--red);font-weight:700" : daysLeft <= 7 ? "color:#b46400" : "";
+              var dataType = job.Status == "Active" ? (isUrgent ? "urgent" : "active") : "closed";
+              <div class="jp-card @(isUrgent && job.Status == "Active" ? "jp-card--urgent" : "")" data-type="@dataType" onclick="loadApplicants(@job.JobID,'@job.Title')">
+                <div class="jp-card-accent"></div>
+                @if (isUrgent && job.Status == "Active")
+                {
+                  <div class="jp-urgent-ribbon"><span class="jp-urgent-dot"></span>CLOSING SOON</div>
+                }
+                <div class="jp-card-inner">
+                  <div class="jp-card-top">
+                    <div class="jp-icon-wrap jp-icon-intern">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                    </div>
+                    <div class="jp-badges">
+                      <span class="jp-type-badge @(job.JobType == "Internship" ? "jp-type-intern" : "jp-type-fulltime")">@job.JobType</span>
+                      @if (job.Status == "Active")
+                      {
+                        <span class="@(isUrgent ? "jp-status-urgent" : "jp-status-active")">@(isUrgent ? "⚠ " + job.Deadline.ToString("MMM dd") : "● Active")</span>
+                      }
+                      else
+                      {
+                        <span style="font-family:var(--f-mono);font-size:8.5px;color:var(--muted)">Closed</span>
+                      }
+                    </div>
+                  </div>
+                  <div class="jp-card-title-row">
+                    <div class="jp-card-name">@job.Title</div>
+                  </div>
+                  <div class="jp-meta-grid">
+                    <div class="jp-meta-cell">
+                      <div class="jp-meta-ico">⏱</div>
+                      <div class="jp-meta-val">@job.Duration</div>
+                    </div>
+                    <div class="jp-meta-cell">
+                      <div class="jp-meta-ico">📅</div>
+                      <div class="jp-meta-val @(isUrgent ? "jp-deadline-soon" : "")">@job.Deadline.ToString("MMM dd")</div>
+                    </div>
+                    <div class="jp-meta-cell">
+                      <div class="jp-meta-ico">👥</div>
+                      <div class="jp-meta-val">@apps.Count Applicants</div>
+                    </div>
+                    <div class="jp-meta-cell">
+                      <div class="jp-meta-ico">📋</div>
+                      <div class="jp-meta-val">Posted @job.PostedAt.ToString("MMM dd")</div>
+                    </div>
+                  </div>
+                  <div class="jp-card-footer">
+                    <button class="jp-view-btn @(isUrgent && job.Status == "Active" ? "jp-view-btn--urgent" : "")" onclick="event.stopPropagation();loadApplicants(@job.JobID,'@job.Title')">View Applicants →</button>
+                    @if (job.Status == "Active")
+                    {
+                      <form method="post" asp-page-handler="CloseJob" style="display:inline" onclick="event.stopPropagation()">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="jobId" value="@job.JobID">
+                        <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Close</button>
+                      </form>
+                    }
+                  </div>
+                  <div class="jp-progress-bar"><div class="jp-progress-fill @(isUrgent && job.Status == "Active" ? "jp-progress-urgent" : "")" style="width:@(apps.Count > 0 ? Math.Min(apps.Count * 2, 100) : 10)%;background:@(isUrgent && job.Status == "Active" ? "var(--red)" : "var(--lime-d)")"></div></div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- ── APPLICANTS ── -->
+      <div class="panel" id="cp-applicants">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title" id="appl-panel-title">Ranked Applicants</span>
+            <span class="badge badge-default" id="appl-count-badge">Select a job to view applicants</span>
+          </div>
+          @if (!Model.Jobs.Any())
+          {
+            <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">Post a job first to see applicants.</div>
+          }
+          else
+          {
+            <div style="padding:12px 20px;border-bottom:1px solid var(--line);background:var(--warm);display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <span style="font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Select Job:</span>
+              @foreach (var job in Model.Jobs)
+              {
+                <button class="btn btn-ghost btn-sm job-filter-btn" onclick="loadApplicants(@job.JobID,'@job.Title.Replace("'", "\\'")') ">@job.Title</button>
+              }
+            </div>
+          }
+          <div class="appl-summary-bar" id="appl-summary-bar" style="display:none">
+            <div class="asb-cell"><div class="asb-dot" style="background:var(--muted)"></div><div><div class="asb-val" id="asb-total">0</div><div class="asb-lbl">Total</div></div></div>
+            <div class="asb-cell"><div class="asb-dot" style="background:var(--lime-d)"></div><div><div class="asb-val" id="asb-short">0</div><div class="asb-lbl">Shortlisted</div></div></div>
+            <div class="asb-cell"><div class="asb-dot" style="background:var(--ink)"></div><div><div class="asb-val" id="asb-top">—</div><div class="asb-lbl">Top Score</div></div></div>
+          </div>
+          <div class="card-body-p0" id="appl-list">
+            <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">Click a job above to load its ranked applicants.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── POST JOB ── -->
+      <div class="panel" id="cp-post">
+
+        <!-- Dramatic Hero Header -->
+        <div class="cp-post-hero">
+          <div class="cp-post-hero-blob1"></div>
+          <div class="cp-post-hero-blob2"></div>
+          <div class="cp-post-hero-corner"></div>
+          <div class="cp-post-hero-corner2"></div>
+          <div class="cp-post-live-badge">
+            <span class="cp-post-live-dot"></span>
+            AI Matching Live
+          </div>
+          <div style="position:relative;z-index:1;padding-top:36px">
+            <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:10px;display:flex;align-items:center;gap:10px">
+              <span style="width:22px;height:1px;background:rgba(184,255,53,.3);display:inline-block"></span>
+              Company Dashboard · @Model.CompanyName
+            </div>
+            <div class="cp-post-hero-title">Post a <span class="cp-post-accent">New Job</span></div>
+            <div class="cp-post-hero-sub" style="margin-top:8px">Fill in details below — matching begins the moment you publish</div>
+          </div>
+          <div style="position:relative;z-index:1;margin-top:24px">
+            <div class="cp-post-hero-stats">
+              <div class="cp-post-hero-stat">
+                <div class="cp-post-hero-stat-val">Live</div>
+                <div class="cp-post-hero-stat-lbl">AI Matching</div>
+              </div>
+              <div class="cp-post-hero-stat">
+                <div class="cp-post-hero-stat-val">&lt; 1s</div>
+                <div class="cp-post-hero-stat-lbl">Match Speed</div>
+              </div>
+              <div class="cp-post-hero-stat">
+                <div class="cp-post-hero-stat-val">340+</div>
+                <div class="cp-post-hero-stat-lbl">Skills Tracked</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.PostMessage))
+        {
+          <div class="notice @(Model.PostSuccess ? "notice-ok" : "notice-warn")">@Model.PostMessage</div>
+        }
+
+        <!-- Form Card -->
+        <div class="card">
+          <div class="card-body">
+            <!-- Progress Steps -->
+            <div class="post-steps">
+              <div class="post-step ps-done">
+                <span class="post-step-num">✓</span>
+                Company Verified
+              </div>
+              <div class="post-step ps-now">
+                <span class="post-step-num">2</span>
+                Job Details
+              </div>
+              <div class="post-step">
+                <span class="post-step-num">3</span>
+                Skills &amp; Publish
+              </div>
+            </div>
+
+            <form method="post" asp-page-handler="PostJob" id="post-job-form">
+              @Html.AntiForgeryToken()
+
+              <!-- Section 1 — Role Info -->
+              <div class="pj-section">
+                <div class="pj-section-label">
+                  <span class="pj-section-num">01</span>
+                  <span class="pj-section-title">Role Information</span>
+                  <div class="pj-section-line"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label class="field-label">Job Title</label>
+                    <input name="Title" class="field-input" placeholder="e.g. Software Engineer Intern" required>
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Job Type</label>
+                    <select name="JobType" class="field-input field-select">
+                      <option>Internship</option><option>Part-time</option><option>Full-time</option><option>Contract</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 2 — Description & Timeline -->
+              <div class="pj-section">
+                <div class="pj-section-label">
+                  <span class="pj-section-num">02</span>
+                  <span class="pj-section-title">Description &amp; Timeline</span>
+                  <div class="pj-section-line"></div>
+                </div>
+                <div class="field">
+                  <label class="field-label">Description</label>
+                  <textarea name="Description" class="field-textarea field-input" rows="4" placeholder="Describe the role, responsibilities, and what you're looking for..." required></textarea>
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label class="field-label">Duration</label>
+                    <input name="Duration" class="field-input" placeholder="e.g. 3 months, Permanent">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Application Deadline</label>
+                    <input name="Deadline" type="date" class="field-input" min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 3 — Skills -->
+              <div class="pj-section">
+                <div class="pj-section-label">
+                  <span class="pj-section-num">03</span>
+                  <span class="pj-section-title">Required Skills</span>
+                  <div class="pj-section-line"></div>
+                </div>
+                <div class="pj-skills-list" id="skills-preview">
+                  <span style="font-family:var(--f-mono);font-size:9px;color:var(--muted);padding:4px">No skills added yet — search below</span>
+                </div>
+                <input type="hidden" name="SkillsJson" id="skills-json" value="[]">
+                <div class="pj-skill-add-row">
+                  <div class="skill-dd-wrap" style="flex:1">
+                    <input class="field-input" id="job-skill-q" placeholder="Type skill name..." oninput="searchJobSkill(this.value)" onblur="setTimeout(closeJobDD,200)" autocomplete="off">
+                    <div class="skill-dd" id="job-skill-dd"></div>
+                  </div>
+                  <select class="field-input field-select" id="job-skill-priority" style="width:130px">
+                    <option value="Required">Required</option>
+                    <option value="Preferred">Preferred</option>
+                  </select>
+                  <button type="button" class="btn btn-dark btn-sm" onclick="addJobSkill()">+ Add</button>
+                </div>
+              </div>
+
+              <!-- Publish Action Bar -->
+              <div class="pj-action-bar">
+                <button type="submit" class="btn btn-lime btn-lg">Publish Job →</button>
+                <div class="pj-action-hint">Matching starts instantly on publish</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COMPANY PROFILE ── -->
+      <div class="panel" id="cp-profile">
+
+        @if (!string.IsNullOrEmpty(Model.ProfileMessage))
+        {
+          <div class="notice notice-ok">@Model.ProfileMessage</div>
+        }
+
+        <!-- Profile Hero Card -->
+        <div class="profile-hero" style="margin-bottom:18px">
+          <div class="profile-hero-bg"></div>
+          <div class="profile-hero-grid"></div>
+          <div class="hero-orb" style="width:200px;height:200px;top:-70px;right:60px;background:rgba(184,255,53,.07);animation-duration:7s"></div>
+          <div class="hero-orb" style="width:100px;height:100px;bottom:-40px;right:280px;background:rgba(59,127,255,.05);animation-duration:10s;animation-delay:-2s"></div>
+          <div class="profile-hero-inner">
+            <div class="profile-avatar-ring">
+              <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="42" cy="42" r="38" stroke="rgba(184,255,53,.15)" stroke-width="1" stroke-dasharray="4 6" stroke-linecap="round"/>
+                <circle cx="42" cy="42" r="38" stroke="rgba(184,255,53,.4)" stroke-width="1.5" stroke-dasharray="20 220" stroke-linecap="round"/>
+              </svg>
+              <div class="profile-av-circle">@Model.Initials</div>
+            </div>
+            <div>
+              <div class="profile-hero-name">@Model.CompanyName</div>
+              <div class="profile-hero-sub">Company Profile · CogniCareer</div>
+              <div class="profile-hero-chips">
+                <span class="profile-hero-chip phc-uni">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline;vertical-align:middle;margin-right:3px"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                  @(Model.Company?.Industry ?? "Technology")
+                </span>
+                <span class="profile-hero-chip phc-sem">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>
+                  Verified Partner
+                </span>
+              </div>
+            </div>
+            <div class="profile-hero-right">
+              <div class="profile-completion-ring">
+                <svg viewBox="0 0 80 80">
+                  <circle class="pcr-track" cx="40" cy="40" r="33"/>
+                  <circle class="pcr-fill" cx="40" cy="40" r="33" style="stroke-dashoffset:55"/>
+                </svg>
+                <div class="pcr-label">
+                  <div class="pcr-pct">85%</div>
+                  <div class="pcr-sub">Complete</div>
+                </div>
+              </div>
+              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);text-align:right;margin-top:6px">Profile status</div>
+            </div>
+          </div>
+          <div class="profile-steps-strip">
+            <div class="profile-step ps-done">
+              <div class="ps-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+              <div class="ps-label">Company<br>Details</div>
+              <div class="ps-check">✓</div>
+            </div>
+            <div class="profile-step ps-done">
+              <div class="ps-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div class="ps-label">Contact<br>Info</div>
+              <div class="ps-check">✓</div>
+            </div>
+            <div class="profile-step ps-done">
+              <div class="ps-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+              <div class="ps-label">Description<br>Added</div>
+              <div class="ps-check">✓</div>
+            </div>
+            <div class="profile-step ps-now">
+              <div class="ps-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+              <div class="ps-label">Logo &amp;<br>Website</div>
+              <div class="ps-check">●</div>
+            </div>
+          </div>
+        </div>
+
+        <form method="post" asp-page-handler="SaveProfile">
+          @Html.AntiForgeryToken()
+
+          <!-- Section 1 — Company Identity -->
+          <div class="profile-section-block">
+            <div class="psb-header">
+              <div class="psb-icon" style="background:rgba(59,127,255,.1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              </div>
+              <div>
+                <div class="psb-title">Company Identity</div>
+                <div class="psb-subtitle">Name, industry and sector information</div>
+              </div>
+              <span class="status st-active" style="margin-left:auto">Verified</span>
+            </div>
+            <div class="psb-body">
+              <div class="field-row">
+                <div class="field">
+                  <label class="field-label">Company Name</label>
+                  <input name="CompanyName" class="field-input" value="@(Model.Company?.CompanyName ?? "")" required>
+                </div>
+                <div class="field">
+                  <label class="field-label">Industry</label>
+                  <select name="Industry" class="field-input field-select">
+                    @foreach (var ind in new[]{"Technology","Finance","Healthcare","Education","Other"})
+                    {
+                      <option value="@ind" selected="@(Model.Company?.Industry == ind ? "selected" : null)">@ind</option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="cp-stat-row" style="margin-top:6px">
+                <div class="cp-stat-cell">
+                  <div class="cp-stat-val" style="color:var(--ink)">@Model.TotalJobs</div>
+                  <div class="cp-stat-lbl">Active Jobs</div>
+                </div>
+                <div class="cp-stat-cell">
+                  <div class="cp-stat-val" style="color:var(--blue)">@Model.TotalApplications</div>
+                  <div class="cp-stat-lbl">Total Applicants</div>
+                </div>
+                <div class="cp-stat-cell">
+                  <div class="cp-stat-val" style="color:var(--lime-d)">@Model.AvgMatchScore%</div>
+                  <div class="cp-stat-lbl">Avg Match Score</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2 — Contact & Web -->
+          <div class="profile-section-block">
+            <div class="psb-header">
+              <div class="psb-icon" style="background:rgba(143,212,0,.12)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lime-d)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <div class="psb-title">Contact &amp; Online Presence</div>
+                <div class="psb-subtitle">Website, email and social links</div>
+              </div>
+            </div>
+            <div class="psb-body">
+              <div class="field">
+                <label class="field-label">Website</label>
+                <input name="Website" class="field-input" type="url" placeholder="https://yourcompany.com" value="@(Model.Company?.Website ?? "")">
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3 — Company Description -->
+          <div class="profile-section-block">
+            <div class="psb-header">
+              <div class="psb-icon" style="background:rgba(180,100,0,.1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b46400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <div>
+                <div class="psb-title">Company Description</div>
+                <div class="psb-subtitle">Shown to students when viewing your job postings</div>
+              </div>
+            </div>
+            <div class="psb-body">
+              <div class="field">
+                <label class="field-label">About the Company</label>
+                <textarea name="Description" class="field-textarea field-input" rows="4">@(Model.Company?.Description ?? "")</textarea>
+              </div>
+              <div class="cp-completion-wrap">
+                <div class="cp-completion-head">
+                  <span class="cp-completion-label">Profile Completeness</span>
+                  <span class="cp-completion-pct">85%</span>
+                </div>
+                <div class="cp-completion-track">
+                  <div class="cp-completion-fill" style="width:85%"></div>
+                </div>
+                <div style="font-size:11px;color:var(--muted);margin-top:7px;font-weight:300">Add a company logo and LinkedIn URL to reach 100%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Save bar -->
+          <div class="profile-save-bar">
+            <div class="psb-hint">
+              <div class="psb-hint-dot"></div>
+              Profile updates are visible to students immediately
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <span style="font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.06em">@DateTime.Now.ToString("MMM yyyy")</span>
+              <button type="submit" class="btn btn-lime">Save Changes →</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
     </div>
-  </div>
+  </main>
 </div>
 
 <script>
+var allSkills = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllSkillsJson));
+var allApplicants = @Html.Raw(Model.AllApplicationsJson);
+var jobSkills = [];
+
 function sw(panelId, title) {
   document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
   var el = document.getElementById(panelId);
   if (el) el.classList.add('active');
   document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('on'); });
-  var lnkMap = {'ap-overview':'lnk-overview','ap-companies':'lnk-companies','ap-skills':'lnk-skills','ap-accounts':'lnk-accounts'};
+  var lnkMap = {'cp-overview':'lnk-overview','cp-post':'lnk-post','cp-jobs':'lnk-jobs','cp-applicants':'lnk-applicants','cp-profile':'lnk-profile'};
   var lnk = document.getElementById(lnkMap[panelId]);
   if (lnk) lnk.classList.add('on');
   document.getElementById('page-title').textContent = title;
@@ -441,9 +1014,93 @@ function showToast(msg, cls) {
   t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 3200);
 }
+function searchJobSkill(q) {
+  var dd = document.getElementById('job-skill-dd');
+  if (!q || q.length < 1) { dd.style.display = 'none'; return; }
+  var filtered = allSkills.filter(function(s){ return s.skillName.toLowerCase().includes(q.toLowerCase()); });
+  if (!filtered.length) { dd.style.display = 'none'; return; }
+  dd.innerHTML = filtered.slice(0, 8).map(function(s){
+    return '<div class="skill-opt" onmousedown="selectJobSkill('+s.skillID+',\''+s.skillName+'\')"><span class="skill-opt-name">'+s.skillName+'</span><span class="skill-opt-cat">'+s.category+'</span></div>';
+  }).join('');
+  dd.style.display = 'block';
+}
+var selectedSkillId = null, selectedSkillName = null;
+function selectJobSkill(id, name) {
+  selectedSkillId = id; selectedSkillName = name;
+  document.getElementById('job-skill-q').value = name;
+  document.getElementById('job-skill-dd').style.display = 'none';
+}
+function closeJobDD() { document.getElementById('job-skill-dd').style.display = 'none'; }
+function addJobSkill() {
+  if (!selectedSkillId) { showToast('Select a skill first.', 't-red'); return; }
+  var priority = document.getElementById('job-skill-priority').value;
+  if (jobSkills.find(function(s){ return s.skillId === selectedSkillId; })) { showToast('Skill already added.', 't-red'); return; }
+  jobSkills.push({skillId: selectedSkillId, skillName: selectedSkillName, priority: priority});
+  document.getElementById('skills-json').value = JSON.stringify(jobSkills);
+  var preview = document.getElementById('skills-preview');
+  preview.innerHTML = jobSkills.map(function(s){
+    return '<span class="sps-chip sps-chip-'+(s.priority==='Required'?'req':'pref')+'">'+s.skillName+' <span style="font-family:var(--f-mono);font-size:8px;opacity:.5;margin-left:4px">'+s.priority.toUpperCase()+'</span></span>';
+  }).join('');
+  document.getElementById('job-skill-q').value = '';
+  selectedSkillId = null; selectedSkillName = null;
+}
+function loadApplicants(jobId, title) {
+  sw('cp-applicants', 'Applicants');
+  var apps = allApplicants.filter(function(a){ return a.jobID === jobId; });
+  apps.sort(function(a,b){ return b.matchScore - a.matchScore; });
+  document.getElementById('appl-panel-title').textContent = 'Ranked Applicants — ' + title;
+  document.getElementById('appl-count-badge').textContent = apps.length + ' applicants';
+  // Show summary bar
+  var bar = document.getElementById('appl-summary-bar');
+  if (bar) {
+    bar.style.display = 'flex';
+    document.getElementById('asb-total').textContent = apps.length;
+    var shortlisted = apps.filter(function(a){ return a.status === 'Shortlisted'; }).length;
+    document.getElementById('asb-short').textContent = shortlisted;
+    document.getElementById('asb-top').textContent = apps.length > 0 ? parseFloat(apps[0].matchScore).toFixed(0)+'%' : '—';
+  }
+  var list = document.getElementById('appl-list');
+  if (!apps.length) { list.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No applications for this job yet.</div>'; return; }
+  list.innerHTML = apps.map(function(a, i){
+    var sc = parseFloat(a.matchScore);
+    var tierClass = sc >= 80 ? 'appl-score-tier-high' : sc >= 60 ? 'appl-score-tier-mid' : 'appl-score-tier-low';
+    var initials = (a.studentName || 'S').split(' ').map(function(p){ return p[0]; }).join('').toUpperCase().substring(0,2);
+    var csrf = document.querySelector("input[name='__RequestVerificationToken']").value;
+    return '<div class="appl-row">'+
+      '<div class="appl-rank">#'+(i+1)+'</div>'+
+      '<div class="appl-av av-student">'+initials+'</div>'+
+      '<div style="flex:1"><div style="font-size:13px;font-weight:700">'+(a.studentName || 'Student')+'</div>'+
+      '<div style="font-family:var(--f-mono);font-size:10px;color:var(--muted)">Applied '+a.appliedAt+'</div></div>'+
+      '<div class="appl-score '+tierClass+'">'+sc+'%</div>'+
+      '<div class="appl-actions">'+
+      '<form method="post" action="/Company/Dashboard?handler=UpdateStatus" style="display:inline"><input type="hidden" name="applicationId" value="'+a.applicationID+'"><input type="hidden" name="status" value="Shortlisted"><button type="submit" class="btn btn-lime btn-sm">Shortlist</button><input type="hidden" name="__RequestVerificationToken" value="'+csrf+'"></form>'+
+      '<form method="post" action="/Company/Dashboard?handler=UpdateStatus" style="display:inline"><input type="hidden" name="applicationId" value="'+a.applicationID+'"><input type="hidden" name="status" value="Interview"><button type="submit" class="btn btn-ghost btn-sm">Interview</button><input type="hidden" name="__RequestVerificationToken" value="'+csrf+'"></form>'+
+      '<form method="post" action="/Company/Dashboard?handler=UpdateStatus" style="display:inline"><input type="hidden" name="applicationId" value="'+a.applicationID+'"><input type="hidden" name="status" value="Rejected"><button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Reject</button><input type="hidden" name="__RequestVerificationToken" value="'+csrf+'"></form>'+
+      '</div></div>';
+  }).join('');
+}
+function filterJobs(type, btn) {
+  document.querySelectorAll('.jp-filter-btn').forEach(function(b){ b.classList.remove('jpf-on'); });
+  btn.classList.add('jpf-on');
+  document.querySelectorAll('.jp-card').forEach(function(card){
+    if (type === 'all') {
+      card.classList.remove('jp-hidden');
+    } else {
+      card.classList.toggle('jp-hidden', card.dataset.type !== type);
+    }
+  });
+}
 @if (!string.IsNullOrEmpty(Model.ToastMessage))
 {
   <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
+}
+@if (!string.IsNullOrEmpty(Model.PostMessage) && Model.PostSuccess)
+{
+  <text>window.addEventListener('load', function(){ sw('cp-post','Post a Job'); });</text>
+}
+@if (!string.IsNullOrEmpty(Model.ProfileMessage))
+{
+  <text>window.addEventListener('load', function(){ sw('cp-profile','Company Profile'); });</text>
 }
 </script>
 </body>

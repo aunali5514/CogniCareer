@@ -78,7 +78,7 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 .dash-topbar-title::before{content:'';width:3px;height:18px;background:var(--lime-d);border-radius:2px;display:inline-block}
 .dash-content{padding:28px;flex:1}
 .panel{display:none}.panel.active{display:block;animation:pageReveal .35s cubic-bezier(.4,0,.2,1) both}
-@@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .metric-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white);margin-bottom:22px}
 .metric-cell{padding:18px 22px;border-right:1px solid var(--line);position:relative}
 .metric-cell:last-child{border-right:none}
@@ -125,7 +125,7 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 .cp-stat-cell:hover::before{opacity:1}
 .cp-stat-val{font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:3px}
 .cp-stat-lbl{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-@@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -410,7 +410,7 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 
 <script>
 var allSkills = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllSkillsJson));
-var allApplicants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllApplicationsJson));
+var allApplicants = @Html.Raw(Model.AllApplicationsJson);
 var jobSkills = [];
 
 function sw(panelId, title) {
@@ -422,6 +422,24 @@ function sw(panelId, title) {
   var lnk = document.getElementById(lnkMap[panelId]);
   if (lnk) lnk.classList.add('on');
   document.getElementById('page-title').textContent = title;
+}
+
+@if (TempData["ActiveTab"] != null)
+{
+    <text>
+    document.addEventListener('DOMContentLoaded', function() {
+        sw('@TempData["ActiveTab"]', 'Applicants');
+        @if (TempData["ActiveJobId"] != null)
+        {
+            <text>
+            var savedJobId = @TempData["ActiveJobId"];
+            var btn = document.querySelector('.job-filter-btn[onclick*="loadApplicants('+savedJobId+',"]');
+            var title = btn ? btn.textContent.trim() : 'Job #' + savedJobId;
+            loadApplicants(savedJobId, title);
+            </text>
+        }
+    });
+    </text>
 }
 function showToast(msg, cls) {
   var t = document.getElementById('toast');
@@ -468,22 +486,69 @@ function loadApplicants(jobId, title) {
   document.getElementById('appl-count-badge').textContent = apps.length + ' applicants';
   var list = document.getElementById('appl-list');
   if (!apps.length) { list.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No applications for this job yet.</div>'; return; }
+  var token = document.querySelector("input[name='__RequestVerificationToken']").value;
   list.innerHTML = apps.map(function(a, i){
     var sc = parseFloat(a.matchScore);
     var tierClass = sc >= 80 ? 'appl-score-tier-high' : sc >= 60 ? 'appl-score-tier-mid' : 'appl-score-tier-low';
     var initials = (a.studentName || 'S').split(' ').map(function(p){ return p[0]; }).join('').toUpperCase().substring(0,2);
-    return '<div class="appl-row">'+
+    var statusBadge = '';
+    if (a.currentStatus && a.currentStatus !== 'Applied') {
+      var badgeColor = a.currentStatus === 'Shortlisted' ? 'color:#1a7a3a;background:rgba(26,122,58,.1)' : a.currentStatus === 'Interview' ? 'color:#b46400;background:rgba(180,100,0,.1)' : 'color:var(--red);background:rgba(255,63,63,.08)';
+      statusBadge = '<span style="font-family:var(--f-mono);font-size:9px;padding:2px 8px;border-radius:100px;'+badgeColor+'">'+a.currentStatus+'</span>';
+    }
+    return '<div class="appl-row" id="appl-row-'+a.applicationID+'">'+
       '<div class="appl-rank">#'+(i+1)+'</div>'+
       '<div class="appl-av">'+initials+'</div>'+
-      '<div style="flex:1"><div style="font-size:13px;font-weight:700">'+(a.studentName || 'Student')+'</div>'+
+      '<div style="flex:1"><div style="font-size:13px;font-weight:700">'+(a.studentName || 'Student')+' '+statusBadge+'</div>'+
       '<div style="font-family:var(--f-mono);font-size:10px;color:var(--muted)">Applied '+a.appliedAt+'</div></div>'+
       '<div class="appl-score '+tierClass+'">'+sc+'%</div>'+
       '<div class="appl-actions">'+
-      '<form method="post" action="/Company/Dashboard?handler=UpdateStatus" style="display:inline"><input type="hidden" name="applicationId" value="'+a.applicationID+'"><input type="hidden" name="status" value="Shortlisted"><button type="submit" class="btn btn-lime btn-sm">Shortlist</button><input type="hidden" name="__RequestVerificationToken" value="'+document.querySelector("input[name=\'__RequestVerificationToken\']").value+'"></form>'+
-      '<form method="post" action="/Company/Dashboard?handler=UpdateStatus" style="display:inline"><input type="hidden" name="applicationId" value="'+a.applicationID+'"><input type="hidden" name="status" value="Interview"><button type="submit" class="btn btn-ghost btn-sm">Interview</button><input type="hidden" name="__RequestVerificationToken" value="'+document.querySelector("input[name=\'__RequestVerificationToken\']").value+'"></form>'+
-      '<form method="post" action="/Company/Dashboard?handler=UpdateStatus" style="display:inline"><input type="hidden" name="applicationId" value="'+a.applicationID+'"><input type="hidden" name="status" value="Rejected"><button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Reject</button><input type="hidden" name="__RequestVerificationToken" value="'+document.querySelector("input[name=\'__RequestVerificationToken\']").value+'"></form>'+
+      '<button class="btn btn-lime btn-sm" onclick="updateStatus('+a.applicationID+',\'Shortlisted\',\''+token+'\',this)">Shortlist</button>'+
+      '<button class="btn btn-ghost btn-sm" onclick="updateStatus('+a.applicationID+',\'Interview\',\''+token+'\',this)">Interview</button>'+
+      '<button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="updateStatus('+a.applicationID+',\'Rejected\',\''+token+'\',this)">Reject</button>'+
       '</div></div>';
   }).join('');
+}
+
+function updateStatus(applicationId, status, token, btn) {
+  btn.disabled = true;
+  btn.textContent = '...';
+  var fd = new FormData();
+  fd.append('applicationId', applicationId);
+  fd.append('status', status);
+  fd.append('__RequestVerificationToken', token);
+  fetch('/Company/Dashboard?handler=UpdateStatus', { method: 'POST', body: fd })
+    .then(function(r){
+      if (r.ok) {
+        var row = document.getElementById('appl-row-' + applicationId);
+        if (row) {
+          var badgeColor = status === 'Shortlisted' ? 'color:#1a7a3a;background:rgba(26,122,58,.1)' : status === 'Interview' ? 'color:#b46400;background:rgba(180,100,0,.1)' : 'color:var(--red);background:rgba(255,63,63,.08)';
+          var nameDiv = row.querySelector('div[style*="font-weight:700"]');
+          if (nameDiv) {
+            var existing = nameDiv.querySelector('span');
+            if (existing) existing.remove();
+            var badge = document.createElement('span');
+            badge.style.cssText = 'font-family:var(--f-mono);font-size:9px;padding:2px 8px;border-radius:100px;'+badgeColor;
+            badge.textContent = status;
+            nameDiv.appendChild(badge);
+          }
+        }
+        showToast('Status updated to ' + status + '.', 't-lime');
+        var actions = btn.parentElement;
+        actions.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
+        if (status === 'Shortlisted') actions.querySelectorAll('button')[0].textContent = 'Shortlist';
+        if (status === 'Interview')   actions.querySelectorAll('button')[1].textContent = 'Interview';
+        if (status === 'Rejected')    actions.querySelectorAll('button')[2].textContent = 'Reject';
+      } else {
+        showToast('Update failed. Try again.', 't-red');
+        btn.disabled = false;
+        btn.textContent = status === 'Shortlisted' ? 'Shortlist' : status === 'Interview' ? 'Interview' : 'Reject';
+      }
+    })
+    .catch(function(){
+      showToast('Network error.', 't-red');
+      btn.disabled = false;
+    });
 }
 @if (!string.IsNullOrEmpty(Model.ToastMessage))
 {
