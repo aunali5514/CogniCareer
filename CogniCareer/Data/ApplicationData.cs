@@ -14,7 +14,7 @@ namespace CogniCareer.Data
                 using var cmd = new SqlCommand("sp_InsertApplication", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@JobID", a.JobID);
-                cmd.Parameters.AddWithValue("@UserID", a.UserID);   // sp_ wrapper remaps to @StudentID
+                cmd.Parameters.AddWithValue("@UserID", a.UserID);
                 cmd.Parameters.AddWithValue("@MatchScore", a.MatchScore);
                 con.Open();
                 var result = cmd.ExecuteScalar();
@@ -72,10 +72,10 @@ namespace CogniCareer.Data
             try
             {
                 using var con = DBHelper.GetConnection();
-                // FIX: applications.student_id references students.id, NOT Users.UserID.
-                // Resolve via students.user_id column first.
+                // FIX: applications.student_id = students.id, not Users.UserID.
+                // Resolve via students.user_id (populated by FIX_ONLY_RUN_THIS.sql).
                 using var cmd = new SqlCommand(
-                    @"SELECT COUNT(*) FROM dbo.applications 
+                    @"SELECT COUNT(*) FROM dbo.applications
                       WHERE student_id = (SELECT id FROM dbo.students WHERE user_id = @user_id)
                       AND job_id = @job_id", con);
                 cmd.Parameters.AddWithValue("@user_id", userID);
@@ -95,7 +95,6 @@ namespace CogniCareer.Data
             try
             {
                 using var con = DBHelper.GetConnection();
-                // Real table: dbo.applications  |  columns: match_score, id
                 using var cmd = new SqlCommand(
                     "UPDATE dbo.applications SET match_score=@score WHERE id=@id", con);
                 cmd.Parameters.AddWithValue("@score", score);
@@ -140,7 +139,6 @@ namespace CogniCareer.Data
             return new PeerBenchmark();
         }
 
-        // ── private helper ────────────────────────────────────────────────────
         private static Application MapApplication(SqlDataReader r) => new Application
         {
             ApplicationID = Convert.ToInt32(r["ApplicationID"]),
