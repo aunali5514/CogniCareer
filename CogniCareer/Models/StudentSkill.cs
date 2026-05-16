@@ -8,5 +8,6 @@
         public string SkillName { get; set; } = "";
         public string Category { get; set; } = "";
         public string ProficiencyLevel { get; set; } = "";
+        public int ProficiencyPct { get; set; } = 50;
     }
 }

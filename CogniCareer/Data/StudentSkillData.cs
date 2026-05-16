@@ -19,6 +19,7 @@ namespace CogniCareer.Data
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    if (reader["StudentSkillID"] == DBNull.Value) continue;
                     list.Add(new StudentSkill
                     {
                         StudentSkillID = Convert.ToInt32(reader["StudentSkillID"]),
@@ -26,13 +27,16 @@ namespace CogniCareer.Data
                         SkillID = Convert.ToInt32(reader["SkillID"]),
                         SkillName = reader["SkillName"].ToString() ?? "",
                         Category = reader["Category"].ToString() ?? "",
-                        ProficiencyLevel = reader["ProficiencyLevel"].ToString() ?? ""
+                        ProficiencyLevel = reader["ProficiencyLevel"].ToString() ?? "",
+                        ProficiencyPct = reader["ProficiencyPct"] != DBNull.Value
+                                         ? Convert.ToInt32(reader["ProficiencyPct"]) : 50
                     });
                 }
             }
             catch { }
             return list;
         }
+
 
         public bool AddStudentSkill(StudentSkill s)
         {
@@ -45,8 +49,12 @@ namespace CogniCareer.Data
                 cmd.Parameters.AddWithValue("@SkillID", s.SkillID);
                 cmd.Parameters.AddWithValue("@ProficiencyLevel", s.ProficiencyLevel);
                 con.Open();
-                cmd.ExecuteNonQuery();
-                return true;
+                // New (proper check):
+                var result = Convert.ToInt32(cmd.ExecuteScalar());
+                // result > 0  → skill added successfully (new row ID)
+                // result == -1 → student profile not found (should never happen now)
+                // result == -2 → skill already in list (show "Already added" message)
+                return result > 0;
             }
             catch { return false; }
         }
