@@ -23,10 +23,14 @@ namespace CogniCareer.Pages.Admin
         public List<global::CogniCareer.Models.Company> AllCompanies { get; set; } = new();
         public List<Skill> AllSkills { get; set; } = new();
         public List<User> AllUsers { get; set; } = new();
+        public List<SkillInsight> TopDemandingSkills { get; set; } = new();
+        public List<SkillInsight> MostMissingSkills { get; set; } = new();
+        public List<CompanyInsight> TopCompanies { get; set; } = new();
         public string SkillMessage { get; set; } = "";
         public bool SkillSuccess { get; set; }
         public string ToastMessage { get; set; } = "";
         public string ToastClass { get; set; } = "t-lime";
+        public string ActivePanel { get; set; } = "ad-overview";
 
         public IActionResult OnGet()
         {
@@ -38,7 +42,7 @@ namespace CogniCareer.Pages.Admin
         public IActionResult OnPostLogout()
         {
             _auth.Logout();
-            return RedirectToPage("/Auth/AdminAuth");
+            return RedirectToPage("/Index");
         }
 
         public IActionResult OnPostApproveCompany(int companyId)
@@ -47,6 +51,7 @@ namespace CogniCareer.Pages.Admin
             _companyService.Approve(companyId);
             TempData["Toast"] = "Company approved.";
             TempData["ToastClass"] = "t-lime";
+            TempData["AdminTab"] = "ad-companies";
             return RedirectToPage();
         }
 
@@ -56,6 +61,7 @@ namespace CogniCareer.Pages.Admin
             _companyService.Reject(companyId);
             TempData["Toast"] = "Company rejected and removed.";
             TempData["ToastClass"] = "t-red";
+            TempData["AdminTab"] = "ad-companies";
             return RedirectToPage();
         }
 
@@ -63,8 +69,9 @@ namespace CogniCareer.Pages.Admin
         {
             if (!_auth.IsAdmin()) return RedirectToPage("/Auth/AdminAuth");
             var success = _adminService.AddSkill(SkillName.Trim(), Category);
-            TempData["Toast"] = success ? $"Skill '{SkillName}' added!" : "Failed to add skill.";
+            TempData["Toast"] = success ? $"Skill {SkillName.Trim()} added!" : "Failed to add skill.";
             TempData["ToastClass"] = success ? "t-lime" : "t-red";
+            TempData["AdminTab"] = "ad-skills";
             return RedirectToPage();
         }
 
@@ -74,6 +81,7 @@ namespace CogniCareer.Pages.Admin
             _adminService.DeleteSkill(skillId);
             TempData["Toast"] = "Skill deactivated.";
             TempData["ToastClass"] = "t-red";
+            TempData["AdminTab"] = "ad-skills";
             return RedirectToPage();
         }
 
@@ -83,6 +91,7 @@ namespace CogniCareer.Pages.Admin
             _adminService.ToggleUser(userId, isActive);
             TempData["Toast"] = isActive ? "User activated." : "User deactivated.";
             TempData["ToastClass"] = isActive ? "t-lime" : "t-red";
+            TempData["AdminTab"] = "ad-users";
             return RedirectToPage();
         }
 
@@ -94,6 +103,12 @@ namespace CogniCareer.Pages.Admin
             AllCompanies = _companyService.GetAll();
             AllSkills = _adminService.GetAllSkills();
             AllUsers = _adminService.GetAllUsers();
+            TopDemandingSkills = _adminService.GetTopDemandingSkills(5);
+            MostMissingSkills = _adminService.GetMostMissingSkills(5);
+            TopCompanies = _adminService.GetTopCompanies(5);
+
+            if (TempData["AdminTab"] is string tab && !string.IsNullOrWhiteSpace(tab))
+                ActivePanel = tab;
 
             if (TempData.ContainsKey("Toast"))
             {

@@ -62,7 +62,7 @@ namespace CogniCareer.Pages.Student
         public IActionResult OnPostLogout()
         {
             _auth.Logout();
-            return RedirectToPage("/Auth/StudentAuth");
+            return RedirectToPage("/Index");
         }
 
         public IActionResult OnPostApply(int jobId, decimal matchScore)
@@ -98,6 +98,12 @@ namespace CogniCareer.Pages.Student
         public IActionResult OnPostAddSkill(int skillId, string proficiency)
         {
             if (!_auth.IsStudent()) return RedirectToPage("/Auth/StudentAuth");
+            if (skillId <= 0)
+            {
+                TempData["Toast"] = "Please select a skill from the search list.";
+                TempData["ToastClass"] = "t-red";
+                return RedirectToPage();
+            }
             var uid = _auth.GetUserID()!.Value;
             var skillData = new CogniCareer.Data.StudentSkillData();
             if (!skillData.HasSkill(uid, skillId))

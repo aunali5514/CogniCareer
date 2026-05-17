@@ -17,5 +17,8 @@ namespace CogniCareer.Services
             _skillData.AddSkill(new Skill { SkillName = name, Category = category });
         public bool DeleteSkill(int skillID) => _skillData.DeleteSkill(skillID);
         public bool ToggleUser(int userID, bool isActive) => _userData.UpdateStatus(userID, isActive);
+        public List<SkillInsight> GetTopDemandingSkills(int top = 5) => _adminData.GetTopDemandingSkills(top);
+        public List<SkillInsight> GetMostMissingSkills(int top = 5) => _adminData.GetMostMissingSkills(top);
+        public List<CompanyInsight> GetTopCompanies(int top = 5) => _adminData.GetTopCompanies(top);
     }
 }

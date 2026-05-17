@@ -1,0 +1,66 @@
+@model CogniCareer.Pages.Admin.DashboardModel
+<div class="skills-layout">
+  <div class="card skills-add-card">
+    <div class="card-head"><span class="card-title">Add Skill</span></div>
+    <div class="card-body">
+      <form method="post" asp-page-handler="AddSkill">
+        @Html.AntiForgeryToken()
+        <div class="field">
+          <label class="field-label">Skill Name</label>
+          <input name="SkillName" class="field-input" placeholder="e.g. React, Python" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Category</label>
+          <select name="Category" class="field-input field-select">
+            <option>Programming</option>
+            <option>Framework</option>
+            <option>Database</option>
+            <option>DevOps</option>
+            <option>Design</option>
+            <option>Soft Skill</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-dark btn-w">Add to Library</button>
+      </form>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <span class="card-title">Skill Library</span>
+      <span class="badge badge-default">@Model.AllSkills.Count skills</span>
+    </div>
+    <div class="card-body-p0">
+      <div class="skills-search-wrap" style="padding:14px 16px 0">
+        <span class="skills-search-ico">⌕</span>
+        <input type="text" class="skills-search" id="skill-lib-search" placeholder="Filter skills..." oninput="filterSkillLib(this.value)">
+      </div>
+      @if (!Model.AllSkills.Any())
+      {
+        <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No skills in library yet.</div>
+      }
+      else
+      {
+        <table class="skills-table" id="skill-lib-table">
+          <thead><tr><th>Skill</th><th>Category</th><th style="width:48px"></th></tr></thead>
+          <tbody>
+            @foreach (var sk in Model.AllSkills.OrderBy(s => s.Category).ThenBy(s => s.SkillName))
+            {
+              <tr data-name="@sk.SkillName.ToLowerInvariant()" data-cat="@sk.Category.ToLowerInvariant()">
+                <td><strong>@sk.SkillName</strong></td>
+                <td><span class="sk-cat">@sk.Category</span></td>
+                <td>
+                  <form method="post" asp-page-handler="DeleteSkill" onsubmit="return confirm(@System.Text.Json.JsonSerializer.Serialize($"Remove {sk.SkillName} from the library?"));">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="skillId" value="@sk.SkillID">
+                    <button type="submit" class="sk-del" title="Remove">✕</button>
+                  </form>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</div>

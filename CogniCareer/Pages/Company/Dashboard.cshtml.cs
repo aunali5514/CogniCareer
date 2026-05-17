@@ -35,7 +35,7 @@ namespace CogniCareer.Pages.Company
         public string ProfileMessage { get; set; } = "";
         public string ToastMessage { get; set; } = "";
         public string ToastClass { get; set; } = "t-lime";
-        public int TotalJobs => Jobs.Count(j => j.Status == "Active");
+        public int TotalJobs => Jobs.Count(j => !string.Equals(j.Status?.Trim(), "Closed", StringComparison.OrdinalIgnoreCase));
         public int TotalApplications => ApplicationsByJob.Values.Sum(a => a.Count);
         public int ShortlistedCount => ApplicationsByJob.Values.SelectMany(a => a).Count(a => a.CurrentStatus == "Shortlisted");
         public decimal AvgMatchScore => ApplicationsByJob.Values.SelectMany(a => a).Any()
@@ -54,7 +54,7 @@ namespace CogniCareer.Pages.Company
         public IActionResult OnPostLogout()
         {
             _auth.Logout();
-            return RedirectToPage("/Auth/CompanyAuth");
+            return RedirectToPage("/Index");
         }
 
         public IActionResult OnPostPostJob(string Title, string Description, string JobType, string Duration,
@@ -93,9 +93,34 @@ namespace CogniCareer.Pages.Company
         public IActionResult OnPostCloseJob(int jobId)
         {
             if (!_auth.IsCompany()) return RedirectToPage("/Auth/CompanyAuth");
-            _jobService.CloseJob(jobId);
-            TempData["Toast"] = "Job closed.";
-            TempData["ToastClass"] = "t-red";
+            if (jobId <= 0)
+            {
+                TempData["Toast"] = "Invalid job. Please try again.";
+                TempData["ToastClass"] = "t-red";
+                return RedirectToPage();
+            }
+
+            var uid = _auth.GetUserID()!.Value;
+            var company = _companyService.GetByUserID(uid);
+            if (company == null)
+            {
+                TempData["Toast"] = "Company profile not found.";
+                TempData["ToastClass"] = "t-red";
+                return RedirectToPage();
+            }
+
+            var companyJobs = _jobService.GetByCompany(company.CompanyID);
+            if (!companyJobs.Any(j => j.JobID == jobId))
+            {
+                TempData["Toast"] = "Job not found or access denied.";
+                TempData["ToastClass"] = "t-red";
+                return RedirectToPage();
+            }
+
+            var closed = _jobService.CloseJob(jobId);
+            TempData["Toast"] = closed ? "Job closed successfully." : "Could not close job. Please try again.";
+            TempData["ToastClass"] = closed ? "t-red" : "t-red";
+            TempData["ActiveTab"] = "cp-jobs";
             return RedirectToPage();
         }
 

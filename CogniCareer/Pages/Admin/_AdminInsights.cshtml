@@ -1,0 +1,82 @@
+@model CogniCareer.Pages.Admin.DashboardModel
+<div class="insight-grid">
+  <div class="insight-card">
+    <div class="insight-head">
+      <div class="insight-title">Top Demanding Skills</div>
+      <div class="insight-sub">Most requested in job posts</div>
+    </div>
+    <div class="insight-body">
+      @if (!Model.TopDemandingSkills.Any())
+      {
+        <div class="insight-empty">No skill demand data yet.</div>
+      }
+      @{ var dRank = 1; var dMax = Model.TopDemandingSkills.Any() ? Math.Max(1, Model.TopDemandingSkills.Max(s => s.JobCount)) : 1; }
+      @foreach (var sk in Model.TopDemandingSkills)
+      {
+        var pct = (int)Math.Round((double)sk.JobCount / dMax * 100);
+        <div class="insight-row">
+          <span class="insight-rank">@dRank</span>
+          <div style="flex:1;min-width:0">
+            <div class="insight-name">@sk.SkillName</div>
+            <div class="insight-meta">@sk.Category</div>
+          </div>
+          <div class="insight-bar-wrap"><div class="insight-bar" style="width:@pct%"></div></div>
+          <span class="insight-val">@sk.JobCount</span>
+        </div>
+        dRank++;
+      }
+    </div>
+  </div>
+  <div class="insight-card">
+    <div class="insight-head">
+      <div class="insight-title">Most Missing Skills</div>
+      <div class="insight-sub">High job demand, low student supply</div>
+    </div>
+    <div class="insight-body">
+      @if (!Model.MostMissingSkills.Any())
+      {
+        <div class="insight-empty">No gap data available yet.</div>
+      }
+      @{ var mRank = 1; }
+      @foreach (var sk in Model.MostMissingSkills)
+      {
+        <div class="insight-row">
+          <span class="insight-rank">@mRank</span>
+          <div style="flex:1;min-width:0">
+            <div class="insight-name">@sk.SkillName</div>
+            <div class="insight-meta">@sk.JobCount jobs · @sk.StudentCount students</div>
+          </div>
+          <span class="insight-val" style="color:var(--red)">Gap</span>
+        </div>
+        mRank++;
+      }
+    </div>
+  </div>
+  <div class="insight-card">
+    <div class="insight-head">
+      <div class="insight-title">Top Companies</div>
+      <div class="insight-sub">By applications received</div>
+    </div>
+    <div class="insight-body">
+      @if (!Model.TopCompanies.Any())
+      {
+        <div class="insight-empty">No company activity yet.</div>
+      }
+      @{ var cRank = 1; var cMax = Model.TopCompanies.Any() ? Math.Max(1, Model.TopCompanies.Max(c => c.ApplicationCount)) : 1; }
+      @foreach (var co in Model.TopCompanies)
+      {
+        var pct = (int)Math.Round((double)co.ApplicationCount / cMax * 100);
+        <div class="insight-row">
+          <span class="insight-rank">@cRank</span>
+          <div style="flex:1;min-width:0">
+            <div class="insight-name">@co.CompanyName</div>
+            <div class="insight-meta">@co.JobCount job@(co.JobCount == 1 ? "" : "s") posted</div>
+          </div>
+          <div class="insight-bar-wrap"><div class="insight-bar" style="width:@pct%;background:var(--blue)"></div></div>
+          <span class="insight-val">@co.ApplicationCount</span>
+        </div>
+        cRank++;
+      }
+    </div>
+  </div>
+</div>
