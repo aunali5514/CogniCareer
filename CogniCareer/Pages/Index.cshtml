@@ -19,179 +19,326 @@ html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}
 button{font-family:var(--f-sans)}
-h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-spacing:-.03em}
-.serif-i{font-style:italic;font-weight:400}
+.home-page{padding-top:58px}
 .btn{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r-sm);border:1.5px solid transparent;cursor:pointer;transition:all .16s;white-space:nowrap}
 .btn-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn-dark:hover{background:var(--ink-2)}
 .btn-lime{background:var(--lime);color:var(--ink);border-color:var(--lime)}.btn-lime:hover{background:var(--lime-d)}
-.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}.btn-outline:hover{background:var(--ink);color:var(--paper)}
 .btn-ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+.btn-sm{font-size:10px;padding:7px 14px}
 .btn-lg{font-size:13px;padding:14px 36px}
-.btn-xl{font-size:14px;padding:16px 48px}
-/* Topbar */
-#topbar{position:fixed;top:0;left:0;right:0;z-index:900;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(245,240,232,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:box-shadow .3s}
-#topbar.scrolled{box-shadow:0 2px 32px rgba(15,14,13,.08);background:rgba(245,240,232,.97)}
-.nav-logo{font-family:var(--f-serif);font-size:20px;font-weight:900;letter-spacing:-.04em;cursor:pointer;display:flex;align-items:center;gap:10px}
-.nav-logo-glyph{width:26px;height:26px;border-radius:6px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s}
-.nav-logo:hover .nav-logo-glyph{transform:rotate(8deg) scale(1.08)}
-.nav-logo-glyph svg{width:13px;height:13px;stroke:var(--lime);fill:none;stroke-width:2;stroke-linecap:round}
+#topbar{position:fixed;top:0;left:0;right:0;z-index:900;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(245,240,232,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .25s}
+#topbar.scrolled{box-shadow:0 1px 24px rgba(15,14,13,.07)}
+.nav-logo{font-family:var(--f-serif);font-size:19px;font-weight:900;letter-spacing:-.04em;cursor:pointer;display:flex;align-items:center;gap:9px}
+.nav-logo-glyph{width:22px;height:22px;border-radius:4px;background:var(--ink);display:flex;align-items:center;justify-content:center}
 .nav-logo span{color:var(--lime-d);font-style:italic;font-weight:400}
-.nav-center{display:flex;gap:40px;align-items:center}
-.nav-center a{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .15s}
+.nav-divider{width:1px;height:18px;background:var(--line)}
+.nav-badge{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--warm);border:1px solid var(--line);border-radius:100px;padding:2px 8px;display:inline-flex;align-items:center;gap:5px}
+.nav-badge-dot{width:4px;height:4px;border-radius:50%;background:var(--lime-d)}
+.nav-center{display:flex;gap:36px;align-items:center}
+.nav-center a{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .15s;position:relative;text-decoration:none}
+.nav-center a::after{content:'';position:absolute;left:0;bottom:-3px;right:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
 .nav-center a:hover{color:var(--ink)}
+.nav-center a:hover::after{transform:scaleX(1)}
 .nav-right{display:flex;gap:8px;align-items:center}
-/* Ticker */
-.ticker-wrap{overflow:hidden;background:var(--ink);padding:10px 0}
-.ticker-track{display:flex;white-space:nowrap;animation:ticker 32s linear infinite}
-.ticker-item{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.38);padding:0 36px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px}
-.ticker-item em{color:var(--lime);font-style:normal;font-weight:600}
-/* Hero */
-.hero{padding:120px 48px 80px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 480px;gap:60px;align-items:center}
-.hero-kicker{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;border:1px solid rgba(143,212,0,.4);border-radius:100px;padding:7px 16px 7px 12px;background:var(--white);box-shadow:0 0 0 3px rgba(143,212,0,.08)}
-.hero-kicker-dot{width:6px;height:6px;border-radius:50%;background:var(--lime-d);animation:pulseDot 2s infinite}
-.hero-h{font-family:var(--f-serif);font-size:clamp(48px,6vw,80px);font-weight:900;letter-spacing:-.05em;line-height:.95;margin-bottom:22px}
-.hero-h em{font-style:italic;font-weight:400;color:var(--lime-d)}
-.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:500px;font-weight:300}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-/* Features section */
-.features-section{padding:80px 48px;max-width:1200px;margin:0 auto}
-.section-eyebrow{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.section-eyebrow::before{content:'';width:20px;height:1px;background:var(--muted)}
-.section-h{font-family:var(--f-serif);font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-.04em;margin-bottom:40px}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.feat-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;transition:transform .2s,box-shadow .2s}
-.feat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.feat-num{font-family:var(--f-serif);font-size:11px;font-weight:900;color:rgba(15,14,13,.15);margin-bottom:16px;letter-spacing:-.02em}
-.feat-icon{width:40px;height:40px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:18px}
-.feat-title{font-family:var(--f-serif);font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
-.feat-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300}
-/* Footer */
-footer{background:var(--ink);padding:40px 48px;display:flex;align-items:center;justify-content:space-between}
-.footer-logo{font-family:var(--f-serif);font-size:17px;font-weight:900;color:var(--paper);letter-spacing:-.04em}
-.footer-logo span{color:var(--lime);font-style:italic;font-weight:400}
-.footer-copy{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;color:rgba(255,255,255,.25)}
 @@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-@@keyframes pulseDot{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
-.au{animation:fadeUp .55s ease both}
-.au1{animation:fadeUp .55s ease .07s both}
-.au2{animation:fadeUp .55s ease .14s both}
-.au3{animation:fadeUp .55s ease .21s both}
+.ticker-wrap{overflow:hidden;border-bottom:1px solid var(--line);background:var(--ink);padding:9px 0}
+.ticker-track{display:flex;white-space:nowrap;animation:ticker 28s linear infinite}
+.ticker-item{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);padding:0 32px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.1)}
+.ticker-item em{color:var(--lime);font-style:normal}
+.hero-wrap{display:grid;grid-template-columns:1fr 380px;gap:64px;align-items:center;padding:80px 48px 60px;max-width:1200px;margin:0 auto}
+.hero-kicker{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;border:1px solid var(--line);border-radius:100px;padding:6px 14px 6px 10px;background:var(--white)}
+.kicker-dot{width:7px;height:7px;border-radius:50%;background:var(--lime-d);flex-shrink:0;animation:kickerBlink 1.4s ease-in-out infinite}
+@@keyframes kickerBlink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(143,212,0,.5)}50%{opacity:.5;box-shadow:0 0 0 4px rgba(143,212,0,0)}}
+.hero-h1{font-family:var(--f-serif);font-size:clamp(52px,8vw,104px);line-height:.92;letter-spacing:-.05em;margin-bottom:28px}
+.stroke{color:transparent;-webkit-text-stroke:1.5px var(--ink);font-style:italic}
+.grad-text{background:linear-gradient(105deg,#0f0e0d 0%,#0f0e0d 25%,#3a3734 38%,#c8c0b8 47%,#ffffff 50%,#c8c0b8 53%,#3a3734 62%,#0f0e0d 75%,#0f0e0d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:250% 100%;animation:shimmerSweep 2.6s cubic-bezier(.4,0,.6,1) infinite}
+@@keyframes shimmerSweep{0%{background-position:180% center}100%{background-position:-80% center}}
+.hero-sub{font-size:16px;line-height:1.75;color:var(--muted);max-width:440px;margin-bottom:40px;font-weight:300}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-card{background:var(--ink);color:var(--paper);border-radius:var(--r-lg);padding:36px;position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:var(--lime);opacity:.12;pointer-events:none}
+.hc-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px}
+.hc-score{font-family:var(--f-serif);font-size:80px;font-weight:900;letter-spacing:-.05em;color:var(--lime);line-height:1;margin-bottom:4px}
+.hc-role{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:18px}
+.hc-mini-cards{display:flex;gap:8px;margin-bottom:18px}
+.hc-mini{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);padding:10px 12px}
+.hc-mini-val{font-family:var(--f-mono);font-size:13px;font-weight:700;color:var(--lime);line-height:1;margin-bottom:3px}
+.hc-mini-lbl{font-family:var(--f-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.hc-row{display:flex;padding:8px 0;border-top:1px solid rgba(255,255,255,.08);font-size:12px}
+.hc-apply{margin-top:16px;width:100%;background:var(--lime);color:var(--ink);border:none;font-family:var(--f-sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:12px;border-radius:var(--r-sm);cursor:pointer;transition:all .16s;display:block;text-align:center}
+.hc-apply:hover{background:var(--lime-d)}
+.stats-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:90px}
+.stats-inner{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--line)}
+.stat-cell{padding:32px 40px;border-right:1px solid var(--line);position:relative;overflow:hidden;transition:background .18s}
+.stat-cell:hover{background:var(--warm)}
+.stat-cell::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--lime-d),transparent);opacity:0;transition:opacity .22s}
+.stat-cell:hover::after{opacity:1}
+.stat-num{font-family:var(--f-serif);font-size:52px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:6px}
+.stat-num sup{font-size:24px;color:var(--muted);vertical-align:super}
+.stat-label{font-size:12px;color:var(--muted);font-weight:300;font-family:var(--f-mono);letter-spacing:.06em;text-transform:uppercase}
+.portals-section{padding:0 48px 90px;max-width:1200px;margin:0 auto}
+.section-eye{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.section-eye::after{content:'';flex:1;height:1px;background:var(--line)}
+.section-title{font-family:var(--f-serif);font-size:clamp(30px,3.5vw,50px);letter-spacing:-.03em;line-height:1.05;margin-bottom:16px}
+.serif-i{font-style:italic;font-weight:400}
+.section-subtitle-row{display:flex;align-items:center;gap:12px;margin-bottom:52px}
+.ssr-line{height:1px;width:36px;background:linear-gradient(to right,var(--ink),transparent)}
+.ssr-dot{width:5px;height:5px;border-radius:50%;background:var(--lime-d)}
+.ssr-text{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.portals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.portal-card{padding:40px 36px 36px;border:1px solid var(--line);border-radius:var(--r);cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;background:var(--white);border-left:3px solid transparent}
+.portal-card:hover{background:var(--warm);transform:translateY(-2px)}
+.portal-s:hover{border-left-color:var(--ink);box-shadow:-4px 0 18px -2px rgba(15,14,13,.22),0 8px 28px rgba(15,14,13,.1)}
+.portal-c:hover{border-left-color:var(--lime-d);box-shadow:-4px 0 18px -2px rgba(143,212,0,.38),0 8px 28px rgba(143,212,0,.12)}
+.portal-a:hover{border-left-color:var(--red);box-shadow:-4px 0 18px -2px rgba(255,63,63,.35),0 8px 28px rgba(255,63,63,.1)}
+.portal-s:hover .portal-icon{background:var(--ink);border-color:var(--ink)}
+.portal-s:hover .portal-icon svg{stroke:var(--paper)}
+.portal-c:hover .portal-icon{background:var(--lime);border-color:var(--lime-d)}
+.portal-c:hover .portal-icon svg{stroke:var(--ink)}
+.portal-a:hover .portal-icon{background:var(--red);border-color:var(--red)}
+.portal-a:hover .portal-icon svg{stroke:#fff}
+.portal-num{font-family:var(--f-mono);font-size:10px;color:var(--muted);margin-bottom:20px;letter-spacing:.1em}
+.portal-icon{width:48px;height:48px;border:1.5px solid var(--line);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;margin-bottom:20px;transition:all .22s;background:var(--paper)}
+.portal-name{font-family:var(--f-serif);font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
+.portal-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:28px;font-weight:300}
+.portal-cta{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;transition:all .2s}
+.portal-card:hover .portal-cta{color:var(--ink);gap:14px}
+.features-dark{background:var(--ink);color:var(--paper);padding:90px 48px;position:relative;overflow:hidden}
+.features-dark::before{content:'';position:absolute;top:-120px;right:-120px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(184,255,53,.06) 0%,transparent 70%);pointer-events:none}
+.features-inner{max-width:1200px;margin:0 auto;position:relative}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);overflow:hidden}
+.feature-cell{padding:36px 32px 32px;border-right:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);transition:background .2s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.feature-cell:hover{background:rgba(255,255,255,.035)}
+.feature-cell:nth-child(3n){border-right:none}
+.feature-cell:nth-child(4),.feature-cell:nth-child(5),.feature-cell:nth-child(6){border-bottom:none}
+.feature-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--lime),transparent);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.feature-cell:hover::before{transform:scaleX(1)}
+.feature-cell-num{font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.14em;margin-bottom:20px;display:block}
+.feature-tag{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--lime);background:rgba(184,255,53,.08);padding:3px 9px;border-radius:var(--r-sm);display:inline-block;margin-bottom:14px;border:1px solid rgba(184,255,53,.18);width:fit-content}
+.feature-h{font-family:var(--f-serif);font-size:20px;font-weight:700;color:var(--paper);margin-bottom:10px;line-height:1.1}
+.feature-p{font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;font-weight:300;flex:1}
+.feature-stat{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)}
+.feature-arrow{display:inline-flex;align-items:center;gap:6px;margin-top:20px;font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.18);transition:all .22s}
+.feature-cell:hover .feature-arrow{color:var(--lime);gap:12px}
+.site-footer{padding:28px 48px 32px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:var(--warm)}
+.footer-left{display:flex;align-items:center;gap:12px}
+.footer-logo-mark{font-family:var(--f-serif);font-size:14px;font-weight:900;letter-spacing:-.04em;color:var(--ink)}
+.footer-logo-mark span{color:var(--lime-d);font-style:italic;font-weight:400}
+.footer-sep{width:1px;height:14px;background:var(--line)}
+.footer-tagline{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.footer-right{display:flex;align-items:center;gap:14px}
+.footer-meta{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--line)}
+.footer-pill{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:3px 10px;background:var(--white);display:inline-flex;align-items:center;gap:5px}
+.footer-pill-dot{width:4px;height:4px;border-radius:50%;background:var(--lime-d)}
+@@media(max-width:900px){
+  .hero-wrap{grid-template-columns:1fr;padding:60px 24px 40px}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .portals-grid,.features-grid{grid-template-columns:1fr}
+  #topbar{padding:0 20px}
+  .nav-center{display:none}
+}
 </style>
 </head>
-<body>
-<!-- Topbar -->
+<body class="home-page">
+
 <nav id="topbar">
-  <div class="nav-logo" onclick="window.location.href='/'">
-    <div class="nav-logo-glyph"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div>
-    Cogni<span>Career</span>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div class="nav-logo" onclick="window.location.href='/'">
+      <div class="nav-logo-glyph">
+        <svg viewBox="0 0 12 12" style="width:12px;height:12px;stroke:var(--lime);fill:none;stroke-width:2;stroke-linecap:round">
+          <path d="M2 9 L6 3 L10 9"/><path d="M4 7h4"/>
+        </svg>
+      </div>
+      Cogni<span>Career</span>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-badge"><span class="nav-badge-dot"></span>v1.0 · 2026</div>
   </div>
   <div class="nav-center">
+    <a href="/">Platform</a>
     <a href="/Auth/StudentAuth">Students</a>
     <a href="/Auth/CompanyAuth">Companies</a>
-    <a href="/Auth/AdminAuth">Admin</a>
   </div>
   <div class="nav-right">
     <a href="/Auth/StudentAuth" class="btn btn-ghost btn-sm">Sign In</a>
-    <a href="/Auth/StudentAuth" class="btn btn-dark btn-sm">Get Started →</a>
+    <a href="/Auth/CompanyAuth" class="btn btn-lime btn-sm">Get Started →</a>
   </div>
 </nav>
 
-<!-- Ticker -->
-<div class="ticker-wrap" style="margin-top:62px">
+<div class="ticker-wrap">
   <div class="ticker-track">
-    <span class="ticker-item"><em>AI-Powered</em> Match Scoring</span>
-    <span class="ticker-item">Real-Time <em>Skill Gap</em> Analysis</span>
-    <span class="ticker-item">Peer <em>Benchmarking</em></span>
-    <span class="ticker-item">Smart <em>Career Alerts</em></span>
-    <span class="ticker-item">Auto-Ranked <em>Applications</em></span>
-    <span class="ticker-item"><em>AI-Powered</em> Match Scoring</span>
-    <span class="ticker-item">Real-Time <em>Skill Gap</em> Analysis</span>
-    <span class="ticker-item">Peer <em>Benchmarking</em></span>
-    <span class="ticker-item">Smart <em>Career Alerts</em></span>
-    <span class="ticker-item">Auto-Ranked <em>Applications</em></span>
+    <span class="ticker-item">Match Score <em>87%</em></span>
+    <span class="ticker-item">Skills Tracked <em>340+</em></span>
+    <span class="ticker-item">Active Students <em>1,248</em></span>
+    <span class="ticker-item">Companies Hiring <em>67</em></span>
+    <span class="ticker-item">Match Accuracy <em>94%</em></span>
+    <span class="ticker-item">Applications Today <em>142</em></span>
+    <span class="ticker-item">Avg. Match Improvement <em>+18%</em></span>
+    <span class="ticker-item">Jobs Posted This Week <em>23</em></span>
+    <span class="ticker-item">Match Score <em>87%</em></span>
+    <span class="ticker-item">Skills Tracked <em>340+</em></span>
+    <span class="ticker-item">Active Students <em>1,248</em></span>
+    <span class="ticker-item">Companies Hiring <em>67</em></span>
+    <span class="ticker-item">Match Accuracy <em>94%</em></span>
+    <span class="ticker-item">Applications Today <em>142</em></span>
+    <span class="ticker-item">Avg. Match Improvement <em>+18%</em></span>
+    <span class="ticker-item">Jobs Posted This Week <em>23</em></span>
   </div>
 </div>
 
-<!-- Hero -->
-<section>
-  <div class="hero">
-    <div>
-      <div class="hero-kicker au"><div class="hero-kicker-dot"></div>Career Intelligence Platform</div>
-      <h1 class="hero-h au1">Match.<br><em>Score.</em><br>Hire.</h1>
-      <p class="hero-sub au2">CogniCareer calculates your exact skill match score for every job, shows your peer percentile, and guides you to close every gap — before you apply.</p>
-      <div class="hero-cta au3">
-        <a href="/Auth/StudentAuth" class="btn btn-dark btn-xl">Student Portal →</a>
-        <a href="/Auth/CompanyAuth" class="btn btn-lime btn-xl">Post Jobs →</a>
-      </div>
+<div class="hero-wrap">
+  <div>
+    <div class="hero-kicker"><span class="kicker-dot"></span>Career Intelligence Platform · 2026</div>
+    <h1 class="hero-h1">
+      <span class="grad-text">Match.</span><br>
+      <span class="stroke">Score.</span><br>
+      <span class="grad-text">Hire.</span>
+    </h1>
+    <p class="hero-sub">CogniCareer calculates your exact skill match score for every job, shows your peer percentile, and guides you to close every gap — before you apply.</p>
+    <div class="hero-actions">
+      <a href="/Auth/StudentAuth" class="btn btn-dark btn-lg">Student Portal →</a>
+      <a href="/Auth/CompanyAuth" class="btn btn-lime btn-lg">Post Jobs →</a>
     </div>
-    <div class="au2" style="background:var(--ink);border-radius:var(--r-lg);padding:32px;border:1px solid rgba(184,255,53,.1)">
-      <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:16px">Live Match Preview</div>
-      <div style="font-family:var(--f-serif);font-size:32px;font-weight:900;color:var(--lime);letter-spacing:-.04em;line-height:1;margin-bottom:4px">87%</div>
-      <div style="font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.4);margin-bottom:20px">Match Score · Software Engineer Intern</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        @foreach(var feat in new[]{"✓ React.js — Advanced","✓ Node.js — Intermediate","✓ Git — Advanced","✗ Docker — Missing","✗ AWS — Missing"})
-        {
-          var isMatch = feat.StartsWith("✓");
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:@(isMatch ? "#b8ff35" : "rgba(255,255,255,.3)")">@feat</div>
-        }
+  </div>
+  <div class="hero-card">
+    <div class="hc-label">Live Match Preview</div>
+    <div class="hc-score">87<span style="font-size:32px">%</span></div>
+    <div class="hc-role">Match Score — Software Engineer Intern</div>
+    <div class="hc-mini-cards">
+      <div class="hc-mini"><div class="hc-mini-val">✓</div><div class="hc-mini-lbl">React.js — Advanced</div></div>
+      <div class="hc-mini"><div class="hc-mini-val">✓</div><div class="hc-mini-lbl">Node.js — Intermediate</div></div>
+      <div class="hc-mini"><div class="hc-mini-val">✓</div><div class="hc-mini-lbl">Git — Advanced</div></div>
+    </div>
+    <div class="hc-row"><span style="color:rgba(255,255,255,.45)">✗ Docker — Missing</span></div>
+    <div class="hc-row"><span style="color:rgba(255,255,255,.45)">✗ AWS — Missing</span></div>
+    <a href="/Auth/StudentAuth" class="hc-apply">Apply Now →</a>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-cell"><div class="stat-num">94<sup>%</sup></div><div class="stat-label">Match accuracy</div></div>
+    <div class="stat-cell"><div class="stat-num">340<sup>+</sup></div><div class="stat-label">Skills tracked</div></div>
+    <div class="stat-cell"><div class="stat-num">1,248</div><div class="stat-label">Active students</div></div>
+    <div class="stat-cell"><div class="stat-num">67</div><div class="stat-label">Companies hiring</div></div>
+  </div>
+</div>
+
+<div class="portals-section">
+  <div class="section-eye">Access</div>
+  <h2 class="section-title">Three portals.<br><em class="serif-i">One platform.</em></h2>
+  <div class="section-subtitle-row">
+    <div class="ssr-line"></div><div class="ssr-dot"></div>
+    <span class="ssr-text">Choose your role to continue</span>
+  </div>
+  <div class="portals-grid">
+    <div class="portal-card portal-s" onclick="window.location.href='/Auth/StudentAuth'">
+      <div class="portal-num">01 — Student</div>
+      <div class="portal-icon">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3.33 1.67 8.67 1.67 12 0v-5"/></svg>
+      </div>
+      <div class="portal-name">Students</div>
+      <p class="portal-desc">Track your career trajectory. Discover skill gaps. Apply to matched jobs with a calculated compatibility score. Benchmark against peers in real time.</p>
+      <div class="portal-cta">Enter Portal →</div>
+    </div>
+    <div class="portal-card portal-c" onclick="window.location.href='/Auth/CompanyAuth'">
+      <div class="portal-num">02 — Employer</div>
+      <div class="portal-icon">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </div>
+      <div class="portal-name">Companies</div>
+      <p class="portal-desc">Post positions with required skills. Receive applicants ranked by match score automatically. One-click status updates across your hiring pipeline.</p>
+      <div class="portal-cta">Enter Portal →</div>
+    </div>
+    <div class="portal-card portal-a" onclick="window.location.href='/Auth/AdminAuth'">
+      <div class="portal-num">03 — Control</div>
+      <div class="portal-icon">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div class="portal-name">Admin</div>
+      <p class="portal-desc">Platform-wide analytics. Company approvals. Master skills library curation. Complete visibility into all activity across the entire system.</p>
+      <div class="portal-cta">Enter Panel →</div>
+    </div>
+  </div>
+</div>
+
+<div class="features-dark">
+  <div class="features-inner">
+    <div class="section-eye" style="color:rgba(255,255,255,.28)">Capabilities</div>
+    <h2 class="section-title" style="color:var(--paper);margin-bottom:12px">Intelligence at every step<br><em class="serif-i">of your career.</em></h2>
+    <div class="section-subtitle-row" style="margin-bottom:44px">
+      <div class="ssr-line" style="background:linear-gradient(to right,rgba(255,255,255,.3),transparent)"></div>
+      <div class="ssr-dot" style="background:var(--lime)"></div>
+      <span class="ssr-text" style="color:rgba(255,255,255,.25)">Three intelligent tools, one unified system</span>
+    </div>
+    <div class="features-grid">
+      <div class="feature-cell">
+        <span class="feature-cell-num">01</span>
+        <div class="feature-tag">Matching</div>
+        <div class="feature-h">Match Score on Every Job</div>
+        <p class="feature-p">Your exact % skill compatibility is calculated before you apply. Know when to apply and when to upskill first.</p>
+        <div class="feature-stat">94% accuracy · real-time</div>
+        <div class="feature-arrow">Explore →</div>
+      </div>
+      <div class="feature-cell">
+        <span class="feature-cell-num">02</span>
+        <div class="feature-tag">Intelligence</div>
+        <div class="feature-h">Gap Analysis with Resources</div>
+        <p class="feature-p">Every missing skill links to a curated learning path. Close gaps systematically, not randomly.</p>
+        <div class="feature-stat">340+ skills mapped</div>
+        <div class="feature-arrow">Explore →</div>
+      </div>
+      <div class="feature-cell">
+        <span class="feature-cell-num">03</span>
+        <div class="feature-tag">Benchmarking</div>
+        <div class="feature-h">Live Peer Benchmarking</div>
+        <p class="feature-p">Know your percentile among all applicants for any role in real time. Stay ahead of the curve.</p>
+        <div class="feature-stat">Live · 1,248 students ranked</div>
+        <div class="feature-arrow">Explore →</div>
+      </div>
+      <div class="feature-cell">
+        <span class="feature-cell-num">04</span>
+        <div class="feature-tag">Automation</div>
+        <div class="feature-h">Auto-Ranked Applicants</div>
+        <p class="feature-p">Companies receive applicants ranked by match score the moment they apply. Zero manual screening needed.</p>
+        <div class="feature-stat">Instant · zero lag</div>
+        <div class="feature-arrow">Explore →</div>
+      </div>
+      <div class="feature-cell">
+        <span class="feature-cell-num">05</span>
+        <div class="feature-tag">Alerts</div>
+        <div class="feature-h">Smart Career Alerts</div>
+        <p class="feature-p">Get notified when your score improves, when you're near the top, or when a high-match job is posted.</p>
+        <div class="feature-stat">Real-time notifications</div>
+        <div class="feature-arrow">Explore →</div>
+      </div>
+      <div class="feature-cell">
+        <span class="feature-cell-num">06</span>
+        <div class="feature-tag">Pipeline</div>
+        <div class="feature-h">Pipeline Management</div>
+        <p class="feature-p">One-click status updates for companies. Candidates notified automatically at every stage of review.</p>
+        <div class="feature-stat">Full pipeline · instant updates</div>
+        <div class="feature-arrow">Explore →</div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- Features -->
-<section class="features-section">
-  <div class="section-eyebrow">How It Works</div>
-  <h2 class="section-h">Intelligence at every step<br>of your career.</h2>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-num">01</div>
-      <div class="feat-icon" style="background:rgba(143,212,0,.12);color:var(--lime-d)">📊</div>
-      <div class="feat-title">Match Score on Every Job</div>
-      <div class="feat-desc">Your exact % skill compatibility is calculated before you apply. Know when to apply and when to upskill first.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-num">02</div>
-      <div class="feat-icon" style="background:rgba(59,127,255,.1);color:var(--blue)">🔍</div>
-      <div class="feat-title">Gap Analysis with Resources</div>
-      <div class="feat-desc">Every missing skill links to a curated learning path. Close gaps systematically, not randomly.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-num">03</div>
-      <div class="feat-icon" style="background:rgba(26,122,58,.1);color:#1a7a3a">📈</div>
-      <div class="feat-title">Live Peer Benchmarking</div>
-      <div class="feat-desc">Know your percentile among all applicants for any role in real time. Stay ahead of the curve.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-num">04</div>
-      <div class="feat-icon" style="background:rgba(255,63,63,.08);color:var(--red)">🏢</div>
-      <div class="feat-title">Auto-Ranked Applicants</div>
-      <div class="feat-desc">Companies receive applicants ranked by match score the moment they apply. Zero manual screening needed.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-num">05</div>
-      <div class="feat-icon" style="background:rgba(143,212,0,.12);color:var(--lime-d)">🔔</div>
-      <div class="feat-title">Smart Alerts</div>
-      <div class="feat-desc">Get notified when your score improves, when you're near the top, or when a high-match job is posted.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-num">06</div>
-      <div class="feat-icon" style="background:rgba(59,127,255,.1);color:var(--blue)">⚡</div>
-      <div class="feat-title">Pipeline Management</div>
-      <div class="feat-desc">One-click status updates for companies. Candidates are notified automatically at every stage.</div>
-    </div>
+<footer class="site-footer">
+  <div class="footer-left">
+    <div class="footer-logo-mark">Cogni<span>Career</span></div>
+    <div class="footer-sep"></div>
+    <div class="footer-tagline">Career Intelligence &amp; Skill Gap Platform</div>
   </div>
-</section>
-
-<footer>
-  <div class="footer-logo">Cogni<span>Career</span></div>
-  <div class="footer-copy">© 2025 CogniCareer · Career Intelligence Platform</div>
+  <div class="footer-right">
+    <span class="footer-meta">© 2026 CogniCareer</span>
+    <div class="footer-pill"><span class="footer-pill-dot"></span>Career Intelligence Platform</div>
+  </div>
 </footer>
 
 <script>
-window.addEventListener('scroll', function(){
-  document.getElementById('topbar').classList.toggle('scrolled', window.scrollY > 20);
+window.addEventListener('scroll', function() {
+  document.getElementById('topbar').classList.toggle('scrolled', window.scrollY > 10);
 });
 </script>
 </body>
