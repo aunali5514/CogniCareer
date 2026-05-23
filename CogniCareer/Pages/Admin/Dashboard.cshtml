@@ -8,7 +8,7 @@
         "ad-analytics" => "Analytics",
         "ad-companies" => "Companies",
         "ad-skills" => "Skill Library",
-        "ad-users" => "Users",
+        "ad-users" => "Students",
         "ad-live" => "Live Activity",
         _ => "Platform Overview"
     };
@@ -169,7 +169,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
     <div class="sb-section">Management</div>
     <a href="#" class="sb-link @(Model.ActivePanel == "ad-companies" ? "on" : "")" id="lnk-companies" data-panel="ad-companies"><span class="sb-ico">◻</span> Companies @if (Model.PendingCompanies.Any()) { <span class="sb-badge">@Model.PendingCompanies.Count</span> }</a>
     <a href="#" class="sb-link @(Model.ActivePanel == "ad-skills" ? "on" : "")" id="lnk-skills" data-panel="ad-skills"><span class="sb-ico">◻</span> Skill Library</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-users" ? "on" : "")" id="lnk-users" data-panel="ad-users"><span class="sb-ico">◻</span> Users</a>
+    <a href="#" class="sb-link @(Model.ActivePanel == "ad-users" ? "on" : "")" id="lnk-users" data-panel="ad-users"><span class="sb-ico">◻</span> Students</a>
     <a href="#" class="sb-link @(Model.ActivePanel == "ad-live" ? "on" : "")" id="lnk-live" data-panel="ad-live"><span class="sb-ico">◻</span> Live Activity</a>
     <div class="sb-foot">
       <div class="sb-user">
@@ -288,41 +288,41 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
 
       <div class="panel @(Model.ActivePanel == "ad-live" ? "active" : "")" id="ad-live">
         <div class="dash-body">
-        @await Html.PartialAsync("_AdminLiveActivity")
+        @await Html.PartialAsync("_AdminLiveActivity", Model)
         </div>
       </div>
 
       <div class="panel @(Model.ActivePanel == "ad-users" ? "active" : "")" id="ad-users">
         <div class="dash-body">
         <div class="card">
-          <div class="card-head"><span class="card-title">User Accounts</span><span class="badge badge-default">@Model.AllUsers.Count users</span></div>
-          <div class="card-body-p0">
+          <div class="card-head"><span class="card-title">Student Accounts</span><span class="badge badge-default">@Model.AllStudents.Count students</span></div>
+          <div class="card-body-p0" style="max-height:calc(100vh - 220px);overflow:auto">
             <table class="data-table">
-              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Name</th><th>Email</th><th>University</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>
-                @foreach (var u in Model.AllUsers)
+                @foreach (var st in Model.AllStudents)
                 {
                   <tr>
-                    <td><strong>@u.FullName</strong></td>
-                    <td style="font-family:var(--f-mono);font-size:11px">@u.Email</td>
-                    <td><span class="badge badge-default">@u.Role</span></td>
-                    <td><span class="status @(u.IsActive ? "st-active" : "st-reject")">@(u.IsActive ? "Active" : "Inactive")</span></td>
+                    <td><strong>@st.FullName</strong></td>
+                    <td style="font-family:var(--f-mono);font-size:11px">@(string.IsNullOrEmpty(st.Email) ? "—" : st.Email)</td>
+                    <td>@(string.IsNullOrEmpty(st.University) ? "—" : st.University)</td>
+                    <td><span class="status @(st.IsActive ? "st-active" : "st-reject")">@(st.IsActive ? "Active" : "Inactive")</span></td>
                     <td>
                       <div class="actions-wrap">
-                        @if (u.IsActive)
+                        @if (st.IsActive)
                         {
-                          <form method="post" asp-page-handler="ToggleUser" style="display:inline">
+                          <form method="post" asp-page-handler="ToggleStudent" style="display:inline">
                             @Html.AntiForgeryToken()
-                            <input type="hidden" name="userId" value="@u.UserID">
+                            <input type="hidden" name="studentId" value="@st.StudentId">
                             <input type="hidden" name="isActive" value="false">
                             <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Deactivate</button>
                           </form>
                         }
                         else
                         {
-                          <form method="post" asp-page-handler="ToggleUser" style="display:inline">
+                          <form method="post" asp-page-handler="ToggleStudent" style="display:inline">
                             @Html.AntiForgeryToken()
-                            <input type="hidden" name="userId" value="@u.UserID">
+                            <input type="hidden" name="studentId" value="@st.StudentId">
                             <input type="hidden" name="isActive" value="true">
                             <button type="submit" class="btn btn-lime btn-sm">Activate</button>
                           </form>
@@ -344,7 +344,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
 </div>
 
 <script>
-var adminPanelTitles = {'ad-overview':'Platform Overview','ad-analytics':'Analytics','ad-companies':'Companies','ad-skills':'Skill Library','ad-users':'Users','ad-live':'Live Activity'};
+var adminPanelTitles = {'ad-overview':'Platform Overview','ad-analytics':'Analytics','ad-companies':'Companies','ad-skills':'Skill Library','ad-users':'Students','ad-live':'Live Activity'};
 
 function sw(panelId, title) {
   var panels = document.querySelectorAll('#admin-panels .panel');
@@ -408,27 +408,46 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-const liveEvents = [
-  {t:'New registration', d:'A student from COMSATS just registered and completed profile setup.', dot:'live-dot-register'},
-  {t:'Application submitted', d:'New application to Frontend Dev with 72% match score.', dot:'live-dot-apply'},
-  {t:'Job updated', d:'Arbisoft extended deadline for Software Engineer Intern by 2 weeks.', dot:'live-dot-job'},
-  {t:'Status change', d:'Applicant shortlisted by NetSol for React Native Developer role.', dot:'live-dot-status'},
-  {t:'Company registered', d:'New company PixelForge submitted for admin approval.', dot:'live-dot-company'},
-  {t:'Score improved', d:'Student rank jumped from #18 to #11 after adding Docker skill.', dot:'live-dot-score'},
-];
-setInterval(function() {
+var lastActivityTicks = @(Model.RecentActivities.Any() ? Model.RecentActivities.Max(a => a.OccurredAt).Ticks : DateTime.UtcNow.Ticks);
+
+function formatActivityTime(ticks) {
+  var d = new Date(ticks);
+  var diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 120) return 'JUST NOW';
+  if (diff < 3600) return Math.floor(diff / 60) + 'M AGO';
+  if (diff < 86400) return Math.floor(diff / 3600) + 'H AGO';
+  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }).toUpperCase();
+}
+
+function prependLiveActivity(ev) {
   var feed = document.getElementById('live-feed');
   if (!feed) return;
-  var e = liveEvents[Math.floor(Math.random() * liveEvents.length)];
+  var empty = document.getElementById('live-feed-empty');
+  if (empty) empty.remove();
+  if (feed.querySelector('[data-ticks="' + ev.occurredAtTicks + '"]')) return;
   var row = document.createElement('div');
   row.className = 'live-row';
+  row.setAttribute('data-ticks', ev.occurredAtTicks);
   row.style.opacity = '0';
   row.style.transition = 'opacity .4s';
-  row.innerHTML = '<div class="live-dot ' + e.dot + '"></div><div><div class="live-t">' + e.t + '</div><div class="live-d">' + e.d + '</div><div class="live-ts">JUST NOW</div></div>';
+  row.innerHTML = '<div class="live-dot ' + ev.dotClass + '"></div><div><div class="live-t">' + ev.title + '</div><div class="live-d">' + ev.description + '</div><div class="live-ts">' + formatActivityTime(ev.occurredAtTicks) + '</div></div>';
   feed.insertBefore(row, feed.firstChild);
   setTimeout(function(){ row.style.opacity = '1'; }, 20);
-  if (feed.children.length > 8) feed.removeChild(feed.lastChild);
-}, 5000);
+  while (feed.children.length > 30) feed.removeChild(feed.lastChild);
+  if (ev.occurredAtTicks > lastActivityTicks) lastActivityTicks = ev.occurredAtTicks;
+}
+
+function pollLiveActivity() {
+  fetch(window.location.pathname + '?handler=ActivityFeed&afterTicks=' + lastActivityTicks, { headers: { 'Accept': 'application/json' } })
+    .then(function(r) { return r.ok ? r.json() : []; })
+    .then(function(events) {
+      if (!Array.isArray(events) || !events.length) return;
+      events.slice().reverse().forEach(prependLiveActivity);
+    })
+    .catch(function() {});
+}
+
+setInterval(pollLiveActivity, 5000);
 </script>
 </body>
 </html>

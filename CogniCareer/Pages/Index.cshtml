@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Home";
     Layout = null;
+    var s = Model.Stats;
+    var skillsDisplay = s.TotalSkills >= 100 ? $"{s.TotalSkills:N0}+" : s.TotalSkills.ToString("N0");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -118,8 +120,6 @@ button{font-family:var(--f-sans)}
 .feature-h{font-family:var(--f-serif);font-size:20px;font-weight:700;color:var(--paper);margin-bottom:10px;line-height:1.1}
 .feature-p{font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;font-weight:300;flex:1}
 .feature-stat{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)}
-.feature-arrow{display:inline-flex;align-items:center;gap:6px;margin-top:20px;font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.18);transition:all .22s}
-.feature-cell:hover .feature-arrow{color:var(--lime);gap:12px}
 .site-footer{padding:28px 48px 32px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:var(--warm)}
 .footer-left{display:flex;align-items:center;gap:12px}
 .footer-logo-mark{font-family:var(--f-serif);font-size:14px;font-weight:900;letter-spacing:-.04em;color:var(--ink)}
@@ -167,22 +167,22 @@ button{font-family:var(--f-sans)}
 
 <div class="ticker-wrap">
   <div class="ticker-track">
-    <span class="ticker-item">Match Score <em>87%</em></span>
-    <span class="ticker-item">Skills Tracked <em>340+</em></span>
-    <span class="ticker-item">Active Students <em>1,248</em></span>
-    <span class="ticker-item">Companies Hiring <em>67</em></span>
-    <span class="ticker-item">Match Accuracy <em>94%</em></span>
-    <span class="ticker-item">Applications Today <em>142</em></span>
-    <span class="ticker-item">Avg. Match Improvement <em>+18%</em></span>
-    <span class="ticker-item">Jobs Posted This Week <em>23</em></span>
-    <span class="ticker-item">Match Score <em>87%</em></span>
-    <span class="ticker-item">Skills Tracked <em>340+</em></span>
-    <span class="ticker-item">Active Students <em>1,248</em></span>
-    <span class="ticker-item">Companies Hiring <em>67</em></span>
-    <span class="ticker-item">Match Accuracy <em>94%</em></span>
-    <span class="ticker-item">Applications Today <em>142</em></span>
-    <span class="ticker-item">Avg. Match Improvement <em>+18%</em></span>
-    <span class="ticker-item">Jobs Posted This Week <em>23</em></span>
+    <span class="ticker-item">Match Score <em>@s.MatchScorePercent%</em></span>
+    <span class="ticker-item">Skills Tracked <em>@skillsDisplay</em></span>
+    <span class="ticker-item">Active Students <em>@s.TotalStudents.ToString("N0")</em></span>
+    <span class="ticker-item">Companies Hiring <em>@s.TotalCompanies.ToString("N0")</em></span>
+    <span class="ticker-item">Match Accuracy <em>@s.MatchScorePercent%</em></span>
+    <span class="ticker-item">Applications Today <em>@s.ApplicationsToday.ToString("N0")</em></span>
+    <span class="ticker-item">Active Jobs <em>@s.TotalActiveJobs.ToString("N0")</em></span>
+    <span class="ticker-item">Jobs Posted This Week <em>@s.JobsPostedThisWeek.ToString("N0")</em></span>
+    <span class="ticker-item">Match Score <em>@s.MatchScorePercent%</em></span>
+    <span class="ticker-item">Skills Tracked <em>@skillsDisplay</em></span>
+    <span class="ticker-item">Active Students <em>@s.TotalStudents.ToString("N0")</em></span>
+    <span class="ticker-item">Companies Hiring <em>@s.TotalCompanies.ToString("N0")</em></span>
+    <span class="ticker-item">Match Accuracy <em>@s.MatchScorePercent%</em></span>
+    <span class="ticker-item">Applications Today <em>@s.ApplicationsToday.ToString("N0")</em></span>
+    <span class="ticker-item">Active Jobs <em>@s.TotalActiveJobs.ToString("N0")</em></span>
+    <span class="ticker-item">Jobs Posted This Week <em>@s.JobsPostedThisWeek.ToString("N0")</em></span>
   </div>
 </div>
 
@@ -202,7 +202,7 @@ button{font-family:var(--f-sans)}
   </div>
   <div class="hero-card">
     <div class="hc-label">Live Match Preview</div>
-    <div class="hc-score">87<span style="font-size:32px">%</span></div>
+    <div class="hc-score">@s.MatchScorePercent<span style="font-size:32px">%</span></div>
     <div class="hc-role">Match Score — Software Engineer Intern</div>
     <div class="hc-mini-cards">
       <div class="hc-mini"><div class="hc-mini-val">✓</div><div class="hc-mini-lbl">React.js — Advanced</div></div>
@@ -217,10 +217,10 @@ button{font-family:var(--f-sans)}
 
 <div class="stats-strip">
   <div class="stats-inner">
-    <div class="stat-cell"><div class="stat-num">94<sup>%</sup></div><div class="stat-label">Match accuracy</div></div>
-    <div class="stat-cell"><div class="stat-num">340<sup>+</sup></div><div class="stat-label">Skills tracked</div></div>
-    <div class="stat-cell"><div class="stat-num">1,248</div><div class="stat-label">Active students</div></div>
-    <div class="stat-cell"><div class="stat-num">67</div><div class="stat-label">Companies hiring</div></div>
+    <div class="stat-cell"><div class="stat-num">@s.MatchScorePercent<sup>%</sup></div><div class="stat-label">Match accuracy</div></div>
+    <div class="stat-cell"><div class="stat-num">@skillsDisplay</div><div class="stat-label">Skills tracked</div></div>
+    <div class="stat-cell"><div class="stat-num">@s.TotalStudents.ToString("N0")</div><div class="stat-label">Active students</div></div>
+    <div class="stat-cell"><div class="stat-num">@s.TotalCompanies.ToString("N0")</div><div class="stat-label">Companies hiring</div></div>
   </div>
 </div>
 
@@ -277,48 +277,42 @@ button{font-family:var(--f-sans)}
         <div class="feature-tag">Matching</div>
         <div class="feature-h">Match Score on Every Job</div>
         <p class="feature-p">Your exact % skill compatibility is calculated before you apply. Know when to apply and when to upskill first.</p>
-        <div class="feature-stat">94% accuracy · real-time</div>
-        <div class="feature-arrow">Explore →</div>
+        <div class="feature-stat">@s.MatchScorePercent% accuracy · real-time</div>
       </div>
       <div class="feature-cell">
         <span class="feature-cell-num">02</span>
         <div class="feature-tag">Intelligence</div>
         <div class="feature-h">Gap Analysis with Resources</div>
         <p class="feature-p">Every missing skill links to a curated learning path. Close gaps systematically, not randomly.</p>
-        <div class="feature-stat">340+ skills mapped</div>
-        <div class="feature-arrow">Explore →</div>
+        <div class="feature-stat">@skillsDisplay skills mapped</div>
       </div>
       <div class="feature-cell">
         <span class="feature-cell-num">03</span>
         <div class="feature-tag">Benchmarking</div>
         <div class="feature-h">Live Peer Benchmarking</div>
         <p class="feature-p">Know your percentile among all applicants for any role in real time. Stay ahead of the curve.</p>
-        <div class="feature-stat">Live · 1,248 students ranked</div>
-        <div class="feature-arrow">Explore →</div>
+        <div class="feature-stat">Live · @s.TotalStudents.ToString("N0") students ranked</div>
       </div>
       <div class="feature-cell">
         <span class="feature-cell-num">04</span>
         <div class="feature-tag">Automation</div>
         <div class="feature-h">Auto-Ranked Applicants</div>
         <p class="feature-p">Companies receive applicants ranked by match score the moment they apply. Zero manual screening needed.</p>
-        <div class="feature-stat">Instant · zero lag</div>
-        <div class="feature-arrow">Explore →</div>
+        <div class="feature-stat">@s.TotalApplications.ToString("N0") applications ranked</div>
       </div>
       <div class="feature-cell">
         <span class="feature-cell-num">05</span>
         <div class="feature-tag">Alerts</div>
         <div class="feature-h">Smart Career Alerts</div>
         <p class="feature-p">Get notified when your score improves, when you're near the top, or when a high-match job is posted.</p>
-        <div class="feature-stat">Real-time notifications</div>
-        <div class="feature-arrow">Explore →</div>
+        <div class="feature-stat">@s.TotalActiveJobs.ToString("N0") active jobs tracked</div>
       </div>
       <div class="feature-cell">
         <span class="feature-cell-num">06</span>
         <div class="feature-tag">Pipeline</div>
         <div class="feature-h">Pipeline Management</div>
         <p class="feature-p">One-click status updates for companies. Candidates notified automatically at every stage of review.</p>
-        <div class="feature-stat">Full pipeline · instant updates</div>
-        <div class="feature-arrow">Explore →</div>
+        <div class="feature-stat">@s.TotalCompanies.ToString("N0") companies on platform</div>
       </div>
     </div>
   </div>

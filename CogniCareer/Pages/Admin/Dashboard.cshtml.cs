@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CogniCareer.Services;
 using CogniCareer.Models;
-using CogniCareer.Helpers;
-
 namespace CogniCareer.Pages.Admin
 {
     public class DashboardModel : PageModel
@@ -22,7 +20,8 @@ namespace CogniCareer.Pages.Admin
         public List<global::CogniCareer.Models.Company> PendingCompanies { get; set; } = new();
         public List<global::CogniCareer.Models.Company> AllCompanies { get; set; } = new();
         public List<Skill> AllSkills { get; set; } = new();
-        public List<User> AllUsers { get; set; } = new();
+        public List<AdminStudentRow> AllStudents { get; set; } = new();
+        public List<PlatformActivityEvent> RecentActivities { get; set; } = new();
         public List<SkillInsight> TopDemandingSkills { get; set; } = new();
         public List<SkillInsight> MostMissingSkills { get; set; } = new();
         public List<CompanyInsight> TopCompanies { get; set; } = new();
@@ -37,6 +36,23 @@ namespace CogniCareer.Pages.Admin
             if (!_auth.IsAdmin()) return RedirectToPage("/Auth/AdminAuth");
             LoadData();
             return Page();
+        }
+
+        public IActionResult OnGetActivityFeed(long? afterTicks)
+        {
+            if (!_auth.IsAdmin()) return Unauthorized();
+            DateTime? since = afterTicks.HasValue
+                ? new DateTime(afterTicks.Value, DateTimeKind.Utc)
+                : null;
+            var events = _adminService.GetRecentActivity(since, 15);
+            return new JsonResult(events.Select(e => new
+            {
+                title = e.Title,
+                description = e.Description,
+                eventType = e.EventType,
+                dotClass = e.DotClass,
+                occurredAtTicks = e.OccurredAt.Ticks
+            }));
         }
 
         public IActionResult OnPostLogout()
@@ -85,6 +101,16 @@ namespace CogniCareer.Pages.Admin
             return RedirectToPage();
         }
 
+        public IActionResult OnPostToggleStudent(int studentId, bool isActive)
+        {
+            if (!_auth.IsAdmin()) return RedirectToPage("/Auth/AdminAuth");
+            _adminService.ToggleStudent(studentId, isActive);
+            TempData["Toast"] = isActive ? "Student activated." : "Student deactivated.";
+            TempData["ToastClass"] = isActive ? "t-lime" : "t-red";
+            TempData["AdminTab"] = "ad-users";
+            return RedirectToPage();
+        }
+
         public IActionResult OnPostToggleUser(int userId, bool isActive)
         {
             if (!_auth.IsAdmin()) return RedirectToPage("/Auth/AdminAuth");
@@ -98,11 +124,13 @@ namespace CogniCareer.Pages.Admin
         private void LoadData()
         {
             UserName = _auth.GetUserName();
-            Stats = _adminService.GetStats();
             PendingCompanies = _companyService.GetPending();
             AllCompanies = _companyService.GetAll();
+            Stats = _adminService.GetStats();
+            Stats.PendingApprovals = PendingCompanies.Count;
             AllSkills = _adminService.GetAllSkills();
-            AllUsers = _adminService.GetAllUsers();
+            AllStudents = _adminService.GetAllStudents();
+            RecentActivities = _adminService.GetRecentActivity(null, 25);
             TopDemandingSkills = _adminService.GetTopDemandingSkills(5);
             MostMissingSkills = _adminService.GetMostMissingSkills(5);
             TopCompanies = _adminService.GetTopCompanies(5);

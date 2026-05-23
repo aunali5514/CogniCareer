@@ -36,6 +36,162 @@ namespace CogniCareer.Data
             return new AdminStats();
         }
 
+        public void EnrichDashboardStats(AdminStats stats)
+        {
+            try
+            {
+                using var con = DBHelper.GetConnection();
+                con.Open();
+
+                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM dbo.students", con))
+                    stats.TotalStudents = Convert.ToInt32(cmd.ExecuteScalar());
+
+                using (var cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM dbo.companies WHERE status = 'active'", con))
+                    stats.TotalCompanies = Convert.ToInt32(cmd.ExecuteScalar());
+
+                using (var cmd = new SqlCommand(
+                    @"SELECT COUNT(*) FROM dbo.companies
+                      WHERE status IS NULL OR status <> 'active'", con))
+                    stats.PendingApprovals = Convert.ToInt32(cmd.ExecuteScalar());
+
+                using (var cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM dbo.jobs WHERE status = 'active'", con))
+                    stats.TotalActiveJobs = Convert.ToInt32(cmd.ExecuteScalar());
+
+                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM dbo.applications", con))
+                    stats.TotalApplications = Convert.ToInt32(cmd.ExecuteScalar());
+
+                using (var cmd = new SqlCommand(
+                    "SELECT ISNULL(AVG(CAST(match_score AS FLOAT)), 0) FROM dbo.applications", con))
+                    stats.AverageMatchScore = Convert.ToDecimal(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {GetType().Name}.EnrichDashboardStats: {ex.Message}");
+            }
+        }
+
+        public List<AdminStudentRow> GetAllStudents()
+        {
+            var list = new List<AdminStudentRow>();
+            try
+            {
+                using var con = DBHelper.GetConnection();
+                using var cmd = new SqlCommand(@"
+SELECT s.id, s.user_id, s.full_name, s.email, s.university, s.status, s.joined_at,
+       CASE
+           WHEN u.UserID IS NOT NULL THEN CAST(u.IsActive AS INT)
+           WHEN LOWER(ISNULL(s.status, 'active')) = 'active' THEN 1
+           ELSE 0
+       END AS is_active
+FROM dbo.students s
+LEFT JOIN dbo.Users u ON u.UserID = s.user_id
+ORDER BY s.joined_at DESC, s.id DESC", con);
+                con.Open();
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(new AdminStudentRow
+                    {
+                        StudentId = Convert.ToInt32(reader["id"]),
+                        UserId = reader["user_id"] == DBNull.Value ? null : Convert.ToInt32(reader["user_id"]),
+                        FullName = reader["full_name"].ToString() ?? "",
+                        Email = reader["email"].ToString() ?? "",
+                        University = reader["university"].ToString() ?? "",
+                        IsActive = Convert.ToInt32(reader["is_active"]) == 1,
+                        JoinedAt = reader["joined_at"] == DBNull.Value ? null : Convert.ToDateTime(reader["joined_at"])
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {GetType().Name}.GetAllStudents: {ex.Message}");
+            }
+            return list;
+        }
+
+        public bool ToggleStudentStatus(int studentId, bool isActive)
+        {
+            var status = isActive ? "active" : "inactive";
+            try
+            {
+                using var con = DBHelper.GetConnection();
+                con.Open();
+
+                int? userId = null;
+                using (var cmd = new SqlCommand(
+                    "SELECT user_id FROM dbo.students WHERE id = @id", con))
+                {
+                    cmd.Parameters.AddWithValue("@id", studentId);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                        userId = Convert.ToInt32(result);
+                }
+
+                using (var cmd = new SqlCommand(
+                    "UPDATE dbo.students SET status = @status WHERE id = @id", con))
+                {
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@id", studentId);
+                    cmd.ExecuteNonQuery();
+                }
+
+                if (userId.HasValue)
+                {
+                    using var cmd = new SqlCommand(
+                        "UPDATE dbo.Users SET IsActive = @active WHERE UserID = @uid", con);
+                    cmd.Parameters.AddWithValue("@active", isActive ? 1 : 0);
+                    cmd.Parameters.AddWithValue("@uid", userId.Value);
+                    cmd.ExecuteNonQuery();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {GetType().Name}.ToggleStudentStatus: {ex.Message}");
+                return false;
+            }
+        }
+
+        public HomePublicStats GetPublicHomeStats()
+        {
+            var dashboard = GetStats() ?? new AdminStats();
+            var home = new HomePublicStats
+            {
+                TotalStudents = dashboard.TotalStudents,
+                TotalCompanies = dashboard.TotalCompanies,
+                TotalActiveJobs = dashboard.TotalActiveJobs,
+                TotalApplications = dashboard.TotalApplications,
+                PendingApprovals = dashboard.PendingApprovals,
+                MatchScorePercent = (int)Math.Round(dashboard.AverageMatchScore, MidpointRounding.AwayFromZero)
+            };
+
+            try
+            {
+                using var con = DBHelper.GetConnection();
+                con.Open();
+
+                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM dbo.skills", con))
+                    home.TotalSkills = Convert.ToInt32(cmd.ExecuteScalar());
+
+                using (var cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM dbo.applications WHERE CAST(applied_at AS DATE) = CAST(GETDATE() AS DATE)", con))
+                    home.ApplicationsToday = Convert.ToInt32(cmd.ExecuteScalar());
+
+                using (var cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM dbo.jobs WHERE posted_at >= DATEADD(day, -7, GETDATE())", con))
+                    home.JobsPostedThisWeek = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {GetType().Name}.GetPublicHomeStats: {ex.Message}");
+            }
+
+            return home;
+        }
+
         public List<User> GetAllUsers()
         {
             var list = new List<User>();

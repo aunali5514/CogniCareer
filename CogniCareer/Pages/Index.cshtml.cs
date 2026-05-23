@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using CogniCareer.Models;
 using CogniCareer.Services;
 
 namespace CogniCareer.Pages
@@ -7,7 +8,15 @@ namespace CogniCareer.Pages
     public class IndexModel : PageModel
     {
         private readonly AuthService _auth;
-        public IndexModel(AuthService auth) { _auth = auth; }
+        private readonly AdminService _admin;
+
+        public IndexModel(AuthService auth, AdminService admin)
+        {
+            _auth = auth;
+            _admin = admin;
+        }
+
+        public HomePublicStats Stats { get; set; } = new();
 
         public IActionResult OnGet()
         {
@@ -21,6 +30,8 @@ namespace CogniCareer.Pages
                     _ => Page()
                 };
             }
+
+            Stats = _admin.GetPublicHomeStats() ?? new HomePublicStats();
             return Page();
         }
     }

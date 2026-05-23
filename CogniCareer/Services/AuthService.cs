@@ -8,6 +8,7 @@ namespace CogniCareer.Services
         private readonly UserData _userData = new();
         private readonly StudentData _studentData = new();
         private readonly CompanyData _companyData = new();
+        private readonly ActivityData _activityData = new();
         private readonly IHttpContextAccessor _http;
 
         public AuthService(IHttpContextAccessor http)
@@ -36,6 +37,7 @@ namespace CogniCareer.Services
             if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) return (false, "Incorrect password.", null);
             if (!user.IsActive) return (false, "Account is deactivated.", null);
             SetSession(user);
+            _activityData.TouchStudentLogin(user.UserID);
             return (true, "", user);
         }
 
@@ -74,6 +76,7 @@ namespace CogniCareer.Services
             if (company == null) return (false, "Company profile not found.", null);
             if (!company.IsApproved) return (false, "Your company is pending admin approval.", null);
             SetSession(user);
+            _activityData.Log("login", "Company signed in", $"{company.CompanyName} signed in to the company portal.");
             return (true, "", user);
         }
 
@@ -87,6 +90,7 @@ namespace CogniCareer.Services
             if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) return (false, $"DEBUG: BCrypt failed. Hash='{user.PasswordHash}'", null);
 
             SetSession(user);
+            _activityData.Log("login", "Admin signed in", $"{user.FullName} signed in to the admin panel.");
             return (true, "", user);
         }
 
