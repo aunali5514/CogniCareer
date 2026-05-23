@@ -37,6 +37,7 @@ namespace CogniCareer.Pages.Student
         public List<StudentSkill> StudentSkills { get; set; } = new();
         public List<Alert> Alerts { get; set; } = new();
         public SkillGapResult TopGap { get; set; } = new();
+        public List<LearningResource> LearningResources { get; set; } = new();
         public PeerBenchmark TopBenchmark { get; set; } = new();
         public HashSet<int> AppliedJobIds { get; set; } = new();
         public string AllSkillsJson { get; set; } = "[]";
@@ -166,6 +167,11 @@ namespace CogniCareer.Pages.Student
                 var topApp = Applications.OrderByDescending(a => a.MatchScore).First();
                 TopGap = _matchService.GetGap(uid, topApp.JobID);
                 TopBenchmark = _appService.GetBenchmark(uid, topApp.JobID);
+                if (TopGap.MissingSkills.Any())
+                {
+                    var missingSkillIDs = TopGap.MissingSkills.Select(s => s.SkillID).ToList();
+                    LearningResources = new CogniCareer.Data.LearningResourceData().GetBySkillIDs(missingSkillIDs);
+                }
             }
 
             Alerts = _alertService.GetUnread(uid);

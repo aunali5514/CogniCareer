@@ -645,13 +645,69 @@ input,select,textarea{font-family:var(--f-sans)}
                 <div class="peer-cell"><div class="peer-label">Top Score</div><div class="peer-value">@Model.TopBenchmark.TopScore%</div></div>
                 <div class="peer-cell"><div class="peer-label">Your Score</div><div class="peer-value" style="color:var(--lime-d)">@Model.TopBenchmark.MyScore%</div></div>
                 <div class="peer-cell"><div class="peer-label">Your Percentile</div><div class="peer-value">@Model.TopBenchmark.Percentile%</div></div>
-              </div>
-            </div>
-          </div>
-        }
-      </div>
+                            </div>
+                        </div>
+                    </div>
 
-      <!-- ── PROFILE ── -->
+                    @if (Model.LearningResources.Any())
+                    {
+                        <div class="card" style="margin-bottom:20px">
+                            <div class="card-head">
+                                <span class="card-title">Learning Resources for Missing Skills</span>
+                                <span class="badge badge-default">@Model.LearningResources.Count resource@(Model.LearningResources.Count == 1 ? "" : "s")</span>
+                            </div>
+                            <div class="card-body" style="padding:0">
+                                @foreach (var skillGroup in Model.LearningResources.GroupBy(r => r.SkillID))
+                                {
+                                    var skillName = Model.TopGap.MissingSkills.FirstOrDefault(s => s.SkillID == skillGroup.Key)?.SkillName ?? "";
+                                    var priority = Model.TopGap.MissingSkills.FirstOrDefault(s => s.SkillID == skillGroup.Key)?.Priority ?? "";
+                                    <div style="padding:16px 22px;border-bottom:1px solid var(--line)">
+                                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                                            <span style="font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--ink)">@skillName</span>
+                                            @if (priority == "Required")
+                                            {
+                                                <span class="badge badge-red" style="font-size:9px">REQUIRED</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-blue" style="font-size:9px">PREFERRED</span>
+                                            }
+                                        </div>
+                                        @foreach (var resource in skillGroup)
+                                        {
+                                            <a href="@resource.URL" target="_blank" rel="noopener noreferrer"
+                                               style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--warm);margin-bottom:8px;text-decoration:none;color:var(--ink);transition:border-color .15s,background .15s"
+                                               onmouseover="this.style.borderColor='var(--ink)';this.style.background='var(--white)'"
+                                               onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--warm)'">
+                                                <div style="display:flex;align-items:center;gap:10px">
+                                                    <span style="font-size:15px">
+                                                        @(resource.ResourceType switch
+                                                        {
+                                                            "video" => "▶",
+                                                            "course" => "🎓",
+                                                            "book" => "📖",
+                                                            "tutorial" => "🎯",
+                                                            "guide" => "📋",
+                                                            _ => "🔗"
+                                                        })
+                                                    </span>
+                                                    <div>
+                                                        <div style="font-size:13px;font-weight:600">@resource.Title</div>
+                                                        <div style="font-size:11px;color:var(--muted);font-family:var(--f-mono)">@resource.Provider · @resource.ResourceType@(resource.IsFree ? " · Free" : "")</div>
+                                                    </div>
+                                                </div>
+                                                <span style="font-size:11px;font-family:var(--f-mono);color:var(--muted);flex-shrink:0">OPEN →</span>
+                                            </a>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <!-- ── PROFILE ── -->
       <div class="panel" id="sp-profile">
         <div class="profile-hero">
           <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(184,255,53,.06),transparent 70%)"></div>
