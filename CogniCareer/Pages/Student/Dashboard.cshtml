@@ -282,12 +282,340 @@ input,select,textarea{font-family:var(--f-sans)}
 .chat-send{padding:0 26px;background:var(--ink);color:var(--paper);border:none;font-family:var(--f-sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:6px}
 .chat-send:hover{background:var(--ink-2)}
 .chat-send:disabled{background:var(--muted);cursor:not-allowed}
+            /* ===== Explain Match modal ===== */
+            .ai-modal-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(20,20,20,.55);
+                backdrop-filter: blur(4px);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                padding: 20px;
+                animation: fadeUp .2s ease
+            }
+
+                .ai-modal-overlay.is-open {
+                    display: flex
+                }
+
+            .ai-modal {
+                background: var(--paper);
+                border: 1px solid var(--line);
+                border-radius: var(--r);
+                max-width: 560px;
+                width: 100%;
+                max-height: 88vh;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 30px 80px rgba(0,0,0,.35)
+            }
+
+            .ai-modal-head {
+                padding: 18px 22px;
+                border-bottom: 1px solid var(--line);
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 14px;
+                background: var(--white)
+            }
+
+            .ai-modal-title {
+                font-family: var(--f-serif);
+                font-size: 20px;
+                font-weight: 900;
+                letter-spacing: -.025em;
+                line-height: 1.2
+            }
+
+            .ai-modal-sub {
+                font-family: var(--f-mono);
+                font-size: 10px;
+                color: var(--muted);
+                letter-spacing: .06em;
+                margin-top: 4px;
+                text-transform: uppercase
+            }
+
+            .ai-modal-close {
+                background: transparent;
+                border: none;
+                font-size: 22px;
+                line-height: 1;
+                color: var(--muted);
+                cursor: pointer;
+                padding: 0 4px
+            }
+
+                .ai-modal-close:hover {
+                    color: var(--ink)
+                }
+
+            .ai-modal-body {
+                padding: 22px;
+                overflow-y: auto;
+                line-height: 1.65;
+                font-size: 14px;
+                color: var(--ink)
+            }
+
+                .ai-modal-body .match-line {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin-bottom: 16px;
+                    padding-bottom: 14px;
+                    border-bottom: 1px dashed var(--line)
+                }
+
+                .ai-modal-body .match-pill {
+                    font-family: var(--f-mono);
+                    font-size: 11px;
+                    padding: 4px 10px;
+                    border-radius: 100px;
+                    background: var(--ink);
+                    color: var(--paper);
+                    letter-spacing: .04em
+                }
+
+            .btn-explain {
+                background: transparent;
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                font-family: var(--f-sans);
+                font-size: 10.5px;
+                font-weight: 600;
+                padding: 5px 11px;
+                cursor: pointer;
+                color: var(--ink);
+                letter-spacing: .02em;
+                margin-left: 8px;
+                transition: all .15s
+            }
+
+                .btn-explain:hover {
+                    background: var(--ink);
+                    color: var(--paper);
+                    border-color: var(--ink)
+                }
+
+                .btn-explain:disabled {
+                    opacity: .5;
+                    cursor: wait
+                }
+                /* ===== PDF Upload button ===== */
+.resume-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:14px;flex-wrap:wrap}
+.upload-pdf-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px dashed var(--line);border-radius:6px;background:var(--white);font-family:var(--f-sans);font-size:11.5px;color:var(--ink);cursor:pointer;transition:all .15s;white-space:nowrap}
+.upload-pdf-btn:hover{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.upload-pdf-btn.is-busy{pointer-events:none;opacity:.7}
+            /* ===== Cover Letter modal ===== */
+            .btn-cover {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                background: transparent;
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                font-family: var(--f-sans);
+                font-size: 10.5px;
+                font-weight: 600;
+                padding: 5px 11px;
+                cursor: pointer;
+                color: var(--ink);
+                letter-spacing: .02em;
+                margin-left: 6px;
+                transition: all .15s
+            }
+
+                .btn-cover:hover {
+                    background: var(--lime);
+                    border-color: var(--lime-d)
+                }
+
+            .cl-modal {
+                max-width: 680px
+            }
+
+            .cl-tone-row {
+                display: flex;
+                gap: 6px;
+                padding: 12px 22px;
+                border-bottom: 1px solid var(--line);
+                background: var(--paper);
+                align-items: center;
+                flex-wrap: wrap
+            }
+
+            .cl-tone-label {
+                font-family: var(--f-mono);
+                font-size: 9px;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-right: 6px
+            }
+
+            .cl-tone-btn {
+                font-family: var(--f-sans);
+                font-size: 11px;
+                padding: 5px 11px;
+                border: 1px solid var(--line);
+                border-radius: 100px;
+                background: var(--white);
+                color: var(--ink);
+                cursor: pointer;
+                transition: all .15s
+            }
+
+                .cl-tone-btn:hover {
+                    border-color: var(--ink)
+                }
+
+                .cl-tone-btn.is-active {
+                    background: var(--ink);
+                    color: var(--paper);
+                    border-color: var(--ink)
+                }
+
+            .cl-body {
+                padding: 22px;
+                overflow-y: auto;
+                font-family: 'Times New Roman',Georgia,serif;
+                font-size: 13px;
+                line-height: 1.65;
+                color: var(--ink);
+                background: var(--white);
+                white-space: pre-wrap;
+                min-height: 300px;
+                max-height: 55vh
+            }
+
+                .cl-body.is-loading {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--muted);
+                    font-family: var(--f-mono);
+                    font-size: 12px
+                }
+
+            .cl-actions {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 14px 22px;
+                border-top: 1px solid var(--line);
+                background: var(--paper);
+                gap: 10px
+            }
+
+                .cl-actions .left {
+                    display: flex;
+                    gap: 8px
+                }
+
+                .cl-actions .right {
+                    display: flex;
+                    gap: 8px
+                }
+
+            .cl-copy-btn {
+                font-family: var(--f-sans);
+                font-size: 11px;
+                font-weight: 700;
+                padding: 8px 16px;
+                background: var(--ink);
+                color: var(--paper);
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                letter-spacing: .04em;
+                text-transform: uppercase;
+                transition: background .15s
+            }
+
+                .cl-copy-btn:hover {
+                    background: var(--ink-2)
+                }
+
+                .cl-copy-btn.is-copied {
+                    background: var(--lime-d)
+                }
+
+            .cl-regen-btn {
+                font-family: var(--f-sans);
+                font-size: 11px;
+                padding: 8px 14px;
+                background: var(--white);
+                color: var(--ink);
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                cursor: pointer;
+                letter-spacing: .04em
+            }
+
+                .cl-regen-btn:hover {
+                    border-color: var(--ink)
+                }
+
+                .cl-regen-btn:disabled {
+                    opacity: .5;
+                    cursor: wait
+                }
 /* ===== END NEW AI styles ===== */
 </style>
 </head>
 <body>
 <div id="toast" class="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
-
+    <!-- ===== Explain Match modal (used by Browse Jobs) ===== -->
+    <div class="ai-modal-overlay" id="explain-modal" onclick="if(event.target===this)closeExplainModal()">
+        <div class="ai-modal">
+            <div class="ai-modal-head">
+                <div>
+                    <div class="ai-modal-title" id="em-title">Why this match?</div>
+                    <div class="ai-modal-sub" id="em-sub">AI-generated breakdown</div>
+                </div>
+                <button class="ai-modal-close" onclick="closeExplainModal()">×</button>
+            </div>
+            <div class="ai-modal-body">
+                <div class="match-line" id="em-match-line" style="display:none">
+                    <span class="match-pill" id="em-pill">— %</span>
+                    <span style="font-size:12px;color:var(--muted);font-family:var(--f-mono)">match score</span>
+                </div>
+                <div id="em-text"><span class="ai-spinner"></span>&nbsp; Asking AI...</div>
+            </div>
+        </div>
+    </div>
+    <!-- ===== Cover Letter modal ===== -->
+    <div class="ai-modal-overlay" id="cover-modal" onclick="if(event.target===this)closeCoverModal()">
+        <div class="ai-modal cl-modal">
+            <div class="ai-modal-head">
+                <div>
+                    <div class="ai-modal-title" id="cl-title">Cover Letter</div>
+                    <div class="ai-modal-sub" id="cl-sub">AI-generated · personalized to your profile</div>
+                </div>
+                <button class="ai-modal-close" onclick="closeCoverModal()">×</button>
+            </div>
+            <div class="cl-tone-row">
+                <span class="cl-tone-label">Tone:</span>
+                <button class="cl-tone-btn is-active" data-tone="professional" onclick="setCoverTone(this)">Professional</button>
+                <button class="cl-tone-btn" data-tone="enthusiastic" onclick="setCoverTone(this)">Enthusiastic</button>
+                <button class="cl-tone-btn" data-tone="concise" onclick="setCoverTone(this)">Concise</button>
+            </div>
+            <div class="cl-body is-loading" id="cl-body"><span class="ai-spinner"></span>&nbsp; Writing your cover letter...</div>
+            <div class="cl-actions">
+                <div class="left">
+                    <button class="cl-regen-btn" id="cl-regen" onclick="regenerateCoverLetter()" disabled>↻ Regenerate</button>
+                </div>
+                <div class="right">
+                    <button class="cl-copy-btn" id="cl-copy" onclick="copyCoverLetter()" disabled>Copy to clipboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="dash-shell">
   <!-- Sidebar -->
   <aside class="dash-sidebar">
@@ -470,23 +798,27 @@ input,select,textarea{font-family:var(--f-sans)}
                   <div style="font-family:var(--f-mono);font-size:9.5px;color:var(--muted);margin-bottom:7px">@jm.Job.CompanyName · @jm.Job.JobType · Deadline: @jm.Job.Deadline.ToString("MMM dd, yyyy")</div>
                   <div class="job-desc-label">Job Description</div>
                   <div class="job-desc-full">@(string.IsNullOrWhiteSpace(jm.Job.Description) ? "No description provided." : jm.Job.Description)</div>
-                  @if (alreadyApplied)
-                  {
-                    <span class="badge badge-dark">✓ Applied</span>
-                  }
+                                   @if (alreadyApplied)
+{
+  <span class="badge badge-dark">✓ Applied</span>
+  <button type="button" class="btn-explain" onclick="explainMatch(@jm.Job.JobID)">✨ Why this match?</button>
+  <button type="button" class="btn-cover" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\\'")', '@jm.Job.CompanyName.Replace("'", "\\'")')">📝 Cover Letter</button>
+}
                   else if (jm.Job.Deadline < DateTime.Now)
                   {
                     <span class="badge badge-red">Closed</span>
                   }
-                  else
-                  {
-                    <form method="post" asp-page-handler="Apply" style="display:inline">
-                      @Html.AntiForgeryToken()
-                      <input type="hidden" name="jobId" value="@jm.Job.JobID">
-                      <input type="hidden" name="matchScore" value="@jm.MatchScore">
-                      <button type="submit" class="btn btn-dark btn-sm">Apply Now →</button>
-                    </form>
-                  }
+                                    else
+                                    {
+                                        <form method="post" asp-page-handler="Apply" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="jobId" value="@jm.Job.JobID">
+                                            <input type="hidden" name="matchScore" value="@jm.MatchScore">
+                                            <button type="submit" class="btn btn-dark btn-sm">Apply Now →</button>
+                                        </form>
+                                        <button type="button" class="btn-explain" onclick="explainMatch(@jm.Job.JobID)">✨ Why this match?</button>
+                                        <button type="button" class="btn-cover" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\\'")', '@jm.Job.CompanyName.Replace("'", "\\'")')">📝 Cover Letter</button>
+                                    }
                 </div>
                 <div class="match-ring-wow" style="margin-top:4px">
                   <svg viewBox="0 0 58 58"><circle class="ring-track" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="0"/><circle class="@ringClass" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="@offset"/></svg>
@@ -754,7 +1086,13 @@ input,select,textarea{font-family:var(--f-sans)}
     <div class="card">
       <div class="card-head"><span class="card-title">Resume Analyzer</span></div>
       <div class="card-body">
-        <div class="ai-sub">Paste your resume text below for an instant AI-powered score</div>
+        <div class="resume-head-row">
+  <div class="ai-sub" style="margin-bottom:0">Paste your resume text, or upload a PDF</div>
+  <label class="upload-pdf-btn" id="btn-upload-pdf">
+    <input type="file" accept="application/pdf,.pdf" onchange="uploadResumePdf(this)" style="display:none">
+    <span class="upload-label">📎 Upload PDF</span>
+  </label>
+</div>
         <textarea id="resume-input" class="resume-textarea" placeholder="Paste your resume text here...
 
 Example: John Doe | john@email.com
@@ -809,10 +1147,13 @@ EXPERIENCE: Built full-stack e-commerce app using React and Node..."></textarea>
 <!-- ── AI CAREER ADVISOR ── -->
 <div class="panel" id="sp-advisor">
   <div class="card">
-    <div class="card-head">
-      <span class="card-title">AI Career Advisor</span>
-      <span class="online-dot">Online</span>
-    </div>
+<div class="card-head">
+  <span class="card-title">AI Career Advisor</span>
+  <div style="display:flex;align-items:center;gap:14px">
+    <button class="quick-btn" style="font-size:10px;padding:4px 10px" onclick="clearChat()" id="btn-clear-chat">Clear chat</button>
+    <span class="online-dot">Online</span>
+  </div>
+</div>
     <div class="quick-row">
       <span class="quick-label">Quick ask:</span>
       <button class="quick-btn" onclick="askAdvisor('What should I learn next to improve my match score?')">What to learn next?</button>
@@ -820,9 +1161,19 @@ EXPERIENCE: Built full-stack e-commerce app using React and Node..."></textarea>
       <button class="quick-btn" onclick="askAdvisor('Give me a 5-step interview prep plan based on my skills.')">Interview prep</button>
       <button class="quick-btn" onclick="askAdvisor('What are my biggest career strengths right now?')">My career strengths</button>
     </div>
-    <div class="chat-area" id="chat-area">
+<div class="chat-area" id="chat-area">
+  @if (Model.ChatHistory.Any())
+  {
+      foreach (var msg in Model.ChatHistory)
+      {
+          <div class="chat-msg from-@(msg.Role == "user" ? "user" : "ai")" data-content="@msg.Content"></div>
+      }
+  }
+  else
+  {
       <div class="chat-msg from-ai">👋 Hi @(string.IsNullOrEmpty(Model.UserName) ? "there" : Model.UserName.Split(' ')[0])! I'm your AI career advisor. I can help you figure out what to learn next, how to improve your match score, or how to prepare for an interview. What's on your mind?</div>
-    </div>
+  }
+</div>
     <div class="chat-input-row">
       <input id="chat-input" class="chat-input" type="text" placeholder="Ask anything about your career..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="chat-send" id="chat-send" onclick="sendChat()">SEND →</button>
@@ -1011,7 +1362,50 @@ function setProf(btn, level) {
           var el = document.querySelector('input[name="__RequestVerificationToken"]');
           return el ? el.value : '';
         }
+                /* =====================================================
+           PDF RESUME UPLOAD → extract text → fill textarea
+           ===================================================== */
+        async function uploadResumePdf(inputEl) {
+          if (!inputEl.files || inputEl.files.length === 0) return;
+          var file = inputEl.files[0];
 
+          if (file.size > 5 * 1024 * 1024) {
+            showToast('File too large. Maximum 5 MB.', 't-red');
+            inputEl.value = '';
+            return;
+          }
+
+          var btn = document.getElementById('btn-upload-pdf');
+          var labelEl = btn.querySelector('.upload-label');
+          var originalLabel = labelEl.textContent;
+          btn.classList.add('is-busy');
+          labelEl.innerHTML = '<span class="ai-spinner"></span>&nbsp; Extracting...';
+
+          try {
+            var formData = new FormData();
+            formData.append('file', file);
+
+            var res = await fetch('?handler=ExtractPdf', {
+              method: 'POST',
+              headers: { 'RequestVerificationToken': getAfToken() },
+              body: formData
+            });
+            var raw = await res.text();
+            if (!res.ok) throw new Error('Server returned HTTP ' + res.status);
+            var data = JSON.parse(raw);
+            if (!data.success) throw new Error(data.errorMessage || 'Extraction failed');
+
+            document.getElementById('resume-input').value = data.text;
+            showToast('PDF extracted (' + data.text.length + ' chars). Click "Analyze Resume" to score it.', 't-lime');
+          } catch (err) {
+            console.error('PDF upload error:', err);
+            showToast('Could not extract PDF: ' + err.message, 't-red');
+          } finally {
+            btn.classList.remove('is-busy');
+            labelEl.textContent = originalLabel;
+            inputEl.value = ''; // reset so user can upload the same file again
+          }
+        }
         /* =====================================================
            AI RESUME ANALYZER
            ===================================================== */
@@ -1086,7 +1480,22 @@ function setProf(btn, level) {
         /* =====================================================
            AI CAREER ADVISOR (chat)
            ===================================================== */
-        var chatHistory = [];
+        var chatHistory = @Html.Raw(Model.ChatHistoryJson);
+
+// Render any pre-loaded chat messages with proper formatting on page load
+window.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.chat-msg[data-content]').forEach(function(el) {
+    var content = el.getAttribute('data-content');
+    if (el.classList.contains('from-user')) {
+      el.textContent = content;
+    } else {
+      el.innerHTML = formatChatText(content);
+    }
+  });
+  // Scroll chat to bottom if there's history
+  var area = document.getElementById('chat-area');
+  if (area) area.scrollTop = area.scrollHeight;
+});
 
         function askAdvisor(presetText) {
           document.getElementById('chat-input').value = presetText;
@@ -1156,6 +1565,169 @@ function setProf(btn, level) {
           safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
           safe = safe.replace(/\n/g, '<br>');
           return safe;
+        }
+                async function clearChat() {
+          if (!confirm('Clear all chat history? This cannot be undone.')) return;
+          try {
+            var res = await fetch('?handler=ClearChat', {
+              method: 'POST',
+              headers: { 'RequestVerificationToken': getAfToken() }
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            var data = await res.json();
+            if (!data.success) throw new Error('Server refused');
+            chatHistory = [];
+            var area = document.getElementById('chat-area');
+            area.innerHTML = '<div class="chat-msg from-ai">👋 Chat cleared. Ask me anything.</div>';
+            showToast('Chat history cleared.', 't-lime');
+          } catch (err) {
+            showToast('Could not clear chat: ' + err.message, 't-red');
+          }
+        }
+                /* =====================================================
+           EXPLAIN MATCH SCORE (per-job AI breakdown)
+           ===================================================== */
+        async function explainMatch(jobId) {
+          var modal = document.getElementById('explain-modal');
+          var textEl = document.getElementById('em-text');
+          var matchLine = document.getElementById('em-match-line');
+          var pillEl = document.getElementById('em-pill');
+          var titleEl = document.getElementById('em-title');
+          var subEl = document.getElementById('em-sub');
+
+          // Reset modal to loading state and show it
+          titleEl.textContent = 'Why this match?';
+          subEl.textContent = 'AI-generated breakdown';
+          matchLine.style.display = 'none';
+          textEl.innerHTML = '<span class="ai-spinner"></span>&nbsp; Asking AI...';
+          modal.classList.add('is-open');
+
+          try {
+            var res = await fetch('?handler=ExplainMatch', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': getAfToken()
+              },
+              body: JSON.stringify({ jobId: jobId })
+            });
+            var raw = await res.text();
+            if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
+            if (!raw) throw new Error('Server returned an empty response.');
+            var data = JSON.parse(raw);
+
+            if (data.jobTitle) {
+              titleEl.textContent = data.jobTitle;
+              subEl.textContent = (data.companyName || '') + ' — AI breakdown';
+              pillEl.textContent = (data.matchScore || 0) + '% match';
+              matchLine.style.display = 'flex';
+            }
+            textEl.innerHTML = formatChatText(data.explanation || 'No explanation returned.');
+          } catch (err) {
+            console.error('Explain match error:', err);
+            textEl.textContent = 'Error: ' + err.message;
+          }
+        }
+
+        function closeExplainModal() {
+          document.getElementById('explain-modal').classList.remove('is-open');
+        }
+                /* =====================================================
+           COVER LETTER GENERATOR
+           ===================================================== */
+        var clState = { jobId: 0, jobTitle: '', companyName: '', tone: 'professional' };
+
+        function generateCoverLetter(jobId, jobTitle, companyName) {
+          clState = { jobId: jobId, jobTitle: jobTitle, companyName: companyName, tone: 'professional' };
+
+          // Reset tone buttons
+          document.querySelectorAll('#cover-modal .cl-tone-btn').forEach(function(btn){
+            btn.classList.toggle('is-active', btn.getAttribute('data-tone') === 'professional');
+          });
+
+          document.getElementById('cl-title').textContent = jobTitle;
+          document.getElementById('cl-sub').textContent = companyName + ' · AI-generated';
+          document.getElementById('cover-modal').classList.add('is-open');
+          fetchCoverLetter();
+        }
+
+        function setCoverTone(btn) {
+          var tone = btn.getAttribute('data-tone');
+          if (clState.tone === tone) return;
+          document.querySelectorAll('#cover-modal .cl-tone-btn').forEach(function(b){
+            b.classList.toggle('is-active', b === btn);
+          });
+          clState.tone = tone;
+          fetchCoverLetter();
+        }
+
+        function regenerateCoverLetter() {
+          fetchCoverLetter();
+        }
+
+        async function fetchCoverLetter() {
+          var body = document.getElementById('cl-body');
+          var copyBtn = document.getElementById('cl-copy');
+          var regenBtn = document.getElementById('cl-regen');
+
+          body.classList.add('is-loading');
+          body.innerHTML = '<span class="ai-spinner"></span>&nbsp; Writing your cover letter...';
+          copyBtn.disabled = true;
+          copyBtn.classList.remove('is-copied');
+          copyBtn.textContent = 'Copy to clipboard';
+          regenBtn.disabled = true;
+
+          try {
+            var res = await fetch('?handler=GenerateCoverLetter', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': getAfToken()
+              },
+              body: JSON.stringify({ jobId: clState.jobId, tone: clState.tone })
+            });
+            var raw = await res.text();
+            if (!res.ok) throw new Error('Server returned HTTP ' + res.status);
+            var data = JSON.parse(raw);
+            if (!data.success) throw new Error(data.errorMessage || 'Generation failed');
+
+            body.classList.remove('is-loading');
+            body.textContent = data.letter; // textContent preserves whitespace inside white-space:pre-wrap
+            copyBtn.disabled = false;
+            regenBtn.disabled = false;
+          } catch (err) {
+            console.error('Cover letter error:', err);
+            body.classList.remove('is-loading');
+            body.textContent = 'Error: ' + err.message;
+            regenBtn.disabled = false;
+          }
+        }
+
+        async function copyCoverLetter() {
+          var body = document.getElementById('cl-body');
+          var copyBtn = document.getElementById('cl-copy');
+          try {
+            await navigator.clipboard.writeText(body.textContent);
+            copyBtn.classList.add('is-copied');
+            copyBtn.textContent = '✓ Copied!';
+            setTimeout(function(){
+              copyBtn.classList.remove('is-copied');
+              copyBtn.textContent = 'Copy to clipboard';
+            }, 2000);
+          } catch (err) {
+            // Fallback for older browsers
+            var range = document.createRange();
+            range.selectNodeContents(body);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            try { document.execCommand('copy'); copyBtn.textContent = '✓ Copied!'; } catch(e) {}
+            sel.removeAllRanges();
+          }
+        }
+
+        function closeCoverModal() {
+          document.getElementById('cover-modal').classList.remove('is-open');
         }
 @if (!string.IsNullOrEmpty(Model.ToastMessage))
 {

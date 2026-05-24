@@ -4,6 +4,8 @@ using CogniCareer.Services;
 using CogniCareer.Models;
 using CogniCareer.Helpers;
 using System.Text.Json;
+using System.Text;
+using UglyToad.PdfPig;
 
 namespace CogniCareer.Pages.Student
 {
@@ -55,7 +57,8 @@ namespace CogniCareer.Pages.Student
         public int TotalSkills => StudentSkills.Count;
         public decimal AvgMatchScore => Applications.Any() ? Math.Round(Applications.Average(a => a.MatchScore), 1) : 0;
         public int UnreadAlerts { get; set; }
-
+        public List<ChatMessage> ChatHistory { get; set; } = new();
+        public string ChatHistoryJson { get; set; } = "[]";
         public IActionResult OnGet()
         {
             if (!_auth.IsStudent()) return RedirectToPage("/Auth/StudentAuth");
@@ -166,6 +169,16 @@ namespace CogniCareer.Pages.Student
             var topJobs = _matchService.GetRankedJobs(uid, activeJobs).Take(5).ToList();
 
             var result = await _aiService.AnalyzeResumeAsync(req?.Text ?? "", profile, skills, topJobs);
+
+            // === NEW: log AI usage so it appears in admin analytics ===
+            if (result.Success)
+            {
+                new CogniCareer.Data.ActivityData().Log(
+                    "ai_resume",
+                    "AI Resume Analyzed",
+                    $"{profile?.FullName ?? _auth.GetUserName()} scored {result.OverallScore}/100 on the AI Resume Analyzer.");
+            }
+
             return new JsonResult(result);
         }
 
@@ -186,20 +199,174 @@ namespace CogniCareer.Pages.Student
             var topJobs = _matchService.GetRankedJobs(uid, activeJobs).Take(5).ToList();
 
             SkillGapResult? gap = null;
+            List<LearningResource> learningResources = new();
             if (apps.Any())
             {
                 var topApp = apps.OrderByDescending(a => a.MatchScore).First();
                 gap = _matchService.GetGap(uid, topApp.JobID);
+                if (gap.MissingSkills.Any())
+                {
+                    var missingIds = gap.MissingSkills.Select(s => s.SkillID).ToList();
+                    learningResources = new CogniCareer.Data.LearningResourceData().GetBySkillIDs(missingIds);
+                }
             }
 
+            string question = req?.Question ?? "";
             string reply = await _aiService.AskAdvisorAsync(
-                req?.Question ?? "",
+                question,
                 req?.History ?? new List<ChatMessage>(),
-                profile, skills, topJobs, gap);
+                profile, skills, topJobs, gap, learningResources);
+
+            // === NEW: persist the new turn (user question + AI reply) to DB ===
+            var chatData = new CogniCareer.Data.AIChatData();
+            chatData.Add(uid, "user", question);
+            chatData.Add(uid, "model", reply);
+
+            // Activity log
+            var preview = question.Length > 80 ? (question.Substring(0, 80) + "...") : question;
+            new CogniCareer.Data.ActivityData().Log(
+                "ai_advisor",
+                "AI Advisor Question",
+                $"{profile?.FullName ?? _auth.GetUserName()} asked: \"{preview}\"");
 
             return new JsonResult(new { reply });
         }
+        [IgnoreAntiforgeryToken]
+        public IActionResult OnPostClearChat()
+        {
+            if (!_auth.IsStudent())
+                return new JsonResult(new { success = false });
 
+            var uid = _auth.GetUserID()!.Value;
+            new CogniCareer.Data.AIChatData().ClearForUser(uid);
+            return new JsonResult(new { success = true });
+        }
+        // ─────────────────────────────────────────────────────────
+        //  NEW: AJAX handler — Explain why student matches a specific job
+        // ─────────────────────────────────────────────────────────
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> OnPostExplainMatchAsync([FromBody] ExplainMatchRequest req)
+        {
+            if (!_auth.IsStudent())
+                return new JsonResult(new { explanation = "Please sign in again." });
+
+            var uid = _auth.GetUserID()!.Value;
+            var skills = new CogniCareer.Data.StudentSkillData().GetByUserID(uid);
+            var activeJobs = _jobService.GetAllActiveJobs();
+            var ranked = _matchService.GetRankedJobs(uid, activeJobs);
+            var jm = ranked.FirstOrDefault(j => j.Job.JobID == (req?.JobId ?? 0));
+
+            if (jm == null)
+                return new JsonResult(new { explanation = "Job not found or no longer active." });
+
+            var gap = _matchService.GetGap(uid, jm.Job.JobID);
+            string explanation = await _aiService.ExplainMatchAsync(jm.Job, jm.MatchScore, skills, gap);
+
+            // Activity log
+            new CogniCareer.Data.ActivityData().Log(
+                "ai_explain",
+                "Match Explanation Requested",
+                $"{_auth.GetUserName()} asked about \"{jm.Job.Title}\" ({jm.MatchScore}% match)");
+
+            return new JsonResult(new
+            {
+                jobTitle = jm.Job.Title,
+                companyName = jm.Job.CompanyName,
+                matchScore = jm.MatchScore,
+                explanation
+            });
+        }
+        // ─────────────────────────────────────────────────────────
+        //  NEW: Extract text from an uploaded PDF resume
+        //  Receives the file as multipart/form-data and returns the
+        //  extracted text. JS then drops it into the textarea so
+        //  the student can review/edit before clicking Analyze.
+        // ─────────────────────────────────────────────────────────
+        [IgnoreAntiforgeryToken]
+        public IActionResult OnPostExtractPdf(IFormFile file)
+        {
+            if (!_auth.IsStudent())
+                return new JsonResult(new { success = false, errorMessage = "Not signed in." });
+
+            if (file == null || file.Length == 0)
+                return new JsonResult(new { success = false, errorMessage = "No file received." });
+
+            // Safety limits
+            const long maxBytes = 5 * 1024 * 1024; // 5 MB
+            if (file.Length > maxBytes)
+                return new JsonResult(new { success = false, errorMessage = "File too large. Maximum 5 MB." });
+
+            string ext = System.IO.Path.GetExtension(file.FileName).ToLowerInvariant();
+            if (ext != ".pdf")
+                return new JsonResult(new { success = false, errorMessage = "Only PDF files are supported." });
+
+            try
+            {
+                var sb = new StringBuilder();
+                using (var stream = file.OpenReadStream())
+                using (var pdf = PdfDocument.Open(stream))
+                {
+                    foreach (var page in pdf.GetPages())
+                    {
+                        sb.AppendLine(page.Text);
+                    }
+                }
+
+                string text = sb.ToString().Trim();
+                if (text.Length < 20)
+                    return new JsonResult(new { success = false, errorMessage = "PDF appears to be empty or image-based (scanned). Try a text-based PDF or paste the text manually." });
+
+                // Activity log — separate from the AI call
+                new CogniCareer.Data.ActivityData().Log(
+                    "ai_resume_pdf",
+                    "Resume PDF Uploaded",
+                    $"{_auth.GetUserName()} uploaded '{file.FileName}' ({file.Length / 1024} KB, {text.Length} chars extracted)");
+
+                return new JsonResult(new { success = true, text });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, errorMessage = "Could not read PDF: " + ex.Message });
+            }
+        }
+        // ─────────────────────────────────────────────────────────
+        //  NEW: AJAX handler — Generate a cover letter for a job
+        // ─────────────────────────────────────────────────────────
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> OnPostGenerateCoverLetterAsync([FromBody] CoverLetterRequest req)
+        {
+            if (!_auth.IsStudent())
+                return new JsonResult(new { success = false, errorMessage = "Please sign in again." });
+
+            var uid = _auth.GetUserID()!.Value;
+            var profile = _studentService.GetProfile(uid);
+            var skills = new CogniCareer.Data.StudentSkillData().GetByUserID(uid);
+            var activeJobs = _jobService.GetAllActiveJobs();
+            var ranked = _matchService.GetRankedJobs(uid, activeJobs);
+            var jm = ranked.FirstOrDefault(j => j.Job.JobID == (req?.JobId ?? 0));
+
+            if (jm == null)
+                return new JsonResult(new { success = false, errorMessage = "Job not found or no longer active." });
+
+            var gap = _matchService.GetGap(uid, jm.Job.JobID);
+            string tone = string.IsNullOrWhiteSpace(req?.Tone) ? "professional" : req!.Tone;
+
+            string letter = await _aiService.GenerateCoverLetterAsync(jm.Job, profile, skills, gap, tone);
+
+            // Activity log
+            new CogniCareer.Data.ActivityData().Log(
+                "ai_cover_letter",
+                "Cover Letter Generated",
+                $"{profile?.FullName ?? _auth.GetUserName()} generated a {tone} cover letter for \"{jm.Job.Title}\" at {jm.Job.CompanyName}");
+
+            return new JsonResult(new
+            {
+                success = true,
+                jobTitle = jm.Job.Title,
+                companyName = jm.Job.CompanyName,
+                letter
+            });
+        }
         // DTOs for the two AJAX handlers above
         public class ResumeRequest
         {
@@ -211,7 +378,15 @@ namespace CogniCareer.Pages.Student
             public string Question { get; set; } = "";
             public List<ChatMessage> History { get; set; } = new();
         }
-
+        public class ExplainMatchRequest
+        {
+            public int JobId { get; set; }
+        }
+        public class CoverLetterRequest
+        {
+            public int JobId { get; set; }
+            public string Tone { get; set; } = "professional";
+        }
         private void LoadData()
         {
             var uid = _auth.GetUserID()!.Value;
@@ -243,6 +418,11 @@ namespace CogniCareer.Pages.Student
 
             Alerts = _alertService.GetUnread(uid);
             UnreadAlerts = Alerts.Count;
+            // === NEW: load chat history from DB so it persists across sessions ===
+            ChatHistory = new CogniCareer.Data.AIChatData().GetForUser(uid, 50);
+            ChatHistoryJson = JsonSerializer.Serialize(
+                ChatHistory,
+                new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
             var allSkillsList = _adminService.GetActiveSkills().Select(s => new { skillID = s.SkillID, skillName = s.SkillName, category = s.Category }).ToList();
             AllSkillsJson = JsonSerializer.Serialize(allSkillsList);
