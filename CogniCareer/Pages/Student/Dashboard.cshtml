@@ -244,6 +244,45 @@ input,select,textarea{font-family:var(--f-sans)}
 .dbi-pct{font-family:var(--f-mono);font-size:11px;color:var(--muted);width:32px;text-align:right;flex-shrink:0}
 @@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 .au{animation:fadeUp .55s ease both}
+/* ===== NEW: AI Resume Analyzer + AI Advisor styles ===== */
+.ai-sub{font-size:12px;color:var(--muted);margin-bottom:14px;font-family:var(--f-mono);letter-spacing:.04em}
+.resume-textarea{width:100%;min-height:220px;padding:14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-mono);font-size:13px;line-height:1.55;color:var(--ink);resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s}
+.resume-textarea:focus{border-color:var(--lime-d);box-shadow:0 0 0 3px rgba(143,212,0,.15)}
+.score-circle{width:120px;height:120px;border-radius:50%;border:5px solid var(--warm);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:30px;font-weight:900;color:var(--ink);position:relative;background:var(--white);flex-shrink:0;transition:border-color .35s}
+.score-circle .sc-sub{position:absolute;bottom:-2px;right:-2px;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:9px;padding:2px 7px;border-radius:100px;letter-spacing:.08em}
+.score-circle.has-score{border-color:var(--lime-d)}
+.score-head{display:flex;align-items:center;gap:22px;margin-bottom:22px}
+.score-head-text{flex:1}
+.score-head-title{font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.score-head-sub{font-size:12px;color:var(--muted);margin-top:4px;font-family:var(--f-mono)}
+.metric-row{margin-bottom:14px}
+.metric-row-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.metric-row-label{font-size:13px;font-weight:600;color:var(--ink)}
+.metric-row-val{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.metric-row-bar{height:4px;background:var(--warm);border-radius:0;overflow:hidden}
+.metric-row-fill{height:100%;background:var(--lime-d);width:0;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.ai-feedback{margin-top:18px;padding:12px 14px;border-radius:var(--r-sm);background:var(--warm);border-left:3px solid var(--lime-d);font-size:12.5px;line-height:1.55;color:var(--ink)}
+.ai-feedback.is-empty{color:var(--muted);font-style:italic;border-left-color:var(--line)}
+.ai-spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--ink);border-radius:50%;animation:aispin .7s linear infinite;vertical-align:middle}
+@@keyframes aispin{to{transform:rotate(360deg)}}
+.online-dot{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#1a7a3a}
+.online-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:#1a7a3a;box-shadow:0 0 0 3px rgba(26,122,58,.15)}
+.quick-row{padding:14px 22px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--paper)}
+.quick-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:6px}
+.quick-btn{font-family:var(--f-sans);font-size:11.5px;padding:6px 12px;border:1px solid var(--line);border-radius:100px;background:var(--white);color:var(--ink);cursor:pointer;transition:all .15s}
+.quick-btn:hover{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.chat-area{padding:22px;min-height:280px;max-height:480px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;background:var(--white)}
+.chat-msg{max-width:78%;padding:12px 16px;font-size:13.5px;line-height:1.55;border-radius:var(--r);word-wrap:break-word;animation:fadeUp .25s ease both}
+.chat-msg.from-ai{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--lime-d);color:var(--ink);align-self:flex-start}
+.chat-msg.from-user{background:var(--ink);color:var(--paper);align-self:flex-end;border:1px solid var(--ink)}
+.chat-msg.thinking{color:var(--muted);font-style:italic;border-left-color:var(--line)}
+.chat-input-row{display:flex;gap:0;border-top:1px solid var(--line);background:var(--paper)}
+.chat-input{flex:1;padding:14px 18px;border:none;outline:none;background:transparent;font-family:var(--f-sans);font-size:13.5px;color:var(--ink)}
+.chat-input::placeholder{color:var(--muted)}
+.chat-send{padding:0 26px;background:var(--ink);color:var(--paper);border:none;font-family:var(--f-sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:6px}
+.chat-send:hover{background:var(--ink-2)}
+.chat-send:disabled{background:var(--muted);cursor:not-allowed}
+/* ===== END NEW AI styles ===== */
 </style>
 </head>
 <body>
@@ -268,6 +307,8 @@ input,select,textarea{font-family:var(--f-sans)}
     </a>
     <div class="sb-section">Intelligence</div>
     <a class="sb-link" id="lnk-gap" onclick="sw('sp-gap','Skill Gap Analysis')"><span class="sb-ico">△</span>Skill Gap</a>
+<a class="sb-link" id="lnk-resume" onclick="sw('sp-resume','Resume Score')"><span class="sb-ico">▤</span>Resume Score</a>
+<a class="sb-link" id="lnk-advisor" onclick="sw('sp-advisor','AI Advisor')"><span class="sb-ico">◎</span>AI Advisor</a>
     <div class="sb-section">Account</div>
     <a class="sb-link" id="lnk-alerts" onclick="sw('sp-alerts','Alerts')"><span class="sb-ico">◉</span>Alerts @if (Model.UnreadAlerts > 0) { <span class="sb-badge">@Model.UnreadAlerts</span> }</a>
     <a class="sb-link" id="lnk-profile" onclick="sw('sp-profile','My Profile')"><span class="sb-ico">◌</span>Profile</a>
@@ -706,7 +747,88 @@ input,select,textarea{font-family:var(--f-sans)}
                     }
                 }
             </div>
+            <!-- ── RESUME SCORE (AI) ── -->
+<div class="panel" id="sp-resume">
+  <div class="two-col">
+    <!-- LEFT: Resume Analyzer -->
+    <div class="card">
+      <div class="card-head"><span class="card-title">Resume Analyzer</span></div>
+      <div class="card-body">
+        <div class="ai-sub">Paste your resume text below for an instant AI-powered score</div>
+        <textarea id="resume-input" class="resume-textarea" placeholder="Paste your resume text here...
 
+Example: John Doe | john@email.com
+EDUCATION: BS Computer Science, UET (2022–2026)
+SKILLS: React.js, Node.js, Python, SQL, Git
+EXPERIENCE: Built full-stack e-commerce app using React and Node..."></textarea>
+        <button class="btn btn-dark btn-w" style="margin-top:14px" id="btn-analyze" onclick="analyzeResume()">ANALYZE RESUME →</button>
+        <div id="resume-status" style="text-align:center;margin-top:14px;color:var(--muted);font-size:12px;font-family:var(--f-mono);display:none">
+          <span class="ai-spinner"></span>&nbsp; Analyzing with AI...
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Score Breakdown -->
+    <div class="card">
+      <div class="card-head"><span class="card-title">Score Breakdown</span></div>
+      <div class="card-body">
+        <div class="score-head">
+          <div class="score-circle" id="score-circle">
+            <span id="score-num">—</span>
+            <span class="sc-sub" id="score-sub">/100</span>
+          </div>
+          <div class="score-head-text">
+            <div class="score-head-title" id="score-title">Paste resume</div>
+            <div class="score-head-sub" id="score-tagline">to get your score</div>
+          </div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-row-head"><span class="metric-row-label">Skills Alignment</span><span class="metric-row-val" id="m-skills">—</span></div>
+          <div class="metric-row-bar"><div class="metric-row-fill" id="f-skills"></div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-row-head"><span class="metric-row-label">Completeness</span><span class="metric-row-val" id="m-complete">—</span></div>
+          <div class="metric-row-bar"><div class="metric-row-fill" id="f-complete"></div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-row-head"><span class="metric-row-label">Experience Language</span><span class="metric-row-val" id="m-exp">—</span></div>
+          <div class="metric-row-bar"><div class="metric-row-fill" id="f-exp"></div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-row-head"><span class="metric-row-label">Keyword Density</span><span class="metric-row-val" id="m-key">—</span></div>
+          <div class="metric-row-bar"><div class="metric-row-fill" id="f-key"></div></div>
+        </div>
+
+        <div class="ai-feedback is-empty" id="ai-feedback">Feedback will appear here after analysis.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── AI CAREER ADVISOR ── -->
+<div class="panel" id="sp-advisor">
+  <div class="card">
+    <div class="card-head">
+      <span class="card-title">AI Career Advisor</span>
+      <span class="online-dot">Online</span>
+    </div>
+    <div class="quick-row">
+      <span class="quick-label">Quick ask:</span>
+      <button class="quick-btn" onclick="askAdvisor('What should I learn next to improve my match score?')">What to learn next?</button>
+      <button class="quick-btn" onclick="askAdvisor('How can I improve my match score for my top job?')">Improve match score</button>
+      <button class="quick-btn" onclick="askAdvisor('Give me a 5-step interview prep plan based on my skills.')">Interview prep</button>
+      <button class="quick-btn" onclick="askAdvisor('What are my biggest career strengths right now?')">My career strengths</button>
+    </div>
+    <div class="chat-area" id="chat-area">
+      <div class="chat-msg from-ai">👋 Hi @(string.IsNullOrEmpty(Model.UserName) ? "there" : Model.UserName.Split(' ')[0])! I'm your AI career advisor. I can help you figure out what to learn next, how to improve your match score, or how to prepare for an interview. What's on your mind?</div>
+    </div>
+    <div class="chat-input-row">
+      <input id="chat-input" class="chat-input" type="text" placeholder="Ask anything about your career..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-send" id="chat-send" onclick="sendChat()">SEND →</button>
+    </div>
+  </div>
+</div>
             <!-- ── PROFILE ── -->
       <div class="panel" id="sp-profile">
         <div class="profile-hero">
@@ -842,7 +964,7 @@ function sw(panelId, title) {
   var el = document.getElementById(panelId);
   if (el) el.classList.add('active');
   document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('on'); });
-  var lnkMap = {'sp-overview':'lnk-overview','sp-browse':'lnk-browse','sp-apps':'lnk-apps','sp-skills':'lnk-skills','sp-gap':'lnk-gap','sp-profile':'lnk-profile','sp-alerts':'lnk-alerts'};
+var lnkMap = {'sp-overview':'lnk-overview','sp-browse':'lnk-browse','sp-apps':'lnk-apps','sp-skills':'lnk-skills','sp-gap':'lnk-gap','sp-resume':'lnk-resume','sp-advisor':'lnk-advisor','sp-profile':'lnk-profile','sp-alerts':'lnk-alerts'};
   var lnk = document.getElementById(lnkMap[panelId]);
   if (lnk) lnk.classList.add('on');
   document.getElementById('page-title').textContent = title;
@@ -882,6 +1004,159 @@ function setProf(btn, level) {
   btn.className = 'prof-btn ' + cls;
   document.getElementById('prof-input').value = level;
 }
+                /* =====================================================
+           AI helper — read anti-forgery token from the page
+           ===================================================== */
+        function getAfToken() {
+          var el = document.querySelector('input[name="__RequestVerificationToken"]');
+          return el ? el.value : '';
+        }
+
+        /* =====================================================
+           AI RESUME ANALYZER
+           ===================================================== */
+        async function analyzeResume() {
+          var txt = document.getElementById('resume-input').value.trim();
+          if (txt.length < 50) {
+            showToast('Please paste your full resume (at least 50 characters).', 't-red');
+            return;
+          }
+          var btn = document.getElementById('btn-analyze');
+          var status = document.getElementById('resume-status');
+          btn.disabled = true; btn.style.opacity = '.6';
+          status.style.display = 'block';
+
+          try {
+            var res = await fetch('?handler=AnalyzeResume', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': getAfToken()
+              },
+              body: JSON.stringify({ text: txt })
+            });
+            var raw = await res.text();
+            if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
+            if (!raw) throw new Error('Server returned an empty response.');
+            var data = JSON.parse(raw);
+            if (!data.success) {
+              showToast(data.errorMessage || 'Analysis failed.', 't-red');
+              return;
+            }
+            renderResumeScore(data);
+            showToast('Resume analyzed!', 't-lime');
+          } catch (err) {
+            console.error('Resume analyze error:', err);
+            showToast(err.message || 'Network error', 't-red');
+          } finally {
+            btn.disabled = false; btn.style.opacity = '1';
+            status.style.display = 'none';
+          }
+        }
+
+        function renderResumeScore(d) {
+          document.getElementById('score-num').textContent = d.overallScore;
+          document.getElementById('score-circle').classList.add('has-score');
+          document.getElementById('score-title').textContent = scoreLabel(d.overallScore);
+          document.getElementById('score-tagline').textContent = 'AI overall score';
+
+          setMetric('skills',   d.skillsAlignment);
+          setMetric('complete', d.completeness);
+          setMetric('exp',      d.experienceLanguage);
+          setMetric('key',      d.keywordDensity);
+
+          var fb = document.getElementById('ai-feedback');
+          fb.textContent = d.feedback || 'No feedback returned.';
+          fb.classList.remove('is-empty');
+        }
+
+        function setMetric(id, val) {
+          document.getElementById('m-' + id).textContent = val + '/100';
+          setTimeout(function(){ document.getElementById('f-' + id).style.width = val + '%'; }, 60);
+        }
+
+        function scoreLabel(s) {
+          if (s >= 85) return 'Excellent';
+          if (s >= 70) return 'Strong';
+          if (s >= 55) return 'Decent';
+          if (s >= 40) return 'Needs Work';
+          return 'Weak';
+        }
+
+        /* =====================================================
+           AI CAREER ADVISOR (chat)
+           ===================================================== */
+        var chatHistory = [];
+
+        function askAdvisor(presetText) {
+          document.getElementById('chat-input').value = presetText;
+          sendChat();
+        }
+
+        async function sendChat() {
+          var inputEl = document.getElementById('chat-input');
+          var question = inputEl.value.trim();
+          if (!question) return;
+          inputEl.value = '';
+
+          appendChatMsg('user', question);
+          var thinkingEl = appendChatMsg('ai', '…thinking', true);
+
+          var sendBtn = document.getElementById('chat-send');
+          sendBtn.disabled = true;
+
+          try {
+            var res = await fetch('?handler=AskAdvisor', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': getAfToken()
+              },
+              body: JSON.stringify({ question: question, history: chatHistory })
+            });
+            var raw = await res.text();
+            if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
+            if (!raw) throw new Error('Server returned an empty response.');
+            var data = JSON.parse(raw);
+            var reply = data.reply || 'No response.';
+            thinkingEl.classList.remove('thinking');
+            thinkingEl.innerHTML = formatChatText(reply);
+            chatHistory.push({ role: 'user',  content: question });
+            chatHistory.push({ role: 'model', content: reply });
+          } catch (err) {
+            console.error('Advisor error:', err);
+            thinkingEl.textContent = err.message || 'Network error';
+            thinkingEl.classList.remove('thinking');
+          } finally {
+            sendBtn.disabled = false;
+            var area = document.getElementById('chat-area');
+            area.scrollTop = area.scrollHeight;
+          }
+        }
+
+        function appendChatMsg(who, text, isThinking) {
+          var area = document.getElementById('chat-area');
+          var div = document.createElement('div');
+          div.className = 'chat-msg ' + (who === 'user' ? 'from-user' : 'from-ai') + (isThinking ? ' thinking' : '');
+          if (who === 'user') {
+            div.textContent = text;
+          } else {
+            div.innerHTML = isThinking ? text : formatChatText(text);
+          }
+          area.appendChild(div);
+          area.scrollTop = area.scrollHeight;
+          return div;
+        }
+
+        function formatChatText(t) {
+          var safe = t
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+          safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+          safe = safe.replace(/\n/g, '<br>');
+          return safe;
+        }
 @if (!string.IsNullOrEmpty(Model.ToastMessage))
 {
   <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>

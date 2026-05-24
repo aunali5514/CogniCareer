@@ -16,14 +16,17 @@ namespace CogniCareer.Pages.Student
         private readonly AlertService _alertService;
         private readonly MatchScoreService _matchService;
         private readonly AdminService _adminService;
+        private readonly AIService _aiService;   // NEW
 
         public DashboardModel(AuthService auth, StudentService studentService, JobService jobService,
             ApplicationService appService, AlertService alertService,
-            MatchScoreService matchService, AdminService adminService)
+            MatchScoreService matchService, AdminService adminService,
+            AIService aiService)                  // NEW
         {
             _auth = auth; _studentService = studentService; _jobService = jobService;
             _appService = appService; _alertService = alertService;
             _matchService = matchService; _adminService = adminService;
+            _aiService = aiService;               // NEW
         }
 
         public string UserName { get; set; } = "";
@@ -143,6 +146,70 @@ namespace CogniCareer.Pages.Student
             if (!_auth.IsStudent()) return RedirectToPage("/Auth/StudentAuth");
             _alertService.MarkAllRead(_auth.GetUserID()!.Value);
             return RedirectToPage();
+        }
+
+        // ─────────────────────────────────────────────────────────
+        //  NEW: AJAX handler — AI Resume Analyzer
+        //  Called from JS via fetch() with JSON body.
+        //  [IgnoreAntiforgeryToken] keeps the AJAX call simple for this project.
+        // ─────────────────────────────────────────────────────────
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> OnPostAnalyzeResumeAsync([FromBody] ResumeRequest req)
+        {
+            if (!_auth.IsStudent())
+                return new JsonResult(new { success = false, errorMessage = "Not signed in." });
+
+            var uid = _auth.GetUserID()!.Value;
+            var profile = _studentService.GetProfile(uid);
+            var skills = new CogniCareer.Data.StudentSkillData().GetByUserID(uid);
+            var activeJobs = _jobService.GetAllActiveJobs();
+            var topJobs = _matchService.GetRankedJobs(uid, activeJobs).Take(5).ToList();
+
+            var result = await _aiService.AnalyzeResumeAsync(req?.Text ?? "", profile, skills, topJobs);
+            return new JsonResult(result);
+        }
+
+        // ─────────────────────────────────────────────────────────
+        //  NEW: AJAX handler — AI Career Advisor (chat)
+        // ─────────────────────────────────────────────────────────
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> OnPostAskAdvisorAsync([FromBody] AdvisorRequest req)
+        {
+            if (!_auth.IsStudent())
+                return new JsonResult(new { reply = "Please sign in again." });
+
+            var uid = _auth.GetUserID()!.Value;
+            var profile = _studentService.GetProfile(uid);
+            var skills = new CogniCareer.Data.StudentSkillData().GetByUserID(uid);
+            var apps = _appService.GetByUser(uid);
+            var activeJobs = _jobService.GetAllActiveJobs();
+            var topJobs = _matchService.GetRankedJobs(uid, activeJobs).Take(5).ToList();
+
+            SkillGapResult? gap = null;
+            if (apps.Any())
+            {
+                var topApp = apps.OrderByDescending(a => a.MatchScore).First();
+                gap = _matchService.GetGap(uid, topApp.JobID);
+            }
+
+            string reply = await _aiService.AskAdvisorAsync(
+                req?.Question ?? "",
+                req?.History ?? new List<ChatMessage>(),
+                profile, skills, topJobs, gap);
+
+            return new JsonResult(new { reply });
+        }
+
+        // DTOs for the two AJAX handlers above
+        public class ResumeRequest
+        {
+            public string Text { get; set; } = "";
+        }
+
+        public class AdvisorRequest
+        {
+            public string Question { get; set; } = "";
+            public List<ChatMessage> History { get; set; } = new();
         }
 
         private void LoadData()

@@ -22,6 +22,10 @@ builder.Services.AddScoped<AlertService>();
 builder.Services.AddScoped<AdminService>();
 builder.Services.AddScoped<MatchScoreService>();
 
+// ===== NEW: AI service (Google Gemini) =====
+// AddHttpClient<T>() automatically registers AIService with an HttpClient injected.
+builder.Services.AddHttpClient<AIService>();
+
 var app = builder.Build();
 
 string? connectionString = builder.Configuration
