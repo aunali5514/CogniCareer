@@ -41,7 +41,7 @@
       }
       else
       {
-        <table class="skills-table" id="skill-lib-table">
+        <div class="table-scroll"><table class="skills-table" id="skill-lib-table" style="min-width:600px">
           <thead><tr><th>Skill</th><th>Category</th><th style="width:48px"></th></tr></thead>
           <tbody>
             @foreach (var sk in Model.AllSkills.OrderBy(s => s.Category).ThenBy(s => s.SkillName))
@@ -59,7 +59,7 @@
               </tr>
             }
           </tbody>
-        </table>
+        </table></div>
       }
     </div>
   </div>

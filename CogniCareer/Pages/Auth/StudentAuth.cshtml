@@ -46,6 +46,20 @@ h1,h2,h3{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-spac
 .ar-num{font-family:var(--f-serif);font-size:13px;font-weight:900;color:rgba(255,255,255,.18);flex-shrink:0;margin-top:2px}
 .ar-feat-title{font-size:13px;font-weight:700;color:var(--paper);margin-bottom:3px}
 .ar-feat-desc{font-size:12px;color:rgba(255,255,255,.38);line-height:1.55;font-weight:300}
+@@media(max-width:900px){
+  .auth-wrap{grid-template-columns:1fr}
+  .auth-right{display:none}
+  .auth-wrap>div{padding:40px 24px!important}
+}
+@@media(max-width:640px){
+  .auth-wrap>div{padding:24px 20px!important}
+  .auth-h{font-size:clamp(28px,8vw,36px)}
+  .ar-title{font-size:clamp(26px,7vw,32px)}
+  .field-row{grid-template-columns:1fr}
+  .field-input{min-height:44px}
+  .tab-row .tab-btn{min-height:44px}
+  .btn{min-height:44px}
+}
 </style>
 </head>
 <body>

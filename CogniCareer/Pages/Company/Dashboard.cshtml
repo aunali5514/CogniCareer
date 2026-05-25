@@ -137,13 +137,59 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 .cp-stat-val{font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:3px}
 .cp-stat-lbl{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 @@keyframes pageReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.dash-menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:none;border-radius:var(--r-sm);background:var(--ink);color:var(--paper);cursor:pointer;flex-direction:column;gap:5px}
+.dash-menu-btn span{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
+.dash-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:85}
+.dash-drawer-overlay.is-visible{display:block}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@@media(max-width:900px){
+  .dash-menu-btn{display:flex;position:fixed;top:10px;left:10px;z-index:95}
+  .dash-sidebar{width:280px;left:-280px;transition:none}
+  .dash-sidebar.is-open{left:0;z-index:90;box-shadow:var(--shadow-lg)}
+  .dash-main{margin-left:0}
+  .dash-topbar{padding:0 16px 0 56px;flex-wrap:wrap;height:auto;min-height:54px;gap:8px;padding-top:10px;padding-bottom:10px}
+  .dash-content,.dash-body{padding:24px 16px}
+  .two-col,.field-row{grid-template-columns:1fr}
+  .metric-strip,.cp-stat-row{grid-template-columns:repeat(2,1fr)}
+  .cp-welcome-banner{flex-direction:column;align-items:flex-start;gap:16px}
+  .cpwb-right{width:100%;flex-wrap:wrap}
+}
+@@media(prefers-reduced-motion:no-preference){
+  @@media(max-width:900px){
+    .dash-sidebar{transition:left .25s ease}
+  }
+}
+@@media(max-width:640px){
+  .dash-topbar{padding:10px 12px 10px 52px}
+  .dash-topbar-title{font-size:17px;flex:1 1 100%}
+  .topbar-right{width:100%;justify-content:flex-start;flex-wrap:wrap}
+  .dash-content,.dash-body{padding:16px 12px}
+  .metric-strip,.cp-stat-row{grid-template-columns:1fr}
+  .metric-cell,.cp-stat-cell{border-right:none!important}
+  .card-head{padding:12px 14px}
+  .card-body{padding:14px}
+  .cp-welcome-banner{padding:14px 16px}
+  .cpwb-name{font-size:18px}
+  .btn,.sb-link{min-height:44px}
+  .sb-link{align-items:center}
+  .field-input,.field-select,.field-textarea{min-height:44px}
+  .data-table{min-width:600px}
+  .appl-row{flex-wrap:wrap;gap:10px}
+  .appl-actions{width:100%;justify-content:flex-start}
+  .toast{left:12px;right:12px;bottom:16px;max-width:none}
+  #cp-post div[style*="display:flex"]{flex-direction:column!important}
+  #cp-post #job-skill-priority{width:100%!important}
+  #cp-post .btn-outline{width:100%;justify-content:center}
+}
 </style>
 </head>
 <body>
 <div id="toast" class="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
 
 <div class="dash-shell">
-  <aside class="dash-sidebar">
+  <button type="button" class="dash-menu-btn" id="dash-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="dash-sidebar"><span></span><span></span><span></span></button>
+  <div class="dash-drawer-overlay" id="dash-drawer-overlay" aria-hidden="true"></div>
+  <aside class="dash-sidebar" id="dash-sidebar">
     <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
     <div class="sb-section">Company</div>
     <a class="sb-link on" id="lnk-overview" onclick="sw('cp-overview','Overview')"><span class="sb-ico">⬡</span> Overview</a>
@@ -207,7 +253,7 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
             {
               <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No jobs posted yet. <a onclick="sw('cp-post','Post a Job')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Post your first job →</a></div>
             }
-            <table class="data-table">
+            <div class="table-scroll"><table class="data-table" style="min-width:600px">
               <thead><tr><th>Job Title</th><th>Type</th><th>Applicants</th><th>Deadline</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>
                 @foreach (var job in Model.Jobs)
@@ -237,7 +283,7 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
                   </tr>
                 }
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
       </div>
@@ -328,7 +374,7 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
             {
               <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No jobs posted yet.</div>
             }
-            <table class="data-table">
+            <div class="table-scroll"><table class="data-table" style="min-width:600px">
               <thead><tr><th>Title</th><th>Type</th><th>Duration</th><th>Posted</th><th>Deadline</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>
                 @foreach (var job in Model.Jobs)
@@ -358,7 +404,7 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
                   </tr>
                 }
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
       </div>
@@ -432,6 +478,35 @@ h1,h2,h3,h4{font-family:var(--f-serif);font-weight:700;line-height:1.05;letter-s
 </div>
 
 <script>
+(function initDashDrawer() {
+  var btn = document.getElementById('dash-menu-btn');
+  var sidebar = document.getElementById('dash-sidebar');
+  var overlay = document.getElementById('dash-drawer-overlay');
+  if (!btn || !sidebar || !overlay) return;
+  function openDrawer() {
+    sidebar.classList.add('is-open');
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close menu');
+  }
+  function closeDrawer() {
+    sidebar.classList.remove('is-open');
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+  }
+  btn.addEventListener('click', function() {
+    if (sidebar.classList.contains('is-open')) closeDrawer();
+    else openDrawer();
+  });
+  overlay.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(link) {
+    link.addEventListener('click', closeDrawer);
+  });
+})();
+
 var allSkills = @Html.Raw(Model.AllSkillsJson);
 var allApplicants = @Html.Raw(Model.AllApplicationsJson);
 var jobSkills = [];

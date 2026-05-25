@@ -137,6 +137,34 @@ button{font-family:var(--f-sans)}
   #topbar{padding:0 20px}
   .nav-center{display:none}
 }
+@@media(max-width:640px){
+  .features-dark::before{display:none}
+  .home-page{padding-top:58px}
+  #topbar{padding:0 16px}
+  .nav-right .btn-ghost{display:none}
+  .hero-wrap{padding:40px 20px 32px;gap:32px}
+  .hero-h1{font-size:clamp(36px,11vw,52px)}
+  .hero-sub{font-size:15px;margin-bottom:28px}
+  .hero-actions{flex-direction:column;width:100%}
+  .hero-actions .btn{width:100%;justify-content:center}
+  .hero-card{padding:24px}
+  .hc-score{font-size:56px}
+  .stats-strip{margin-bottom:48px}
+  .stats-inner{padding:0 20px;grid-template-columns:1fr}
+  .stat-cell{padding:20px 24px}
+  .stat-num{font-size:40px}
+  .portals-section,.features-dark{padding-left:20px;padding-right:20px;padding-bottom:48px}
+  .features-dark{padding-top:48px}
+  .portal-card{padding:28px 24px}
+  .section-subtitle-row{margin-bottom:32px}
+  .site-footer{flex-direction:column;align-items:flex-start;gap:16px;padding:24px 20px}
+  .footer-right{flex-wrap:wrap}
+}
+@@media(max-width:380px){
+  .hero-h1{font-size:clamp(32px,10vw,40px)}
+  .nav-badge{display:none}
+  .nav-divider{display:none}
+}
 </style>
 </head>
 <body class="home-page">

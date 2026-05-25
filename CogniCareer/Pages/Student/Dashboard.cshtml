@@ -566,6 +566,70 @@ input,select,textarea{font-family:var(--f-sans)}
                     cursor: wait
                 }
 /* ===== END NEW AI styles ===== */
+.dash-menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:none;border-radius:var(--r-sm);background:var(--ink);color:var(--paper);cursor:pointer;flex-direction:column;gap:5px;flex-shrink:0}
+.dash-menu-btn span{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
+.dash-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:85}
+.dash-drawer-overlay.is-visible{display:block}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@@media(max-width:900px){
+  .dash-menu-btn{display:flex;position:fixed;top:10px;left:10px;z-index:95}
+  .dash-sidebar{width:280px;left:-280px;transition:none}
+  .dash-sidebar.is-open{left:0;z-index:90;box-shadow:var(--shadow-lg)}
+  .dash-main{margin-left:0}
+  .dash-topbar{padding:0 16px 0 56px}
+  .dash-content,.dash-body{padding:24px 16px}
+  .two-col,.field-row,.gap-visual-section{grid-template-columns:1fr;display:block}
+  .gap-visual-section{display:flex;flex-direction:column}
+  .gap-col-have{border-right:none;border-bottom:1px solid var(--line)}
+  .metric-strip,.peer-bench{grid-template-columns:repeat(2,1fr)}
+  .app-stat-cards{grid-template-columns:repeat(2,1fr)}
+  .hc-banner{flex-direction:column;align-items:flex-start;padding:22px 20px}
+  .hc-right{width:100%;justify-content:space-between}
+  .profile-hero-inner{flex-direction:column;align-items:flex-start;padding:22px 20px}
+  .score-head{flex-direction:column;align-items:flex-start}
+}
+@@media(prefers-reduced-motion:no-preference){
+  @@media(max-width:900px){
+    .dash-sidebar{transition:left .25s ease}
+  }
+}
+@@media(max-width:640px){
+  .dash-topbar{padding:0 12px 0 52px;height:50px}
+  .dash-topbar-title{font-size:17px}
+  .topbar-date{display:none!important}
+  .dash-content,.dash-body{padding:16px 12px}
+  .metric-strip,.peer-bench,.app-stat-cards{grid-template-columns:1fr}
+  .metric-cell,.peer-cell{border-right:none!important}
+  .card{margin-left:auto;margin-right:auto;max-width:calc(100% - 0px)}
+  .card-head{padding:12px 14px}
+  .card-body{padding:14px}
+  .hc-banner{padding:18px 16px;margin-bottom:16px}
+  .hc-name{font-size:22px}
+  .hc-stat{padding:8px 12px}
+  .job-row-wow{flex-wrap:wrap;align-items:flex-start;padding:14px 16px}
+  .job-row-wow .job-logo-bubble{order:1}
+  .job-row-wow>div[style*="flex:1"]{order:2;flex:1 1 calc(100% - 58px);min-width:0}
+  .job-row-wow>div[style*="flex:1"] form,.job-row-wow>div[style*="flex:1"] .btn-explain,.job-row-wow>div[style*="flex:1"] .btn-cover,.job-row-wow>div[style*="flex:1"]>.badge,.job-row-wow>div[style*="flex:1"] .btn{margin-top:8px;margin-left:0!important;margin-right:6px}
+  .job-row-wow .match-ring-wow{order:3;flex:0 0 100%;width:100%;margin-top:10px;justify-content:flex-start;padding-left:58px;box-sizing:border-box}
+  .chat-msg{max-width:88%}
+  .chat-send{padding:0 18px;font-size:10px;min-height:44px}
+  .quick-row{flex-wrap:wrap}
+  .quick-btn{min-height:44px}
+  .field-input,.field-select,.field-textarea{min-height:44px}
+  .btn,.sb-link{min-height:44px}
+  .sb-link{align-items:center}
+  .prof-btn{min-height:44px;padding:8px 14px}
+  .ai-modal{width:calc(100vw - 24px)!important;max-width:560px;max-height:90vh}
+  .ai-modal-head,.ai-modal-body,.cl-body,.cl-tone-row,.cl-actions{padding-left:16px;padding-right:16px}
+  .ai-modal-body,.cl-body{max-height:55vh}
+  .score-head{gap:16px}
+  .toast{left:12px;right:12px;bottom:16px;max-width:none}
+  .data-table{min-width:600px}
+}
+@@media(max-width:380px){
+  .dash-topbar-title{font-size:15px}
+  .hc-score{font-size:22px}
+}
 </style>
 </head>
 <body>
@@ -617,8 +681,10 @@ input,select,textarea{font-family:var(--f-sans)}
         </div>
     </div>
 <div class="dash-shell">
+  <button type="button" class="dash-menu-btn" id="dash-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="dash-sidebar"><span></span><span></span><span></span></button>
+  <div class="dash-drawer-overlay" id="dash-drawer-overlay" aria-hidden="true"></div>
   <!-- Sidebar -->
-  <aside class="dash-sidebar">
+  <aside class="dash-sidebar" id="dash-sidebar">
     <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
     <div class="sb-section">Main</div>
     <a class="sb-link on" id="lnk-overview" onclick="sw('sp-overview','Overview')">
@@ -664,7 +730,7 @@ input,select,textarea{font-family:var(--f-sans)}
         {
           <span class="badge badge-red" style="font-size:9px">Profile Incomplete</span>
         }
-        <span class="badge badge-default">@DateTime.Now.ToString("MMM dd, yyyy")</span>
+        <span class="badge badge-default topbar-date">@DateTime.Now.ToString("MMM dd, yyyy")</span>
       </div>
     </div>
     <div class="dash-content">
@@ -1309,6 +1375,35 @@ EXPERIENCE: Built full-stack e-commerce app using React and Node..."></textarea>
 
 <script>
 var allSkills = @Html.Raw(Model.AllSkillsJson);
+
+(function initDashDrawer() {
+  var btn = document.getElementById('dash-menu-btn');
+  var sidebar = document.getElementById('dash-sidebar');
+  var overlay = document.getElementById('dash-drawer-overlay');
+  if (!btn || !sidebar || !overlay) return;
+  function openDrawer() {
+    sidebar.classList.add('is-open');
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close menu');
+  }
+  function closeDrawer() {
+    sidebar.classList.remove('is-open');
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+  }
+  btn.addEventListener('click', function() {
+    if (sidebar.classList.contains('is-open')) closeDrawer();
+    else openDrawer();
+  });
+  overlay.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(link) {
+    link.addEventListener('click', closeDrawer);
+  });
+})();
 
 function sw(panelId, title) {
   document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });

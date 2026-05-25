@@ -1,8 +1,55 @@
 ﻿@page
 @model PrivacyModel
 @{
+    Layout = null;
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
-
-<p>Use this page to detail your site's privacy policy.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — CogniCareer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=DM+Mono:wght@400;500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f0e0d;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime-d:#8fd400;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.privacy-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px 48px;background:rgba(245,240,232,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.privacy-logo{font-family:var(--f-serif);font-size:18px;font-weight:900;letter-spacing:-.04em;text-decoration:none}
+.privacy-logo span{color:var(--lime-d);font-style:italic;font-weight:400}
+.privacy-back{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.privacy-back:hover{color:var(--ink)}
+.privacy-wrap{max-width:720px;margin:0 auto;padding:48px 48px 80px}
+.privacy-wrap h1{font-family:var(--f-serif);font-size:clamp(32px,5vw,48px);font-weight:900;letter-spacing:-.03em;line-height:1.05;margin-bottom:12px}
+.privacy-eyebrow{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:28px}
+.privacy-wrap p{font-size:15px;color:var(--ink);margin-bottom:16px;font-weight:300}
+.privacy-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:28px 32px;margin-top:24px}
+@@media(max-width:900px){
+  .privacy-nav{padding:14px 24px}
+  .privacy-wrap{padding:40px 24px 64px}
+}
+@@media(max-width:640px){
+  .privacy-nav{padding:12px 20px}
+  .privacy-wrap{padding:28px 20px 48px}
+  .privacy-card{padding:20px}
+  .privacy-wrap h1{font-size:clamp(28px,8vw,36px)}
+}
+</style>
+</head>
+<body>
+<nav class="privacy-nav">
+  <a href="/" class="privacy-logo">Cogni<span>Career</span></a>
+  <a href="/" class="privacy-back">← Back to Platform</a>
+</nav>
+<main class="privacy-wrap">
+  <p class="privacy-eyebrow">Legal</p>
+  <h1>@ViewData["Title"]</h1>
+  <p>Use this page to detail your site's privacy policy.</p>
+  <div class="privacy-card">
+    <p>Update this section with how CogniCareer collects, uses, and protects student and company data.</p>
+  </div>
+</main>
+</body>
+</html>

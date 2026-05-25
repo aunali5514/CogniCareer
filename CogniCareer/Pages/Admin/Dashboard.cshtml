@@ -155,13 +155,53 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
 .sk-del{background:none;border:none;color:var(--line);font-size:14px;padding:4px 8px;cursor:pointer;border-radius:var(--r-sm);transition:all .14s}
 .sk-del:hover{color:var(--red);background:rgba(255,63,63,.06)}
 @@media(max-width:1100px){.insight-grid{grid-template-columns:1fr}.skills-layout{grid-template-columns:1fr}}
+.dash-menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:none;border-radius:var(--r-sm);background:var(--ink);color:var(--paper);cursor:pointer;flex-direction:column;gap:5px}
+.dash-menu-btn span{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
+.dash-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:85}
+.dash-drawer-overlay.is-visible{display:block}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@@media(max-width:900px){
+  .dash-menu-btn{display:flex;position:fixed;top:10px;left:10px;z-index:95}
+  .dash-sidebar{width:280px;left:-280px;transition:none}
+  .dash-sidebar.is-open{left:0;z-index:90;box-shadow:var(--shadow-lg)}
+  .dash-main{margin-left:0}
+  .dash-topbar{padding:0 16px 0 56px}
+  .dash-body{padding:24px 16px}
+  .two-col,.field-row{grid-template-columns:1fr}
+  .metric-strip{grid-template-columns:repeat(2,1fr)}
+  .insight-grid{grid-template-columns:1fr}
+  .skills-layout{grid-template-columns:1fr}
+  .ad-banner{padding:22px 20px}
+}
+@@media(prefers-reduced-motion:no-preference){
+  @@media(max-width:900px){
+    .dash-sidebar{transition:left .25s ease}
+  }
+}
+@@media(max-width:640px){
+  .dash-topbar{padding:0 12px 0 52px;height:50px}
+  .dash-topbar-title{font-size:17px}
+  .dash-body{padding:16px 12px}
+  .metric-strip{grid-template-columns:1fr}
+  .metric-cell{border-right:none!important}
+  .card-head{padding:12px 14px}
+  .card-body{padding:14px}
+  .ad-banner h2{font-size:22px}
+  .btn,.sb-link{min-height:44px}
+  .sb-link{align-items:center}
+  .field-input,.field-select,.field-textarea{min-height:44px}
+  .data-table,.skills-table{min-width:600px}
+  .toast{left:12px;right:12px;bottom:16px;max-width:none}
+}
 </style>
 </head>
 <body>
 <div id="toast" class="toast @Model.ToastClass @(string.IsNullOrEmpty(Model.ToastMessage) ? "" : "show")"><div class="toast-dot"></div><span id="toast-msg">@Model.ToastMessage</span></div>
 
 <div class="dash-shell">
-  <aside class="dash-sidebar">
+  <button type="button" class="dash-menu-btn" id="dash-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="dash-sidebar"><span></span><span></span><span></span></button>
+  <div class="dash-drawer-overlay" id="dash-drawer-overlay" aria-hidden="true"></div>
+  <aside class="dash-sidebar" id="dash-sidebar">
     <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
     <div class="sb-section">Analytics</div>
     <a href="#" class="sb-link @(Model.ActivePanel == "ad-overview" ? "on" : "")" id="lnk-overview" data-panel="ad-overview"><span class="sb-ico">◈</span> Platform Overview</a>
@@ -230,7 +270,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
             {
               <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No pending company registrations.</div>
             }
-            <table class="data-table">
+            <div class="table-scroll"><table class="data-table" style="min-width:600px">
               <thead><tr><th>Company</th><th>Industry</th><th>Website</th><th>Actions</th></tr></thead>
               <tbody>
                 @foreach (var co in Model.PendingCompanies)
@@ -256,13 +296,13 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
                   </tr>
                 }
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
         <div class="card">
           <div class="card-head"><span class="card-title">All Companies</span><span class="badge badge-default">@Model.AllCompanies.Count total</span></div>
           <div class="card-body-p0">
-            <table class="data-table">
+            <div class="table-scroll"><table class="data-table" style="min-width:600px">
               <thead><tr><th>Company</th><th>Industry</th><th>Status</th></tr></thead>
               <tbody>
                 @foreach (var co in Model.AllCompanies)
@@ -274,7 +314,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
                   </tr>
                 }
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
         </div>
@@ -297,7 +337,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
         <div class="card">
           <div class="card-head"><span class="card-title">Student Accounts</span><span class="badge badge-default">@Model.AllStudents.Count students</span></div>
           <div class="card-body-p0" style="max-height:calc(100vh - 220px);overflow:auto">
-            <table class="data-table">
+            <div class="table-scroll"><table class="data-table" style="min-width:600px">
               <thead><tr><th>Name</th><th>Email</th><th>University</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>
                 @foreach (var st in Model.AllStudents)
@@ -332,7 +372,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
                   </tr>
                 }
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
         </div>
@@ -344,6 +384,35 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
 </div>
 
 <script>
+(function initDashDrawer() {
+  var btn = document.getElementById('dash-menu-btn');
+  var sidebar = document.getElementById('dash-sidebar');
+  var overlay = document.getElementById('dash-drawer-overlay');
+  if (!btn || !sidebar || !overlay) return;
+  function openDrawer() {
+    sidebar.classList.add('is-open');
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close menu');
+  }
+  function closeDrawer() {
+    sidebar.classList.remove('is-open');
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+  }
+  btn.addEventListener('click', function() {
+    if (sidebar.classList.contains('is-open')) closeDrawer();
+    else openDrawer();
+  });
+  overlay.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(link) {
+    link.addEventListener('click', closeDrawer);
+  });
+})();
+
 var adminPanelTitles = {'ad-overview':'Platform Overview','ad-analytics':'Analytics','ad-companies':'Companies','ad-skills':'Skill Library','ad-users':'Students','ad-live':'Live Activity'};
 
 function sw(panelId, title) {

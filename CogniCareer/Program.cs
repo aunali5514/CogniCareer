@@ -1,3 +1,4 @@
+
 using CogniCareer.Data;
 using CogniCareer.Services;
 using BCrypt.Net;   // Added for password hashing
@@ -36,17 +37,7 @@ DBHelper.ConnectionString = connectionString;
 #pragma warning restore CS8601 // Possible null reference assignment.
 
 // ===== ADDED: Password hashing demo =====
-string[] passwords = { "Admin@2026", "Student@1234", "Company@2026" };
 
-foreach (var pw in passwords)
-{
-    string hash = BCrypt.Net.BCrypt.HashPassword(pw, workFactor: 12);
-    Console.WriteLine($"Password: {pw}");
-    Console.WriteLine($"Hash:     {hash}");
-    Console.WriteLine();
-}
-Console.WriteLine("Press Enter to continue starting the web application...");
-Console.ReadLine();
 // ===== END ADDED SECTION =====
 
 if (!app.Environment.IsDevelopment())
