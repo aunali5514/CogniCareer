@@ -58,7 +58,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
 .toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:var(--r-lg);font-size:13px;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s;box-shadow:0 8px 48px rgba(15,14,13,.16);max-width:340px;pointer-events:none}
 .toast.show{transform:translateY(0);opacity:1}.toast-dot{width:7px;height:7px;border-radius:50%}
 .toast.t-lime .toast-dot{background:var(--lime)}.toast.t-red .toast-dot{background:var(--red)}
-.dash-shell{min-height:100vh}
+.dash-shell{min-height:100vh;display:flex}
 .dash-sidebar{width:248px;position:fixed;top:0;left:0;bottom:0;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;z-index:80}
 .sidebar-logo{padding:20px 24px 16px;border-bottom:1px solid var(--line);font-family:var(--f-serif);font-size:17px;font-weight:900;letter-spacing:-.04em;cursor:pointer}
 .sidebar-logo span{color:var(--lime-d);font-style:italic;font-weight:400}
@@ -78,15 +78,15 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
 .sb-signout{width:100%;padding:8px;border:1px solid var(--line);border-radius:var(--r-sm);background:transparent;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
 .sb-signout:hover{border-color:var(--ink);color:var(--ink)}
 .dash-main{margin-left:248px;flex:1;min-height:100vh;display:flex;flex-direction:column;min-width:0}
-.dash-scroll{flex:1;min-width:0;overflow-x:auto;overflow-y:auto;display:flex;flex-direction:column}
+.dash-scroll{flex:1;min-width:0;display:flex;flex-direction:column}
 .dash-topbar{position:sticky;top:0;z-index:70;height:54px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:var(--shadow);flex-shrink:0}
 .dash-topbar-title{font-family:var(--f-serif);font-size:20px;font-weight:900;letter-spacing:-.02em}
 .ap-live-pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--warm);border:1px solid var(--line);border-radius:100px;padding:4px 12px}
 .ap-live-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--lime-d);flex-shrink:0;animation:blink 1.6s infinite}
 @@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 .dash-body{padding:32px 36px}
-.dash-content{padding:0;flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr)}
-.panel{grid-column:1;grid-row:1;display:none;min-width:0}.panel.active{display:block}
+.dash-content{padding:0;flex:1;min-width:0}
+.panel{display:none;min-width:0}.panel.active{display:block}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .bar-list>div{padding:6px 0;border-bottom:1px solid rgba(214,207,196,.4)}
 .bar-list>div:last-child{border-bottom:none}
@@ -115,7 +115,11 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
 .metric-cell{padding:18px 22px;border-right:1px solid var(--line)}
 .metric-cell:last-child{border-right:none}
 .m-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.m-sub{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.metric-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.metric-cell{position:relative;padding:18px 22px;border-right:1px solid var(--line)}
+.mc-ink::before{background:var(--ink)}.mc-lime::before{background:var(--lime-d)}.mc-muted::before{background:var(--muted)}.mc-red::before{background:var(--red)}
 .data-table{width:100%;border-collapse:collapse;font-size:13px}
 .data-table th{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--line);text-align:left;background:var(--warm)}
 .data-table td{padding:12px 16px;border-bottom:1px solid var(--warm);vertical-align:middle}
@@ -204,13 +208,13 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
   <aside class="dash-sidebar" id="dash-sidebar">
     <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
     <div class="sb-section">Analytics</div>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-overview" ? "on" : "")" id="lnk-overview" data-panel="ad-overview"><span class="sb-ico">◈</span> Platform Overview</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-analytics" ? "on" : "")" id="lnk-analytics" data-panel="ad-analytics"><span class="sb-ico">◻</span> Analytics</a>
+    <a href="#" class="sb-link @(Model.ActivePanel == "ad-overview" ? "on" : "")" id="lnk-overview" data-panel="ad-overview"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span> Platform Overview</a>
+    <a href="#" class="sb-link @(Model.ActivePanel == "ad-analytics" ? "on" : "")" id="lnk-analytics" data-panel="ad-analytics"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Analytics</a>
     <div class="sb-section">Management</div>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-companies" ? "on" : "")" id="lnk-companies" data-panel="ad-companies"><span class="sb-ico">◻</span> Companies @if (Model.PendingCompanies.Any()) { <span class="sb-badge">@Model.PendingCompanies.Count</span> }</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-skills" ? "on" : "")" id="lnk-skills" data-panel="ad-skills"><span class="sb-ico">◻</span> Skill Library</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-users" ? "on" : "")" id="lnk-users" data-panel="ad-users"><span class="sb-ico">◻</span> Students</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-live" ? "on" : "")" id="lnk-live" data-panel="ad-live"><span class="sb-ico">◻</span> Live Activity</a>
+    <a href="#" class="sb-link @(Model.ActivePanel == "ad-companies" ? "on" : "")" id="lnk-companies" data-panel="ad-companies"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> Companies @if (Model.PendingCompanies.Any()) { <span class="sb-badge">@Model.PendingCompanies.Count</span> }</a>
+    <a href="#" class="sb-link @(Model.ActivePanel == "ad-skills" ? "on" : "")" id="lnk-skills" data-panel="ad-skills"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> Skill Library</a>
+    <a href="#" class="sb-link @(Model.ActivePanel == "ad-users" ? "on" : "")" id="lnk-users" data-panel="ad-users"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Students</a>
+    <a href="#" class="sb-link @(Model.ActivePanel == "ad-live" ? "on" : "")" id="lnk-live" data-panel="ad-live"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span> Live Activity</a>
     <div class="sb-foot">
       <div class="sb-user">
         <div class="sb-avatar av-admin">AD</div>
@@ -242,10 +246,10 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
           <h2>Platform <em>Control</em></h2>
         </div>
         <div class="metric-strip">
-          <div class="metric-cell"><div class="m-label">Students</div><div class="m-value">@Model.Stats.TotalStudents</div></div>
-          <div class="metric-cell"><div class="m-label">Companies</div><div class="m-value">@Model.Stats.TotalCompanies</div></div>
-          <div class="metric-cell"><div class="m-label">Active Jobs</div><div class="m-value">@Model.Stats.TotalActiveJobs</div></div>
-          <div class="metric-cell"><div class="m-label">Applications</div><div class="m-value">@Model.Stats.TotalApplications</div></div>
+          <div class="metric-cell mc-ink"><div class="m-label">Students</div><div class="m-value">@Model.Stats.TotalStudents</div><div class="m-sub">Registered on platform</div></div>
+          <div class="metric-cell mc-lime"><div class="m-label">Companies</div><div class="m-value">@Model.Stats.TotalCompanies</div><div class="m-sub">Verified &amp; active</div></div>
+          <div class="metric-cell mc-muted"><div class="m-label">Active Jobs</div><div class="m-value">@Model.Stats.TotalActiveJobs</div><div class="m-sub">Across all companies</div></div>
+          <div class="metric-cell mc-red"><div class="m-label">Applications</div><div class="m-value">@Model.Stats.TotalApplications</div><div class="m-sub">Total all-time</div></div>
         </div>
         @if (Model.PendingCompanies.Any())
         {
@@ -336,7 +340,7 @@ a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:poi
         <div class="dash-body">
         <div class="card">
           <div class="card-head"><span class="card-title">Student Accounts</span><span class="badge badge-default">@Model.AllStudents.Count students</span></div>
-          <div class="card-body-p0" style="max-height:calc(100vh - 220px);overflow:auto">
+          <div class="card-body-p0">
             <div class="table-scroll"><table class="data-table" style="min-width:600px">
               <thead><tr><th>Name</th><th>Email</th><th>University</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>

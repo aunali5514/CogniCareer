@@ -65,7 +65,7 @@ input,select,textarea{font-family:var(--f-sans)}
 .toast.t-red .toast-dot{background:var(--red)}.toast.t-red{border-color:rgba(255,63,63,.22)!important}
 .toast.t-blue .toast-dot{background:var(--blue)}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.dash-shell{min-height:100vh}
+.dash-shell{min-height:100vh;display:flex}
 .dash-sidebar{width:248px;position:fixed;top:0;left:0;bottom:0;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;z-index:80}
 .sidebar-logo{padding:20px 24px 16px;border-bottom:1px solid var(--line);font-family:var(--f-serif);font-size:17px;font-weight:900;letter-spacing:-.04em;cursor:pointer;user-select:none}
 .sidebar-logo span{color:var(--lime-d);font-style:italic;font-weight:400}
@@ -96,6 +96,7 @@ input,select,textarea{font-family:var(--f-sans)}
 .m-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:4px;display:inline-block;transition:transform .2s}
 .metric-cell:hover .m-value{transform:scale(1.05)}
+.mc-ink::before{background:var(--ink)}.mc-lime::before{background:var(--lime-d)}.mc-muted::before{background:var(--muted)}.mc-red::before{background:var(--red)}
 .m-sub{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
 .progress-track{height:3px;background:var(--warm);border-radius:0;overflow:hidden}
 .progress-fill{height:100%;border-radius:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
@@ -688,24 +689,24 @@ input,select,textarea{font-family:var(--f-sans)}
     <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
     <div class="sb-section">Main</div>
     <a class="sb-link on" id="lnk-overview" onclick="sw('sp-overview','Overview')">
-      <span class="sb-ico">⬡</span>Overview
+      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Overview
     </a>
     <a class="sb-link" id="lnk-browse" onclick="sw('sp-browse','Browse Jobs')">
-      <span class="sb-ico">◈</span>Browse Jobs
+      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>Browse Jobs
     </a>
     <a class="sb-link" id="lnk-apps" onclick="sw('sp-apps','My Applications')">
-      <span class="sb-ico">◫</span>Applications
+      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>Applications
     </a>
     <a class="sb-link" id="lnk-skills" onclick="sw('sp-skills','My Skills')">
-      <span class="sb-ico">◇</span>My Skills
+      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>My Skills
     </a>
     <div class="sb-section">Intelligence</div>
-    <a class="sb-link" id="lnk-gap" onclick="sw('sp-gap','Skill Gap Analysis')"><span class="sb-ico">△</span>Skill Gap</a>
-<a class="sb-link" id="lnk-resume" onclick="sw('sp-resume','Resume Score')"><span class="sb-ico">▤</span>Resume Score</a>
-<a class="sb-link" id="lnk-advisor" onclick="sw('sp-advisor','AI Advisor')"><span class="sb-ico">◎</span>AI Advisor</a>
+    <a class="sb-link" id="lnk-gap" onclick="sw('sp-gap','Skill Gap Analysis')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>Skill Gap</a>
+<a class="sb-link" id="lnk-resume" onclick="sw('sp-resume','Resume Score')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>Resume Score</a>
+<a class="sb-link" id="lnk-advisor" onclick="sw('sp-advisor','AI Advisor')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>AI Advisor</a>
     <div class="sb-section">Account</div>
-    <a class="sb-link" id="lnk-alerts" onclick="sw('sp-alerts','Alerts')"><span class="sb-ico">◉</span>Alerts @if (Model.UnreadAlerts > 0) { <span class="sb-badge">@Model.UnreadAlerts</span> }</a>
-    <a class="sb-link" id="lnk-profile" onclick="sw('sp-profile','My Profile')"><span class="sb-ico">◌</span>Profile</a>
+    <a class="sb-link" id="lnk-alerts" onclick="sw('sp-alerts','Alerts')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Alerts @if (Model.UnreadAlerts > 0) { <span class="sb-badge">@Model.UnreadAlerts</span> }</a>
+    <a class="sb-link" id="lnk-profile" onclick="sw('sp-profile','My Profile')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Profile</a>
     <div class="sb-foot">
       <div class="sb-user">
         <div class="sb-avatar av-student">@Model.Initials</div>
@@ -764,26 +765,24 @@ input,select,textarea{font-family:var(--f-sans)}
         }
 
         <div class="metric-strip au">
-          <div class="metric-cell" style="--c:var(--muted)">
-            <div class="metric-cell" style="position:relative">
-              <div class="m-label">Applied</div>
-              <div class="m-value">@Model.TotalApplications</div>
-              <div class="m-sub">total jobs</div>
-              <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-ink" style="width:@(Model.TotalApplications > 0 ? Math.Min(Model.TotalApplications * 10, 100) : 0)%"></div></div>
-            </div>
+          <div class="metric-cell mc-ink">
+            <div class="m-label">Applied</div>
+            <div class="m-value">@Model.TotalApplications</div>
+            <div class="m-sub">total jobs</div>
+            <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-ink" style="width:@(Model.TotalApplications > 0 ? Math.Min(Model.TotalApplications * 10, 100) : 0)%"></div></div>
           </div>
-          <div class="metric-cell">
+          <div class="metric-cell mc-lime">
             <div class="m-label">Shortlisted</div>
             <div class="m-value">@Model.ShortlistedCount</div>
             <div class="m-sub">in review</div>
             <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-lime" style="width:@(Model.TotalApplications > 0 ? Model.ShortlistedCount * 100 / Model.TotalApplications : 0)%"></div></div>
           </div>
-          <div class="metric-cell">
+          <div class="metric-cell mc-muted">
             <div class="m-label">Skills</div>
             <div class="m-value">@Model.TotalSkills</div>
             <div class="m-sub">in profile</div>
           </div>
-          <div class="metric-cell">
+          <div class="metric-cell mc-red">
             <div class="m-label">Avg Match</div>
             <div class="m-value" style="color:var(--lime-d)">@Model.AvgMatchScore%</div>
             <div class="m-sub">across apps</div>

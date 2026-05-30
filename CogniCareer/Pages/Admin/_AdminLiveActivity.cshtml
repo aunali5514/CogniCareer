@@ -11,31 +11,31 @@
     }
 }
 <div class="card">
-  <div class="card-head">
-    <span class="card-title">Live Platform Activity</span>
-    <span style="font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;display:flex;align-items:center;gap:6px">
-      <span style="width:6px;height:6px;border-radius:50%;background:var(--lime-d);display:inline-block;animation:blink 1.6s infinite"></span>
-      LIVE FEED · real events only
-    </span>
-  </div>
-  <div id="live-feed" class="card-body-p0">
-    @if (!Model.RecentActivities.Any())
-    {
-      <div id="live-feed-empty" style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No platform activity yet. Events appear here when users sign in, apply, post jobs, or companies register.</div>
-    }
-    else
-    {
-      foreach (var ev in Model.RecentActivities)
-      {
-        <div class="live-row" data-ticks="@ev.OccurredAt.Ticks">
-          <div class="live-dot @ev.DotClass"></div>
-          <div>
-            <div class="live-t">@ev.Title</div>
-            <div class="live-d">@ev.Description</div>
-            <div class="live-ts">@FormatActivityTime(ev.OccurredAt)</div>
-          </div>
-        </div>
-      }
-    }
-  </div>
+    <div class="card-head">
+        <span class="card-title">Live Platform Activity</span>
+        <span style="font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;display:flex;align-items:center;gap:6px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--lime-d);display:inline-block;animation:blink 1.6s infinite"></span>
+            LIVE FEED · real events only
+        </span>
+    </div>
+    <div id="live-feed" class="card-body-p0">
+        @if (!Model.RecentActivities.Any())
+        {
+            <div id="live-feed-empty" style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No platform activity yet. Events appear here when users sign in, apply, post jobs, or companies register.</div>
+        }
+        else
+        {
+            foreach (var ev in Model.RecentActivities)
+            {
+                <div class="live-row" data-ticks="@ev.OccurredAt.Ticks">
+                    <div class="live-dot @ev.DotClass"></div>
+                    <div>
+                        <div class="live-t">@ev.Title</div>
+                        <div class="live-d">@ev.Description</div>
+                        <div class="live-ts">@FormatActivityTime(ev.OccurredAt)</div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
 </div>
