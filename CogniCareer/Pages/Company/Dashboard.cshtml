@@ -63,15 +63,36 @@
 
                 <!-- ── OVERVIEW ── -->
                 <div class="panel active" id="cp-overview">
-                    <div class="cp-welcome-banner">
-                        <div class="cpwb-left">
-                            <div class="cpwb-greeting">Company Dashboard</div>
+                    <div class="cp-welcome-banner au" style="border-radius:var(--r-lg);padding:22px 28px;min-height:110px;">
+                        <!-- V3 hero-orb floating blobs -->
+                        <div class="hero-orb" style="width:200px;height:200px;top:-80px;right:20px;background:rgba(184,255,53,.05);animation-duration:9s;border-radius:50%;filter:blur(48px);pointer-events:none;position:absolute"></div>
+                        <div class="hero-orb" style="width:120px;height:120px;bottom:-60px;right:260px;background:rgba(59,127,255,.04);animation-duration:12s;animation-delay:-4s;border-radius:50%;filter:blur(32px);pointer-events:none;position:absolute"></div>
+                        <!-- Fine grid overlay -->
+                        <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:32px 32px;opacity:.7"></div>
+                        <div class="cpwb-left" style="position:relative;z-index:1">
+                            <div class="cpwb-greeting" style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                                <span style="width:5px;height:5px;border-radius:50%;background:var(--lime);display:inline-block;animation:blink 2s infinite;flex-shrink:0"></span>
+                                Good morning — Company Dashboard
+                            </div>
                             <div class="cpwb-name">Welcome back, <em>@Model.CompanyName</em></div>
+                            <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:6px">@(Model.Company?.Industry ?? "Technology") · Verified Partner</div>
                         </div>
-                        <div class="cpwb-right">
-                            <div class="cpwb-stat"><div class="cpwb-stat-val">@Model.TotalJobs</div><div class="cpwb-stat-lbl">Active Jobs</div></div>
-                            <div class="cpwb-stat"><div class="cpwb-stat-val">@Model.TotalApplications</div><div class="cpwb-stat-lbl">Applicants</div></div>
-                            <div class="cpwb-stat"><div class="cpwb-stat-val">@Model.AvgMatchScore%</div><div class="cpwb-stat-lbl">Avg Match</div></div>
+                        <div class="cpwb-right" style="position:relative;z-index:1;gap:10px">
+                            <div class="cpwb-stat" style="position:relative;overflow:hidden">
+                                <div style="position:absolute;inset:0;background:rgba(184,255,53,.04);border-radius:var(--r-sm)"></div>
+                                <div class="cpwb-stat-val countup" data-target="@Model.TotalJobs">0</div>
+                                <div class="cpwb-stat-lbl">Active Jobs</div>
+                            </div>
+                            <div class="cpwb-stat" style="position:relative;overflow:hidden">
+                                <div style="position:absolute;inset:0;background:rgba(59,127,255,.05);border-radius:var(--r-sm)"></div>
+                                <div class="cpwb-stat-val countup" style="color:var(--blue)" data-target="@Model.TotalApplications">0</div>
+                                <div class="cpwb-stat-lbl">Applicants</div>
+                            </div>
+                            <div class="cpwb-stat" style="position:relative;overflow:hidden">
+                                <div style="position:absolute;inset:0;background:rgba(184,255,53,.06);border-radius:var(--r-sm)"></div>
+                                <div class="cpwb-stat-val countup" data-target="@Model.AvgMatchScore" data-suffix="%">0</div>
+                                <div class="cpwb-stat-lbl">Avg Match</div>
+                            </div>
                         </div>
                     </div>
                     <div class="metric-strip">
@@ -365,21 +386,21 @@
 
             @if (TempData["ActiveTab"] != null)
             {
-                    <text>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            var tabTitles = {'cp-overview':'Overview','cp-post':'Post a Job','cp-jobs':'My Jobs','cp-applicants':'Applicants','cp-profile':'Company Profile'};
-                            sw('@TempData["ActiveTab"]', tabTitles['@TempData["ActiveTab"]'] || 'Dashboard');
-                            @if (TempData["ActiveJobId"] != null)
-                            {
-                                    <text>
-                                        var savedJobId = @TempData["ActiveJobId"];
-                                        var btn = document.querySelector('.job-filter-btn[onclick*="loadApplicants('+savedJobId+',"]');
-                                        var title = btn ? btn.textContent.trim() : 'Job #' + savedJobId;
-                                        loadApplicants(savedJobId, title);
-                                    </text>
-                            }
-                        });
-                    </text>
+                        <text>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var tabTitles = {'cp-overview':'Overview','cp-post':'Post a Job','cp-jobs':'My Jobs','cp-applicants':'Applicants','cp-profile':'Company Profile'};
+                                    sw('@TempData["ActiveTab"]', tabTitles['@TempData["ActiveTab"]'] || 'Dashboard');
+                                    @if (TempData["ActiveJobId"] != null)
+                                    {
+                                                <text>
+                                                        var savedJobId = @TempData["ActiveJobId"];
+                                                        var btn = document.querySelector('.job-filter-btn[onclick*="loadApplicants('+savedJobId+',"]');
+                                                        var title = btn ? btn.textContent.trim() : 'Job #' + savedJobId;
+                                                        loadApplicants(savedJobId, title);
+                                                </text>
+                                    }
+                                });
+                        </text>
             }
             function showToast(msg, cls) {
               var t = document.getElementById('toast');
@@ -492,9 +513,68 @@
             }
             @if (!string.IsNullOrEmpty(Model.ToastMessage))
             {
-                  <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
+                      <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
             }
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <style>
+        @@keyframes orbFloat {
+        0%, 100% {
+        transform: translate(0,0) scale(1)
+        }
+
+        33% {
+        transform: translate(8px,-6px) scale(1.05)
+        }
+
+        66% {
+        transform: translate(-5px,4px) scale(.97)
+        }
+        }
+
+        .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(40px);
+        animation: orbFloat 6s ease-in-out infinite
+        }
+
+        @@keyframes blink {
+        0%, 100% {
+        opacity: 1
+        }
+
+        50% {
+        opacity: .25
+        }
+        }
+
+        .countup {
+        display: inline-block
+        }
+    </style>
+    <script>
+        (function(){
+        function countUp(el, target, suffix, dur) {
+        dur = dur || 1100;
+        var start = performance.now();
+        (function step(now) {
+        var p = Math.min((now - start) / dur, 1);
+        var ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(ease * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+        })(performance.now());
+        }
+        function runCounters() {
+        document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
+        el.dataset.done = '1';
+        countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
+        });
+        }
+        window.addEventListener('load', runCounters);
+        })();
+    </script>
 </body>
 </html>

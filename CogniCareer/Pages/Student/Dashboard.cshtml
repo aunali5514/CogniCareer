@@ -96,7 +96,6 @@ input,select,textarea{font-family:var(--f-sans)}
 .m-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:4px;display:inline-block;transition:transform .2s}
 .metric-cell:hover .m-value{transform:scale(1.05)}
-.mc-ink::before{background:var(--ink)}.mc-lime::before{background:var(--lime-d)}.mc-muted::before{background:var(--muted)}.mc-red::before{background:var(--red)}
 .m-sub{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
 .progress-track{height:3px;background:var(--warm);border-radius:0;overflow:hidden}
 .progress-fill{height:100%;border-radius:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
@@ -109,8 +108,22 @@ input,select,textarea{font-family:var(--f-sans)}
 .job-desc-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .job-desc-full{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px;white-space:pre-wrap}
 /* Welcome banner */
-.hc-banner{background:var(--ink);border-radius:var(--r-lg);padding:28px 32px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:28px;position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px)}
-.hc-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;border-radius:50%;background:rgba(184,255,53,.05);pointer-events:none}
+/* ── hc-banner: V3 animated gradient + fine scanline grid ── */
+.hc-banner{
+  background:var(--ink);
+  border-radius:var(--r-lg);padding:28px 32px;margin-bottom:22px;
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  position:relative;overflow:hidden;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px),
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:auto,32px 32px,32px 32px;
+}
+.hc-banner::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(184,255,53,.06);pointer-events:none}
+.hc-banner::after{content:'';position:absolute;left:38%;bottom:-50px;width:120px;height:120px;border-radius:50%;background:rgba(59,127,255,.04);pointer-events:none}
+@@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(8px,-6px) scale(1.05)}66%{transform:translate(-5px,4px) scale(.97)}}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(40px);animation:orbFloat 6s ease-in-out infinite}
 .hc-kicker{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:8px}
 .hc-name{font-family:var(--f-serif);font-size:26px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1}
 .hc-name em{color:var(--lime);font-style:italic;font-weight:400}
@@ -689,24 +702,24 @@ input,select,textarea{font-family:var(--f-sans)}
     <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
     <div class="sb-section">Main</div>
     <a class="sb-link on" id="lnk-overview" onclick="sw('sp-overview','Overview')">
-      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Overview
+      <span class="sb-ico">⬡</span>Overview
     </a>
     <a class="sb-link" id="lnk-browse" onclick="sw('sp-browse','Browse Jobs')">
-      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>Browse Jobs
+      <span class="sb-ico">◈</span>Browse Jobs
     </a>
     <a class="sb-link" id="lnk-apps" onclick="sw('sp-apps','My Applications')">
-      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>Applications
+      <span class="sb-ico">◫</span>Applications
     </a>
     <a class="sb-link" id="lnk-skills" onclick="sw('sp-skills','My Skills')">
-      <span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>My Skills
+      <span class="sb-ico">◇</span>My Skills
     </a>
     <div class="sb-section">Intelligence</div>
-    <a class="sb-link" id="lnk-gap" onclick="sw('sp-gap','Skill Gap Analysis')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>Skill Gap</a>
-<a class="sb-link" id="lnk-resume" onclick="sw('sp-resume','Resume Score')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>Resume Score</a>
-<a class="sb-link" id="lnk-advisor" onclick="sw('sp-advisor','AI Advisor')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>AI Advisor</a>
+    <a class="sb-link" id="lnk-gap" onclick="sw('sp-gap','Skill Gap Analysis')"><span class="sb-ico">△</span>Skill Gap</a>
+<a class="sb-link" id="lnk-resume" onclick="sw('sp-resume','Resume Score')"><span class="sb-ico">▤</span>Resume Score</a>
+<a class="sb-link" id="lnk-advisor" onclick="sw('sp-advisor','AI Advisor')"><span class="sb-ico">◎</span>AI Advisor</a>
     <div class="sb-section">Account</div>
-    <a class="sb-link" id="lnk-alerts" onclick="sw('sp-alerts','Alerts')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Alerts @if (Model.UnreadAlerts > 0) { <span class="sb-badge">@Model.UnreadAlerts</span> }</a>
-    <a class="sb-link" id="lnk-profile" onclick="sw('sp-profile','My Profile')"><span class="sb-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Profile</a>
+    <a class="sb-link" id="lnk-alerts" onclick="sw('sp-alerts','Alerts')"><span class="sb-ico">◉</span>Alerts @if (Model.UnreadAlerts > 0) { <span class="sb-badge">@Model.UnreadAlerts</span> }</a>
+    <a class="sb-link" id="lnk-profile" onclick="sw('sp-profile','My Profile')"><span class="sb-ico">◌</span>Profile</a>
     <div class="sb-foot">
       <div class="sb-user">
         <div class="sb-avatar av-student">@Model.Initials</div>
@@ -739,21 +752,24 @@ input,select,textarea{font-family:var(--f-sans)}
       <!-- ── OVERVIEW ── -->
       <div class="panel active" id="sp-overview">
         <div class="hc-banner au">
-          <div>
+          <!-- V3 floating orbs -->
+          <div class="hero-orb" style="width:200px;height:200px;top:-80px;right:30px;background:rgba(184,255,53,.06);animation-duration:7s"></div>
+          <div class="hero-orb" style="width:120px;height:120px;bottom:-50px;right:250px;background:rgba(59,127,255,.04);animation-duration:9s;animation-delay:-3s"></div>
+          <div style="position:relative;z-index:1">
             <div class="hc-kicker">Welcome back</div>
             <div class="hc-name">@Model.UserName.Split(' ')[0],<br><em>let's find your match.</em></div>
           </div>
-          <div class="hc-right">
+          <div class="hc-right" style="position:relative;z-index:1">
             <div class="hc-stat">
-              <div class="hc-score">@Model.TotalApplications</div>
+              <div class="hc-score countup" data-target="@Model.TotalApplications">0</div>
               <div class="hc-slabel">Applications</div>
             </div>
             <div class="hc-stat">
-              <div class="hc-score">@Model.TotalSkills</div>
+              <div class="hc-score countup" data-target="@Model.TotalSkills">0</div>
               <div class="hc-slabel">Skills</div>
             </div>
             <div class="hc-stat">
-              <div class="hc-score" style="color:var(--lime)">@Model.AvgMatchScore%</div>
+              <div class="hc-score countup" data-target="@Model.AvgMatchScore" data-suffix="%" style="color:var(--lime)">0</div>
               <div class="hc-slabel">Avg Match</div>
             </div>
           </div>
@@ -765,24 +781,26 @@ input,select,textarea{font-family:var(--f-sans)}
         }
 
         <div class="metric-strip au">
-          <div class="metric-cell mc-ink">
-            <div class="m-label">Applied</div>
-            <div class="m-value">@Model.TotalApplications</div>
-            <div class="m-sub">total jobs</div>
-            <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-ink" style="width:@(Model.TotalApplications > 0 ? Math.Min(Model.TotalApplications * 10, 100) : 0)%"></div></div>
+          <div class="metric-cell" style="--c:var(--muted)">
+            <div class="metric-cell" style="position:relative">
+              <div class="m-label">Applied</div>
+              <div class="m-value">@Model.TotalApplications</div>
+              <div class="m-sub">total jobs</div>
+              <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-ink" style="width:@(Model.TotalApplications > 0 ? Math.Min(Model.TotalApplications * 10, 100) : 0)%"></div></div>
+            </div>
           </div>
-          <div class="metric-cell mc-lime">
+          <div class="metric-cell">
             <div class="m-label">Shortlisted</div>
             <div class="m-value">@Model.ShortlistedCount</div>
             <div class="m-sub">in review</div>
             <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-lime" style="width:@(Model.TotalApplications > 0 ? Model.ShortlistedCount * 100 / Model.TotalApplications : 0)%"></div></div>
           </div>
-          <div class="metric-cell mc-muted">
+          <div class="metric-cell">
             <div class="m-label">Skills</div>
             <div class="m-value">@Model.TotalSkills</div>
             <div class="m-sub">in profile</div>
           </div>
-          <div class="metric-cell mc-red">
+          <div class="metric-cell">
             <div class="m-label">Avg Match</div>
             <div class="m-value" style="color:var(--lime-d)">@Model.AvgMatchScore%</div>
             <div class="m-sub">across apps</div>
@@ -1823,6 +1841,25 @@ window.addEventListener('DOMContentLoaded', function() {
         function closeCoverModal() {
           document.getElementById('cover-modal').classList.remove('is-open');
         }
+        // V3 countup animation
+        function countUp(el, target, suffix, dur) {
+          dur = dur || 1100;
+          var start = performance.now();
+          (function step(now) {
+            var p = Math.min((now - start) / dur, 1);
+            var ease = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.round(ease * target) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+          })(performance.now());
+        }
+        function runCounters() {
+          document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
+            el.dataset.done = '1';
+            countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
+          });
+        }
+        window.addEventListener('load', runCounters);
+
 @if (!string.IsNullOrEmpty(Model.ToastMessage))
 {
   <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
