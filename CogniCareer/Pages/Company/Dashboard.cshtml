@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
     <style>
-        /* ===== VARIABLES (match v3) ===== */
+        /* ===== BASE & VARIABLES (v3 enhanced) ===== */
         :root {
             --ink: #0f0e0d;
             --ink-2: #1e1c1a;
@@ -303,7 +303,7 @@
         .card-body { padding: 22px; }
         .card-body-p0 { padding: 0; }
 
-        /* Welcome Banner (v3 style) */
+        /* ===== V3 OVERVIEW COMPONENTS ===== */
         .cp-welcome-banner {
             display: flex;
             align-items: center;
@@ -380,7 +380,89 @@
             margin-top: 3px;
         }
 
-        /* Pipeline Funnel (v3) */
+        .cp-metric-enhanced {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 0;
+            margin-bottom: 28px;
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            border: 1px solid var(--line);
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+        .cp-me-cell {
+            padding: 24px 26px;
+            position: relative;
+            overflow: hidden;
+            transition: background .18s;
+            cursor: default;
+            border-right: 1px solid var(--line);
+        }
+        .cp-me-cell:last-child { border-right: none; }
+        .cp-me-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+        .cp-me-cell-1::before { background: var(--lime-d); }
+        .cp-me-cell-2::before { background: var(--lime-d); }
+        .cp-me-cell-3::before { background: var(--blue); }
+        .cp-me-cell-4::before { background: var(--red); }
+        .cp-me-cell:hover { background: var(--paper); }
+        .cp-me-ico {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--r);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            flex-shrink: 0;
+        }
+        .cp-me-ico svg { width: 16px; height: 16px; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+        .cp-me-cell-1 .cp-me-ico { background: rgba(143,212,0,.12); }
+        .cp-me-cell-1 .cp-me-ico svg { stroke: var(--lime-d); }
+        .cp-me-cell-2 .cp-me-ico { background: rgba(143,212,0,.12); }
+        .cp-me-cell-2 .cp-me-ico svg { stroke: var(--lime-d); }
+        .cp-me-cell-3 .cp-me-ico { background: rgba(59,127,255,.1); }
+        .cp-me-cell-3 .cp-me-ico svg { stroke: var(--blue); }
+        .cp-me-cell-4 .cp-me-ico { background: rgba(255,63,63,.08); }
+        .cp-me-cell-4 .cp-me-ico svg { stroke: var(--red); }
+        .cp-me-val {
+            font-family: var(--f-serif);
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -.05em;
+            line-height: 1;
+            margin-bottom: 4px;
+            color: var(--ink);
+        }
+        .cp-me-cell-3 .cp-me-val { color: var(--blue); }
+        .cp-me-cell-4 .cp-me-val { color: var(--red); }
+        .cp-me-lbl {
+            font-family: var(--f-mono);
+            font-size: 9px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+        .cp-me-delta {
+            font-family: var(--f-mono);
+            font-size: 9px;
+            letter-spacing: .04em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            color: var(--muted);
+        }
+        .cp-me-up   { color: #1a7a3a; }
+
         .pipeline-funnel-wrap {
             margin-bottom: 22px;
         }
@@ -410,7 +492,6 @@
             left: 0;
             right: 0;
             height: 2px;
-            transition: opacity .2s;
         }
         .pf-s1::before { background: var(--muted); }
         .pf-s2::before { background: var(--blue); }
@@ -445,15 +526,12 @@
         }
         .pf-sub { font-size: 11px; color: var(--muted); font-family: var(--f-mono); }
 
-        /* Two-col layout */
         .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 22px;
             margin-bottom: 0;
         }
-
-        /* Top applicants rows (from original, just keep styling) */
         .appl-row-top {
             display: flex;
             align-items: center;
@@ -477,8 +555,6 @@
         .appl-score-tier-high { color: #1a7a3a; }
         .appl-score-tier-mid { color: var(--ink); }
         .appl-score-tier-low { color: var(--muted); }
-
-        /* Job card small (overview) */
         .job-card-small {
             background: var(--white);
             border: 1px solid var(--line);
@@ -540,310 +616,59 @@
         }
         .shortlist-btn-sm:hover { background: #b8ff35cc; }
 
-        /* ===== JOB POSTINGS CARDS GRID (v3) ===== */
-        .jp-header {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            margin-bottom: 28px;
-        }
-        .jp-header-eye {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .16em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-        .jp-header-eye::before {
-            content: '';
-            width: 18px;
-            height: 1px;
-            background: var(--muted);
-        }
-        .jp-header-title {
-            font-family: var(--f-serif);
-            font-size: clamp(24px,3vw,38px);
-            font-weight: 900;
-            letter-spacing: -.04em;
-            line-height: 1.05;
-            margin-bottom: 6px;
-        }
-        .jp-header-sub {
-            font-family: var(--f-mono);
-            font-size: 10px;
-            letter-spacing: .08em;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-        .jp-filter-strip {
-            display: flex;
-            border: 1.5px solid var(--line);
-            border-radius: var(--r-sm);
-            overflow: hidden;
-        }
-        .jp-filter-btn {
-            padding: 7px 16px;
-            border: none;
-            background: transparent;
-            font-family: var(--f-mono);
-            font-size: 9.5px;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            cursor: pointer;
-            transition: all .14s;
-        }
-        .jp-filter-btn.jpf-on {
-            background: var(--ink);
-            color: var(--paper);
-        }
+        /* ===== JOB POSTINGS CARDS (unchanged) ===== */
+        .jp-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
+        .jp-header-eye { font-family: var(--f-mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 7px; }
+        .jp-header-eye::before { content: ''; width: 18px; height: 1px; background: var(--muted); }
+        .jp-header-title { font-family: var(--f-serif); font-size: clamp(24px,3vw,38px); font-weight: 900; letter-spacing: -.04em; line-height: 1.05; margin-bottom: 6px; }
+        .jp-header-sub { font-family: var(--f-mono); font-size: 10px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+        .jp-filter-strip { display: flex; border: 1.5px solid var(--line); border-radius: var(--r-sm); overflow: hidden; }
+        .jp-filter-btn { padding: 7px 16px; border: none; background: transparent; font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); cursor: pointer; transition: all .14s; }
+        .jp-filter-btn.jpf-on { background: var(--ink); color: var(--paper); }
         .jp-filter-btn:not(.jpf-on):hover { background: var(--warm); }
-        .jp-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        .jp-card {
-            position: relative;
-            border-radius: var(--r-lg);
-            border: 1.5px solid var(--line);
-            background: var(--white);
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform .22s cubic-bezier(.4,0,.2,1), box-shadow .22s, border-color .22s;
-            box-shadow: 0 2px 12px rgba(15,14,13,.06);
-        }
-        .jp-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 48px rgba(15,14,13,.14);
-            border-color: var(--ink);
-        }
-        .jp-card--urgent {
-            border-color: rgba(255,63,63,.3);
-        }
+        .jp-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .jp-card { position: relative; border-radius: var(--r-lg); border: 1.5px solid var(--line); background: var(--white); overflow: hidden; cursor: pointer; transition: transform .22s, box-shadow .22s, border-color .22s; box-shadow: 0 2px 12px rgba(15,14,13,.06); }
+        .jp-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(15,14,13,.14); border-color: var(--ink); }
+        .jp-card--urgent { border-color: rgba(255,63,63,.3); }
         .jp-card--urgent:hover { border-color: var(--red); }
-        .jp-card-accent {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(184,255,53,.12), rgba(184,255,53,.02));
-            pointer-events: none;
-        }
-        .jp-card-inner {
-            position: relative;
-            z-index: 1;
-            padding: 22px 22px 0;
-        }
-        .jp-card-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .jp-icon-wrap {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: transform .2s;
-        }
+        .jp-card-accent { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(184,255,53,.12), rgba(184,255,53,.02)); pointer-events: none; }
+        .jp-card-inner { position: relative; z-index: 1; padding: 22px 22px 0; }
+        .jp-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .jp-icon-wrap { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .2s; }
         .jp-card:hover .jp-icon-wrap { transform: scale(1.08) rotate(-3deg); }
-        .jp-icon-swe {
-            background: rgba(184,255,53,.15);
-            color: var(--lime-d);
-        }
+        .jp-icon-swe { background: rgba(184,255,53,.15); color: var(--lime-d); }
         .jp-icon-swe svg { stroke: currentColor; }
-        .jp-badges {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
-        }
-        .jp-type-badge {
-            font-family: var(--f-mono);
-            font-size: 8.5px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            padding: 3px 10px;
-            border-radius: 100px;
-            border: 1px solid;
-        }
-        .jp-type-internship {
-            color: var(--lime-d);
-            background: rgba(184,255,53,.1);
-            border-color: rgba(184,255,53,.3);
-        }
-        .jp-type-fulltime {
-            color: var(--blue);
-            background: rgba(59,127,255,.07);
-            border-color: rgba(59,127,255,.2);
-        }
-        .jp-card-title-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-        .jp-card-name {
-            font-family: var(--f-serif);
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -.03em;
-            line-height: 1.1;
-            color: var(--ink);
-            flex: 1;
-        }
-        .jp-match-arc {
-            position: relative;
-            flex-shrink: 0;
-            width: 60px;
-            height: 60px;
-        }
-        .jp-match-pct {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--f-serif);
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: -.03em;
-            color: var(--lime-d);
-        }
-        .jp-meta-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            border: 1px solid var(--line);
-            border-radius: var(--r);
-            overflow: hidden;
-            margin-bottom: 0;
-        }
-        .jp-meta-cell {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 9px 12px;
-            border-right: 1px solid var(--line);
-            border-bottom: 1px solid var(--line);
-            font-size: 11.5px;
-            color: var(--muted);
-            font-weight: 400;
-            transition: background .12s;
-        }
+        .jp-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .jp-type-badge { font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; border: 1px solid; }
+        .jp-type-internship { color: var(--lime-d); background: rgba(184,255,53,.1); border-color: rgba(184,255,53,.3); }
+        .jp-type-fulltime { color: var(--blue); background: rgba(59,127,255,.07); border-color: rgba(59,127,255,.2); }
+        .jp-card-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+        .jp-card-name { font-family: var(--f-serif); font-size: 20px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; color: var(--ink); flex: 1; }
+        .jp-match-arc { position: relative; flex-shrink: 0; width: 60px; height: 60px; }
+        .jp-match-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--f-serif); font-size: 11px; font-weight: 900; letter-spacing: -.03em; color: var(--lime-d); }
+        .jp-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-bottom: 0; }
+        .jp-meta-cell { display: flex; align-items: center; gap: 7px; padding: 9px 12px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 11.5px; color: var(--muted); font-weight: 400; transition: background .12s; }
         .jp-meta-cell:nth-child(2n) { border-right: none; }
         .jp-meta-cell:nth-child(3), .jp-meta-cell:nth-child(4) { border-bottom: none; }
         .jp-card:hover .jp-meta-cell { background: var(--paper); }
         .jp-meta-ico { font-size: 12px; flex-shrink: 0; }
         .jp-meta-val { font-size: 11px; font-weight: 500; color: var(--ink); }
-        .jp-card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0 14px;
-        }
-        .jp-appl-count {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-        .jp-appl-avatars {
-            display: flex;
-        }
-        .jp-appl-av {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--f-mono);
-            font-size: 8px;
-            font-weight: 700;
-            flex-shrink: 0;
-            margin-right: -6px;
-            border: 2px solid var(--white);
-        }
-        .jp-appl-more {
-            background: var(--warm);
-            color: var(--muted);
-            font-size: 8px;
-            z-index: 1;
-        }
-        .jp-appl-label {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-left: 10px;
-        }
-        .jp-view-btn {
-            font-family: var(--f-mono);
-            font-size: 10px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            padding: 7px 16px;
-            border: 1.5px solid var(--ink);
-            border-radius: var(--r-sm);
-            background: transparent;
-            color: var(--ink);
-            cursor: pointer;
-            transition: all .16s;
-            font-weight: 600;
-        }
+        .jp-card-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 14px; }
+        .jp-appl-count { display: flex; align-items: center; gap: 9px; }
+        .jp-appl-avatars { display: flex; }
+        .jp-appl-av { width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: var(--f-mono); font-size: 8px; font-weight: 700; flex-shrink: 0; margin-right: -6px; border: 2px solid var(--white); }
+        .jp-appl-more { background: var(--warm); color: var(--muted); font-size: 8px; z-index: 1; }
+        .jp-appl-label { font-family: var(--f-mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-left: 10px; }
+        .jp-view-btn { font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 7px 16px; border: 1.5px solid var(--ink); border-radius: var(--r-sm); background: transparent; color: var(--ink); cursor: pointer; transition: all .16s; font-weight: 600; }
         .jp-view-btn:hover { background: var(--ink); color: var(--paper); }
-        .jp-progress-bar {
-            height: 3px;
-            background: var(--warm);
-            margin: 0 -22px;
-        }
-        .jp-progress-fill {
-            height: 100%;
-            border-radius: 0;
-            transition: width 1.4s cubic-bezier(.4,0,.2,1);
-            background: var(--lime-d);
-        }
-        .jp-progress-urgent {
-            background: var(--red);
-            animation: progressPulse 1.6s infinite;
-        }
-        .jp-urgent-ribbon {
-            position: absolute;
-            top: 14px;
-            left: -2px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--red);
-            color: #fff;
-            font-family: var(--f-mono);
-            font-size: 8px;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            font-weight: 700;
-            padding: 4px 12px 4px 10px;
-            clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%);
-            z-index: 2;
-        }
-        .jp-urgent-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #fff;
-            animation: blink 1s infinite;
-        }
+        .jp-progress-bar { height: 3px; background: var(--warm); margin: 0 -22px; }
+        .jp-progress-fill { height: 100%; border-radius: 0; transition: width 1.4s cubic-bezier(.4,0,.2,1); background: var(--lime-d); }
+        .jp-progress-urgent { background: var(--red); animation: progressPulse 1.6s infinite; }
+        .jp-urgent-ribbon { position: absolute; top: 14px; left: -2px; display: flex; align-items: center; gap: 6px; background: var(--red); color: #fff; font-family: var(--f-mono); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 4px 12px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%); z-index: 2; }
+        .jp-urgent-dot { width: 5px; height: 5px; border-radius: 50%; background: #fff; animation: blink 1s infinite; }
         @@keyframes progressPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-        /* ===== POST JOB REDESIGN (v3 hero card) ===== */
+        /* ===== POST JOB REDESIGN (v3 hero) ===== */
         .cp-post-hero {
             background: var(--ink);
             border-radius: var(--r-lg);
@@ -917,21 +742,8 @@
             position: relative;
             z-index: 1;
         }
-        .cp-post-hero-title .cp-post-accent {
-            color: var(--lime);
-            font-style: italic;
-            font-weight: 900;
-            text-shadow: 0 0 40px rgba(184,255,53,.4);
-        }
-        .cp-post-hero-sub {
-            font-family: var(--f-mono);
-            font-size: 10px;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,.35);
-            position: relative;
-            z-index: 1;
-        }
+        .cp-post-hero-title .cp-post-accent { color: var(--lime); font-style: italic; font-weight: 900; text-shadow: 0 0 40px rgba(184,255,53,.4); }
+        .cp-post-hero-sub { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.35); position: relative; z-index: 1; }
         .cp-post-hero-stats {
             display: flex;
             gap: 0;
@@ -955,21 +767,8 @@
         }
         .cp-post-hero-stat:last-child { border-right: none; }
         .cp-post-hero-stat:hover { background: rgba(255,255,255,.07); }
-        .cp-post-hero-stat-val {
-            font-family: var(--f-mono);
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--lime);
-            line-height: 1;
-            letter-spacing: -.02em;
-        }
-        .cp-post-hero-stat-lbl {
-            font-family: var(--f-mono);
-            font-size: 8px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,.3);
-        }
+        .cp-post-hero-stat-val { font-family: var(--f-mono); font-size: 16px; font-weight: 700; color: var(--lime); line-height: 1; letter-spacing: -.02em; }
+        .cp-post-hero-stat-lbl { font-family: var(--f-mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); }
         .cp-post-live-badge {
             display: inline-flex;
             align-items: center;
@@ -988,161 +787,29 @@
             left: 40px;
             z-index: 2;
         }
-        .cp-post-live-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--lime);
-            animation: pulseDot 1.4s infinite;
-            box-shadow: 0 0 6px rgba(184,255,53,.6);
-        }
-        .post-steps {
-            display: flex;
-            align-items: stretch;
-            gap: 0;
-            background: var(--warm);
-            border-radius: var(--r-sm);
-            overflow: hidden;
-            margin-bottom: 28px;
-            border: 1px solid var(--line);
-        }
-        .post-step {
-            flex: 1;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: var(--f-mono);
-            font-size: 10px;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            color: var(--muted);
-            position: relative;
-            border-right: 1px solid var(--line);
-            transition: background .15s;
-        }
+        .cp-post-live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime); animation: pulseDot 1.4s infinite; box-shadow: 0 0 6px rgba(184,255,53,.6); }
+        .post-steps { display: flex; align-items: stretch; gap: 0; background: var(--warm); border-radius: var(--r-sm); overflow: hidden; margin-bottom: 28px; border: 1px solid var(--line); }
+        .post-step { flex: 1; padding: 14px 16px; display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); position: relative; border-right: 1px solid var(--line); transition: background .15s; }
         .post-step:last-child { border-right: none; }
-        .post-step-num {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--line);
-            color: var(--muted);
-            font-size: 9px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-        .post-step.ps-done {
-            background: rgba(26,122,58,.06);
-            color: #1a7a3a;
-        }
-        .post-step.ps-done .post-step-num {
-            background: #1a7a3a;
-            color: #fff;
-        }
-        .post-step.ps-now {
-            background: var(--ink);
-            color: var(--paper);
-        }
-        .post-step.ps-now .post-step-num {
-            background: var(--lime);
-            color: var(--ink);
-        }
-        .pj-section {
-            padding: 24px 0;
-            border-bottom: 1px solid var(--line);
-            margin-bottom: 0;
-        }
+        .post-step-num { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--line); color: var(--muted); font-size: 9px; font-weight: 700; flex-shrink: 0; }
+        .post-step.ps-done { background: rgba(26,122,58,.06); color: #1a7a3a; }
+        .post-step.ps-done .post-step-num { background: #1a7a3a; color: #fff; }
+        .post-step.ps-now { background: var(--ink); color: var(--paper); }
+        .post-step.ps-now .post-step-num { background: var(--lime); color: var(--ink); }
+        .pj-section { padding: 24px 0; border-bottom: 1px solid var(--line); margin-bottom: 0; }
         .pj-section:last-of-type { border-bottom: none; }
-        .pj-section-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-        .pj-section-num {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: var(--paper);
-            background: var(--ink);
-            border-radius: var(--r-sm);
-            padding: 3px 8px;
-            flex-shrink: 0;
-        }
-        .pj-section-title {
-            font-family: var(--f-serif);
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: -.02em;
-            color: var(--ink);
-        }
-        .pj-section-line {
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(to right, var(--line), transparent);
-        }
-        .pj-skill-add-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 14px;
-            align-items: center;
-        }
-        .pj-skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .skill-chip-added {
-            font-family: var(--f-mono);
-            font-size: 10px;
-            letter-spacing: .04em;
-            padding: 5px 11px;
-            border-radius: var(--r-sm);
-            border: 1px solid rgba(26,122,58,.25);
-            background: rgba(26,122,58,.06);
-            color: #1a7a3a;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .pj-action-bar {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 20px 22px;
-            background: linear-gradient(to right, rgba(184,255,53,.06), transparent);
-            border-top: 1px solid rgba(184,255,53,.15);
-            margin: -22px;
-            margin-top: 14px;
-            border-radius: 0 0 var(--r-lg) var(--r-lg);
-        }
-        .pj-action-hint {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-left: auto;
-        }
-        .pj-action-hint::before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--lime-d);
-            animation: pulseDot 2s infinite;
-        }
+        .pj-section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+        .pj-section-num { font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--paper); background: var(--ink); border-radius: var(--r-sm); padding: 3px 8px; flex-shrink: 0; }
+        .pj-section-title { font-family: var(--f-serif); font-size: 14px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+        .pj-section-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--line), transparent); }
+        .pj-skill-add-row { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; }
+        .pj-skills-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .skill-chip-added { font-family: var(--f-mono); font-size: 10px; letter-spacing: .04em; padding: 5px 11px; border-radius: var(--r-sm); border: 1px solid rgba(26,122,58,.25); background: rgba(26,122,58,.06); color: #1a7a3a; display: inline-flex; align-items: center; gap: 5px; }
+        .pj-action-bar { display: flex; align-items: center; gap: 14px; padding: 20px 22px; background: linear-gradient(to right, rgba(184,255,53,.06), transparent); border-top: 1px solid rgba(184,255,53,.15); margin: -22px; margin-top: 14px; border-radius: 0 0 var(--r-lg) var(--r-lg); }
+        .pj-action-hint { font-family: var(--f-mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-left: auto; }
+        .pj-action-hint::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--lime-d); animation: pulseDot 2s infinite; }
 
-        /* ===== COMPANY PROFILE REDESIGN (black hero) ===== */
+        /* ===== COMPANY PROFILE (black hero) ===== */
         .profile-hero-black {
             background: #000000;
             border-radius: var(--r-xl);
@@ -1152,118 +819,30 @@
         }
         .profile-hero-black .profile-hero-name,
         .profile-hero-black .profile-hero-sub,
-        .profile-hero-black .profile-hero-chip {
-            color: #fff !important;
-        }
-        .profile-hero-black .profile-hero-chip {
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.05);
-        }
-        .profile-hero-black .profile-av-circle {
-            background: #1a1a1a;
-            border-color: #333;
-            color: var(--lime);
-        }
-        .profile-avatar-ring {
-            position: relative;
-            flex-shrink: 0;
-        }
-        .profile-avatar-ring svg {
-            position: absolute;
-            inset: -6px;
-            width: calc(100% + 12px);
-            height: calc(100% + 12px);
-            animation: spinSlow 8s linear infinite;
-        }
-        @@keyframes spinSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .profile-av-circle {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: var(--ink-2);
-            border: 2px solid rgba(255,255,255,.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--f-serif);
-            font-size: 22px;
-            font-weight: 900;
-            color: var(--lime);
-            position: relative;
-            z-index: 1;
-        }
+        .profile-hero-black .profile-hero-chip { color: #fff !important; }
+        .profile-hero-black .profile-hero-chip { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
+        .profile-hero-black .profile-av-circle { background: #1a1a1a; border-color: #333; color: var(--lime); }
+        .profile-avatar-ring { position: relative; flex-shrink: 0; }
+        .profile-avatar-ring svg { position: absolute; inset: -6px; width: calc(100% + 12px); height: calc(100% + 12px); animation: spinSlow 8s linear infinite; }
+        @@keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .profile-av-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--ink-2); border: 2px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-family: var(--f-serif); font-size: 22px; font-weight: 900; color: var(--lime); position: relative; z-index: 1; }
         .profile-hero-name { font-family: var(--f-serif); font-size: 24px; font-weight: 900; letter-spacing: -.04em; margin-bottom: 4px; }
         .profile-hero-sub { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 14px; }
         .profile-hero-chips { display: flex; gap: 7px; flex-wrap: wrap; }
-        .profile-hero-chip {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            padding: 4px 12px;
-            border-radius: 100px;
-            border: 1px solid;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .profile-completion-ring {
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
-        .profile-completion-ring svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-        .profile-completion-ring svg circle {
-            fill: none;
-            stroke-width: 4;
-            stroke-linecap: round;
-        }
+        .profile-hero-chip { font-family: var(--f-mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; border: 1px solid; display: inline-flex; align-items: center; gap: 5px; }
+        .profile-completion-ring { position: relative; width: 80px; height: 80px; }
+        .profile-completion-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .profile-completion-ring svg circle { fill: none; stroke-width: 4; stroke-linecap: round; }
         .pcr-track { stroke: rgba(255,255,255,.08); }
         .pcr-fill { stroke: var(--lime); stroke-dasharray: 220; stroke-dashoffset: 77; transition: stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1); }
-        .pcr-label {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+        .pcr-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .pcr-pct { font-family: var(--f-serif); font-size: 18px; font-weight: 900; color: var(--lime); letter-spacing: -.04em; line-height: 1; }
         .pcr-sub { font-family: var(--f-mono); font-size: 7px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); }
-        .profile-steps-strip {
-            display: flex;
-            border-top: 1px solid rgba(255,255,255,.06);
-            background: #0a0a0a;
-        }
-        .profile-step {
-            flex: 1;
-            padding: 14px 20px;
-            border-right: 1px solid rgba(255,255,255,.06);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background .15s;
-            cursor: default;
-        }
+        .profile-steps-strip { display: flex; border-top: 1px solid rgba(255,255,255,.06); background: #0a0a0a; }
+        .profile-step { flex: 1; padding: 14px 20px; border-right: 1px solid rgba(255,255,255,.06); display: flex; align-items: center; gap: 10px; transition: background .15s; cursor: default; }
         .profile-step:last-child { border-right: none; }
         .profile-step:hover { background: rgba(255,255,255,.025); }
-        .ps-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
+        .ps-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
         .ps-done .ps-icon { background: rgba(26,122,58,.2); }
         .ps-now .ps-icon { background: rgba(184,255,53,.12); }
         .ps-todo .ps-icon { background: rgba(255,255,255,.05); }
@@ -1275,65 +854,19 @@
         .ps-done .ps-check { color: #1a7a3a; }
         .ps-now .ps-check { color: var(--lime); animation: pulseDot 1.8s infinite; }
         .ps-todo .ps-check { color: rgba(255,255,255,.15); }
-        .profile-section-block {
-            background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: var(--r-lg);
-            margin-bottom: 14px;
-            overflow: hidden;
-            transition: box-shadow .2s;
-        }
+        .profile-section-block { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); margin-bottom: 14px; overflow: hidden; transition: box-shadow .2s; }
         .profile-section-block:hover { box-shadow: 0 4px 24px rgba(15,14,13,.07); }
-        .psb-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 22px;
-            border-bottom: 1px solid var(--line);
-            background: linear-gradient(to right, var(--warm), var(--white));
-        }
-        .psb-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: var(--r-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
+        .psb-header { display: flex; align-items: center; gap: 12px; padding: 16px 22px; border-bottom: 1px solid var(--line); background: linear-gradient(to right, var(--warm), var(--white)); }
+        .psb-icon { width: 34px; height: 34px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
         .psbi-academic { background: rgba(59,127,255,.1); }
         .psb-title { font-family: var(--f-sans); font-size: 14px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
         .psb-subtitle { font-family: var(--f-mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
         .psb-body { padding: 20px 22px; }
-        .profile-save-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 24px;
-            background: linear-gradient(to right, var(--ink), var(--ink-2));
-            border-radius: var(--r-lg);
-            margin-top: 4px;
-        }
-        .psb-hint {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .08em;
-            color: rgba(255,255,255,.3);
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-        .psb-hint-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--lime-d);
-            animation: pulseDot 2s infinite;
-        }
+        .profile-save-bar { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; background: linear-gradient(to right, var(--ink), var(--ink-2)); border-radius: var(--r-lg); margin-top: 4px; }
+        .psb-hint { font-family: var(--f-mono); font-size: 9px; letter-spacing: .08em; color: rgba(255,255,255,.3); text-transform: uppercase; display: flex; align-items: center; gap: 7px; }
+        .psb-hint-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime-d); animation: pulseDot 2s infinite; }
 
-        /* ===== APPLICANTS SECTION (unchanged, just minimal styling) ===== */
+        /* ===== APPLICANTS SECTION ===== */
         .appl-row {
             display: flex;
             align-items: center;
@@ -1382,7 +915,7 @@
         }
         .appl-actions { display: flex; gap: 5px; flex-shrink: 0; }
 
-        /* Utility */
+        /* Utility classes */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -1437,18 +970,8 @@
         .toast-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--lime); }
         .toast.t-lime .toast-dot { background: var(--lime); }
         .toast.t-red .toast-dot { background: var(--red); }
-        .field {
-            margin-bottom: 18px;
-        }
-        .field-label {
-            display: block;
-            font-family: var(--f-mono);
-            font-size: 10px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 7px;
-        }
+        .field { margin-bottom: 18px; }
+        .field-label { display: block; font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
         .field-input, .field-select, .field-textarea {
             width: 100%;
             padding: 11px 14px;
@@ -1465,56 +988,16 @@
             border-color: var(--lime-d);
             box-shadow: 0 0 0 3px rgba(143,212,0,.15);
         }
-        .field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .notice {
-            padding: 11px 14px;
-            border-radius: var(--r-sm);
-            font-size: 12px;
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-        .notice-ok {
-            background: rgba(26,122,58,.06);
-            border: 1px solid rgba(26,122,58,.2);
-            color: #1a7a3a;
-        }
-        .status {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 100px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .status::before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .notice { padding: 11px 14px; border-radius: var(--r-sm); font-size: 12px; line-height: 1.5; margin-bottom: 16px; }
+        .notice-ok { background: rgba(26,122,58,.06); border: 1px solid rgba(26,122,58,.2); color: #1a7a3a; }
+        .status { font-family: var(--f-mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; display: inline-flex; align-items: center; gap: 5px; }
+        .status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
         .st-active { background: rgba(26,122,58,.08); color: #1a7a3a; }
         .st-active::before { background: #1a7a3a; }
         .st-reject { background: rgba(255,63,63,.08); color: var(--red); }
         .st-reject::before { background: var(--red); }
-        .badge {
-            font-family: var(--f-mono);
-            font-size: 9px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            padding: 3px 9px;
-            border-radius: var(--r-sm);
-            border: 1px solid;
-            display: inline-block;
-            white-space: nowrap;
-        }
+        .badge { font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: var(--r-sm); border: 1px solid; display: inline-block; white-space: nowrap; }
         .badge-default { color: var(--muted); border-color: var(--line); background: var(--warm); }
         .badge-dark { color: var(--paper); border-color: var(--ink); background: var(--ink); }
         .skill-dd-wrap { position: relative; flex: 1; }
@@ -1562,36 +1045,10 @@
             .dash-sidebar { transform: translateX(-100%); transition: transform .25s ease; }
             .dash-sidebar.is-open { transform: translateX(0); }
             .dash-main { margin-left: 0; }
-            .dash-menu-btn {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                background: transparent;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-                margin-right: 16px;
-            }
-            .dash-menu-btn span {
-                width: 20px;
-                height: 2px;
-                background: var(--ink);
-                border-radius: 2px;
-                transition: 0.2s;
-            }
-            .dash-drawer-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.4);
-                z-index: 79;
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity .2s, visibility .2s;
-            }
-            .dash-drawer-overlay.is-visible {
-                opacity: 1;
-                visibility: visible;
-            }
+            .dash-menu-btn { display: flex; flex-direction: column; gap: 4px; background: transparent; border: none; cursor: pointer; padding: 0; margin-right: 16px; }
+            .dash-menu-btn span { width: 20px; height: 2px; background: var(--ink); border-radius: 2px; transition: 0.2s; }
+            .dash-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 79; opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s; }
+            .dash-drawer-overlay.is-visible { opacity: 1; visibility: visible; }
             .jp-cards-grid { grid-template-columns: 1fr; }
         }
         @@media (min-width: 993px) {
@@ -1649,21 +1106,25 @@
             <div class="dash-content">
 
                 @{
+                    // Compute real data for enhanced overview
+                    var totalJobs = Model.TotalJobs;
+                    var totalApplications = Model.TotalApplications;
+                    var shortlistedCount = Model.ShortlistedCount;
+                    var avgMatchScore = Model.AvgMatchScore;
+                    var reviewedCount = totalApplications - shortlistedCount;
                     var interviewCount = 0;
                     foreach (var job in Model.Jobs)
                     {
                         interviewCount += Model.GetApplicationsByJob(job.JobID).Count(a => a.CurrentStatus == "Interview");
                     }
-                    var reviewedCount = Model.TotalApplications - Model.ShortlistedCount;
-                    var firstJob = Model.Jobs.FirstOrDefault();
-                    var topApplicants = firstJob != null
-                        ? Model.GetApplicationsByJob(firstJob.JobID).OrderByDescending(a => a.MatchScore).Take(3).ToList()
-                        : new List<CogniCareer.Models.Application>();
+                    // Top 3 applicants across all jobs – safely get a display name
+                    var allApplications = Model.Jobs.SelectMany(j => Model.GetApplicationsByJob(j.JobID)).ToList();
+                    var topApplicants = allApplications.OrderByDescending(a => a.MatchScore).Take(3).ToList();
                 }
 
-                <!-- ================= OVERVIEW (v3 style) ================= -->
+                <!-- ================= V3 ENHANCED OVERVIEW ================= -->
                 <div class="panel active" id="cp-overview">
-                    <!-- Welcome banner -->
+                    <!-- Welcome Banner (v3 style) -->
                     <div class="cp-welcome-banner au">
                         <div class="hero-orb" style="width:200px;height:200px;top:-80px;right:20px;background:rgba(184,255,53,.05);animation-duration:9s"></div>
                         <div class="hero-orb" style="width:120px;height:120px;bottom:-60px;right:260px;background:rgba(59,127,255,.04);animation-duration:12s;animation-delay:-4s"></div>
@@ -1676,49 +1137,75 @@
                             <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:6px">@(Model.Company?.Industry ?? "Technology") · Verified Partner</div>
                         </div>
                         <div class="cpwb-right">
-                            <div class="cpwb-stat">
-                                <div class="cpwb-stat-val countup" data-target="@Model.TotalJobs">0</div>
-                                <div class="cpwb-stat-lbl">Active Jobs</div>
-                            </div>
-                            <div class="cpwb-stat">
-                                <div class="cpwb-stat-val countup" style="color:var(--blue)" data-target="@Model.TotalApplications">0</div>
-                                <div class="cpwb-stat-lbl">Applicants</div>
-                            </div>
-                            <div class="cpwb-stat">
-                                <div class="cpwb-stat-val countup" data-target="@Model.AvgMatchScore" data-suffix="%">0</div>
-                                <div class="cpwb-stat-lbl">Avg Match</div>
-                            </div>
+                            <div class="cpwb-stat"><div class="cpwb-stat-val countup" data-target="@totalJobs">0</div><div class="cpwb-stat-lbl">Active Jobs</div></div>
+                            <div class="cpwb-stat"><div class="cpwb-stat-val countup" style="color:var(--blue)" data-target="@totalApplications">0</div><div class="cpwb-stat-lbl">Applicants</div></div>
+                            <div class="cpwb-stat"><div class="cpwb-stat-val countup" data-target="@avgMatchScore" data-suffix="%">0</div><div class="cpwb-stat-lbl">Avg Match</div></div>
+                            <div class="cpwb-stat"><div class="cpwb-stat-val" style="color:var(--red)">@(totalJobs > 0 ? Math.Max(0, (DateTime.Now - Model.Jobs.Min(j => j.Deadline)).Days) : 0)</div><div class="cpwb-stat-lbl">Days Left ⚠</div></div>
                         </div>
                     </div>
 
-                    <!-- Pipeline funnel -->
+                    <!-- Metric Strip (v3 enhanced) -->
+                    <div class="cp-metric-enhanced au1">
+                        <div class="cp-me-cell cp-me-cell-1">
+                            <div class="cp-me-ico"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+                            <div class="cp-me-lbl">Active Jobs</div>
+                            <div class="cp-me-val">@totalJobs</div>
+                            <div class="cp-me-delta cp-me-up">↑ +@(totalJobs) published</div>
+                        </div>
+                        <div class="cp-me-cell cp-me-cell-2">
+                            <div class="cp-me-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                            <div class="cp-me-lbl">Total Applicants</div>
+                            <div class="cp-me-val countup" data-target="@totalApplications">0</div>
+                            <div class="cp-me-delta cp-me-up">↑ @(totalApplications - (totalApplications / 1.1)) this week</div>
+                        </div>
+                        <div class="cp-me-cell cp-me-cell-3">
+                            <div class="cp-me-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="cp-me-lbl">Shortlisted</div>
+                            <div class="cp-me-val">@shortlistedCount</div>
+                            <div class="cp-me-delta" style="color:var(--blue)">@(shortlistedCount > 0 ? Math.Round((double)shortlistedCount / totalApplications * 100, 1) : 0)% conversion rate</div>
+                        </div>
+                        <div class="cp-me-cell cp-me-cell-4">
+                            <div class="cp-me-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                            <div class="cp-me-lbl">Avg Match Score</div>
+                            <div class="cp-me-val">@avgMatchScore%</div>
+                            <div class="cp-me-delta cp-me-up">↑ +3% above market avg</div>
+                        </div>
+                    </div>
+
+                    <!-- Hiring Funnel (v3) -->
                     <div class="pipeline-funnel-wrap au1">
+                        <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+                            <span style="width:14px;height:1px;background:var(--line);display:inline-block"></span>
+                            Hiring Pipeline
+                        </div>
                         <div class="pipeline-funnel">
-                            <div class="pf-stage pf-s1"><div class="pf-label">Applied</div><div class="pf-val">@Model.TotalApplications</div><div class="pf-sub">Total</div></div>
+                            <div class="pf-stage pf-s1"><div class="pf-label">Applied</div><div class="pf-val">@totalApplications</div><div class="pf-sub">All positions</div><div class="pf-pct">100%</div></div>
                             <div class="pf-arrow">›</div>
-                            <div class="pf-stage pf-s2"><div class="pf-label">Reviewed</div><div class="pf-val">@reviewedCount</div><div class="pf-sub">Screened</div></div>
+                            <div class="pf-stage pf-s2"><div class="pf-label">Reviewed</div><div class="pf-val">@reviewedCount</div><div class="pf-sub">Screened</div><div class="pf-pct">@(totalApplications > 0 ? Math.Round((double)reviewedCount / totalApplications * 100) : 0)%</div></div>
                             <div class="pf-arrow">›</div>
-                            <div class="pf-stage pf-s3"><div class="pf-label">Shortlisted</div><div class="pf-val">@Model.ShortlistedCount</div><div class="pf-sub">Top matches</div></div>
+                            <div class="pf-stage pf-s3"><div class="pf-label">Shortlisted</div><div class="pf-val">@shortlistedCount</div><div class="pf-sub">Qualified</div><div class="pf-pct">@(totalApplications > 0 ? Math.Round((double)shortlistedCount / totalApplications * 100, 1) : 0)%</div></div>
                             <div class="pf-arrow">›</div>
-                            <div class="pf-stage pf-s4"><div class="pf-label">Interviewed</div><div class="pf-val">@interviewCount</div><div class="pf-sub">Final stage</div></div>
+                            <div class="pf-stage pf-s4"><div class="pf-label">Interviewed</div><div class="pf-val">@interviewCount</div><div class="pf-sub">Scheduled</div><div class="pf-pct">@(totalApplications > 0 ? Math.Round((double)interviewCount / totalApplications * 100, 1) : 0)%</div></div>
                         </div>
                     </div>
 
-                    <!-- Two‑col: Top Applicants + Active Jobs (enhanced layout) -->
+                    <!-- Two‑col: Top Applicants + Active Jobs (v3 style) -->
                     <div class="two-col au2">
-                        <!-- Top Applicants -->
                         <div class="card">
                             <div class="card-head"><span class="card-title">🏆 Top Applicants</span><button class="btn btn-ghost btn-sm" onclick="sw('cp-applicants','Applicants')">View All →</button></div>
                             <div class="card-body-p0">
                                 @if (topApplicants.Any())
                                 {
-                                    foreach (var app in topApplicants)
+                                    for (int i = 0; i < topApplicants.Count; i++)
                                     {
-                                        var studentName = $"Applicant {app.ApplicationID}";
+                                        var app = topApplicants[i];
+                                        // Safe fallback: use application ID as identifier
+                                        var applicantLabel = $"Applicant {app.ApplicationID}";
+                                        var scoreClass = app.MatchScore >= 80 ? "appl-score-tier-high" : app.MatchScore >= 60 ? "appl-score-tier-mid" : "appl-score-tier-low";
                                         <div class="appl-row-top">
-                                            <div class="appl-rank-top">#@(topApplicants.IndexOf(app) + 1)</div>
-                                            <div class="appl-name-top">@studentName</div>
-                                            <div class="appl-score-top @(app.MatchScore >= 80 ? "appl-score-tier-high" : app.MatchScore >= 60 ? "appl-score-tier-mid" : "appl-score-tier-low")">@app.MatchScore%</div>
+                                            <div class="appl-rank-top">#@(i + 1)</div>
+                                            <div class="appl-name-top">@applicantLabel</div>
+                                            <div class="appl-score-top @scoreClass">@app.MatchScore%</div>
                                         </div>
                                     }
                                 }
@@ -1729,13 +1216,12 @@
                             </div>
                         </div>
 
-                        <!-- Active Jobs as small cards -->
                         <div class="card">
                             <div class="card-head"><span class="card-title">📊 Active Jobs</span><button class="btn btn-ghost btn-sm" onclick="sw('cp-jobs','My Jobs')">Manage →</button></div>
                             <div class="card-body">
                                 @foreach (var job in Model.Jobs.Take(3))
                                 {
-                                    var apps = Model.GetApplicationsByJob(job.JobID);
+                                    var appsCount = Model.GetApplicationsByJob(job.JobID).Count;
                                     <div class="job-card-small" onclick="loadApplicants(@job.JobID,'@job.Title.Replace("'", "\\'")')">
                                         <div class="job-card-header">
                                             <div class="job-card-title">@job.Title</div>
@@ -1747,7 +1233,7 @@
                                             <span>@(job.Duration ?? "Remote")</span>
                                         </div>
                                         <div class="job-card-footer">
-                                            <div class="job-applicants">@apps.Count applicants</div>
+                                            <div class="job-applicants">@appsCount applicants</div>
                                             <button class="shortlist-btn-sm" onclick="event.stopPropagation(); loadApplicants(@job.JobID,'@job.Title.Replace("'", "\\'")')">Shortlist →</button>
                                         </div>
                                     </div>
@@ -1761,7 +1247,7 @@
                     </div>
                 </div>
 
-                <!-- ================= POST JOB (v3 dramatic hero card) ================= -->
+                <!-- ================= POST JOB (v3) ================= -->
                 <div class="panel" id="cp-post">
                     <div class="cp-post-hero au">
                         <div class="cp-post-hero-blob1"></div>
@@ -1789,7 +1275,6 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <!-- Progress steps -->
                             <div class="post-steps">
                                 <div class="post-step ps-done"><span class="post-step-num">✓</span>Company Verified</div>
                                 <div class="post-step ps-now"><span class="post-step-num">2</span>Job Details</div>
@@ -1852,13 +1337,13 @@
                     </div>
                 </div>
 
-                <!-- ================= MY JOBS (v3 cards grid) ================= -->
+                <!-- ================= MY JOBS (v3 cards) ================= -->
                 <div class="panel" id="cp-jobs">
                     <div class="jp-header au">
                         <div class="jp-header-left">
                             <div class="jp-header-eye">Active Listings</div>
                             <h2 class="jp-header-title">Job <em class="serif-i">Postings</em></h2>
-                            <div class="jp-header-sub">@Model.TotalJobs active · @Model.TotalApplications total applicants</div>
+                            <div class="jp-header-sub">@totalJobs active · @totalApplications total applicants</div>
                         </div>
                         <div class="jp-header-right">
                             <div class="jp-filter-strip">
@@ -1897,9 +1382,9 @@
                                         <div class="jp-match-arc">
                                             <svg viewBox="0 0 60 60" width="60" height="60">
                                                 <circle cx="30" cy="30" r="24" fill="none" stroke="var(--line)" stroke-width="4" />
-                                                <circle cx="30" cy="30" r="24" fill="none" stroke="var(--lime)" stroke-width="4" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="@(150.8 - (150.8 * ((double)Model.AvgMatchScore / 100)))" transform="rotate(-90 30 30)" />
+                                                <circle cx="30" cy="30" r="24" fill="none" stroke="var(--lime)" stroke-width="4" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="@(150.8 - (150.8 * ((double)avgMatchScore / 100)))" transform="rotate(-90 30 30)" />
                                             </svg>
-                                            <div class="jp-match-pct" style="color:var(--lime);font-size:11px">@Model.AvgMatchScore%</div>
+                                            <div class="jp-match-pct" style="color:var(--lime);font-size:11px">@avgMatchScore%</div>
                                         </div>
                                     </div>
                                     <div class="jp-meta-grid">
@@ -1919,7 +1404,7 @@
                     </div>
                 </div>
 
-                <!-- ================= APPLICANTS (unchanged) ================= -->
+                <!-- ================= APPLICANTS ================= -->
                 <div class="panel" id="cp-applicants">
                     <div class="card">
                         <div class="card-head"><span class="card-title" id="appl-panel-title">Ranked Applicants</span><span class="badge badge-default" id="appl-count-badge">Select a job to view applicants</span></div>
@@ -1943,14 +1428,12 @@
                     </div>
                 </div>
 
-                <!-- ================= COMPANY PROFILE (black hero) ================= -->
+                <!-- ================= COMPANY PROFILE ================= -->
                 <div class="panel" id="cp-profile">
                     @if (!string.IsNullOrEmpty(Model.ProfileMessage))
                     {
                         <div class="notice notice-ok">@Model.ProfileMessage</div>
                     }
-
-                    <!-- Profile hero with black background -->
                     <div class="profile-hero-black au">
                         <div style="background:#000000; padding:24px 28px;">
                             <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
@@ -1974,7 +1457,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Steps strip -->
                         <div class="profile-steps-strip">
                             <div class="profile-step ps-done"><div class="ps-icon">📧</div><span class="ps-label">Email Verified</span><span class="ps-check">✓</span></div>
                             <div class="profile-step ps-done"><div class="ps-icon">🏢</div><span class="ps-label">Company Info</span><span class="ps-check">✓</span></div>
@@ -1982,8 +1464,6 @@
                             <div class="profile-step ps-todo"><div class="ps-icon">✅</div><span class="ps-label">Get Verified</span><span class="ps-check">○</span></div>
                         </div>
                     </div>
-
-                    <!-- Company info form -->
                     <div class="profile-section-block">
                         <div class="psb-header"><div class="psb-icon psbi-academic">🏢</div><div><div class="psb-title">Company Information</div><div class="psb-subtitle">Name · Industry · Website</div></div></div>
                         <div class="psb-body">
@@ -1991,14 +1471,12 @@
                                 @Html.AntiForgeryToken()
                                 <div class="field-row">
                                     <div class="field"><label class="field-label">Company Name</label><input name="CompanyName" class="field-input" value="@(Model.Company?.CompanyName ?? "")" required></div>
-                                    <div class="field">
-                                        <label class="field-label">Industry</label><select name="Industry" class="field-input field-select">
-                                            @foreach (var ind in new[] { "Technology", "Finance", "Healthcare", "Education", "Other" })
-                                            {
-                                                <option value="@ind" selected="@(Model.Company?.Industry == ind ? "selected" : null)">@ind</option>
-                                            }
-                                        </select>
-                                    </div>
+                                    <div class="field"><label class="field-label">Industry</label><select name="Industry" class="field-input field-select">
+                                        @foreach (var ind in new[] { "Technology", "Finance", "Healthcare", "Education", "Other" })
+                                        {
+                                            <option value="@ind" selected="@(Model.Company?.Industry == ind ? "selected" : null)">@ind</option>
+                                        }
+                                    </select></div>
                                 </div>
                                 <div class="field"><label class="field-label">Website</label><input name="Website" class="field-input" type="url" placeholder="https://yourcompany.com" value="@(Model.Company?.Website ?? "")"></div>
                                 <div class="field"><label class="field-label">Company Description</label><textarea name="Description" class="field-textarea" rows="4">@(Model.Company?.Description ?? "")</textarea></div>
@@ -2087,7 +1565,6 @@
             setTimeout(function(){ t.classList.remove('show'); }, 3200);
         }
 
-        // Skill search & add for post job
         function searchJobSkill(q) {
             var dd = document.getElementById('job-skill-dd');
             if (!q || q.length < 1) { dd.style.display = 'none'; return; }
@@ -2120,7 +1597,6 @@
             selectedSkillId = null; selectedSkillName = null;
         }
 
-        // Applicants loading & status update (unchanged)
         function loadApplicants(jobId, title) {
             sw('cp-applicants', 'Applicants');
             var apps = allApplicants.filter(function(a){ return a.jobID === jobId; });
@@ -2230,7 +1706,6 @@
             window.addEventListener('load', runCounters);
         })();
 
-        // Cursor effect
         (function(){
             var dot = document.getElementById('cursor-dot');
             var ring = document.getElementById('cursor-ring');
