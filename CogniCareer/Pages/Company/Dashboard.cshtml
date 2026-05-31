@@ -14,6 +14,138 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+    <style>
+            /* Additional styles for the new overview layout */
+            .two-col {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 24px;
+            }
+
+            .job-card-small {
+                background: var(--card);
+                border: 1px solid var(--line);
+                border-radius: var(--r-lg);
+                padding: 16px;
+                margin-bottom: 12px;
+                transition: all 0.2s;
+                cursor: pointer;
+            }
+
+                .job-card-small:hover {
+                    border-color: var(--lime);
+                    transform: translateY(-2px);
+                }
+
+            .job-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 8px;
+            }
+
+            .job-card-title {
+                font-family: var(--f-serif);
+                font-size: 15px;
+                font-weight: 900;
+                color: var(--paper);
+            }
+
+            .job-card-meta {
+                font-family: var(--f-mono);
+                font-size: 9px;
+                color: var(--muted);
+                display: flex;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .job-card-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .job-applicants {
+                font-family: var(--f-mono);
+                font-size: 9px;
+                background: var(--warm);
+                padding: 2px 8px;
+                border-radius: 100px;
+                color: var(--muted);
+            }
+
+            .shortlist-btn-sm {
+                font-family: var(--f-mono);
+                font-size: 9px;
+                padding: 4px 12px;
+                border-radius: 100px;
+                background: var(--lime);
+                color: #000;
+                border: none;
+                font-weight: 700;
+                cursor: pointer;
+                transition: 0.15s;
+            }
+
+                .shortlist-btn-sm:hover {
+                    background: #b8ff35cc;
+                }
+
+            .appl-row-top {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--line);
+            }
+
+            .appl-rank-top {
+                font-family: var(--f-mono);
+                font-size: 12px;
+                font-weight: 700;
+                color: var(--lime);
+                width: 32px;
+            }
+
+            .appl-name-top {
+                flex: 1;
+                font-weight: 600;
+                font-size: 13px;
+            }
+
+            .appl-score-top {
+                font-family: var(--f-serif);
+                font-size: 18px;
+                font-weight: 700;
+            }
+            /* Black profile hero */
+            .profile-hero-black {
+                background: #000000;
+                border-radius: var(--r-xl);
+                margin-bottom: 20px;
+                border: 1px solid rgba(255,255,255,0.1);
+                overflow: hidden;
+            }
+
+                .profile-hero-black .profile-hero-name,
+                .profile-hero-black .profile-hero-sub,
+                .profile-hero-black .profile-hero-chip {
+                    color: #fff !important;
+                }
+
+                .profile-hero-black .profile-hero-chip {
+                    border-color: rgba(255,255,255,0.2);
+                    background: rgba(255,255,255,0.05);
+                }
+
+                .profile-hero-black .profile-av-circle {
+                    background: #1a1a1a;
+                    border-color: #333;
+                    color: var(--lime);
+                }
+    </style>
 </head>
 <body>
     <div id="cursor-dot"></div>
@@ -61,13 +193,25 @@
             </div>
             <div class="dash-content">
 
-                <!-- ── OVERVIEW ── -->
+                @{
+                    var interviewCount = 0;
+                    foreach (var job in Model.Jobs)
+                    {
+                        interviewCount += Model.GetApplicationsByJob(job.JobID).Count(a => a.CurrentStatus == "Interview");
+                    }
+                    var reviewedCount = Model.TotalApplications - Model.ShortlistedCount;
+                    var firstJob = Model.Jobs.FirstOrDefault();
+                    var topApplicants = firstJob != null
+                        ? Model.GetApplicationsByJob(firstJob.JobID).OrderByDescending(a => a.MatchScore).Take(3).ToList()
+                        : new List<CogniCareer.Models.Application>();
+                }
+
+                <!-- ================= OVERVIEW ================= -->
                 <div class="panel active" id="cp-overview">
-                    <div class="cp-welcome-banner au" style="border-radius:var(--r-lg);padding:22px 28px;min-height:110px;">
-                        <!-- V3 hero-orb floating blobs -->
+                    <!-- Welcome banner -->
+                    <div class="cp-welcome-banner au" style="border-radius:var(--r-lg);padding:22px 28px;min-height:110px;position:relative;overflow:hidden;">
                         <div class="hero-orb" style="width:200px;height:200px;top:-80px;right:20px;background:rgba(184,255,53,.05);animation-duration:9s;border-radius:50%;filter:blur(48px);pointer-events:none;position:absolute"></div>
                         <div class="hero-orb" style="width:120px;height:120px;bottom:-60px;right:260px;background:rgba(59,127,255,.04);animation-duration:12s;animation-delay:-4s;border-radius:50%;filter:blur(32px);pointer-events:none;position:absolute"></div>
-                        <!-- Fine grid overlay -->
                         <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:32px 32px;opacity:.7"></div>
                         <div class="cpwb-left" style="position:relative;z-index:1">
                             <div class="cpwb-greeting" style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
@@ -95,72 +239,79 @@
                             </div>
                         </div>
                     </div>
-                    <div class="metric-strip">
-                        <div class="metric-cell"><div class="m-label">Active Jobs</div><div class="m-value">@Model.TotalJobs</div><div class="m-sub">posted</div></div>
-                        <div class="metric-cell"><div class="m-label">Total Applicants</div><div class="m-value">@Model.TotalApplications</div><div class="m-sub">across all jobs</div></div>
-                        <div class="metric-cell"><div class="m-label">Shortlisted</div><div class="m-value" style="color:var(--lime-d)">@Model.ShortlistedCount</div><div class="m-sub">in pipeline</div></div>
-                        <div class="metric-cell"><div class="m-label">Avg Match Score</div><div class="m-value">@Model.AvgMatchScore%</div><div class="m-sub">platform avg</div></div>
+
+                    <!-- Pipeline funnel -->
+                    <div class="pipeline-funnel" style="display:flex; align-items:stretch; background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; margin-bottom:22px;">
+                        <div class="pf-stage pf-s1" style="flex:1; padding:16px 20px; border-right:1px solid var(--line);"><div class="pf-label">Applied</div><div class="pf-val">@Model.TotalApplications</div><div class="pf-sub">Total</div></div>
+                        <div class="pf-arrow" style="display:flex; align-items:center; padding:0 8px; color:var(--muted);">›</div>
+                        <div class="pf-stage pf-s2" style="flex:1; padding:16px 20px; border-right:1px solid var(--line);"><div class="pf-label">Reviewed</div><div class="pf-val">@reviewedCount</div><div class="pf-sub">Screened</div></div>
+                        <div class="pf-arrow" style="display:flex; align-items:center; padding:0 8px; color:var(--muted);">›</div>
+                        <div class="pf-stage pf-s3" style="flex:1; padding:16px 20px; border-right:1px solid var(--line);"><div class="pf-label">Shortlisted</div><div class="pf-val">@Model.ShortlistedCount</div><div class="pf-sub">Top matches</div></div>
+                        <div class="pf-arrow" style="display:flex; align-items:center; padding:0 8px; color:var(--muted);">›</div>
+                        <div class="pf-stage pf-s4" style="flex:1; padding:16px 20px;"><div class="pf-label">Interviewed</div><div class="pf-val">@interviewCount</div><div class="pf-sub">Final stage</div></div>
                     </div>
-                    <div class="card">
-                        <div class="card-head"><span class="card-title">My Active Jobs</span><button class="btn btn-lime btn-sm" onclick="sw('cp-post','Post a Job')">+ Post Job</button></div>
-                        <div class="card-body-p0">
-                            @if (!Model.Jobs.Any())
-                            {
-                                <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No jobs posted yet. <a onclick="sw('cp-post','Post a Job')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Post your first job →</a></div>
-                            }
-                            <div class="table-scroll">
-                                <table class="data-table" style="min-width:600px">
-                                    <thead><tr><th>Job Title</th><th>Type</th><th>Applicants</th><th>Deadline</th><th>Status</th><th>Actions</th></tr></thead>
-                                    <tbody>
-                                        @foreach (var job in Model.Jobs)
-                                        {
-                                            var apps = Model.GetApplicationsByJob(job.JobID);
-                                            var daysLeft = (job.Deadline - DateTime.Now).Days;
-                                            var deadlineClass = daysLeft <= 3 ? "color:var(--red);font-weight:700" : daysLeft <= 7 ? "color:#b46400" : "";
-                                            <tr>
-                                                <td><strong>@job.Title</strong></td>
-                                                <td><span class="badge badge-default">@job.JobType</span></td>
-                                                <td><strong>@apps.Count</strong></td>
-                                                <td><span style="font-family:var(--f-mono);font-size:11px;@deadlineClass">@job.Deadline.ToString("MMM dd")</span></td>
-                                                <td><span class="status @(string.Equals(job.Status, "Closed", StringComparison.OrdinalIgnoreCase) ? "st-reject" : "st-active")">@job.Status</span></td>
-                                                <td class="actions-cell">
-                                                    <div class="actions-wrap">
-                                                        <button class="btn btn-ghost btn-sm" onclick="loadApplicants(@job.JobID,'@job.Title')">View Applicants</button>
-                                                        @if (!string.Equals(job.Status, "Closed", StringComparison.OrdinalIgnoreCase))
-                                                        {
-                                                            <form method="post" asp-page-handler="CloseJob" style="display:inline" onsubmit="return confirm('Close this job? Students will no longer be able to apply.');">
-                                                                @Html.AntiForgeryToken()
-                                                                <input type="hidden" name="jobId" value="@job.JobID" />
-                                                                <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Close Job</button>
-                                                            </form>
-                                                        }
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+
+                    <!-- Two‑col: Top Applicants + Active Jobs -->
+                    <div class="two-col">
+                        <!-- Top Applicants table -->
+                        <div class="card">
+                            <div class="card-head"><span class="card-title">🏆 Top Applicants</span><button class="btn btn-ghost btn-sm" onclick="sw('cp-applicants','Applicants')">View All →</button></div>
+                            <div class="card-body-p0">
+                                @if (topApplicants.Any())
+                                {
+                                    foreach (var app in topApplicants)
+                                    {
+                                        // Safe display using application ID (no Student navigation)
+                                        var studentName = $"Applicant {app.ApplicationID}";
+                                        <div class="appl-row-top">
+                                            <div class="appl-rank-top">#@(topApplicants.IndexOf(app) + 1)</div>
+                                            <div class="appl-name-top">@studentName</div>
+                                            <div class="appl-score-top @(app.MatchScore >= 80 ? "appl-score-tier-high" : app.MatchScore >= 60 ? "appl-score-tier-mid" : "appl-score-tier-low")">@app.MatchScore%</div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No applicants yet.</div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Active Jobs as cards -->
+                        <div class="card">
+                            <div class="card-head"><span class="card-title">📊 Active Jobs</span><button class="btn btn-ghost btn-sm" onclick="sw('cp-jobs','My Jobs')">Manage →</button></div>
+                            <div class="card-body">
+                                @foreach (var job in Model.Jobs.Take(3))
+                                {
+                                    var apps = Model.GetApplicationsByJob(job.JobID);
+                                    var daysLeft = (job.Deadline - DateTime.Now).Days;
+                                    <div class="job-card-small" onclick="loadApplicants(@job.JobID,'@job.Title.Replace("'", "\\'")')">
+                                        <div class="job-card-header">
+                                            <div class="job-card-title">@job.Title</div>
+                                            <span class="status @(string.Equals(job.Status, "Closed", StringComparison.OrdinalIgnoreCase) ? "st-reject" : "st-active")">@job.Status</span>
+                                        </div>
+                                        <div class="job-card-meta">
+                                            <span>@job.JobType</span>
+                                            <span>•</span>
+                                            <span>@(job.Duration ?? "Remote")</span>
+                                        </div>
+                                        <div class="job-card-footer">
+                                            <div class="job-applicants">@apps.Count applicants</div>
+                                            <button class="shortlist-btn-sm" onclick="event.stopPropagation(); loadApplicants(@job.JobID,'@job.Title.Replace("'", "\\'")')">Shortlist →</button>
+                                        </div>
+                                    </div>
+                                }
+                                @if (!Model.Jobs.Any())
+                                {
+                                    <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No jobs posted yet.</div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ── POST JOB ── -->
+                <!-- ================= POST JOB (simple card from first code) ================= -->
                 <div class="panel" id="cp-post">
-                    <div style="background:var(--ink);border-radius:var(--r-lg);padding:32px;margin-bottom:22px;position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px)">
-                        <div style="position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(184,255,53,.05);pointer-events:none"></div>
-                        <div style="position:relative;z-index:1">
-                            <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:8px;display:flex;align-items:center;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--lime-d);animation:pulseDot 2s infinite;display:inline-block"></span>AI Matching Live</div>
-                            <div style="font-family:var(--f-serif);font-size:32px;font-weight:900;color:var(--paper);letter-spacing:-.04em;line-height:1;margin-bottom:6px">Post a <span style="color:var(--lime);font-style:italic">New Job</span></div>
-                            <div style="font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.06em">Matching begins the moment you publish</div>
-                        </div>
-                    </div>
-
-                    @if (!string.IsNullOrEmpty(Model.PostMessage))
-                    {
-                        <div class="notice @(Model.PostSuccess ? "notice-ok" : "notice-warn")">@Model.PostMessage</div>
-                    }
-
                     <div class="card">
                         <div class="card-head"><span class="card-title">Job Details</span></div>
                         <div class="card-body">
@@ -193,7 +344,6 @@
                                     <label class="field-label">Application Deadline</label>
                                     <input name="Deadline" type="date" class="field-input" min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
                                 </div>
-
                                 <div class="field" style="margin-top:8px">
                                     <label class="field-label">Required Skills</label>
                                     <div class="pj-skills-list" id="skills-preview">
@@ -212,7 +362,6 @@
                                         <button type="button" class="btn btn-outline" onclick="addJobSkill()">+ Add</button>
                                     </div>
                                 </div>
-
                                 <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(to right,rgba(184,255,53,.06),transparent);border:1px solid rgba(184,255,53,.15);border-radius:var(--r-lg);margin-top:4px">
                                     <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px">
                                         <div style="width:5px;height:5px;border-radius:50%;background:var(--lime-d)"></div>
@@ -225,53 +374,62 @@
                     </div>
                 </div>
 
-                <!-- ── MY JOBS ── -->
+                <!-- ================= MY JOBS ================= -->
                 <div class="panel" id="cp-jobs">
-                    <div class="card">
-                        <div class="card-head"><span class="card-title">My Jobs</span><button class="btn btn-lime btn-sm" onclick="sw('cp-post','Post a Job')">+ New Job</button></div>
-                        <div class="card-body-p0">
-                            @if (!Model.Jobs.Any())
-                            {
-                                <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No jobs posted yet.</div>
-                            }
-                            <div class="table-scroll">
-                                <table class="data-table" style="min-width:600px">
-                                    <thead><tr><th>Title</th><th>Type</th><th>Duration</th><th>Posted</th><th>Deadline</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead>
-                                    <tbody>
-                                        @foreach (var job in Model.Jobs)
-                                        {
-                                            var apps = Model.GetApplicationsByJob(job.JobID);
-                                            <tr>
-                                                <td><strong>@job.Title</strong></td>
-                                                <td><span class="badge badge-default">@job.JobType</span></td>
-                                                <td style="font-family:var(--f-mono);font-size:11px">@job.Duration</td>
-                                                <td style="font-family:var(--f-mono);font-size:11px">@job.PostedAt.ToString("MMM dd")</td>
-                                                <td style="font-family:var(--f-mono);font-size:11px">@job.Deadline.ToString("MMM dd")</td>
-                                                <td><strong>@apps.Count</strong></td>
-                                                <td><span class="status @(string.Equals(job.Status, "Closed", StringComparison.OrdinalIgnoreCase) ? "st-reject" : "st-active")">@job.Status</span></td>
-                                                <td class="actions-cell">
-                                                    <div class="actions-wrap">
-                                                        <button class="btn btn-ghost btn-sm" onclick="loadApplicants(@job.JobID,'@job.Title')">Applicants</button>
-                                                        @if (!string.Equals(job.Status, "Closed", StringComparison.OrdinalIgnoreCase))
-                                                        {
-                                                            <form method="post" asp-page-handler="CloseJob" style="display:inline" onsubmit="return confirm('Close this job? Students will no longer be able to apply.');">
-                                                                @Html.AntiForgeryToken()
-                                                                <input type="hidden" name="jobId" value="@job.JobID" />
-                                                                <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Close Job</button>
-                                                            </form>
-                                                        }
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center">
+                        <div style="display:flex;gap:6px">
+                            <button class="jp-filter-btn jpf-on" onclick="filterJobs('all',this)">All</button>
+                            <button class="jp-filter-btn" onclick="filterJobs('Internship',this)">Internship</button>
+                            <button class="jp-filter-btn" onclick="filterJobs('Full-time',this)">Full-time</button>
+                            <button class="jp-filter-btn" onclick="filterJobs('urgent',this)">Urgent</button>
                         </div>
+                        <button class="btn btn-lime btn-sm" style="margin-left:auto" onclick="sw('cp-post','Post a Job')">+ Post New Job</button>
+                    </div>
+                    <div class="jp-cards-grid" id="jp-cards-grid">
+                        @foreach (var job in Model.Jobs)
+                        {
+                            var appsCount = Model.GetApplicationsByJob(job.JobID).Count;
+                            var daysLeft = (job.Deadline - DateTime.Now).Days;
+                            var isUrgent = daysLeft <= 3;
+                            <div class="jp-card @(isUrgent ? "jp-card--urgent" : "")" data-type="@job.JobType" onclick="loadApplicants(@job.JobID,'@job.Title.Replace("'", "\\'")')">
+                                @if (isUrgent)
+                                {
+                                    <div class="jp-urgent-ribbon"><span class="jp-urgent-dot"></span>CLOSING SOON</div>
+                                }
+                                <div class="jp-card-inner">
+                                    <div class="jp-card-top">
+                                        <div class="jp-icon-wrap jp-icon-swe"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 18l6-6-6-6" /><path d="M8 6l-6 6 6 6" /></svg></div>
+                                        <div class="jp-badges">
+                                            <span class="jp-type-badge @(job.JobType == "Internship" ? "jp-type-internship" : "jp-type-fulltime")">@job.JobType</span>
+                                        </div>
+                                    </div>
+                                    <div class="jp-card-title-row">
+                                        <div class="jp-card-name">@job.Title</div>
+                                        <div class="jp-match-arc">
+                                            <svg viewBox="0 0 60 60" width="60" height="60">
+                                                <circle cx="30" cy="30" r="24" fill="none" stroke="var(--line)" stroke-width="4" />
+                                                <circle cx="30" cy="30" r="24" fill="none" stroke="var(--lime)" stroke-width="4" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="@(150.8 - (150.8 * ((double)Model.AvgMatchScore / 100)))" transform="rotate(-90 30 30)" />
+                                            </svg>
+                                            <div class="jp-match-pct" style="color:var(--lime);font-size:11px">@Model.AvgMatchScore%</div>
+                                        </div>
+                                    </div>
+                                    <div class="jp-meta-grid">
+                                        <div class="jp-meta-cell"><div class="jp-meta-ico">📍</div><div class="jp-meta-val">@(job.Duration ?? "Remote")</div></div>
+                                        <div class="jp-meta-cell"><div class="jp-meta-ico">⏱</div><div class="jp-meta-val">@job.JobType</div></div>
+                                        <div class="jp-meta-cell"><div class="jp-meta-ico">🗓</div><div class="jp-meta-val">@job.Deadline.ToString("MMM dd")</div></div>
+                                    </div>
+                                    <div class="jp-card-footer">
+                                        <div class="jp-appl-count"><div class="jp-appl-avatars"><div class="jp-appl-av jp-appl-more">+@appsCount</div></div><span class="jp-appl-label">@appsCount Applicants</span></div>
+                                        <button class="jp-view-btn" onclick="event.stopPropagation(); loadApplicants(@job.JobID,'@job.Title.Replace("'", "\\'")')">View →</button>
+                                    </div>
+                                    <div class="jp-progress-bar"><div class="jp-progress-fill @(isUrgent ? "jp-progress-urgent" : "")" style="width:@(appsCount > 0 ? Math.Min(100, (appsCount * 100 / 150)) : 0)%"></div></div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
 
-                <!-- ── APPLICANTS ── -->
+                <!-- ================= APPLICANTS ================= -->
                 <div class="panel" id="cp-applicants">
                     <div class="card">
                         <div class="card-head"><span class="card-title" id="appl-panel-title">Ranked Applicants</span><span class="badge badge-default" id="appl-count-badge">Select a job to view applicants</span></div>
@@ -295,286 +453,292 @@
                     </div>
                 </div>
 
-                <!-- ── COMPANY PROFILE ── -->
+                <!-- ================= COMPANY PROFILE (black top area) ================= -->
                 <div class="panel" id="cp-profile">
                     @if (!string.IsNullOrEmpty(Model.ProfileMessage))
                     {
                         <div class="notice notice-ok">@Model.ProfileMessage</div>
                     }
-                    <div class="card">
-                        <div class="card-head"><span class="card-title">Company Profile</span></div>
-                        <div class="card-body">
-                            <form method="post" asp-page-handler="SaveProfile">
-                                @Html.AntiForgeryToken()
-                                <div class="field">
-                                    <label class="field-label">Company Name</label>
-                                    <input name="CompanyName" class="field-input" value="@(Model.Company?.CompanyName ?? "")" required>
+
+                    <!-- Profile hero with black background -->
+                    <div class="profile-hero-black" style="border-radius:var(--r-xl); margin-bottom:20px; overflow:hidden;">
+                        <div style="background:#000000; padding:24px 28px;">
+                            <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
+                                <div class="profile-avatar-ring">
+                                    <svg viewBox="0 0 84 84" width="70" height="70"><circle cx="42" cy="42" r="38" fill="none" stroke="rgba(184,255,53,0.4)" stroke-width="1.5" stroke-dasharray="4 6" stroke-linecap="round" /></svg>
+                                    <div class="profile-av-circle" style="background:#1a1a1a; border:1px solid #333; color:var(--lime); width:64px; height:64px; font-size:22px;">@Model.Initials</div>
                                 </div>
-                                <div class="field-row">
-                                    <div class="field">
-                                        <label class="field-label">Industry</label>
-                                        <select name="Industry" class="field-input field-select">
-                                            @foreach (var ind in new[] { "Technology", "Finance", "Healthcare", "Education", "Other" })
-                                            {
-                                                <option value="@ind" selected="@(Model.Company?.Industry == ind ? "selected" : null)">@ind</option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div class="field">
-                                        <label class="field-label">Website</label>
-                                        <input name="Website" class="field-input" type="url" placeholder="https://yourcompany.com" value="@(Model.Company?.Website ?? "")">
+                                <div>
+                                    <div class="profile-hero-name" style="color:#fff; font-size:26px;">@Model.CompanyName</div>
+                                    <div class="profile-hero-sub" style="color:var(--lime); margin-bottom:12px;">Company · Verified</div>
+                                    <div class="profile-hero-chips">
+                                        <span class="profile-hero-chip" style="border-color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:#ccc;">🏭 @(Model.Company?.Industry ?? "Technology")</span>
+                                        <span class="profile-hero-chip" style="border-color:rgba(184,255,53,0.3); background:rgba(184,255,53,0.1); color:var(--lime);">🌐 @(Model.Company?.Website ?? "website")</span>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <label class="field-label">Company Description</label>
-                                    <textarea name="Description" class="field-textarea" rows="4">@(Model.Company?.Description ?? "")</textarea>
+                                <div style="margin-left:auto;">
+                                    <div class="profile-completion-ring">
+                                        <svg viewBox="0 0 80 80" width="70" height="70"><circle class="pcr-track" cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.2)" /><circle class="pcr-fill" cx="40" cy="40" r="34" stroke="var(--lime)" style="stroke-dashoffset: 77" /></svg>
+                                        <div class="pcr-label"><div class="pcr-pct" style="color:var(--lime);">65%</div><div class="pcr-sub" style="color:#aaa;">Profile</div></div>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-lime">Save Profile →</button>
-                            </form>
+                            </div>
+                        </div>
+                        <!-- Steps strip -->
+                        <div class="profile-steps-strip" style="border-top:1px solid rgba(255,255,255,0.1); background:#0a0a0a;">
+                            <div class="profile-step ps-done"><div class="ps-icon">📧</div><span class="ps-label">Email Verified</span><span class="ps-check">✓</span></div>
+                            <div class="profile-step ps-done"><div class="ps-icon">🏢</div><span class="ps-label">Company Info</span><span class="ps-check">✓</span></div>
+                            <div class="profile-step ps-now"><div class="ps-icon">💼</div><span class="ps-label">Post a Job</span><span class="ps-check">●</span></div>
+                            <div class="profile-step ps-todo"><div class="ps-icon">✅</div><span class="ps-label">Get Verified</span><span class="ps-check">○</span></div>
                         </div>
                     </div>
-                </div>
 
+                    <!-- Company info form -->
+                    <div class="profile-section-block">
+                        <div class="psb-header"><div class="psb-icon psbi-academic">🏢</div><div><div class="psb-title">Company Information</div><div class="psb-subtitle">Name · Industry · Website</div></div></div>
+                        <div class="psb-body">
+                            <form method="post" asp-page-handler="SaveProfile">
+                                @Html.AntiForgeryToken()
+                                <div class="field-row">
+                                    <div class="field"><label class="field-label">Company Name</label><input name="CompanyName" class="field-input" value="@(Model.Company?.CompanyName ?? "")" required></div>
+                                    <div class="field">
+                                        <label class="field-label">Industry</label><select name="Industry" class="field-input field-select">
+                                        @foreach (var ind in new[] { "Technology", "Finance", "Healthcare", "Education", "Other" })
+                                        {
+                                            <option value="@ind" selected="@(Model.Company?.Industry == ind ? "selected" : null)">@ind</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field"><label class="field-label">Website</label><input name="Website" class="field-input" type="url" placeholder="https://yourcompany.com" value="@(Model.Company?.Website ?? "")"></div>
+                            <div class="field"><label class="field-label">Company Description</label><textarea name="Description" class="field-textarea" rows="4">@(Model.Company?.Description ?? "")</textarea></div>
+                            <div class="profile-save-bar" style="margin-top:16px; border-radius:var(--r-lg);">
+                                <div class="psb-hint"><div class="psb-hint-dot"></div>Changes auto-saved</div>
+                                <button type="submit" class="btn btn-lime">Save Profile →</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
+</div>
 
-    <script>
-            (function initDashDrawer() {
-              var btn = document.getElementById('dash-menu-btn');
-              var sidebar = document.getElementById('dash-sidebar');
-              var overlay = document.getElementById('dash-drawer-overlay');
-              if (!btn || !sidebar || !overlay) return;
-              function openDrawer() {
-                sidebar.classList.add('is-open');
-                overlay.classList.add('is-visible');
-                overlay.setAttribute('aria-hidden', 'false');
-                btn.setAttribute('aria-expanded', 'true');
-                btn.setAttribute('aria-label', 'Close menu');
-              }
-              function closeDrawer() {
-                sidebar.classList.remove('is-open');
-                overlay.classList.remove('is-visible');
-                overlay.setAttribute('aria-hidden', 'true');
-                btn.setAttribute('aria-expanded', 'false');
-                btn.setAttribute('aria-label', 'Open menu');
-              }
-              btn.addEventListener('click', function() {
-                if (sidebar.classList.contains('is-open')) closeDrawer();
-                else openDrawer();
-              });
-              overlay.addEventListener('click', closeDrawer);
-              document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(link) {
-                link.addEventListener('click', closeDrawer);
-              });
-            })();
+<script>
+        // All existing JavaScript functions (unchanged)
+        (function initDashDrawer() {
+          var btn = document.getElementById('dash-menu-btn');
+          var sidebar = document.getElementById('dash-sidebar');
+          var overlay = document.getElementById('dash-drawer-overlay');
+          if (!btn || !sidebar || !overlay) return;
+          function openDrawer() {
+            sidebar.classList.add('is-open');
+            overlay.classList.add('is-visible');
+            overlay.setAttribute('aria-hidden', 'false');
+            btn.setAttribute('aria-expanded', 'true');
+            btn.setAttribute('aria-label', 'Close menu');
+          }
+          function closeDrawer() {
+            sidebar.classList.remove('is-open');
+            overlay.classList.remove('is-visible');
+            overlay.setAttribute('aria-hidden', 'true');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.setAttribute('aria-label', 'Open menu');
+          }
+          btn.addEventListener('click', function() {
+            if (sidebar.classList.contains('is-open')) closeDrawer();
+            else openDrawer();
+          });
+          overlay.addEventListener('click', closeDrawer);
+          document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(link) {
+            link.addEventListener('click', closeDrawer);
+          });
+        })();
 
-            var allSkills = @Html.Raw(Model.AllSkillsJson);
-            var allApplicants = @Html.Raw(Model.AllApplicationsJson);
-            var jobSkills = [];
+        var allSkills = @Html.Raw(Model.AllSkillsJson);
+        var allApplicants = @Html.Raw(Model.AllApplicationsJson);
+        var jobSkills = [];
 
-            function sw(panelId, title) {
-              document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-              var el = document.getElementById(panelId);
-              if (el) el.classList.add('active');
-              document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('on'); });
-              var lnkMap = {'cp-overview':'lnk-overview','cp-post':'lnk-post','cp-jobs':'lnk-jobs','cp-applicants':'lnk-applicants','cp-profile':'lnk-profile'};
-              var lnk = document.getElementById(lnkMap[panelId]);
-              if (lnk) lnk.classList.add('on');
-              document.getElementById('page-title').textContent = title;
-            }
+        function sw(panelId, title) {
+          document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+          var el = document.getElementById(panelId);
+          if (el) el.classList.add('active');
+          document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('on'); });
+          var lnkMap = {'cp-overview':'lnk-overview','cp-post':'lnk-post','cp-jobs':'lnk-jobs','cp-applicants':'lnk-applicants','cp-profile':'lnk-profile'};
+          var lnk = document.getElementById(lnkMap[panelId]);
+          if (lnk) lnk.classList.add('on');
+          document.getElementById('page-title').textContent = title;
+        }
 
-            @if (TempData["ActiveTab"] != null)
-            {
-                        <text>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    var tabTitles = {'cp-overview':'Overview','cp-post':'Post a Job','cp-jobs':'My Jobs','cp-applicants':'Applicants','cp-profile':'Company Profile'};
-                                    sw('@TempData["ActiveTab"]', tabTitles['@TempData["ActiveTab"]'] || 'Dashboard');
-                                    @if (TempData["ActiveJobId"] != null)
-                                    {
-                                                <text>
+        @if (TempData["ActiveTab"] != null)
+        {
+                <text>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var tabTitles = {'cp-overview':'Overview','cp-post':'Post a Job','cp-jobs':'My Jobs','cp-applicants':'Applicants','cp-profile':'Company Profile'};
+                                sw('@TempData["ActiveTab"]', tabTitles['@TempData["ActiveTab"]'] || 'Dashboard');
+                                @if (TempData["ActiveJobId"] != null)
+                                {
+                                            <text>
                                                         var savedJobId = @TempData["ActiveJobId"];
                                                         var btn = document.querySelector('.job-filter-btn[onclick*="loadApplicants('+savedJobId+',"]');
                                                         var title = btn ? btn.textContent.trim() : 'Job #' + savedJobId;
                                                         loadApplicants(savedJobId, title);
-                                                </text>
-                                    }
-                                });
-                        </text>
-            }
-            function showToast(msg, cls) {
-              var t = document.getElementById('toast');
-              document.getElementById('toast-msg').textContent = msg;
-              t.className = 'toast ' + (cls || 't-lime');
-              t.classList.add('show');
-              setTimeout(function(){ t.classList.remove('show'); }, 3200);
-            }
-            function searchJobSkill(q) {
-              var dd = document.getElementById('job-skill-dd');
-              if (!q || q.length < 1) { dd.style.display = 'none'; return; }
-              var filtered = allSkills.filter(function(s){ return s.skillName.toLowerCase().includes(q.toLowerCase()); });
-              if (!filtered.length) { dd.style.display = 'none'; return; }
-              dd.innerHTML = filtered.slice(0, 8).map(function(s){
-                return '<div class="skill-opt" onmousedown="selectJobSkill('+s.skillID+',\''+s.skillName+'\')"><span class="skill-opt-name">'+s.skillName+'</span><span class="skill-opt-cat">'+s.category+'</span></div>';
-              }).join('');
-              dd.style.display = 'block';
-            }
-            var selectedSkillId = null, selectedSkillName = null;
-            function selectJobSkill(id, name) {
-              selectedSkillId = id; selectedSkillName = name;
-              document.getElementById('job-skill-q').value = name;
-              document.getElementById('job-skill-dd').style.display = 'none';
-            }
-            function closeJobDD() { document.getElementById('job-skill-dd').style.display = 'none'; }
-            function addJobSkill() {
-              if (!selectedSkillId) { showToast('Select a skill first.', 't-red'); return; }
-              var priority = document.getElementById('job-skill-priority').value;
-              if (jobSkills.find(function(s){ return s.skillId === selectedSkillId; })) { showToast('Skill already added.', 't-red'); return; }
-              jobSkills.push({skillId: selectedSkillId, skillName: selectedSkillName, priority: priority});
-              document.getElementById('skills-json').value = JSON.stringify(jobSkills);
-              var preview = document.getElementById('skills-preview');
-              preview.innerHTML = jobSkills.map(function(s){
-                return '<span class="skill-chip-added">'+s.skillName+' <span style="opacity:.6">·</span> '+s.priority+'</span>';
-              }).join('');
-              document.getElementById('job-skill-q').value = '';
-              selectedSkillId = null; selectedSkillName = null;
-            }
-            function loadApplicants(jobId, title) {
-              sw('cp-applicants', 'Applicants');
-              var apps = allApplicants.filter(function(a){ return a.jobID === jobId; });
-              apps.sort(function(a,b){ return b.matchScore - a.matchScore; });
-              document.getElementById('appl-panel-title').textContent = 'Ranked Applicants — ' + title;
-              document.getElementById('appl-count-badge').textContent = apps.length + ' applicants';
-              var list = document.getElementById('appl-list');
-              if (!apps.length) { list.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No applications for this job yet.</div>'; return; }
-              var token = document.querySelector("input[name='__RequestVerificationToken']").value;
-              list.innerHTML = apps.map(function(a, i){
-                var sc = parseFloat(a.matchScore);
-                var tierClass = sc >= 80 ? 'appl-score-tier-high' : sc >= 60 ? 'appl-score-tier-mid' : 'appl-score-tier-low';
-                var initials = (a.studentName || 'S').split(' ').map(function(p){ return p[0]; }).join('').toUpperCase().substring(0,2);
-                var statusBadge = '';
-                if (a.currentStatus && a.currentStatus !== 'Applied') {
-                  var badgeColor = a.currentStatus === 'Shortlisted' ? 'color:#1a7a3a;background:rgba(26,122,58,.1)' : a.currentStatus === 'Interview' ? 'color:#b46400;background:rgba(180,100,0,.1)' : 'color:var(--red);background:rgba(255,63,63,.08)';
-                  statusBadge = '<span style="font-family:var(--f-mono);font-size:9px;padding:2px 8px;border-radius:100px;'+badgeColor+'">'+a.currentStatus+'</span>';
-                }
-                return '<div class="appl-row" id="appl-row-'+a.applicationID+'">'+
-                  '<div class="appl-rank">#'+(i+1)+'</div>'+
-                  '<div class="appl-av">'+initials+'</div>'+
-                  '<div style="flex:1"><div style="font-size:13px;font-weight:700">'+(a.studentName || 'Student')+' '+statusBadge+'</div>'+
-                  '<div style="font-family:var(--f-mono);font-size:10px;color:var(--muted)">Applied '+a.appliedAt+'</div></div>'+
-                  '<div class="appl-score '+tierClass+'">'+sc+'%</div>'+
-                  '<div class="appl-actions">'+
-                  '<button class="btn btn-lime btn-sm" onclick="updateStatus('+a.applicationID+',\'Shortlisted\',\''+token+'\',this)">Shortlist</button>'+
-                  '<button class="btn btn-ghost btn-sm" onclick="updateStatus('+a.applicationID+',\'Interview\',\''+token+'\',this)">Interview</button>'+
-                  '<button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="updateStatus('+a.applicationID+',\'Rejected\',\''+token+'\',this)">Reject</button>'+
-                  '</div></div>';
-              }).join('');
-            }
+                                            </text>
+                                }
+                            });
+                </text>
+        }
 
-            function updateStatus(applicationId, status, token, btn) {
-              btn.disabled = true;
-              btn.textContent = '...';
-              var fd = new FormData();
-              fd.append('applicationId', applicationId);
-              fd.append('status', status);
-              fd.append('__RequestVerificationToken', token);
-              fetch('/Company/Dashboard?handler=UpdateStatus', { method: 'POST', body: fd })
-                .then(function(r){
-                  if (r.ok) {
-                    var row = document.getElementById('appl-row-' + applicationId);
-                    if (row) {
-                      var badgeColor = status === 'Shortlisted' ? 'color:#1a7a3a;background:rgba(26,122,58,.1)' : status === 'Interview' ? 'color:#b46400;background:rgba(180,100,0,.1)' : 'color:var(--red);background:rgba(255,63,63,.08)';
-                      var nameDiv = row.querySelector('div[style*="font-weight:700"]');
-                      if (nameDiv) {
-                        var existing = nameDiv.querySelector('span');
-                        if (existing) existing.remove();
-                        var badge = document.createElement('span');
-                        badge.style.cssText = 'font-family:var(--f-mono);font-size:9px;padding:2px 8px;border-radius:100px;'+badgeColor;
-                        badge.textContent = status;
-                        nameDiv.appendChild(badge);
-                      }
-                    }
-                    showToast('Status updated to ' + status + '.', 't-lime');
-                    var actions = btn.parentElement;
-                    actions.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
-                    if (status === 'Shortlisted') actions.querySelectorAll('button')[0].textContent = 'Shortlist';
-                    if (status === 'Interview')   actions.querySelectorAll('button')[1].textContent = 'Interview';
-                    if (status === 'Rejected')    actions.querySelectorAll('button')[2].textContent = 'Reject';
-                  } else {
-                    showToast('Update failed. Try again.', 't-red');
-                    btn.disabled = false;
-                    btn.textContent = status === 'Shortlisted' ? 'Shortlist' : status === 'Interview' ? 'Interview' : 'Reject';
+        function showToast(msg, cls) {
+          var t = document.getElementById('toast');
+          document.getElementById('toast-msg').textContent = msg;
+          t.className = 'toast ' + (cls || 't-lime');
+          t.classList.add('show');
+          setTimeout(function(){ t.classList.remove('show'); }, 3200);
+        }
+
+        function searchJobSkill(q) {
+          var dd = document.getElementById('job-skill-dd');
+          if (!q || q.length < 1) { dd.style.display = 'none'; return; }
+          var filtered = allSkills.filter(function(s){ return s.skillName.toLowerCase().includes(q.toLowerCase()); });
+          if (!filtered.length) { dd.style.display = 'none'; return; }
+          dd.innerHTML = filtered.slice(0, 8).map(function(s){
+            return '<div class="skill-opt" onmousedown="selectJobSkill('+s.skillID+',\''+s.skillName+'\')"><span class="skill-opt-name">'+s.skillName+'</span><span class="skill-opt-cat">'+s.category+'</span></div>';
+          }).join('');
+          dd.style.display = 'block';
+        }
+
+        var selectedSkillId = null, selectedSkillName = null;
+        function selectJobSkill(id, name) {
+          selectedSkillId = id; selectedSkillName = name;
+          document.getElementById('job-skill-q').value = name;
+          document.getElementById('job-skill-dd').style.display = 'none';
+        }
+        function closeJobDD() { document.getElementById('job-skill-dd').style.display = 'none'; }
+        function addJobSkill() {
+          if (!selectedSkillId) { showToast('Select a skill first.', 't-red'); return; }
+          var priority = document.getElementById('job-skill-priority').value;
+          if (jobSkills.find(function(s){ return s.skillId === selectedSkillId; })) { showToast('Skill already added.', 't-red'); return; }
+          jobSkills.push({skillId: selectedSkillId, skillName: selectedSkillName, priority: priority});
+          document.getElementById('skills-json').value = JSON.stringify(jobSkills);
+          var preview = document.getElementById('skills-preview');
+          preview.innerHTML = jobSkills.map(function(s){
+            return '<span class="skill-chip-added">'+s.skillName+' <span style="opacity:.6">·</span> '+s.priority+'</span>';
+          }).join('');
+          document.getElementById('job-skill-q').value = '';
+          selectedSkillId = null; selectedSkillName = null;
+        }
+
+        function loadApplicants(jobId, title) {
+          sw('cp-applicants', 'Applicants');
+          var apps = allApplicants.filter(function(a){ return a.jobID === jobId; });
+          apps.sort(function(a,b){ return b.matchScore - a.matchScore; });
+          document.getElementById('appl-panel-title').textContent = 'Ranked Applicants — ' + title;
+          document.getElementById('appl-count-badge').textContent = apps.length + ' applicants';
+          var list = document.getElementById('appl-list');
+          if (!apps.length) { list.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No applications for this job yet.</div>'; return; }
+          var token = document.querySelector("input[name='__RequestVerificationToken']").value;
+          list.innerHTML = apps.map(function(a, i){
+            var sc = parseFloat(a.matchScore);
+            var tierClass = sc >= 80 ? 'appl-score-tier-high' : sc >= 60 ? 'appl-score-tier-mid' : 'appl-score-tier-low';
+            var initials = (a.studentName || 'S').split(' ').map(function(p){ return p[0]; }).join('').toUpperCase().substring(0,2);
+            var statusBadge = '';
+            if (a.currentStatus && a.currentStatus !== 'Applied') {
+              var badgeColor = a.currentStatus === 'Shortlisted' ? 'color:#1a7a3a;background:rgba(26,122,58,.1)' : a.currentStatus === 'Interview' ? 'color:#b46400;background:rgba(180,100,0,.1)' : 'color:var(--red);background:rgba(255,63,63,.08)';
+              statusBadge = '<span style="font-family:var(--f-mono);font-size:9px;padding:2px 8px;border-radius:100px;'+badgeColor+'">'+a.currentStatus+'</span>';
+            }
+            return '<div class="appl-row" id="appl-row-'+a.applicationID+'">'+
+              '<div class="appl-rank">#'+(i+1)+'</div>'+
+              '<div class="appl-av">'+initials+'</div>'+
+              '<div style="flex:1"><div style="font-size:13px;font-weight:700">'+(a.studentName || 'Student')+' '+statusBadge+'</div>'+
+              '<div style="font-family:var(--f-mono);font-size:10px;color:var(--muted)">Applied '+a.appliedAt+'</div></div>'+
+              '<div class="appl-score '+tierClass+'">'+sc+'%</div>'+
+              '<div class="appl-actions">'+
+              '<button class="btn btn-lime btn-sm" onclick="updateStatus('+a.applicationID+',\'Shortlisted\',\''+token+'\',this)">Shortlist</button>'+
+              '<button class="btn btn-ghost btn-sm" onclick="updateStatus('+a.applicationID+',\'Interview\',\''+token+'\',this)">Interview</button>'+
+              '<button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="updateStatus('+a.applicationID+',\'Rejected\',\''+token+'\',this)">Reject</button>'+
+              '</div></div>';
+          }).join('');
+        }
+
+        function updateStatus(applicationId, status, token, btn) {
+          btn.disabled = true;
+          btn.textContent = '...';
+          var fd = new FormData();
+          fd.append('applicationId', applicationId);
+          fd.append('status', status);
+          fd.append('__RequestVerificationToken', token);
+          fetch('/Company/Dashboard?handler=UpdateStatus', { method: 'POST', body: fd })
+            .then(function(r){
+              if (r.ok) {
+                var row = document.getElementById('appl-row-' + applicationId);
+                if (row) {
+                  var badgeColor = status === 'Shortlisted' ? 'color:#1a7a3a;background:rgba(26,122,58,.1)' : status === 'Interview' ? 'color:#b46400;background:rgba(180,100,0,.1)' : 'color:var(--red);background:rgba(255,63,63,.08)';
+                  var nameDiv = row.querySelector('div[style*="font-weight:700"]');
+                  if (nameDiv) {
+                    var existing = nameDiv.querySelector('span');
+                    if (existing) existing.remove();
+                    var badge = document.createElement('span');
+                    badge.style.cssText = 'font-family:var(--f-mono);font-size:9px;padding:2px 8px;border-radius:100px;'+badgeColor;
+                    badge.textContent = status;
+                    nameDiv.appendChild(badge);
                   }
-                })
-                .catch(function(){
-                  showToast('Network error.', 't-red');
-                  btn.disabled = false;
-                });
-            }
-            @if (!string.IsNullOrEmpty(Model.ToastMessage))
-            {
-                      <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
-            }
-    </script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    <style>
-        @@keyframes orbFloat {
-        0%, 100% {
-        transform: translate(0,0) scale(1)
+                }
+                showToast('Status updated to ' + status + '.', 't-lime');
+                var actions = btn.parentElement;
+                actions.querySelectorAll('button').forEach(function(b){ b.disabled = false; });
+                if (status === 'Shortlisted') actions.querySelectorAll('button')[0].textContent = 'Shortlist';
+                if (status === 'Interview')   actions.querySelectorAll('button')[1].textContent = 'Interview';
+                if (status === 'Rejected')    actions.querySelectorAll('button')[2].textContent = 'Reject';
+              } else {
+                showToast('Update failed. Try again.', 't-red');
+                btn.disabled = false;
+                btn.textContent = status === 'Shortlisted' ? 'Shortlist' : status === 'Interview' ? 'Interview' : 'Reject';
+              }
+            })
+            .catch(function(){
+              showToast('Network error.', 't-red');
+              btn.disabled = false;
+            });
         }
 
-        33% {
-        transform: translate(8px,-6px) scale(1.05)
+        function filterJobs(type, btn) {
+          document.querySelectorAll('.jp-filter-btn').forEach(function(b){ b.classList.remove('jpf-on'); });
+          if (btn) btn.classList.add('jpf-on');
+          document.querySelectorAll('.jp-card').forEach(function(card){
+            var cardType = card.getAttribute('data-type');
+            if (type === 'all') { card.style.display = ''; }
+            else if (type === 'urgent') { card.style.display = card.classList.contains('jp-card--urgent') ? '' : 'none'; }
+            else { card.style.display = cardType === type ? '' : 'none'; }
+          });
         }
 
-        66% {
-        transform: translate(-5px,4px) scale(.97)
-        }
-        }
-
-        .hero-orb {
-        position: absolute;
-        border-radius: 50%;
-        pointer-events: none;
-        filter: blur(40px);
-        animation: orbFloat 6s ease-in-out infinite
+        @if (!string.IsNullOrEmpty(Model.ToastMessage))
+        {
+                    <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>
         }
 
-        @@keyframes blink {
-        0%, 100% {
-        opacity: 1
-        }
-
-        50% {
-        opacity: .25
-        }
-        }
-
-        .countup {
-        display: inline-block
-        }
-    </style>
-    <script>
         (function(){
-        function countUp(el, target, suffix, dur) {
-        dur = dur || 1100;
-        var start = performance.now();
-        (function step(now) {
-        var p = Math.min((now - start) / dur, 1);
-        var ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(ease * target) + suffix;
-        if (p < 1) requestAnimationFrame(step);
-        })(performance.now());
-        }
-        function runCounters() {
-        document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
-        el.dataset.done = '1';
-        countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
-        });
-        }
-        window.addEventListener('load', runCounters);
+          function countUp(el, target, suffix, dur) {
+            dur = dur || 1100;
+            var start = performance.now();
+            (function step(now) {
+              var p = Math.min((now - start) / dur, 1);
+              var ease = 1 - Math.pow(1 - p, 3);
+              el.textContent = Math.round(ease * target) + suffix;
+              if (p < 1) requestAnimationFrame(step);
+            })(performance.now());
+          }
+          function runCounters() {
+            document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
+              el.dataset.done = '1';
+              countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
+            });
+          }
+          window.addEventListener('load', runCounters);
         })();
-    </script>
+</script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>
