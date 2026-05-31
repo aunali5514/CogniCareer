@@ -12,6 +12,7 @@
 <title>Student Dashboard — CogniCareer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
 <style>
 :root{--ink:#0f0e0d;--ink-2:#1e1c1a;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime:#b8ff35;--lime-d:#8fd400;--red:#ff3f3f;--blue:#3b7fff;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px;--r-lg:12px;--shadow:0 2px 16px rgba(15,14,13,.08);--shadow-lg:0 8px 48px rgba(15,14,13,.16)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -107,31 +108,139 @@ input,select,textarea{font-family:var(--f-sans)}
 .data-table tr:hover td{background:linear-gradient(to right,rgba(143,212,0,.035),var(--paper),rgba(143,212,0,.035))!important}
 .job-desc-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .job-desc-full{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px;white-space:pre-wrap}
-/* Welcome banner */
-/* ── hc-banner: V3 animated gradient + fine scanline grid ── */
-.hc-banner{
+/* ── Change 2: v5 welcome banner — dark ink background, white text ── */
+.wb-banner{
   background:var(--ink);
-  border-radius:var(--r-lg);padding:28px 32px;margin-bottom:22px;
-  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r-lg);padding:22px 28px;margin-bottom:22px;
   position:relative;overflow:hidden;
   background-image:
     repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px),
-    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
   background-size:auto,32px 32px,32px 32px;
 }
-.hc-banner::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(184,255,53,.06);pointer-events:none}
-.hc-banner::after{content:'';position:absolute;left:38%;bottom:-50px;width:120px;height:120px;border-radius:50%;background:rgba(59,127,255,.04);pointer-events:none}
-@@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(8px,-6px) scale(1.05)}66%{transform:translate(-5px,4px) scale(.97)}}
-.hero-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(40px);animation:orbFloat 6s ease-in-out infinite}
-.hc-kicker{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:8px}
-.hc-name{font-family:var(--f-serif);font-size:26px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1}
-.hc-name em{color:var(--lime);font-style:italic;font-weight:400}
-.hc-right{display:flex;gap:16px;flex-shrink:0}
-.hc-stat{text-align:center;padding:10px 18px;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);transition:border-color .15s}
-.hc-stat:hover{border-color:rgba(184,255,53,.3)}
-.hc-score{font-family:var(--f-serif);font-size:28px;font-weight:900;color:var(--lime);letter-spacing:-.04em;line-height:1}
-.hc-slabel{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
+.wb-banner::before{
+  content:'';position:absolute;right:-40px;top:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:var(--lime);opacity:.06;pointer-events:none;
+}
+.wb-banner::after{
+  content:'';position:absolute;left:38%;bottom:-50px;
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(59,127,255,.05);pointer-events:none;
+}
+.wb-greeting{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;font-weight:600}
+.wb-name{font-family:var(--f-serif);font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--paper)}
+.wb-name em{color:var(--lime);font-style:italic;font-weight:400}
+.wb-meta{font-size:12px;color:rgba(255,255,255,.4);margin-top:6px}
+.wb-stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.wb-stat{text-align:center;padding:8px 16px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r);background:rgba(255,255,255,.06);transition:all .18s;position:relative;overflow:hidden}
+.wb-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.wb-stat:hover{transform:translateY(-2px);border-color:rgba(184,255,53,.3)}
+.wb-stat-val{font-family:var(--f-serif);font-size:22px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.wb-stat-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
+/* Stat pill accent colors — all from ZIP tokens */
+.wb-stat-match::before{background:var(--lime-d)}
+.wb-stat-match .wb-stat-val{color:var(--lime-d)}
+.wb-stat-rank::before{background:var(--blue)}
+.wb-stat-rank .wb-stat-val{color:var(--blue)}
+.wb-stat-applied::before{background:#1a7a3a}
+.wb-stat-applied .wb-stat-val{color:#1a7a3a}
+.wb-stat-profile::before{background:var(--red)}
+.wb-stat-profile .wb-stat-val{color:var(--red)}
+/* ── Change 3: v5 KPI cards exactly matching screenshot 5 — individual cards, gradient top border ── */
+/* Override metric-strip base: break the joined bar into separate cards */
+.v5-kpi{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:14px;margin-bottom:22px;
+  border:none !important;border-radius:0 !important;
+  background:transparent !important;overflow:visible !important;
+}
+.v5-kpi .metric-cell{
+  background:var(--white) !important;
+  border:1px solid var(--line) !important;
+  border-right:1px solid var(--line) !important;
+  border-top:none !important;
+  border-radius:var(--r-lg) !important;
+  padding:22px 24px !important;
+  overflow:hidden !important;
+  box-shadow:0 2px 12px rgba(15,14,13,.05);
+  transition:transform .18s,box-shadow .18s;
+}
+.v5-kpi .metric-cell:hover{transform:translateY(-3px) !important;box-shadow:0 10px 32px rgba(15,14,13,.1);background:var(--white) !important}
+/* Gradient top border via pseudo */
+.v5-kpi .metric-cell::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.v5-kpi .mc-ink::before{background:linear-gradient(to right,var(--lime-d),var(--lime))}
+.v5-kpi .mc-lime::before{background:linear-gradient(to right,var(--blue),rgba(59,127,255,.5))}
+.v5-kpi .mc-muted::before{background:linear-gradient(to right,#1a7a3a,rgba(26,122,58,.5))}
+.v5-kpi .mc-blue::before{background:linear-gradient(to right,var(--red),rgba(255,63,63,.5))}
+/* Remove old tiny dot */
+.v5-kpi-dot{display:none}
+/* Label */
+.v5-kpi .m-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:600;display:block}
+/* Huge serif number */
+.v5-kpi .m-value{font-family:var(--f-serif) !important;font-size:38px !important;font-weight:900 !important;letter-spacing:-.05em !important;line-height:1 !important;margin-bottom:6px;color:var(--ink) !important}
+.v5-kpi .metric-cell:hover .m-value{color:var(--ink) !important}
+/* Context line */
+.v5-kpi .m-sub{font-size:12px;color:var(--muted);font-weight:400;margin-bottom:0;display:block}
+/* Trend line — green mono bold */
+.v5-kpi .m-delta{font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;color:#1a7a3a;font-weight:700;margin-top:7px;display:block}
+/* ── Change 4: browse jobs header strip ── */
+.v5-jobs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:4px 0}
+.v5-jobs-count{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+/* ── Search bar ── */
+.browse-search-bar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.browse-search-input-wrap{flex:1;min-width:220px;position:relative;display:flex;align-items:center}
+.browse-search-icon{position:absolute;left:12px;width:16px;height:16px;color:var(--muted);pointer-events:none}
+.browse-search-input{width:100%;padding:10px 14px 10px 36px;border:1px solid var(--line);border-radius:var(--r);font-family:var(--f-sans);font-size:13px;background:var(--white);color:var(--ink);outline:none;transition:border-color .15s}
+.browse-search-input:focus{border-color:var(--ink)}
+.browse-search-input::placeholder{color:var(--muted)}
+.browse-filter-select{padding:10px 14px;border:1px solid var(--line);border-radius:var(--r);font-family:var(--f-sans);font-size:13px;background:var(--white);color:var(--ink);cursor:pointer;outline:none;transition:border-color .15s;min-width:120px}
+.browse-filter-select:focus{border-color:var(--ink)}
+/* ── Job row right column — ring + action stacked, aligned ── */
+.job-right-col{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.job-action-col{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:90px}
+.job-action-btn{display:block;width:100%;text-align:center;white-space:nowrap}
+/* ── v5 My Applications rows ── */
+.v5-app-row{display:flex;align-items:stretch;border-bottom:1px solid var(--line);position:relative;transition:background .12s}
+.v5-app-row:last-child{border-bottom:none}
+.v5-app-row:hover{background:rgba(245,240,232,.5)}
+.v5-app-accent{width:3px;flex-shrink:0;border-radius:0}
+.v5-app-title{font-family:var(--f-serif);font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:2px}
+.v5-app-meta{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.v5-app-bar-row{display:flex;align-items:center;gap:10px;margin-top:4px}
+.btn-notes{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s}
+.btn-notes:hover{border-color:var(--ink);color:var(--ink)}
+/* Status accent bars (left stripe color matches status) */
+.v5-app-row .v5-app-accent.status-applied{background:var(--blue)}
+.v5-app-row .v5-app-accent.status-shortlisted{background:var(--lime-d)}
+.v5-app-row .v5-app-accent.status-interview{background:#1a7a3a}
+.v5-app-row .v5-app-accent.status-rejected{background:var(--red)}
+.v5-app-row .v5-app-accent.status-not-selected{background:var(--red)}
+/* Skill chips: colored dot + label */
+.skill-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-family:var(--f-mono);font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border:1px solid;line-height:1.4;white-space:nowrap;transition:opacity .15s}
+.skill-chip:hover{opacity:.8}
+.skill-chip .sc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.scc-0{background:rgba(59,127,255,.08);border-color:rgba(59,127,255,.3);color:var(--blue)}
+.scc-0 .sc-dot{background:var(--blue)}
+.scc-1{background:rgba(26,122,58,.08);border-color:rgba(26,122,58,.3);color:#1a7a3a}
+.scc-1 .sc-dot{background:#1a7a3a}
+.scc-2{background:rgba(184,100,0,.08);border-color:rgba(184,100,0,.3);color:#b46400}
+.scc-2 .sc-dot{background:#b46400}
+.scc-3{background:rgba(143,212,0,.08);border-color:rgba(143,212,0,.4);color:var(--lime-d)}
+.scc-3 .sc-dot{background:var(--lime-d)}
+.scc-4{background:rgba(255,63,63,.08);border-color:rgba(255,63,63,.3);color:var(--red)}
+.scc-4 .sc-dot{background:var(--red)}
+.scc-5{background:rgba(138,102,246,.08);border-color:rgba(138,102,246,.3);color:#7c3aed}
+.scc-5 .sc-dot{background:#7c3aed}
+.jlb-green{background:rgba(26,122,58,.1);color:#1a7a3a}
+.jlb-amber{background:rgba(184,100,0,.1);color:#b46400}
+.jlb-purple{background:rgba(138,102,246,.1);color:#7c3aed}
+.jlb-red{background:rgba(255,63,63,.1);color:var(--red)}
+.jlb-teal{background:rgba(0,180,180,.1);color:#0e7490}
 /* Application cards */
 .appl-card-rich{display:flex;gap:14px;padding:16px 22px;border-bottom:1px solid var(--line);position:relative;transition:background .15s,padding-left .16s;cursor:default}
 .appl-card-rich::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lime-d);border-radius:0 2px 2px 0;transform:scaleY(0);transform-origin:center;transition:transform .25s cubic-bezier(.4,0,.2,1)}
@@ -597,8 +706,8 @@ input,select,textarea{font-family:var(--f-sans)}
   .gap-col-have{border-right:none;border-bottom:1px solid var(--line)}
   .metric-strip,.peer-bench{grid-template-columns:repeat(2,1fr)}
   .app-stat-cards{grid-template-columns:repeat(2,1fr)}
-  .hc-banner{flex-direction:column;align-items:flex-start;padding:22px 20px}
-  .hc-right{width:100%;justify-content:space-between}
+  .wb-banner{padding:22px 20px}
+  .wb-stats{width:100%;justify-content:space-between}
   .profile-hero-inner{flex-direction:column;align-items:flex-start;padding:22px 20px}
   .score-head{flex-direction:column;align-items:flex-start}
 }
@@ -617,9 +726,8 @@ input,select,textarea{font-family:var(--f-sans)}
   .card{margin-left:auto;margin-right:auto;max-width:calc(100% - 0px)}
   .card-head{padding:12px 14px}
   .card-body{padding:14px}
-  .hc-banner{padding:18px 16px;margin-bottom:16px}
-  .hc-name{font-size:22px}
-  .hc-stat{padding:8px 12px}
+  .wb-banner{padding:18px 16px;margin-bottom:16px}
+  .wb-stat-val{font-size:18px}
   .job-row-wow{flex-wrap:wrap;align-items:flex-start;padding:14px 16px}
   .job-row-wow .job-logo-bubble{order:1}
   .job-row-wow>div[style*="flex:1"]{order:2;flex:1 1 calc(100% - 58px);min-width:0}
@@ -751,26 +859,40 @@ input,select,textarea{font-family:var(--f-sans)}
 
       <!-- ── OVERVIEW ── -->
       <div class="panel active" id="sp-overview">
-        <div class="hc-banner au">
-          <!-- V3 floating orbs -->
-          <div class="hero-orb" style="width:200px;height:200px;top:-80px;right:30px;background:rgba(184,255,53,.06);animation-duration:7s"></div>
-          <div class="hero-orb" style="width:120px;height:120px;bottom:-50px;right:250px;background:rgba(59,127,255,.04);animation-duration:9s;animation-delay:-3s"></div>
-          <div style="position:relative;z-index:1">
-            <div class="hc-kicker">Welcome back</div>
-            <div class="hc-name">@Model.UserName.Split(' ')[0],<br><em>let's find your match.</em></div>
-          </div>
-          <div class="hc-right" style="position:relative;z-index:1">
-            <div class="hc-stat">
-              <div class="hc-score countup" data-target="@Model.TotalApplications">0</div>
-              <div class="hc-slabel">Applications</div>
+        <!-- Change 2: v5 light welcome banner layout; same data sources as before -->
+        <div class="wb-banner au">
+          <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+            <div>
+              <div class="wb-greeting">Welcome Back</div>
+              @{
+                var nameParts = Model.UserName.Split(' ');
+                var firstName = nameParts.Length > 0 ? nameParts[0] : Model.UserName;
+                var lastName = nameParts.Length > 1 ? string.Join(" ", nameParts.Skip(1)) : "";
+                var uni = Model.Profile?.University ?? "University";
+                var sem = Model.Profile?.Semester ?? 0;
+                var deg = Model.Profile?.Degree ?? "Degree";
+                var gpa = Model.Profile?.GPA ?? 0;
+              }
+              <div class="wb-name">@firstName <em>@lastName</em>@(string.IsNullOrEmpty(lastName) ? "" : "") — @uni</div>
+              <div class="wb-meta">@(sem > 0 ? $"Semester {sem}" : "—") · @(string.IsNullOrEmpty(deg) ? "—" : deg) · GPA @(gpa > 0 ? gpa.ToString("F1") : "—")</div>
             </div>
-            <div class="hc-stat">
-              <div class="hc-score countup" data-target="@Model.TotalSkills">0</div>
-              <div class="hc-slabel">Skills</div>
-            </div>
-            <div class="hc-stat">
-              <div class="hc-score countup" data-target="@Model.AvgMatchScore" data-suffix="%" style="color:var(--lime)">0</div>
-              <div class="hc-slabel">Avg Match</div>
+            <div class="wb-stats">
+              <div class="wb-stat wb-stat-match">
+                <div class="wb-stat-val">@Model.AvgMatchScore%</div>
+                <div class="wb-stat-lbl">Top Match</div>
+              </div>
+              <div class="wb-stat wb-stat-rank">
+                <div class="wb-stat-val">#@(Model.TopBenchmark.TotalApplicants > 0 ? Math.Round(Model.TopBenchmark.Percentile) : 0)</div>
+                <div class="wb-stat-lbl">Your Rank</div>
+              </div>
+              <div class="wb-stat wb-stat-applied">
+                <div class="wb-stat-val countup" data-target="@Model.TotalApplications">0</div>
+                <div class="wb-stat-lbl">Applied</div>
+              </div>
+              <div class="wb-stat wb-stat-profile">
+                <div class="wb-stat-val">@(Model.ProfileComplete ? "100%" : "~50%")</div>
+                <div class="wb-stat-lbl">Profile Done</div>
+              </div>
             </div>
           </div>
         </div>
@@ -780,30 +902,31 @@ input,select,textarea{font-family:var(--f-sans)}
           <div class="notice notice-warn">⚠ Complete your profile to start applying for jobs. <a onclick="sw('sp-profile','My Profile')" style="cursor:pointer;text-decoration:underline">Set up profile →</a></div>
         }
 
-        <div class="metric-strip au">
-          <div class="metric-cell" style="--c:var(--muted)">
-            <div class="metric-cell" style="position:relative">
-              <div class="m-label">Applied</div>
-              <div class="m-value">@Model.TotalApplications</div>
-              <div class="m-sub">total jobs</div>
-              <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-ink" style="width:@(Model.TotalApplications > 0 ? Math.Min(Model.TotalApplications * 10, 100) : 0)%"></div></div>
-            </div>
+        <!-- Change 3: v5 four-card KPI layout matching screenshot 5 exactly -->
+        <div class="metric-strip v5-kpi au">
+          <div class="metric-cell mc-ink">
+            <div class="m-label">Top Match Score</div>
+            <div class="m-value countup" data-target="@Model.AvgMatchScore">0</div>
+            <div class="m-sub">@(Model.TopMatchedJobs.Any() ? Model.TopMatchedJobs.First().Job.CompanyName + " · " + Model.TopMatchedJobs.First().Job.Title : "Avg across applications")</div>
+            <div class="m-delta">↑ Active this month</div>
           </div>
-          <div class="metric-cell">
-            <div class="m-label">Shortlisted</div>
-            <div class="m-value">@Model.ShortlistedCount</div>
-            <div class="m-sub">in review</div>
-            <div class="progress-track" style="position:absolute;bottom:0;left:0;right:0"><div class="progress-fill pf-lime" style="width:@(Model.TotalApplications > 0 ? Model.ShortlistedCount * 100 / Model.TotalApplications : 0)%"></div></div>
+          <div class="metric-cell mc-lime">
+            <div class="m-label">Your Rank</div>
+            <div class="m-value">#@(Model.TopBenchmark.TotalApplicants > 0 ? (int)Math.Round(Model.TopBenchmark.Percentile) : 0)</div>
+            <div class="m-sub">of @Model.TopBenchmark.TotalApplicants applicants</div>
+            <div class="m-delta">↑ Top score: @Model.TopBenchmark.TopScore%</div>
           </div>
-          <div class="metric-cell">
-            <div class="m-label">Skills</div>
-            <div class="m-value">@Model.TotalSkills</div>
-            <div class="m-sub">in profile</div>
+          <div class="metric-cell mc-muted">
+            <div class="m-label">Skills Matched</div>
+            <div class="m-value countup" data-target="@Model.TotalSkills">0</div>
+            <div class="m-sub">skills in your profile</div>
+            <div class="m-delta" style="color:var(--muted)">Gap analysis available</div>
           </div>
-          <div class="metric-cell">
-            <div class="m-label">Avg Match</div>
-            <div class="m-value" style="color:var(--lime-d)">@Model.AvgMatchScore%</div>
-            <div class="m-sub">across apps</div>
+          <div class="metric-cell mc-blue">
+            <div class="m-label">Applications</div>
+            <div class="m-value countup" data-target="@Model.TotalApplications">0</div>
+            <div class="m-sub">Active this month</div>
+            <div class="m-delta">@Model.ShortlistedCount shortlisted</div>
           </div>
         </div>
 
@@ -854,14 +977,40 @@ input,select,textarea{font-family:var(--f-sans)}
         </div>
       </div>
 
-      <!-- ── BROWSE JOBS ── -->
+      <!-- ── BROWSE JOBS ── v5 layout with search bar, type+sort dropdowns, skill chips, aligned ring/action column -->
       <div class="panel" id="sp-browse">
-        <div class="card">
-          <div class="card-head">
-            <span class="card-title">Active Jobs — Ranked by Match</span>
-            <span class="badge badge-default">@Model.AllJobs.Count jobs</span>
+        <!-- Search bar + filter dropdowns -->
+        <div class="browse-search-bar">
+          <div class="browse-search-input-wrap">
+            <svg class="browse-search-icon" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M13 13l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <input id="browse-search" class="browse-search-input" type="text" placeholder="Search jobs, skills, companies..." oninput="browseFilter()">
           </div>
+          <select id="browse-type" class="browse-filter-select" onchange="browseFilter()">
+            <option value="">All Types</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Remote">Remote</option>
+            <option value="Internship">Internship</option>
+          </select>
+          <select id="browse-sort" class="browse-filter-select" onchange="browseSort()">
+            <option value="match">Best Match</option>
+            <option value="deadline">Deadline</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
+        <div class="v5-jobs-header">
+          <span class="v5-jobs-count" id="browse-count">@Model.AllJobs.Count JOBS FOUND</span>
+          <span class="badge badge-default" id="browse-filter-chip" style="display:none">BEST MATCH ×</span>
+        </div>
+        <div class="card">
           <div class="card-body-p0">
+            @{
+              var _jobSkillData = new CogniCareer.Data.JobSkillData();
+              // Icon tiles cycle through 6 variants
+              string[] _tileClasses = {"jlb-blue","jlb-green","jlb-amber","jlb-purple","jlb-red","jlb-teal"};
+              string[] _tileIcons   = {"🚀","💡","📱","🔬","⚡","🔧"};
+              int _rowIdx = 0;
+            }
             @if (!Model.AllJobs.Any())
             {
               <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No active jobs available right now.</div>
@@ -869,43 +1018,64 @@ input,select,textarea{font-family:var(--f-sans)}
             @foreach (var jm in Model.AllJobs)
             {
               var sc = jm.MatchScore;
-              var scoreColor = sc >= 80 ? "#1a7a3a" : sc >= 60 ? "#b46400" : "var(--red)";
               var ringClass = sc >= 80 ? "ring-fill-high" : sc >= 60 ? "ring-fill-mid" : "ring-fill-low";
-              var pctClass = sc >= 80 ? "ring-pct-high" : sc >= 60 ? "ring-pct-mid" : "ring-pct-low";
-              var offset = Math.Round(145 - (sc / 100m * 145), 1);
+              var pctClass  = sc >= 80 ? "ring-pct-high"  : sc >= 60 ? "ring-pct-mid"  : "ring-pct-low";
+              var offset    = Math.Round(145 - (sc / 100m * 145), 1);
               var alreadyApplied = Model.AppliedJobIds.Contains(jm.Job.JobID);
-              <div class="job-row-wow" style="align-items:flex-start;gap:16px">
-                <div class="job-logo-bubble jlb-blue">💼</div>
+              var tileClass = _tileClasses[_rowIdx % 6];
+              var tileIcon  = _tileIcons[_rowIdx % 6];
+              var jobSkills = _jobSkillData.GetByJobID(jm.Job.JobID);
+              _rowIdx++;
+              <div class="job-row-wow">
+                <!-- Company icon tile -->
+                <div class="job-logo-bubble @tileClass" style="flex-shrink:0;font-size:18px">@tileIcon</div>
+                <!-- Info column -->
                 <div style="flex:1;min-width:0">
-                  <div style="font-family:var(--f-serif);font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px">@jm.Job.Title</div>
-                  <div style="font-family:var(--f-mono);font-size:9.5px;color:var(--muted);margin-bottom:7px">@jm.Job.CompanyName · @jm.Job.JobType · Deadline: @jm.Job.Deadline.ToString("MMM dd, yyyy")</div>
-                  <div class="job-desc-label">Job Description</div>
-                  <div class="job-desc-full">@(string.IsNullOrWhiteSpace(jm.Job.Description) ? "No description provided." : jm.Job.Description)</div>
-                                   @if (alreadyApplied)
-{
-  <span class="badge badge-dark">✓ Applied</span>
-  <button type="button" class="btn-explain" onclick="explainMatch(@jm.Job.JobID)">✨ Why this match?</button>
-  <button type="button" class="btn-cover" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\\'")', '@jm.Job.CompanyName.Replace("'", "\\'")')">📝 Cover Letter</button>
-}
-                  else if (jm.Job.Deadline < DateTime.Now)
-                  {
-                    <span class="badge badge-red">Closed</span>
-                  }
-                                    else
-                                    {
-                                        <form method="post" asp-page-handler="Apply" style="display:inline">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="jobId" value="@jm.Job.JobID">
-                                            <input type="hidden" name="matchScore" value="@jm.MatchScore">
-                                            <button type="submit" class="btn btn-dark btn-sm">Apply Now →</button>
-                                        </form>
-                                        <button type="button" class="btn-explain" onclick="explainMatch(@jm.Job.JobID)">✨ Why this match?</button>
-                                        <button type="button" class="btn-cover" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\\'")', '@jm.Job.CompanyName.Replace("'", "\\'")')">📝 Cover Letter</button>
-                                    }
+                  <div class="job-co">@jm.Job.CompanyName &middot; @jm.Job.JobType &middot; Deadline @jm.Job.Deadline.ToString("MMMM dd").ToUpper()</div>
+                  <div class="job-title">@jm.Job.Title</div>
+                  <!-- Skill chips with colored dots -->
+                  <div class="job-tags" style="margin-top:7px;display:flex;flex-wrap:wrap;gap:5px">
+                    @{int _ci = 0;}
+                    @foreach (var sk in jobSkills.Take(4))
+                    {
+                      <span class="skill-chip scc-@(_ci % 6)"><span class="sc-dot"></span>@sk.SkillName</span>
+                      _ci++;
+                    }
+                    @if (!jobSkills.Any())
+                    {
+                      <span class="skill-chip scc-0"><span class="sc-dot"></span>@jm.Job.JobType</span>
+                    }
+                  </div>
                 </div>
-                <div class="match-ring-wow" style="margin-top:4px">
-                  <svg viewBox="0 0 58 58"><circle class="ring-track" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="0"/><circle class="@ringClass" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="@offset"/></svg>
-                  <span class="ring-pct @pctClass">@sc%</span>
+                <!-- Right: ring column (fixed width) + action column (fixed width) — aligned vertically -->
+                <div class="job-right-col">
+                  <div class="match-ring-wow">
+                    <svg viewBox="0 0 58 58"><circle class="ring-track" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="0"/><circle class="@ringClass" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="@offset"/></svg>
+                    <span class="ring-pct @pctClass">@sc%</span>
+                  </div>
+                  <div class="job-action-col">
+                    @if (alreadyApplied)
+                    {
+                      <span class="badge badge-dark job-action-btn">&#10003; Applied</span>
+                      <button type="button" class="btn-explain job-action-btn" onclick="explainMatch(@jm.Job.JobID)">✨ Why?</button>
+                      <button type="button" class="btn-cover job-action-btn" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\'")', '@jm.Job.CompanyName.Replace("'", "\'")')">&#128221; Cover</button>
+                    }
+                    else if (jm.Job.Deadline < DateTime.Now)
+                    {
+                      <span class="badge badge-red job-action-btn">Closed</span>
+                    }
+                    else
+                    {
+                      <form method="post" asp-page-handler="Apply" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="jobId" value="@jm.Job.JobID">
+                        <input type="hidden" name="matchScore" value="@jm.MatchScore">
+                        <button type="submit" class="btn btn-dark btn-sm job-action-btn">Apply →</button>
+                      </form>
+                      <button type="button" class="btn-explain job-action-btn" onclick="explainMatch(@jm.Job.JobID)">✨ Why?</button>
+                      <button type="button" class="btn-cover job-action-btn" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\'")', '@jm.Job.CompanyName.Replace("'", "\'")')">&#128221; Cover</button>
+                    }
+                  </div>
                 </div>
               </div>
             }
@@ -913,21 +1083,58 @@ input,select,textarea{font-family:var(--f-sans)}
         </div>
       </div>
 
-      <!-- ── MY APPLICATIONS ── -->
+      <!-- ── MY APPLICATIONS ── v5 layout matching screenshot 4 -->
       <div class="panel" id="sp-apps">
+        @{
+          var _appsAll      = Model.Applications;
+          var _appsTotal    = _appsAll.Count();
+          var _appsPending  = _appsAll.Count(a => a.CurrentStatus == "Applied" || a.CurrentStatus == "Pending");
+          var _appsShort    = _appsAll.Count(a => a.CurrentStatus == "Shortlisted");
+          var _appsInter    = _appsAll.Count(a => a.CurrentStatus == "Interview");
+          var _appsReject   = _appsAll.Count(a => a.CurrentStatus == "Rejected" || a.CurrentStatus == "Not Selected");
+        }
         <div class="app-stat-cards">
-          <div class="app-stat-card asc-total"><div class="app-stat-icon asi-total">📋</div><div class="app-stat-num">@Model.TotalApplications</div><div class="app-stat-lbl">Total</div></div>
-          <div class="app-stat-card asc-pending"><div class="app-stat-icon asi-pending">⏳</div><div class="app-stat-num">@Model.PendingCount</div><div class="app-stat-lbl">Applied</div></div>
-          <div class="app-stat-card asc-short"><div class="app-stat-icon asi-short">⭐</div><div class="app-stat-num">@Model.ShortlistedCount</div><div class="app-stat-lbl">Shortlisted</div></div>
-          <div class="app-stat-card asc-inter"><div class="app-stat-icon asi-inter">🎙️</div><div class="app-stat-num">@Model.InterviewCount</div><div class="app-stat-lbl">Interview</div></div>
-          <div class="app-stat-card asc-reject"><div class="app-stat-icon asi-reject">✕</div><div class="app-stat-num">@Model.RejectedCount</div><div class="app-stat-lbl">Not Selected</div></div>
+          <div class="app-stat-card asc-total">
+            <div class="app-stat-icon asi-total"><i class="devicon-googlecloud-plain" style="font-size:15px;color:var(--ink)"></i></div>
+            <div class="app-stat-num">@_appsTotal</div>
+            <div class="app-stat-lbl">Total Applied</div>
+          </div>
+          <div class="app-stat-card asc-pending">
+            <div class="app-stat-icon asi-pending"><i class="devicon-trello-plain" style="font-size:15px;color:#b46400"></i></div>
+            <div class="app-stat-num" style="color:#b46400">@_appsPending</div>
+            <div class="app-stat-lbl">Pending</div>
+          </div>
+          <div class="app-stat-card asc-short">
+            <div class="app-stat-icon asi-short"><i class="devicon-jetbrains-plain" style="font-size:15px;color:var(--lime-d)"></i></div>
+            <div class="app-stat-num" style="color:var(--lime-d)">@_appsShort</div>
+            <div class="app-stat-lbl">Shortlisted</div>
+          </div>
+          <div class="app-stat-card asc-inter">
+            <div class="app-stat-icon asi-inter"><i class="devicon-slack-plain" style="font-size:15px;color:var(--blue)"></i></div>
+            <div class="app-stat-num" style="color:var(--blue)">@_appsInter</div>
+            <div class="app-stat-lbl">Interview</div>
+          </div>
+          <div class="app-stat-card asc-reject">
+            <div class="app-stat-icon asi-reject"><i class="devicon-jira-plain" style="font-size:15px;color:var(--red)"></i></div>
+            <div class="app-stat-num" style="color:var(--red)">@_appsReject</div>
+            <div class="app-stat-lbl">Not Selected</div>
+          </div>
         </div>
         <div class="card">
-          <div class="card-head"><span class="card-title">My Applications</span><span class="badge badge-default">@Model.TotalApplications total</span></div>
+          <div class="card-head" style="border-bottom:1px solid var(--line);padding:18px 24px">
+            <span class="card-title" style="font-family:var(--f-serif);font-size:18px;font-weight:700;letter-spacing:-.03em">My Applications</span>
+            <span class="badge badge-default">@Model.TotalApplications TOTAL</span>
+          </div>
           <div class="card-body-p0">
             @if (!Model.Applications.Any())
             {
-              <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">You haven't applied to any jobs yet. <a onclick="sw('sp-browse','Browse Jobs')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Browse jobs →</a></div>
+              <div style="padding:36px;text-align:center;color:var(--muted);font-size:13px">You haven't applied to any jobs yet. <a onclick="sw('sp-browse','Browse Jobs')" style="color:var(--ink);text-decoration:underline;cursor:pointer">Browse jobs →</a></div>
+            }
+            @{
+              var _appJobSkillData = new CogniCareer.Data.JobSkillData();
+              string[] _appTileClasses = {"jlb-blue","jlb-green","jlb-amber","jlb-purple","jlb-red","jlb-teal"};
+              string[] _appTileIcons   = {"🚀","💡","📱","🔬","⚡","🔧"};
+              int _appIdx = 0;
             }
             @foreach (var app in Model.Applications)
             {
@@ -935,26 +1142,50 @@ input,select,textarea{font-family:var(--f-sans)}
               var scoreColor = sc >= 80 ? "#1a7a3a" : sc >= 60 ? "#b46400" : "var(--red)";
               var offset = Math.Round(113 - (sc / 100m * 113), 1);
               var stClass = CogniCareer.Helpers.SessionHelper.GetStatusClass(app.CurrentStatus);
-              <div class="appl-card-rich">
-                <div class="acr-logo">🏢</div>
-                <div class="acr-body">
-                  <div class="acr-top">
+              var appTile = _appTileClasses[_appIdx % 6];
+              var appIcon = _appTileIcons[_appIdx % 6];
+              var appJobSkills = _appJobSkillData.GetByJobID(app.JobID);
+              // Find matching job for type/location from AllJobs
+              var matchedJob = Model.AllJobs.FirstOrDefault(j => j.Job.JobID == app.JobID)?.Job;
+              var jobType = matchedJob?.JobType ?? "Full-time";
+              _appIdx++;
+              <div class="v5-app-row">
+                <!-- Left accent bar (status color) -->
+                <div class="v5-app-accent @stClass"></div>
+                <!-- Icon tile -->
+                <div class="job-logo-bubble @appTile" style="flex-shrink:0;margin:14px 14px 0 16px;width:40px;height:40px;font-size:18px;line-height:1;align-self:flex-start">@appIcon</div>
+                <!-- Body -->
+                <div style="flex:1;min-width:0;padding:16px 0">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
                     <div>
-                      <div class="acr-job">@app.JobTitle</div>
-                      <div class="acr-company">@app.CompanyName &nbsp;·&nbsp; Applied @app.AppliedAt.ToString("MMM dd, yyyy")</div>
+                      <div class="v5-app-title">@app.JobTitle</div>
+                      <div class="v5-app-meta">@app.CompanyName &nbsp;·&nbsp; @jobType &nbsp;·&nbsp; Applied @app.AppliedAt.ToString("MMM d")</div>
                     </div>
-                    <span class="status @stClass">@app.CurrentStatus</span>
+                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+                      <span class="status @stClass" style="display:flex;align-items:center;gap:5px"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block"></span>@app.CurrentStatus</span>
+                      <button type="button" class="btn-notes" onclick="openNotes(@app.ApplicationID)">NOTES</button>
+                    </div>
                   </div>
-                  <div class="acr-bar-row">
-                    <span class="acr-bar-label">Match Score</span>
-                    <div class="acr-bar-track"><div class="acr-bar-fill" style="background:@scoreColor;width:@sc%"></div></div>
-                    <span class="acr-bar-pct" style="color:@scoreColor">@sc%</span>
-                    <div class="acr-ring">
-                      <svg viewBox="0 0 44 44" style="width:44px;height:44px;transform:rotate(-90deg)">
-                        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--warm)" stroke-width="3.5"/>
-                        <circle cx="22" cy="22" r="18" fill="none" stroke="@scoreColor" stroke-width="3.5" stroke-dasharray="113" stroke-dashoffset="@offset" stroke-linecap="round"/>
+                  <!-- Skill chips -->
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;margin-bottom:10px">
+                    @{int _aci=0;}
+                    @foreach(var sk in appJobSkills.Take(3))
+                    {
+                      <span class="skill-chip scc-@(_aci%6)"><span class="sc-dot"></span>@sk.SkillName</span>
+                      _aci++;
+                    }
+                  </div>
+                  <!-- Match bar + ring -->
+                  <div class="v5-app-bar-row">
+                    <span class="acr-bar-label">MATCH</span>
+                    <div class="acr-bar-track" style="flex:1"><div class="acr-bar-fill" style="background:@scoreColor;width:@sc%"></div></div>
+                    <span class="acr-bar-pct" style="color:@scoreColor;font-weight:700">@sc%</span>
+                    <div class="acr-ring" style="position:relative;width:36px;height:36px">
+                      <svg viewBox="0 0 44 44" style="width:36px;height:36px;transform:rotate(-90deg)">
+                        <circle cx="22" cy="22" r="18" fill="none" stroke="var(--warm)" stroke-width="3"/>
+                        <circle cx="22" cy="22" r="18" fill="none" stroke="@scoreColor" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="@offset" stroke-linecap="round"/>
                       </svg>
-                      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:10px;font-weight:900;color:@scoreColor">@sc%</span>
+                      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:8px;font-weight:700;color:@scoreColor">@sc%</span>
                     </div>
                   </div>
                 </div>
@@ -966,6 +1197,85 @@ input,select,textarea{font-family:var(--f-sans)}
 
       <!-- ── MY SKILLS ── -->
       <div class="panel" id="sp-skills">
+        @{
+          System.Func<string,string> _devIcon = (string name) => {
+            if (string.IsNullOrEmpty(name)) return "devicon-devicon-plain";
+            var n = name.ToLower().Replace(".", "").Replace(" ", "").Replace("-", "").Replace("js","javascript");
+            var map = new System.Collections.Generic.Dictionary<string,string>{
+              {"react","devicon-react-original colored"},
+              {"reactjavascript","devicon-react-original colored"},
+              {"vue","devicon-vuejs-plain colored"},
+              {"vuejavascript","devicon-vuejs-plain colored"},
+              {"angular","devicon-angularjs-plain colored"},
+              {"javascript","devicon-javascript-plain colored"},
+              {"typescript","devicon-typescript-plain colored"},
+              {"python","devicon-python-plain colored"},
+              {"java","devicon-java-plain colored"},
+              {"csharp","devicon-csharp-plain colored"},
+              {"cplusplus","devicon-cplusplus-plain colored"},
+              {"c","devicon-c-plain colored"},
+              {"go","devicon-go-original-wordmark colored"},
+              {"rust","devicon-rust-plain"},
+              {"php","devicon-php-plain colored"},
+              {"ruby","devicon-ruby-plain colored"},
+              {"swift","devicon-swift-plain colored"},
+              {"kotlin","devicon-kotlin-plain colored"},
+              {"dart","devicon-dart-plain colored"},
+              {"flutter","devicon-flutter-plain colored"},
+              {"nodejavascript","devicon-nodejs-plain colored"},
+              {"node","devicon-nodejs-plain colored"},
+              {"express","devicon-express-original"},
+              {"nextjavascript","devicon-nextjs-plain"},
+              {"next","devicon-nextjs-plain"},
+              {"nuxt","devicon-nuxtjs-plain colored"},
+              {"django","devicon-django-plain colored"},
+              {"flask","devicon-flask-original"},
+              {"spring","devicon-spring-plain colored"},
+              {"laravel","devicon-laravel-plain colored"},
+              {"rails","devicon-rails-plain colored"},
+              {"html","devicon-html5-plain colored"},
+              {"html5","devicon-html5-plain colored"},
+              {"css","devicon-css3-plain colored"},
+              {"css3","devicon-css3-plain colored"},
+              {"sass","devicon-sass-original colored"},
+              {"tailwind","devicon-tailwindcss-plain colored"},
+              {"tailwindcss","devicon-tailwindcss-plain colored"},
+              {"bootstrap","devicon-bootstrap-plain colored"},
+              {"sql","devicon-mysql-plain colored"},
+              {"mysql","devicon-mysql-plain colored"},
+              {"postgresql","devicon-postgresql-plain colored"},
+              {"postgres","devicon-postgresql-plain colored"},
+              {"mongodb","devicon-mongodb-plain colored"},
+              {"redis","devicon-redis-plain colored"},
+              {"sqlite","devicon-sqlite-plain colored"},
+              {"firebase","devicon-firebase-plain colored"},
+              {"supabase","devicon-supabase-plain colored"},
+              {"git","devicon-git-plain colored"},
+              {"github","devicon-github-original"},
+              {"gitlab","devicon-gitlab-plain colored"},
+              {"docker","devicon-docker-plain colored"},
+              {"kubernetes","devicon-kubernetes-plain colored"},
+              {"aws","devicon-amazonwebservices-plain-wordmark colored"},
+              {"amazonwebservices","devicon-amazonwebservices-plain-wordmark colored"},
+              {"azure","devicon-azure-plain colored"},
+              {"googlecloud","devicon-googlecloud-plain colored"},
+              {"linux","devicon-linux-plain colored"},
+              {"bash","devicon-bash-plain"},
+              {"figma","devicon-figma-plain colored"},
+              {"photoshop","devicon-photoshop-plain colored"},
+              {"illustrator","devicon-illustrator-plain colored"},
+              {"graphql","devicon-graphql-plain colored"},
+              {"redux","devicon-redux-original colored"},
+              {"webpack","devicon-webpack-plain colored"},
+              {"vite","devicon-vitejs-plain colored"},
+              {"jest","devicon-jest-plain colored"},
+              {"nginx","devicon-nginx-original colored"},
+              {"unity","devicon-unity-original"},
+              {"unreal","devicon-unrealengine-original"}
+            };
+            return map.ContainsKey(n) ? map[n] : "devicon-devicon-plain";
+          };
+        }
         <div class="two-col">
           <div class="card">
             <div class="card-head"><span class="card-title">My Skills</span><button class="btn btn-dark btn-sm" onclick="toggleSkillAdd()">+ Add Skill</button></div>
@@ -990,8 +1300,7 @@ input,select,textarea{font-family:var(--f-sans)}
                   <button type="submit" class="btn btn-dark btn-sm btn-w">Add to Profile</button>
                 </form>
               </div>
-              <div id="skills-list">
-                @if (!Model.StudentSkills.Any())
+              @if (!Model.StudentSkills.Any())
                 {
                   <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">No skills added yet. Add your first skill above.</div>
                 }
@@ -1001,7 +1310,7 @@ input,select,textarea{font-family:var(--f-sans)}
                   var fillClass = sk.ProficiencyLevel == "Advanced" ? "scif-adv" : sk.ProficiencyLevel == "Intermediate" ? "scif-int" : "scif-beg";
                   var badgeClass = sk.ProficiencyLevel == "Advanced" ? "badge-lime" : "badge-default";
                   <div class="skill-card-item">
-                    <div class="sci-icon" style="background:rgba(59,127,255,.1)">⚡</div>
+                    <div class="sci-icon" style="background:var(--warm)"><i class="@_devIcon(sk.SkillName)" style="font-size:20px"></i></div>
                     <div class="sci-body">
                       <div class="sci-name">@sk.SkillName</div>
                       <div class="sci-bar-row">
@@ -1017,7 +1326,7 @@ input,select,textarea{font-family:var(--f-sans)}
                     </div>
                   </div>
                 }
-              </div>
+              
             </div>
           </div>
           <div class="card">
@@ -1035,7 +1344,7 @@ input,select,textarea{font-family:var(--f-sans)}
                 var demandClass = rankIdx == 1 ? "pf-ink" : rankIdx == 2 ? "pf-lime" : "pf-muted";
                 <div class="demand-bar-item">
                   <span class="dbi-rank">#@rankIdx</span>
-                  <span class="dbi-name">@sk.SkillName</span>
+                  <span class="dbi-name"><i class="@_devIcon(sk.SkillName)" style="font-size:14px;margin-right:6px;vertical-align:-2px"></i>@sk.SkillName</span>
                   <div class="dbi-track"><div class="dbi-fill @demandClass" style="width:@demandPct%"></div></div>
                   <span class="dbi-pct">@demandPct%</span>
                 </div>
@@ -1432,6 +1741,45 @@ var lnkMap = {'sp-overview':'lnk-overview','sp-browse':'lnk-browse','sp-apps':'l
   if (lnk) lnk.classList.add('on');
   document.getElementById('page-title').textContent = title;
 }
+// ── Browse jobs: live search + filter + sort ──
+function browseFilter() {
+  var q = (document.getElementById('browse-search').value || '').toLowerCase();
+  var type = (document.getElementById('browse-type').value || '').toLowerCase();
+  var rows = document.querySelectorAll('#sp-browse .job-row-wow');
+  var visible = 0;
+  rows.forEach(function(row) {
+    var text = row.textContent.toLowerCase();
+    var typeMatch = !type || text.indexOf(type) !== -1;
+    var qMatch = !q || text.indexOf(q) !== -1;
+    if (typeMatch && qMatch) { row.style.display = ''; visible++; }
+    else row.style.display = 'none';
+  });
+  var countEl = document.getElementById('browse-count');
+  if (countEl) countEl.textContent = visible + ' JOBS FOUND';
+  var chip = document.getElementById('browse-filter-chip');
+  if (chip) chip.style.display = (q || type) ? 'inline-flex' : 'none';
+}
+function browseSort() {
+  var sort = document.getElementById('browse-sort').value;
+  var list = document.querySelector('#sp-browse .card-body-p0');
+  if (!list) return;
+  var rows = Array.from(list.querySelectorAll('.job-row-wow'));
+  rows.sort(function(a, b) {
+    if (sort === 'match') {
+      var sa = parseFloat(a.querySelector('.ring-pct') ? a.querySelector('.ring-pct').textContent : '0');
+      var sb = parseFloat(b.querySelector('.ring-pct') ? b.querySelector('.ring-pct').textContent : '0');
+      return sb - sa;
+    } else if (sort === 'deadline') {
+      var da = a.querySelector('.job-co') ? a.querySelector('.job-co').textContent : '';
+      var db = b.querySelector('.job-co') ? b.querySelector('.job-co').textContent : '';
+      return da.localeCompare(db);
+    }
+    return 0;
+  });
+  rows.forEach(function(r){ list.appendChild(r); });
+}
+
+
 function showToast(msg, cls) {
   var t = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;

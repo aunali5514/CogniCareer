@@ -1,4 +1,6 @@
-﻿@page
+﻿@* FILE: Pages/Auth/StudentAuth.cshtml *@
+@* CHANGED: Replaced layout with v5 split-screen; added stat-pill tiles and 4-feature list on right panel. Palette unchanged (ZIP tokens only). All form fields, names, handlers, and validation untouched. *@
+@page
 @model CogniCareer.Pages.Auth.StudentAuthModel
 @{
     Layout = null;
@@ -14,17 +16,127 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+    <style>
+            /* ── Change 1: v5 split-screen overrides using ZIP palette only ── */
+            .auth-wrap {
+                min-height: 100vh;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .auth-left {
+                padding: 56px 72px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                border-right: 1px solid var(--line);
+                background: var(--paper);
+            }
+
+            .auth-right {
+                background: var(--ink);
+                color: var(--paper);
+                padding: 56px 72px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .auth-right::before {
+                    content: '';
+                    position: absolute;
+                    top: -80px;
+                    right: -80px;
+                    width: 320px;
+                    height: 320px;
+                    border-radius: 50%;
+                    background: var(--lime);
+                    opacity: .06;
+                }
+
+                .auth-right::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -80px;
+                    left: -60px;
+                    width: 240px;
+                    height: 240px;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, rgba(59,127,255,.07) 0%, transparent 70%);
+                    pointer-events: none;
+                }
+            /* Stat pills — layout from v5, colors from ZIP palette */
+            .ar-stats {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin: 0 0 28px;
+            }
+
+            .ar-stat-pill {
+                padding: 10px 16px;
+                background: rgba(255,255,255,.06);
+                border: 1px solid rgba(255,255,255,.1);
+                border-radius: var(--r-sm);
+                transition: border-color .15s;
+            }
+
+                .ar-stat-pill:hover {
+                    border-color: rgba(184,255,53,.3);
+                }
+
+            .ar-stat-pill-val {
+                font-family: var(--f-serif);
+                font-size: 22px;
+                font-weight: 900;
+                letter-spacing: -.04em;
+                color: var(--lime);
+                line-height: 1;
+            }
+
+            .ar-stat-pill-lbl {
+                font-family: var(--f-mono);
+                font-size: 8px;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+                color: rgba(255,255,255,.3);
+                margin-top: 3px;
+            }
+
+            @@media (max-width: 900px) {
+                .auth-wrap {
+                    grid-template-columns: 1fr;
+                }
+
+                .auth-right {
+                    display: none;
+                }
+
+                .auth-left {
+                    padding: 48px 32px;
+                }
+            }
+
+            @@media (max-width: 480px) {
+                .auth-left {
+                    padding: 32px 20px;
+                }
+            }
+    </style>
 </head>
 <body>
     <div id="cursor-dot"></div>
     <div id="cursor-ring"></div>
     <div class="auth-wrap">
+        <!-- LEFT PANEL: sign-in / register form -->
         <div class="auth-left">
             <div style="max-width:420px;margin:0 auto;width:100%">
                 <a href="/" class="auth-back">← Back to Platform</a>
-                <div class="auth-eyebrow">Student Portal</div>
-                <h1 class="auth-h">Sign in<br><em class="serif-i">or register.</em></h1>
-                <p class="auth-sub">Access your career dashboard, skill gap analysis, and matched job listings tailored to your profile.</p>
+                <div class="auth-eyebrow">— Student Portal</div>
+                <h1 class="auth-h">Launch<br><em class="serif-i">your career.</em></h1>
+                <p class="auth-sub">Track your match score for every job. Discover what's holding you back. Get AI-personalized guidance on what to learn next.</p>
 
                 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                 {
@@ -40,23 +152,23 @@
                     <button class="tab-btn" id="tab-reg" onclick="switchTab('reg')">Register</button>
                 </div>
 
-                <!-- Login Form -->
+                <!-- Login Form — all field names, ids, and handlers untouched -->
                 <div id="login-form">
                     <form method="post" asp-page-handler="Login">
                         @Html.AntiForgeryToken()
                         <div class="field">
-                            <label class="field-label">Email</label>
+                            <label class="field-label">University Email</label>
                             <input name="Email" class="field-input" type="email" placeholder="you@university.edu" required>
                         </div>
                         <div class="field">
                             <label class="field-label">Password</label>
                             <input name="Password" class="field-input" type="password" placeholder="••••••••" required>
                         </div>
-                        <button type="submit" class="btn btn-dark btn-lg" style="margin-top:6px">Sign In →</button>
+                        <button type="submit" class="btn btn-dark btn-lg btn-w" style="margin-top:6px">Sign In →</button>
                     </form>
                 </div>
 
-                <!-- Register Form -->
+                <!-- Register Form — all field names, ids, and handlers untouched -->
                 <div id="reg-form" style="display:none">
                     <form method="post" asp-page-handler="Register">
                         @Html.AntiForgeryToken()
@@ -78,7 +190,7 @@
                                 <input name="ConfirmPassword" class="field-input" type="password" placeholder="••••••••" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-dark btn-lg" style="margin-top:6px">Create Account →</button>
+                        <button type="submit" class="btn btn-dark btn-lg btn-w" style="margin-top:6px">Create Account →</button>
                     </form>
                 </div>
 
@@ -86,33 +198,69 @@
             </div>
         </div>
 
+        <!-- RIGHT PANEL: why cognicareer, stat tiles, feature list -->
         <div class="auth-right">
-            <div class="ar-label">Why CogniCareer</div>
-            <div class="ar-title">Your score.<br>Your <em>rank.</em><br>Your roadmap.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px">
-                <div style="padding:10px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:3px">
-                    <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--lime);line-height:1;letter-spacing:-.04em">@Model.TotalStudents</div>
-                    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Active Students</div>
+            <div style="position:relative;z-index:1;max-width:480px">
+                <div class="ar-label">Why CogniCareer</div>
+                <div class="ar-title">Your score.<br>Your <em>rank.</em><br>Your roadmap.</div>
+
+                <!-- Stat tiles — values from ZIP model (TotalStudents, TotalJobs) -->
+                <div class="ar-stats">
+                    <div class="ar-stat-pill">
+                        <div class="ar-stat-pill-val">@Model.TotalStudents</div>
+                        <div class="ar-stat-pill-lbl">Active Students</div>
+                    </div>
+                    <div class="ar-stat-pill">
+                        <div class="ar-stat-pill-val">@Model.TotalJobs</div>
+                        <div class="ar-stat-pill-lbl">Active Jobs</div>
+                    </div>
+                    <div class="ar-stat-pill">
+                        <div class="ar-stat-pill-val">94%</div>
+                        <div class="ar-stat-pill-lbl">Match Accuracy</div>
+                    </div>
                 </div>
-                <div style="padding:10px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:3px">
-                    <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--lime);line-height:1;letter-spacing:-.04em">@Model.TotalJobs</div>
-                    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)">Active Jobs</div>
+
+                <!-- 4-feature numbered list (v5 structure, ZIP palette) -->
+                <div class="ar-features">
+                    <div class="ar-feat">
+                        <div class="ar-num">01</div>
+                        <div>
+                            <div class="ar-feat-title">Match Score on Every Job</div>
+                            <div class="ar-feat-desc">See your exact % compatibility before you apply. Know when to apply and when to upskill first.</div>
+                        </div>
+                    </div>
+                    <div class="ar-feat">
+                        <div class="ar-num">02</div>
+                        <div>
+                            <div class="ar-feat-title">Gap Analysis with Resources</div>
+                            <div class="ar-feat-desc">Every missing skill links to a curated learning path. Close gaps systematically, not randomly.</div>
+                        </div>
+                    </div>
+                    <div class="ar-feat">
+                        <div class="ar-num">03</div>
+                        <div>
+                            <div class="ar-feat-title">Live Peer Benchmarking</div>
+                            <div class="ar-feat-desc">Know your percentile among all applicants in real time. Stay ahead of the curve.</div>
+                        </div>
+                    </div>
+                    <div class="ar-feat">
+                        <div class="ar-num">04</div>
+                        <div>
+                            <div class="ar-feat-title">Smart Alerts</div>
+                            <div class="ar-feat-desc">Get notified when your score improves, when you're near the top, or when a high-match job is posted.</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="ar-features">
-                <div class="ar-feat"><div class="ar-num">01</div><div><div class="ar-feat-title">Match Score on Every Job</div><div class="ar-feat-desc">See your exact % compatibility before you apply.</div></div></div>
-                <div class="ar-feat"><div class="ar-num">02</div><div><div class="ar-feat-title">Gap Analysis with Resources</div><div class="ar-feat-desc">Every missing skill links to a curated learning path.</div></div></div>
-                <div class="ar-feat"><div class="ar-num">03</div><div><div class="ar-feat-title">Live Peer Benchmarking</div><div class="ar-feat-desc">Know your percentile among all applicants in real time.</div></div></div>
             </div>
         </div>
     </div>
 
     <script>
             function switchTab(tab) {
-              document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
-              document.getElementById('reg-form').style.display = tab === 'reg' ? 'block' : 'none';
-              document.getElementById('tab-login').className = 'tab-btn' + (tab === 'login' ? ' on' : '');
-              document.getElementById('tab-reg').className = 'tab-btn' + (tab === 'reg' ? ' on' : '');
+                document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+                document.getElementById('reg-form').style.display = tab === 'reg' ? 'block' : 'none';
+                document.getElementById('tab-login').className = 'tab-btn' + (tab === 'login' ? ' on' : '');
+                document.getElementById('tab-reg').className = 'tab-btn' + (tab === 'reg' ? ' on' : '');
             }
             @if (Model.ShowRegisterTab)
             {
