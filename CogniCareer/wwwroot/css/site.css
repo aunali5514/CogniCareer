@@ -1671,7 +1671,7 @@ h1, h2, h3, h4 {
     max-width: 440px;
     margin-bottom: 44px;
     font-weight: 300;
-    border-left: 2px solid var(--line);
+    border-left: 2px solid var(--lime);
     padding-left: 18px;
 }
 
@@ -1679,6 +1679,82 @@ h1, h2, h3, h4 {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+}
+
+/* ── Social proof row ── */
+.hero-social-proof {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.hsp-avatars {
+    display: flex;
+    align-items: center;
+}
+
+.hsp-av {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--f-mono);
+    letter-spacing: .02em;
+    color: var(--ink);
+    border: 2.5px solid var(--paper);
+    box-shadow: 0 2px 8px rgba(0,0,0,.13);
+    transition: transform .2s ease, box-shadow .2s ease;
+    position: relative;
+}
+
+.hsp-av-1 {
+    background: var(--lime);
+    z-index: 3;
+}
+
+.hsp-av-2 {
+    background: var(--lime-d);
+    z-index: 2;
+    margin-left: -10px;
+}
+
+.hsp-av-3 {
+    background: linear-gradient(135deg, var(--lime), var(--lime-d));
+    z-index: 1;
+    margin-left: -10px;
+}
+
+.hero-social-proof:hover .hsp-av-1 {
+    transform: translateX(-2px) scale(1.06);
+    box-shadow: 0 4px 14px rgba(184,255,53,.35);
+}
+
+.hero-social-proof:hover .hsp-av-2 {
+    transform: scale(1.04);
+    box-shadow: 0 4px 14px rgba(143,212,0,.3);
+}
+
+.hero-social-proof:hover .hsp-av-3 {
+    transform: translateX(2px) scale(1.04);
+    box-shadow: 0 4px 14px rgba(143,212,0,.25);
+}
+
+.hsp-text {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: -.01em;
+    line-height: 1.4;
+}
+
+.hsp-count {
+    color: var(--ink);
+    font-weight: 700;
 }
 
 /* ── Hero card — elevated with grid overlay ── */
