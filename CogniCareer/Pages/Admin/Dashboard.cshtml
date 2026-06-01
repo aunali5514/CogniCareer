@@ -3,591 +3,890 @@
 @{
     Layout = null;
     ViewData["Title"] = "Admin Dashboard";
-    var adminPageTitle = Model.ActivePanel switch
-    {
-        "ad-analytics" => "Analytics",
-        "ad-companies" => "Companies",
-        "ad-skills" => "Skill Library",
-        "ad-users" => "Students",
-        "ad-live" => "Live Activity",
-        _ => "Platform Overview"
-    };
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard — CogniCareer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--ink:#0f0e0d;--ink-2:#1e1c1a;--paper:#f5f0e8;--warm:#ede8e0;--line:#d6cfc4;--muted:#8a847b;--lime:#b8ff35;--lime-d:#8fd400;--red:#ff3f3f;--blue:#3b7fff;--white:#ffffff;--f-serif:'Playfair Display',Georgia,serif;--f-mono:'DM Mono','Courier New',monospace;--f-sans:'Jost',sans-serif;--r-sm:3px;--r:6px;--r-lg:12px;--shadow:0 2px 16px rgba(15,14,13,.08);--shadow-lg:0 8px 48px rgba(15,14,13,.16)}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{font-size:16px}body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);overflow-x:hidden}
-a{text-decoration:none;color:inherit}button{font-family:var(--f-sans);cursor:pointer}
-.btn{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r-sm);border:1.5px solid transparent;cursor:pointer;transition:all .16s;white-space:nowrap}
-.btn-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}.btn-dark:hover{background:var(--ink-2)}
-.btn-lime{background:var(--lime);color:var(--ink);border-color:var(--lime)}.btn-lime:hover{background:var(--lime-d)}
-.btn-ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
-.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
-.btn-sm{font-size:10px;padding:7px 14px}
-.btn-w{width:100%;justify-content:center}
-.field{margin-bottom:16px}.field-label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-.field-input,.field-select,.field-textarea{width:100%;padding:11px 14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-size:14px;color:var(--ink);outline:none}
-.field-textarea{resize:vertical;min-height:80px}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.badge{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-sm);border:1px solid;display:inline-block}
-.badge-default{color:var(--muted);border-color:var(--line);background:var(--warm)}
-.badge-dark{color:var(--paper);border-color:var(--ink);background:var(--ink)}
-.badge-lime{color:var(--ink);border-color:var(--lime);background:var(--lime)}
-.badge-red{color:var(--red);border-color:rgba(255,63,63,.3);background:rgba(255,63,63,.06)}
-.badge-green{color:#1a7a3a;border-color:rgba(26,122,58,.3);background:rgba(26,122,58,.06)}
-.status{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:5px}
-.status::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.st-active{background:rgba(26,122,58,.08);color:#1a7a3a}.st-active::before{background:#1a7a3a}
-.st-pending{background:rgba(180,100,0,.08);color:#b46400}.st-pending::before{background:#b46400}
-.st-review{background:rgba(59,127,255,.08);color:var(--blue)}.st-review::before{background:var(--blue)}
-.st-reject{background:rgba(255,63,63,.08);color:var(--red)}.st-reject::before{background:var(--red)}
-.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
-.card-head{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--warm)}
-.card-title{font-family:var(--f-serif);font-size:15px;font-weight:700}
-.card-body{padding:22px}.card-body-p0{padding:0}
-.notice{padding:11px 14px;border-radius:var(--r-sm);font-size:12px;margin-bottom:16px}
-.notice-info{background:rgba(59,127,255,.06);border:1px solid rgba(59,127,255,.2);color:var(--blue)}
-.toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:var(--r-lg);font-size:13px;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s;box-shadow:0 8px 48px rgba(15,14,13,.16);max-width:340px;pointer-events:none}
-.toast.show{transform:translateY(0);opacity:1}.toast-dot{width:7px;height:7px;border-radius:50%}
-.toast.t-lime .toast-dot{background:var(--lime)}.toast.t-red .toast-dot{background:var(--red)}
-.dash-shell{min-height:100vh;display:flex}
-.dash-sidebar{width:248px;position:fixed;top:0;left:0;bottom:0;background:var(--white);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;z-index:80}
-.sidebar-logo{padding:20px 24px 16px;border-bottom:1px solid var(--line);font-family:var(--f-serif);font-size:17px;font-weight:900;letter-spacing:-.04em;cursor:pointer}
-.sidebar-logo span{color:var(--lime-d);font-style:italic;font-weight:400}
-.sb-section{font-family:var(--f-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:18px 24px 6px}
-.sb-link{display:flex;align-items:center;gap:11px;padding:9px 24px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-left:2px solid transparent;transition:all .12s;text-decoration:none}
-.sb-link:hover{color:var(--ink);background:var(--paper)}
-.sb-link.active,.sb-link.on{color:var(--ink);background:var(--paper);font-weight:700;border-left-color:var(--ink)}
-.sb-ico{width:15px;text-align:center;font-size:13px;flex-shrink:0}
-.sb-badge{margin-left:auto;background:var(--red);color:#fff;font-family:var(--f-mono);font-size:9px;padding:1px 6px;border-radius:100px}
-.sb-foot{margin-top:auto;border-top:1px solid var(--line);padding:18px 24px}
-.sb-user{display:flex;gap:11px;align-items:center;margin-bottom:12px}
-.sb-avatar{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:700}
-.av-admin{background:var(--red);color:#fff}
-.sb-uname{font-size:13px;font-weight:700}
-.sb-urole{font-size:11px;color:var(--muted)}
-.admin-access-chip{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(255,63,63,.08);border:1px solid rgba(255,63,63,.2);color:var(--red);margin-top:3px}
-.admin-access-chip-dot{width:5px;height:5px;border-radius:50%;background:#ff6b6b;flex-shrink:0;animation:blink 1.8s infinite}
-.sb-signout{width:100%;padding:8px;border:1px solid var(--line);border-radius:var(--r-sm);background:transparent;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
-.sb-signout:hover{border-color:var(--ink);color:var(--ink)}
-.dash-main{margin-left:248px;flex:1;min-height:100vh;display:flex;flex-direction:column;min-width:0}
-.dash-scroll{flex:1;min-width:0;display:flex;flex-direction:column}
-.dash-topbar{position:sticky;top:0;z-index:70;height:54px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:var(--shadow);flex-shrink:0}
-.dash-topbar-title{font-family:var(--f-serif);font-size:20px;font-weight:900;letter-spacing:-.02em}
-.ap-live-pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--warm);border:1px solid var(--line);border-radius:100px;padding:4px 12px}
-.ap-live-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--lime-d);flex-shrink:0;animation:blink 1.6s infinite}
-@@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
-.dash-body{padding:32px 36px}
-.dash-content{padding:0;flex:1;min-width:0}
-.panel{display:none;min-width:0}.panel.active{display:block}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.bar-list>div{padding:6px 0;border-bottom:1px solid rgba(214,207,196,.4)}
-.bar-list>div:last-child{border-bottom:none}
-.bar-row-label{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
-.progress-track{height:4px;background:var(--warm);border-radius:2px;overflow:hidden}
-.progress-fill{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
-.pf-ink{background:var(--ink)}.pf-lime{background:var(--lime-d)}.pf-muted{background:var(--muted)}.pf-red{background:var(--red)}
-.analytics-section-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.analytics-section-label::after{content:'';flex:1;height:1px;background:var(--line)}
-.job-row{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--warm)}
-.job-row:last-child{border-bottom:none}
-.job-co{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
-.job-title{font-family:var(--f-serif);font-weight:700}
-.live-row{display:flex;gap:14px;padding:13px 20px;border-bottom:1px solid var(--line);transition:background .12s;position:relative}
-.live-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .15s}
-.live-row:hover{background:var(--paper)}
-.live-row:hover::before{background:var(--lime-d)}
-.live-row:last-child{border-bottom:none}
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--lime-d);flex-shrink:0;margin-top:5px;animation:blink 2s infinite}
-.live-dot-register{background:#1a7a3a}.live-dot-job{background:var(--blue)}.live-dot-apply{background:var(--lime-d)}
-.live-dot-status{background:var(--ink)}.live-dot-company{background:#b46400}.live-dot-score{background:var(--lime-d)}
-.live-t{font-size:13px;font-weight:700;margin-bottom:2px}
-.live-d{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300}
-.live-ts{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.08em;color:var(--line);margin-top:4px;text-transform:uppercase}
-.metric-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white);margin-bottom:22px}
-.metric-cell{padding:18px 22px;border-right:1px solid var(--line)}
-.metric-cell:last-child{border-right:none}
-.m-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.m-value{font-family:var(--f-serif);font-size:30px;font-weight:900;letter-spacing:-.04em;line-height:1}
-.data-table{width:100%;border-collapse:collapse;font-size:13px}
-.data-table th{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--line);text-align:left;background:var(--warm)}
-.data-table td{padding:12px 16px;border-bottom:1px solid var(--warm);vertical-align:middle}
-.data-table tr:last-child td{border-bottom:none}
-.actions-wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-/* V3 ap-welcome-banner */
-.ap-welcome-banner{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;margin-bottom:22px;background:var(--ink);border-radius:var(--r-lg);position:relative;overflow:hidden;min-height:120px;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px)}
-.apwb-left{display:flex;flex-direction:column;gap:3px}
-.apwb-greeting{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:7px}
-.apwb-name{font-family:var(--f-serif);font-size:22px;font-weight:900;color:var(--paper);letter-spacing:-.02em}
-.apwb-name em{color:var(--lime);font-style:italic;font-weight:400}
-.apwb-right{display:flex;align-items:center;gap:10px}
-.apwb-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-sm);padding:10px 14px;text-align:center;min-width:72px;transition:border-color .15s}
-.apwb-stat:hover{border-color:rgba(184,255,53,.3)}
-.apwb-stat-val{font-family:var(--f-mono);font-size:20px;font-weight:700;color:var(--paper);line-height:1}
-.apwb-stat-val.v-lime{color:var(--lime)}
-.apwb-stat-val.v-red{color:#ff6b6b}
-.apwb-stat-val.v-blue{color:#7eb3ff}
-.apwb-stat-val.v-paper{color:var(--paper)}
-.apwb-stat-lbl{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:4px}
-.ad-kicker{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px}
-.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
-.insight-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
-.insight-head{padding:14px 18px;border-bottom:1px solid var(--line);background:var(--warm)}
-.insight-title{font-family:var(--f-serif);font-size:14px;font-weight:700;letter-spacing:-.01em}
-.insight-sub{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.insight-body{padding:6px 0}
-.insight-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--warm)}
-.insight-row:last-child{border-bottom:none}
-.insight-rank{font-family:var(--f-mono);font-size:10px;color:var(--muted);width:18px;flex-shrink:0}
-.insight-name{flex:1;font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.insight-meta{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.04em}
-.insight-bar-wrap{width:56px;height:4px;background:var(--warm);border-radius:2px;overflow:hidden;flex-shrink:0}
-.insight-bar{height:100%;background:var(--lime-d);border-radius:2px}
-.insight-val{font-family:var(--f-mono);font-size:10px;font-weight:500;color:var(--ink);min-width:32px;text-align:right}
-.insight-empty{padding:20px 18px;font-size:12px;color:var(--muted);text-align:center}
-.skills-layout{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
-.skills-add-card{position:static}
-.skills-search-wrap{position:relative;margin-bottom:14px}
-.skills-search{width:100%;padding:10px 14px 10px 36px;border:1.5px solid var(--line);border-radius:var(--r-sm);font-size:13px;background:var(--white);outline:none}
-.skills-search:focus{border-color:var(--lime-d);box-shadow:0 0 0 3px rgba(143,212,0,.12)}
-.skills-search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.4;pointer-events:none}
-.skills-table{width:100%;border-collapse:collapse;font-size:13px}
-.skills-table th{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 16px;text-align:left;background:var(--warm);border-bottom:1px solid var(--line);font-weight:400}
-.skills-table td{padding:11px 16px;border-bottom:1px solid var(--warm);vertical-align:middle}
-.skills-table tr:last-child td{border-bottom:none}
-.skills-table tr:hover td{background:rgba(245,240,232,.6)}
-.sk-cat{font-family:var(--f-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.sk-del{background:none;border:none;color:var(--line);font-size:14px;padding:4px 8px;cursor:pointer;border-radius:var(--r-sm);transition:all .14s}
-.sk-del:hover{color:var(--red);background:rgba(255,63,63,.06)}
-@@media(max-width:1100px){.insight-grid{grid-template-columns:1fr}.skills-layout{grid-template-columns:1fr}}
-.dash-menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:none;border-radius:var(--r-sm);background:var(--ink);color:var(--paper);cursor:pointer;flex-direction:column;gap:5px}
-.dash-menu-btn span{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
-.dash-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:85}
-.dash-drawer-overlay.is-visible{display:block}
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-@@media(max-width:900px){
-  .dash-menu-btn{display:flex;position:fixed;top:10px;left:10px;z-index:95}
-  .dash-sidebar{width:280px;left:-280px;transition:none}
-  .dash-sidebar.is-open{left:0;z-index:90;box-shadow:var(--shadow-lg)}
-  .dash-main{margin-left:0}
-  .dash-topbar{padding:0 16px 0 56px}
-  .dash-body{padding:24px 16px}
-  .two-col,.field-row{grid-template-columns:1fr}
-  .metric-strip{grid-template-columns:repeat(2,1fr)}
-  .insight-grid{grid-template-columns:1fr}
-  .skills-layout{grid-template-columns:1fr}
-  .ap-welcome-banner{padding:18px 20px;flex-direction:column;align-items:flex-start}
-}
-@@media(prefers-reduced-motion:no-preference){
-  @@media(max-width:900px){
-    .dash-sidebar{transition:left .25s ease}
-  }
-}
-@@media(max-width:640px){
-  .dash-topbar{padding:0 12px 0 52px;height:50px}
-  .dash-topbar-title{font-size:17px}
-  .dash-body{padding:16px 12px}
-  .metric-strip{grid-template-columns:1fr}
-  .metric-cell{border-right:none!important}
-  .card-head{padding:12px 14px}
-  .card-body{padding:14px}
-  .apwb-name{font-size:18px}
-  .btn,.sb-link{min-height:44px}
-  .sb-link{align-items:center}
-  .field-input,.field-select,.field-textarea{min-height:44px}
-  .data-table,.skills-table{min-width:600px}
-  .toast{left:12px;right:12px;bottom:16px;max-width:none}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — CogniCareer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        /* ========== V3 ADMIN PORTAL – EXACT STYLES ========== */
+        :root {
+            --ink: #0f0e0d;
+            --ink-2: #1e1c1a;
+            --paper: #f5f0e8;
+            --warm: #ede8e0;
+            --line: #d6cfc4;
+            --muted: #8a847b;
+            --lime: #b8ff35;
+            --lime-d: #8fd400;
+            --red: #ff3f3f;
+            --blue: #3b7fff;
+            --white: #ffffff;
+            --f-serif: 'Playfair Display', Georgia, serif;
+            --f-mono: 'DM Mono', 'Courier New', monospace;
+            --f-sans: 'Jost', sans-serif;
+            --r-sm: 3px;
+            --r: 6px;
+            --r-lg: 12px;
+            --shadow: 0 2px 16px rgba(15,14,13,.08);
+            --shadow-lg: 0 8px 48px rgba(15,14,13,.16);
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body { background: var(--paper); color: var(--ink); font-family: var(--f-sans); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: var(--f-sans); cursor: pointer; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; gap: 7px;
+            font-size: 12px; font-weight: 700; letter-spacing: .07em;
+            text-transform: uppercase; padding: 10px 22px;
+            border-radius: var(--r-sm); border: 1.5px solid transparent;
+            cursor: pointer; transition: all .16s; white-space: nowrap;
+        }
+        .btn-dark { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .btn-dark:hover { background: var(--ink-2); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(15,14,13,.22); }
+        .btn-lime { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+        .btn-lime:hover { background: var(--lime-d); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(143,212,0,.35); }
+        .btn-ghost { background: transparent; color: var(--muted); border-color: var(--line); }
+        .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+        .btn-red { background: var(--red); color: #fff; border-color: var(--red); }
+        .btn-sm { font-size: 10px; padding: 7px 14px; }
+        .btn-w { width: 100%; justify-content: center; }
+
+        /* Form */
+        .field { margin-bottom: 16px; }
+        .field-label { display: block; font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+        .field-input, .field-select, .field-textarea {
+            width: 100%; padding: 11px 14px; background: var(--white);
+            border: 1.5px solid var(--line); border-radius: var(--r-sm);
+            font-size: 14px; color: var(--ink); outline: none;
+        }
+        .field-input:focus, .field-select:focus, .field-textarea:focus {
+            border-color: var(--lime-d); box-shadow: 0 0 0 3px rgba(143,212,0,.15);
+        }
+        .field-textarea { resize: vertical; min-height: 80px; }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        /* Badges & status */
+        .badge {
+            font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em;
+            text-transform: uppercase; padding: 3px 9px; border-radius: var(--r-sm);
+            border: 1px solid; display: inline-block;
+        }
+        .badge-default { color: var(--muted); border-color: var(--line); background: var(--warm); }
+        .badge-dark { color: var(--paper); border-color: var(--ink); background: var(--ink); }
+        .badge-lime { color: var(--ink); border-color: var(--lime); background: var(--lime); }
+        .badge-red { color: var(--red); border-color: rgba(255,63,63,.3); background: rgba(255,63,63,.06); }
+        .badge-green { color: #1a7a3a; border-color: rgba(26,122,58,.3); background: rgba(26,122,58,.06); }
+        .badge-blue { color: var(--blue); border-color: rgba(59,127,255,.3); background: rgba(59,127,255,.06); }
+
+        .status {
+            font-family: var(--f-mono); font-size: 9px; letter-spacing: .08em;
+            text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+        .st-active { background: rgba(26,122,58,.08); color: #1a7a3a; }
+        .st-active::before { background: #1a7a3a; }
+        .st-pending { background: rgba(180,100,0,.08); color: #b46400; }
+        .st-pending::before { background: #b46400; }
+        .st-review { background: rgba(59,127,255,.08); color: var(--blue); }
+        .st-review::before { background: var(--blue); }
+        .st-reject { background: rgba(255,63,63,.08); color: var(--red); }
+        .st-reject::before { background: var(--red); }
+
+        /* Cards */
+        .card {
+            background: var(--white); border: 1px solid var(--line);
+            border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow);
+            transition: box-shadow .2s, transform .2s;
+        }
+        .card:hover { box-shadow: 0 10px 40px rgba(15,14,13,.09), 0 0 0 1px rgba(143,212,0,.07); transform: translateY(-2px); }
+        .card-head {
+            padding: 16px 22px; border-bottom: 1px solid var(--line);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            background: linear-gradient(135deg, var(--warm) 0%, rgba(245,240,232,.5) 100%);
+        }
+        .card-title { font-family: var(--f-serif); font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .card-body { padding: 22px; }
+        .card-body-p0 { padding: 0; }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+            padding: 14px 20px; background: var(--ink); color: var(--paper);
+            border-radius: var(--r-lg); font-size: 13px; display: flex;
+            align-items: center; gap: 10px; transform: translateY(80px);
+            opacity: 0; transition: all .3s cubic-bezier(.4,0,.2,1);
+            box-shadow: var(--shadow-lg); max-width: 340px; pointer-events: none;
+            border: 1px solid rgba(255,255,255,.09);
+            backdrop-filter: blur(14px);
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .toast.t-lime .toast-dot { background: var(--lime); }
+        .toast.t-red .toast-dot { background: var(--red); }
+
+        /* Dashboard layout */
+        .dash-shell { min-height: 100vh; display: flex; }
+        .dash-sidebar {
+            width: 248px; position: fixed; top: 0; left: 0; bottom: 0;
+            background: var(--white); border-right: 1px solid var(--line);
+            display: flex; flex-direction: column; overflow-y: auto; z-index: 80;
+        }
+        .sidebar-logo {
+            padding: 20px 24px 16px; border-bottom: 1px solid var(--line);
+            font-family: var(--f-serif); font-size: 17px; font-weight: 900;
+            letter-spacing: -.04em; cursor: pointer;
+        }
+        .sidebar-logo span { color: var(--lime-d); font-style: italic; font-weight: 400; }
+        .sb-section {
+            font-family: var(--f-mono); font-size: 9px; letter-spacing: .15em;
+            text-transform: uppercase; color: var(--muted); padding: 18px 24px 6px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .sb-section::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+        .sb-link {
+            display: flex; align-items: center; gap: 11px; padding: 9px 24px;
+            font-size: 13px; font-weight: 500; color: var(--muted);
+            cursor: pointer; border-left: 2px solid transparent;
+            transition: all .12s; text-decoration: none;
+        }
+        .sb-link:hover { color: var(--ink); background: var(--paper); }
+        .sb-link.on, .sb-link.active {
+            color: var(--ink); background: linear-gradient(to right, rgba(143,212,0,.07), transparent);
+            font-weight: 700; border-left-color: var(--lime-d);
+        }
+        .sb-ico { width: 15px; text-align: center; flex-shrink: 0; }
+        .sb-ico svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .sb-badge {
+            margin-left: auto; background: var(--red); color: #fff;
+            font-family: var(--f-mono); font-size: 9px; padding: 1px 6px;
+            border-radius: 100px;
+        }
+        .sb-foot { margin-top: auto; border-top: 1px solid var(--line); padding: 18px 24px; }
+        .sb-user { display: flex; gap: 11px; align-items: center; margin-bottom: 12px; }
+        .sb-avatar {
+            width: 36px; height: 36px; border-radius: var(--r-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--f-mono); font-size: 11px; font-weight: 700;
+            box-shadow: 0 0 0 2px rgba(255,63,63,.5);
+        }
+        .av-admin { background: var(--red); color: #fff; }
+        .sb-uname { font-size: 13px; font-weight: 700; }
+        .sb-urole { font-size: 11px; color: var(--muted); }
+        .admin-access-chip {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-family: var(--f-mono); font-size: 8px; letter-spacing: .08em;
+            text-transform: uppercase; padding: 2px 8px; border-radius: 100px;
+            background: rgba(255,63,63,.08); border: 1px solid rgba(255,63,63,.2);
+            color: var(--red); margin-top: 3px;
+        }
+        .admin-access-chip-dot { width: 5px; height: 5px; border-radius: 50%; background: #ff6b6b; flex-shrink: 0; animation: blink 1.8s infinite; }
+        .sb-signout {
+            width: 100%; padding: 8px; border: 1px solid var(--line);
+            border-radius: var(--r-sm); background: transparent; color: var(--muted);
+            font-size: 11px; font-weight: 700; letter-spacing: .06em;
+            text-transform: uppercase; cursor: pointer; transition: all .15s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .sb-signout:hover { border-color: var(--ink); color: var(--ink); }
+
+        .dash-main { margin-left: 248px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; min-width: 0; }
+        .dash-topbar {
+            position: sticky; top: 0; z-index: 70; height: 54px; padding: 0 36px;
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(245,240,232,.95); backdrop-filter: blur(18px) saturate(1.5);
+            border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+        .dash-topbar-title { font-family: var(--f-serif); font-size: 20px; font-weight: 900; letter-spacing: -.02em; display: flex; align-items: center; gap: 8px; }
+        .ap-live-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .1em;
+            text-transform: uppercase; color: var(--muted); background: var(--warm);
+            border: 1px solid var(--line); border-radius: 100px; padding: 4px 12px;
+        }
+        .ap-live-pill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime-d); flex-shrink: 0; animation: blink 1.6s infinite; }
+        .dash-body { padding: 32px 36px; }
+        .panel { display: none; min-width: 0; }
+        .panel.active { display: block; animation: fadeUp .4s ease both; }
+
+        /* V3 specific components */
+        .ap-welcome-banner {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 22px 28px; margin-bottom: 22px; background: var(--ink);
+            border-radius: var(--r-lg); position: relative; overflow: hidden;
+            min-height: 120px;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,.007) 3px, rgba(255,255,255,.007) 4px);
+        }
+        .apwb-left { display: flex; flex-direction: column; gap: 3px; position: relative; z-index: 1; }
+        .apwb-greeting {
+            font-family: var(--f-mono); font-size: 9px; letter-spacing: .14em;
+            text-transform: uppercase; color: rgba(255,255,255,.4);
+            display: flex; align-items: center; gap: 7px;
+        }
+        .apwb-name { font-family: var(--f-serif); font-size: 22px; font-weight: 900; color: var(--paper); letter-spacing: -.02em; }
+        .apwb-name em { color: var(--lime); font-style: italic; font-weight: 400; }
+        .apwb-right { display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+        .apwb-stat {
+            background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+            border-radius: var(--r-sm); padding: 10px 14px; text-align: center;
+            min-width: 72px; transition: border-color .15s;
+        }
+        .apwb-stat:hover { border-color: rgba(184,255,53,.3); }
+        .apwb-stat-val { font-family: var(--f-mono); font-size: 20px; font-weight: 700; color: var(--paper); line-height: 1; }
+        .apwb-stat-val.v-lime { color: var(--lime); }
+        .apwb-stat-val.v-red { color: #ff6b6b; }
+        .apwb-stat-val.v-blue { color: #7eb3ff; }
+        .apwb-stat-lbl { font-family: var(--f-mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-top: 4px; }
+
+        .metric-strip {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--line); border-radius: var(--r-lg);
+            overflow: hidden; background: var(--white); margin-bottom: 22px;
+        }
+        .metric-cell { padding: 18px 22px; border-right: 1px solid var(--line); position: relative; transition: background .15s; }
+        .metric-cell:last-child { border-right: none; }
+        .metric-cell:hover { background: var(--warm); }
+        .metric-cell::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+        .metric-cell.mc-ink::before { background: var(--ink); }
+        .metric-cell.mc-lime::before { background: var(--lime); }
+        .metric-cell.mc-muted::before { background: var(--muted); }
+        .metric-cell.mc-red::before { background: var(--red); }
+        .m-label { font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+        .m-value { font-family: var(--f-serif); font-size: 30px; font-weight: 900; letter-spacing: -.04em; line-height: 1; }
+
+        .insight-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 18px; margin-bottom: 22px;
+        }
+        .insight-card {
+            background: var(--white); border: 1px solid var(--line);
+            border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow);
+            transition: transform .2s;
+        }
+        .insight-card:hover { transform: translateY(-3px); }
+        .insight-head { padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--warm); }
+        .insight-title { font-family: var(--f-serif); font-size: 14px; font-weight: 700; letter-spacing: -.01em; }
+        .insight-sub { font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+        .insight-body { padding: 6px 0; }
+        .insight-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 18px; border-bottom: 1px solid var(--warm);
+        }
+        .insight-row:last-child { border-bottom: none; }
+        .insight-rank { font-family: var(--f-mono); font-size: 10px; color: var(--muted); width: 18px; flex-shrink: 0; }
+        .insight-name { flex: 1; font-size: 13px; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .insight-meta { font-family: var(--f-mono); font-size: 9px; color: var(--muted); letter-spacing: .04em; }
+        .insight-bar-wrap { width: 56px; height: 4px; background: var(--warm); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+        .insight-bar { height: 100%; background: var(--lime-d); border-radius: 2px; }
+        .insight-val { font-family: var(--f-mono); font-size: 10px; font-weight: 500; color: var(--ink); min-width: 32px; text-align: right; }
+
+        .skills-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start; }
+        .skills-search-wrap { position: relative; margin-bottom: 14px; }
+        .skills-search {
+            width: 100%; padding: 10px 14px 10px 36px;
+            border: 1.5px solid var(--line); border-radius: var(--r-sm);
+            font-size: 13px; background: var(--white); outline: none;
+        }
+        .skills-search:focus { border-color: var(--lime-d); box-shadow: 0 0 0 3px rgba(143,212,0,.12); }
+        .skills-search-ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; stroke: var(--muted); pointer-events: none; }
+        .skills-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .skills-table th { font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 10px 16px; text-align: left; background: var(--warm); border-bottom: 1px solid var(--line); font-weight: 400; }
+        .skills-table td { padding: 11px 16px; border-bottom: 1px solid var(--warm); vertical-align: middle; }
+        .skills-table tr:hover td { background: rgba(245,240,232,.6); }
+        .sk-cat {
+            font-family: var(--f-mono); font-size: 9px; letter-spacing: .06em;
+            text-transform: uppercase; color: var(--muted);
+        }
+        .skill-demand-wrap { display: flex; align-items: center; gap: 8px; }
+        .skill-demand-track { width: 60px; height: 4px; background: var(--warm); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+        .skill-demand-fill { height: 100%; border-radius: 2px; background: var(--ink); }
+        .skill-demand-num { font-family: var(--f-mono); font-size: 10px; font-weight: 500; color: var(--ink); }
+        .res-badge {
+            font-family: var(--f-mono); font-size: 9px; letter-spacing: .06em;
+            padding: 3px 9px; border-radius: 100px; background: rgba(59,127,255,.08);
+            border: 1px solid rgba(59,127,255,.2); color: var(--blue);
+            display: inline-flex; align-items: center; gap: 4px;
+            cursor: pointer; transition: all .14s;
+        }
+        .res-badge:hover { background: rgba(59,127,255,.14); }
+        .sk-del { background: none; border: none; color: var(--line); font-size: 14px; padding: 4px 8px; cursor: pointer; border-radius: var(--r-sm); transition: all .14s; }
+        .sk-del:hover { color: var(--red); background: rgba(255,63,63,.06); }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+        .progress-track { height: 4px; background: var(--warm); border-radius: 2px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 2px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+        .pf-ink { background: var(--ink); }
+        .pf-lime { background: var(--lime-d); }
+        .pf-muted { background: var(--muted); }
+        .pf-red { background: var(--red); }
+
+        .live-row {
+            display: flex; gap: 14px; padding: 13px 20px;
+            border-bottom: 1px solid var(--line); transition: background .12s;
+            position: relative;
+        }
+        .live-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: transparent; transition: background .15s; }
+        .live-row:hover { background: var(--paper); }
+        .live-row:hover::before { background: var(--lime-d); }
+        .live-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; animation: blink 2s infinite; }
+        .live-dot-register { background: #1a7a3a; }
+        .live-dot-job { background: var(--blue); }
+        .live-dot-apply { background: var(--lime-d); }
+        .live-dot-status { background: var(--ink); }
+        .live-dot-company { background: #b46400; }
+        .live-dot-score { background: var(--lime-d); }
+        .live-t { font-size: 13px; font-weight: 700; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+        .live-d { font-size: 12px; color: var(--muted); line-height: 1.5; font-weight: 300; }
+        .live-ts { font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .08em; color: var(--line); margin-top: 4px; text-transform: uppercase; }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th { font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 10px 16px; border-bottom: 1px solid var(--line); text-align: left; background: var(--warm); }
+        .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--warm); vertical-align: middle; }
+        .data-table tr:hover td { background: linear-gradient(to right, rgba(143,212,0,.035), var(--paper), rgba(143,212,0,.035)) !important; }
+        .actions-wrap { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+        .approval-age-chip {
+            font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .06em;
+            padding: 2px 8px; border-radius: 100px; display: inline-flex;
+            align-items: center; gap: 4px;
+        }
+        .age-fresh { background: rgba(26,122,58,.07); color: #1a7a3a; border: 1px solid rgba(26,122,58,.2); }
+        .age-aging { background: rgba(180,100,0,.07); color: #b46400; border: 1px solid rgba(180,100,0,.2); }
+        .age-old { background: rgba(255,63,63,.07); color: var(--red); border: 1px solid rgba(255,63,63,.2); }
+        .accounts-filter-strip {
+            display: flex; gap: 6px; align-items: center;
+            padding: 10px 16px; border-bottom: 1px solid var(--line);
+            background: var(--warm);
+        }
+        .acf-btn {
+            font-family: var(--f-mono); font-size: 9px; letter-spacing: .08em;
+            text-transform: uppercase; padding: 4px 12px; border: 1px solid var(--line);
+            border-radius: 100px; background: var(--white); color: var(--muted);
+            cursor: pointer; transition: all .14s;
+        }
+        .acf-btn:hover, .acf-btn.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .account-av {
+            width: 32px; height: 32px; border-radius: var(--r-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--f-mono); font-size: 10px; font-weight: 700;
+        }
+        .account-av-student { background: var(--ink); color: var(--lime); }
+        .account-av-company { background: var(--lime); color: var(--ink); }
+
+        /* Animations */
+        @@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+        @@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+        @@keyframes orbFloat { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(8px,-6px) scale(1.05); } 66% { transform: translate(-5px,4px) scale(.97); } }
+        .hero-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(40px); animation: orbFloat 6s ease-in-out infinite; }
+        .countup { display: inline-block; }
+
+        /* Responsive */
+        @@media (max-width: 900px) {
+            .dash-sidebar { width: 280px; left: -280px; transition: left .25s ease; }
+            .dash-sidebar.is-open { left: 0; z-index: 90; box-shadow: var(--shadow-lg); }
+            .dash-main { margin-left: 0; }
+            .dash-topbar { padding: 0 16px 0 56px; }
+            .dash-body { padding: 24px 16px; }
+            .two-col, .field-row, .insight-grid, .skills-layout { grid-template-columns: 1fr; }
+            .metric-strip { grid-template-columns: repeat(2, 1fr); }
+            .ap-welcome-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .dash-menu-btn {
+                display: flex; position: fixed; top: 10px; left: 10px; z-index: 95;
+                align-items: center; justify-content: center; width: 44px; height: 44px;
+                background: var(--ink); color: var(--paper); border: none;
+                border-radius: var(--r-sm); cursor: pointer; flex-direction: column; gap: 5px;
+            }
+            .dash-menu-btn span { display: block; width: 18px; height: 2px; background: currentColor; border-radius: 1px; }
+            .dash-drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 85; }
+            .dash-drawer-overlay.is-visible { display: block; }
+        }
+        @@media (max-width: 640px) {
+            .dash-topbar { padding: 0 12px 0 52px; height: 50px; }
+            .dash-body { padding: 16px 12px; }
+            .metric-strip { grid-template-columns: 1fr; }
+            .metric-cell { border-right: none !important; }
+            .card-head { padding: 12px 14px; }
+            .card-body { padding: 14px; }
+            .data-table, .skills-table { min-width: 600px; }
+            .toast { left: 12px; right: 12px; bottom: 16px; max-width: none; }
+        }
+    </style>
 </head>
 <body>
-<div id="toast" class="toast @Model.ToastClass @(string.IsNullOrEmpty(Model.ToastMessage) ? "" : "show")"><div class="toast-dot"></div><span id="toast-msg">@Model.ToastMessage</span></div>
+
+<div id="toast" class="toast @Model.ToastClass @(string.IsNullOrEmpty(Model.ToastMessage) ? "" : "show")">
+    <div class="toast-dot"></div>
+    <span id="toast-msg">@Model.ToastMessage</span>
+</div>
 
 <div class="dash-shell">
-  <button type="button" class="dash-menu-btn" id="dash-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="dash-sidebar"><span></span><span></span><span></span></button>
-  <div class="dash-drawer-overlay" id="dash-drawer-overlay" aria-hidden="true"></div>
-  <aside class="dash-sidebar" id="dash-sidebar">
-    <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
-    <div class="sb-section">Analytics</div>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-overview" ? "on" : "")" id="lnk-overview" data-panel="ad-overview"><span class="sb-ico">◈</span> Platform Overview</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-analytics" ? "on" : "")" id="lnk-analytics" data-panel="ad-analytics"><span class="sb-ico">◻</span> Analytics</a>
-    <div class="sb-section">Management</div>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-companies" ? "on" : "")" id="lnk-companies" data-panel="ad-companies"><span class="sb-ico">◻</span> Companies @if (Model.PendingCompanies.Any()) { <span class="sb-badge">@Model.PendingCompanies.Count</span> }</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-skills" ? "on" : "")" id="lnk-skills" data-panel="ad-skills"><span class="sb-ico">◻</span> Skill Library</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-users" ? "on" : "")" id="lnk-users" data-panel="ad-users"><span class="sb-ico">◻</span> Students</a>
-    <a href="#" class="sb-link @(Model.ActivePanel == "ad-live" ? "on" : "")" id="lnk-live" data-panel="ad-live"><span class="sb-ico">◻</span> Live Activity</a>
-    <div class="sb-foot">
-      <div class="sb-user">
-        <div class="sb-avatar av-admin">AD</div>
-        <div>
-          <div class="sb-uname">@Model.UserName</div>
-          <div class="sb-urole">Administrator</div>
-          <div class="admin-access-chip"><span class="admin-access-chip-dot"></span>Full Access</div>
-        </div>
-      </div>
-      <form method="post" asp-page-handler="Logout">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="sb-signout">Sign Out</button>
-      </form>
-    </div>
-  </aside>
+    <button type="button" class="dash-menu-btn" id="dash-menu-btn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="dash-drawer-overlay" id="dash-drawer-overlay" aria-hidden="true"></div>
 
-  <div class="dash-main">
-    <div class="dash-topbar">
-      <div class="dash-topbar-title" id="page-title">@adminPageTitle</div>
-      <span class="ap-live-pill"><span class="ap-live-pill-dot"></span>Live</span>
-    </div>
-    <div class="dash-scroll">
-    <div class="dash-content" id="admin-panels">
-
-      <div class="panel @(Model.ActivePanel == "ad-overview" ? "active" : "")" id="ad-overview">
-        <div class="dash-body">
-        <!-- V3 ap-welcome-banner -->
-        <div class="ap-welcome-banner au">
-          <!-- Floating orbs — red/blue tint for admin -->
-          <div class="hero-orb" style="width:220px;height:220px;top:-90px;right:30px;background:rgba(255,63,63,.05);animation-duration:9s;border-radius:50%;filter:blur(48px);pointer-events:none;position:absolute"></div>
-          <div class="hero-orb" style="width:120px;height:120px;bottom:-60px;right:280px;background:rgba(59,127,255,.04);animation-duration:12s;animation-delay:-4s;border-radius:50%;filter:blur(32px);pointer-events:none;position:absolute"></div>
-          <!-- Fine grid overlay -->
-          <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:32px 32px;opacity:.7"></div>
-          <div class="apwb-left" style="position:relative;z-index:1">
-            <div class="apwb-greeting" style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="font-size:14px">🛡️</span>
-              <span>Platform Command Center · Admin</span>
-              <span style="width:5px;height:5px;border-radius:50%;background:#ff6b6b;display:inline-block;animation:blink 2s infinite;flex-shrink:0;margin-left:4px"></span>
+    <aside class="dash-sidebar" id="dash-sidebar">
+        <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
+        <div class="sb-section">Analytics</div>
+        <a href="#" class="sb-link @(Model.ActivePanel == "ad-overview" ? "on" : "")" id="lnk-overview" data-panel="ad-overview">
+            <span class="sb-ico" data-feather="activity"></span> Platform Overview
+        </a>
+        <a href="#" class="sb-link @(Model.ActivePanel == "ad-analytics" ? "on" : "")" id="lnk-analytics" data-panel="ad-analytics">
+            <span class="sb-ico" data-feather="bar-chart-2"></span> Analytics
+        </a>
+        <div class="sb-section">Management</div>
+        <a href="#" class="sb-link @(Model.ActivePanel == "ad-companies" ? "on" : "")" id="lnk-companies" data-panel="ad-companies">
+            <span class="sb-ico" data-feather="briefcase"></span> Companies
+            @if (Model.PendingCompanies.Any()) { <span class="sb-badge">@Model.PendingCompanies.Count</span> }
+        </a>
+        <a href="#" class="sb-link @(Model.ActivePanel == "ad-skills" ? "on" : "")" id="lnk-skills" data-panel="ad-skills">
+            <span class="sb-ico" data-feather="cpu"></span> Skill Library
+        </a>
+        <a href="#" class="sb-link @(Model.ActivePanel == "ad-users" ? "on" : "")" id="lnk-users" data-panel="ad-users">
+            <span class="sb-ico" data-feather="users"></span> Students
+        </a>
+        <a href="#" class="sb-link @(Model.ActivePanel == "ad-live" ? "on" : "")" id="lnk-live" data-panel="ad-live">
+            <span class="sb-ico" data-feather="zap"></span> Live Activity
+        </a>
+        <div class="sb-foot">
+            <div class="sb-user">
+                <div class="sb-avatar av-admin">AD</div>
+                <div>
+                    <div class="sb-uname">@Model.UserName</div>
+                    <div class="sb-urole">Administrator</div>
+                    <div class="admin-access-chip"><span class="admin-access-chip-dot"></span>Full Access</div>
+                </div>
             </div>
-            <div class="apwb-name">Good morning, <em>Administrator</em></div>
-            <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:6px">Full Access · CogniCareer HQ</div>
-          </div>
-          <div class="apwb-right" style="position:relative;z-index:1;gap:10px">
-            <div class="apwb-stat">
-              <div class="apwb-stat-val v-paper countup" data-target="@Model.Stats.TotalStudents">0</div>
-              <div class="apwb-stat-lbl">Students</div>
+            <form method="post" asp-page-handler="Logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="sb-signout">Sign Out</button>
+            </form>
+        </div>
+    </aside>
+
+    <div class="dash-main">
+        <div class="dash-topbar">
+            <div class="dash-topbar-title" id="page-title">
+                <span data-feather="cpu"></span> Platform Overview
             </div>
-            <div class="apwb-stat">
-              <div class="apwb-stat-val v-lime countup" data-target="@Model.Stats.TotalCompanies">0</div>
-              <div class="apwb-stat-lbl">Companies</div>
-            </div>
-            <div class="apwb-stat" style="border-color:rgba(255,100,100,.3)">
-              <div class="apwb-stat-val v-red countup" data-target="@Model.PendingCompanies.Count">0</div>
-              <div class="apwb-stat-lbl">Pending</div>
-            </div>
-            <div class="apwb-stat">
-              <div class="apwb-stat-val v-blue countup" data-target="@Model.Stats.TotalActiveJobs">0</div>
-              <div class="apwb-stat-lbl">Active Jobs</div>
-            </div>
-          </div>
+            <span class="ap-live-pill"><span class="ap-live-pill-dot"></span>Live</span>
         </div>
-        <div class="metric-strip">
-          <div class="metric-cell"><div class="m-label">Students</div><div class="m-value">@Model.Stats.TotalStudents</div></div>
-          <div class="metric-cell"><div class="m-label">Companies</div><div class="m-value">@Model.Stats.TotalCompanies</div></div>
-          <div class="metric-cell"><div class="m-label">Active Jobs</div><div class="m-value">@Model.Stats.TotalActiveJobs</div></div>
-          <div class="metric-cell"><div class="m-label">Applications</div><div class="m-value">@Model.Stats.TotalApplications</div></div>
-        </div>
-        @if (Model.PendingCompanies.Any())
-        {
-          <div class="notice notice-info">@Model.PendingCompanies.Count company account(s) awaiting approval. <a onclick="sw('ad-companies','Companies')" style="text-decoration:underline;cursor:pointer">Review now →</a></div>
-        }
-        @await Html.PartialAsync("_AdminInsights", Model)
-        </div>
-      </div>
 
-      <div class="panel @(Model.ActivePanel == "ad-analytics" ? "active" : "")" id="ad-analytics">
-        <div class="dash-body">
-        @await Html.PartialAsync("_AdminAnalytics")
-        </div>
-      </div>
+        <div class="dash-scroll">
+            <div class="dash-content" id="admin-panels">
 
-      <div class="panel @(Model.ActivePanel == "ad-companies" ? "active" : "")" id="ad-companies">
-        <div class="dash-body">
-        <div class="card" style="margin-bottom:20px">
-          <div class="card-head"><span class="card-title">Pending Approvals</span><span class="badge badge-red">@Model.PendingCompanies.Count pending</span></div>
-          <div class="card-body-p0">
-            @if (!Model.PendingCompanies.Any())
-            {
-              <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No pending company registrations.</div>
-            }
-            <div class="table-scroll"><table class="data-table" style="min-width:600px">
-              <thead><tr><th>Company</th><th>Industry</th><th>Website</th><th>Actions</th></tr></thead>
-              <tbody>
-                @foreach (var co in Model.PendingCompanies)
-                {
-                  <tr>
-                    <td><strong>@co.CompanyName</strong></td>
-                    <td>@co.Industry</td>
-                    <td style="font-family:var(--f-mono);font-size:11px">@(string.IsNullOrEmpty(co.Website) ? "—" : co.Website)</td>
-                    <td>
-                      <div class="actions-wrap">
-                        <form method="post" asp-page-handler="ApproveCompany" style="display:inline">
-                          @Html.AntiForgeryToken()
-                          <input type="hidden" name="companyId" value="@co.CompanyID">
-                          <button type="submit" class="btn btn-lime btn-sm">Approve</button>
-                        </form>
-                        <form method="post" asp-page-handler="RejectCompany" style="display:inline">
-                          @Html.AntiForgeryToken()
-                          <input type="hidden" name="companyId" value="@co.CompanyID">
-                          <button type="submit" class="btn btn-red btn-sm">Reject</button>
-                        </form>
-                      </div>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">All Companies</span><span class="badge badge-default">@Model.AllCompanies.Count total</span></div>
-          <div class="card-body-p0">
-            <div class="table-scroll"><table class="data-table" style="min-width:600px">
-              <thead><tr><th>Company</th><th>Industry</th><th>Status</th></tr></thead>
-              <tbody>
-                @foreach (var co in Model.AllCompanies)
-                {
-                  <tr>
-                    <td><strong>@co.CompanyName</strong></td>
-                    <td>@co.Industry</td>
-                    <td><span class="status @(co.IsApproved ? "st-active" : "st-reject")">@(co.IsApproved ? "Approved" : "Pending")</span></td>
-                  </tr>
-                }
-              </tbody>
-            </table></div>
-          </div>
-        </div>
-        </div>
-      </div>
+                <!-- OVERVIEW PANEL -->
+                <div class="panel @(Model.ActivePanel == "ad-overview" ? "active" : "")" id="ad-overview">
+                    <div class="dash-body">
+                        <div class="ap-welcome-banner au">
+                            <div class="hero-orb" style="width:220px;height:220px;top:-90px;right:30px;background:rgba(255,63,63,.05);animation-duration:9s;"></div>
+                            <div class="hero-orb" style="width:120px;height:120px;bottom:-60px;right:280px;background:rgba(59,127,255,.04);animation-duration:12s;animation-delay:-4s;"></div>
+                            <div style="position:absolute; inset:0; pointer-events:none; background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px); background-size:32px 32px; opacity:.7;"></div>
+                            <div class="apwb-left" style="position:relative; z-index:1;">
+                                <div class="apwb-greeting">
+                                    <span data-feather="shield" style="width:14px; height:14px;"></span>
+                                    <span>Platform Command Center · Admin</span>
+                                    <span style="width:5px;height:5px;border-radius:50%;background:#ff6b6b;display:inline-block;animation:blink 2s infinite;"></span>
+                                </div>
+                                <div class="apwb-name">Good morning, <em>Administrator</em></div>
+                                <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:6px;">Full Access · CogniCareer HQ</div>
+                            </div>
+                            <div class="apwb-right" style="position:relative; z-index:1; gap:10px;">
+                                <div class="apwb-stat">
+                                    <div class="apwb-stat-val v-paper countup" data-target="@Model.Stats.TotalStudents">0</div>
+                                    <div class="apwb-stat-lbl">Students</div>
+                                </div>
+                                <div class="apwb-stat">
+                                    <div class="apwb-stat-val v-lime countup" data-target="@Model.Stats.TotalCompanies">0</div>
+                                    <div class="apwb-stat-lbl">Companies</div>
+                                </div>
+                                <div class="apwb-stat" style="border-color:rgba(255,100,100,.3);">
+                                    <div class="apwb-stat-val v-red countup" data-target="@Model.PendingCompanies.Count">0</div>
+                                    <div class="apwb-stat-lbl">Pending</div>
+                                </div>
+                                <div class="apwb-stat">
+                                    <div class="apwb-stat-val v-blue countup" data-target="@Model.Stats.TotalActiveJobs">0</div>
+                                    <div class="apwb-stat-lbl">Active Jobs</div>
+                                </div>
+                            </div>
+                        </div>
 
-      <div class="panel @(Model.ActivePanel == "ad-skills" ? "active" : "")" id="ad-skills">
-        <div class="dash-body">
-        @await Html.PartialAsync("_AdminSkillLibrary", Model)
-        </div>
-      </div>
+                        <div class="metric-strip">
+                            <div class="metric-cell mc-ink"><div class="m-label">Students</div><div class="m-value">@Model.Stats.TotalStudents</div></div>
+                            <div class="metric-cell mc-lime"><div class="m-label">Companies</div><div class="m-value">@Model.Stats.TotalCompanies</div></div>
+                            <div class="metric-cell mc-muted"><div class="m-label">Active Jobs</div><div class="m-value">@Model.Stats.TotalActiveJobs</div></div>
+                            <div class="metric-cell mc-red"><div class="m-label">Applications</div><div class="m-value">@Model.Stats.TotalApplications</div></div>
+                        </div>
 
-      <div class="panel @(Model.ActivePanel == "ad-live" ? "active" : "")" id="ad-live">
-        <div class="dash-body">
-        @await Html.PartialAsync("_AdminLiveActivity", Model)
-        </div>
-      </div>
+                        <div class="insight-grid">
+                            <div class="insight-card">
+                                <div class="insight-head">
+                                    <div class="insight-title">🔥 Top Demanded Skills</div>
+                                    <div class="insight-sub">Across all active jobs</div>
+                                </div>
+                                <div class="insight-body">
+                                    <div class="insight-row"><span class="insight-rank">1</span><span class="insight-name">React.js</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:78%"></div></div><span class="insight-val">78%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">2</span><span class="insight-name">Python</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:64%"></div></div><span class="insight-val">64%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">3</span><span class="insight-name">SQL</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:59%"></div></div><span class="insight-val">59%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">4</span><span class="insight-name">Docker</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:44%"></div></div><span class="insight-val">44%</span></div>
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <div class="insight-head">
+                                    <div class="insight-title">⚠ Most Missing Skills</div>
+                                    <div class="insight-sub">Gap among applicants</div>
+                                </div>
+                                <div class="insight-body">
+                                    <div class="insight-row"><span class="insight-rank">1</span><span class="insight-name">System Design</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:72%"></div></div><span class="insight-val">72%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">2</span><span class="insight-name">Docker</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:67%"></div></div><span class="insight-val">67%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">3</span><span class="insight-name">AWS/Cloud</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:58%"></div></div><span class="insight-val">58%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">4</span><span class="insight-name">TypeScript</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:49%"></div></div><span class="insight-val">49%</span></div>
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <div class="insight-head">
+                                    <div class="insight-title">🏆 Hiring by Company</div>
+                                    <div class="insight-sub">Most active employers</div>
+                                </div>
+                                <div class="insight-body">
+                                    <div class="insight-row"><span class="insight-rank">1</span><span class="insight-name">Arbisoft</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:85%"></div></div><span class="insight-val">85%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">2</span><span class="insight-name">Systems Ltd</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:60%"></div></div><span class="insight-val">60%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">3</span><span class="insight-name">10Pearls</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:45%"></div></div><span class="insight-val">45%</span></div>
+                                    <div class="insight-row"><span class="insight-rank">4</span><span class="insight-name">Folio3</span><div class="insight-bar-wrap"><div class="insight-bar" style="width:36%"></div></div><span class="insight-val">36%</span></div>
+                                </div>
+                            </div>
+                        </div>
 
-      <div class="panel @(Model.ActivePanel == "ad-users" ? "active" : "")" id="ad-users">
-        <div class="dash-body">
-        <div class="card">
-          <div class="card-head"><span class="card-title">Student Accounts</span><span class="badge badge-default">@Model.AllStudents.Count students</span></div>
-          <div class="card-body-p0">
-            <div class="table-scroll"><table class="data-table" style="min-width:600px">
-              <thead><tr><th>Name</th><th>Email</th><th>University</th><th>Status</th><th>Actions</th></tr></thead>
-              <tbody>
-                @foreach (var st in Model.AllStudents)
-                {
-                  <tr>
-                    <td><strong>@st.FullName</strong></td>
-                    <td style="font-family:var(--f-mono);font-size:11px">@(string.IsNullOrEmpty(st.Email) ? "—" : st.Email)</td>
-                    <td>@(string.IsNullOrEmpty(st.University) ? "—" : st.University)</td>
-                    <td><span class="status @(st.IsActive ? "st-active" : "st-reject")">@(st.IsActive ? "Active" : "Inactive")</span></td>
-                    <td>
-                      <div class="actions-wrap">
-                        @if (st.IsActive)
+                        @if (Model.PendingCompanies.Any())
                         {
-                          <form method="post" asp-page-handler="ToggleStudent" style="display:inline">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="studentId" value="@st.StudentId">
-                            <input type="hidden" name="isActive" value="false">
-                            <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red)">Deactivate</button>
-                          </form>
+                            <div class="notice notice-info">@Model.PendingCompanies.Count company account(s) awaiting approval. <a onclick="sw('ad-companies','Companies')" style="text-decoration:underline;cursor:pointer;">Review now →</a></div>
                         }
-                        else
-                        {
-                          <form method="post" asp-page-handler="ToggleStudent" style="display:inline">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="studentId" value="@st.StudentId">
-                            <input type="hidden" name="isActive" value="true">
-                            <button type="submit" class="btn btn-lime btn-sm">Activate</button>
-                          </form>
-                        }
-                      </div>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table></div>
-          </div>
-        </div>
-        </div>
-      </div>
+                    </div>
+                </div>
 
+                <!-- ANALYTICS PANEL -->
+                <div class="panel @(Model.ActivePanel == "ad-analytics" ? "active" : "")" id="ad-analytics">
+                    <div class="dash-body">
+                        <div class="analytics-section-label">📈 Hiring Activity</div>
+                        <div class="two-col">
+                            <div class="card"><div class="card-head"><span class="card-title">🏆 Hiring by Company</span></div><div class="card-body"><div class="bar-list">
+                                <div><div class="bar-row-label"><span>🏢 Arbisoft</span><span>142 apps · 12 hired</span></div><div class="progress-track"><div class="progress-fill pf-lime" style="width:85%"></div></div></div>
+                                <div><div class="bar-row-label"><span>🏢 Systems Ltd</span><span>87 apps · 7 hired</span></div><div class="progress-track"><div class="progress-fill pf-ink" style="width:60%"></div></div></div>
+                                <div><div class="bar-row-label"><span>🏢 10Pearls</span><span>64 apps · 5 hired</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:45%"></div></div></div>
+                                <div><div class="bar-row-label"><span>🏢 Folio3</span><span>51 apps · 4 hired</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:36%"></div></div></div>
+                            </div></div></div>
+                            <div class="card"><div class="card-head"><span class="card-title">📂 Jobs by Type</span></div><div class="card-body"><div class="bar-list">
+                                <div><div class="bar-row-label"><span>💼 Full-time</span><span>48%</span></div><div class="progress-track"><div class="progress-fill pf-ink" style="width:48%"></div></div></div>
+                                <div><div class="bar-row-label"><span>🎓 Internship</span><span>29%</span></div><div class="progress-track"><div class="progress-fill pf-lime" style="width:29%"></div></div></div>
+                                <div><div class="bar-row-label"><span>🌐 Remote</span><span>19%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:19%"></div></div></div>
+                                <div><div class="bar-row-label"><span>📄 Contract</span><span>11%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:11%"></div></div></div>
+                            </div></div></div>
+                        </div>
+                        <div class="analytics-section-label" style="margin-top:22px">🎯 Match Quality &amp; Urgency</div>
+                        <div class="two-col">
+                            <div class="card"><div class="card-head"><span class="card-title">📊 Platform Match Score Distribution</span></div><div class="card-body"><div class="bar-list">
+                                <div><div class="bar-row-label"><span>🟢 90–100%</span><span>8%</span></div><div class="progress-track"><div class="progress-fill pf-lime" style="width:8%"></div></div></div>
+                                <div><div class="bar-row-label"><span>🔵 75–89%</span><span>22%</span></div><div class="progress-track"><div class="progress-fill pf-ink" style="width:22%"></div></div></div>
+                                <div><div class="bar-row-label"><span>⚪ 60–74%</span><span>35%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:35%"></div></div></div>
+                                <div><div class="bar-row-label"><span>🔴 Below 60%</span><span>35%</span></div><div class="progress-track"><div class="progress-fill pf-red" style="width:35%"></div></div></div>
+                            </div></div></div>
+                            <div class="card"><div class="card-head"><span class="card-title">⏰ Jobs Closing This Week</span></div><div class="card-body-p0">
+                                <div class="job-row" style="padding:12px 18px"><div style="flex:1"><div class="job-co">🏢 10Pearls</div><div class="job-title" style="font-size:13px">Full Stack Developer</div></div><span class="status st-reject">Jun 20</span></div>
+                                <div class="job-row" style="padding:12px 18px"><div style="flex:1"><div class="job-co">🏢 NetSol</div><div class="job-title" style="font-size:13px">React Native Dev</div></div><span class="status st-pending">Jun 22</span></div>
+                                <div class="job-row" style="padding:12px 18px"><div style="flex:1"><div class="job-co">🏢 Arbisoft</div><div class="job-title" style="font-size:13px">DevOps Engineer</div></div><span class="status st-pending">Jun 25</span></div>
+                            </div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPANIES PANEL -->
+                <div class="panel @(Model.ActivePanel == "ad-companies" ? "active" : "")" id="ad-companies">
+                    <div class="dash-body">
+                        <div class="card" style="margin-bottom:20px;">
+                            <div class="card-head">
+                                <span class="card-title"><span data-feather="clock"></span> Pending Approvals</span>
+                                <span class="badge badge-red">@Model.PendingCompanies.Count pending</span>
+                            </div>
+                            <div class="card-body-p0">
+                                @if (!Model.PendingCompanies.Any())
+                                {
+                                    <div style="padding:28px; text-align:center; color:var(--muted);">No pending company registrations.</div>
+                                }
+                                else
+                                {
+                                    <div class="table-scroll">
+                                        <table class="data-table" style="min-width:600px;">
+                                            <thead>
+                                                <tr><th>Company</th><th>Industry</th><th>Website</th><th>Actions</th></tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var co in Model.PendingCompanies)
+                                                {
+                                                    <tr>
+                                                        <td><strong>@co.CompanyName</strong></td>
+                                                        <td>@co.Industry</td>
+                                                        <td style="font-family:var(--f-mono);font-size:11px;">@(string.IsNullOrEmpty(co.Website) ? "—" : co.Website)</td>
+                                                        <td>
+                                                            <div class="actions-wrap">
+                                                                <form method="post" asp-page-handler="ApproveCompany" style="display:inline;">
+                                                                    @Html.AntiForgeryToken()
+                                                                    <input type="hidden" name="companyId" value="@co.CompanyID">
+                                                                    <button type="submit" class="btn btn-lime btn-sm">Approve</button>
+                                                                </form>
+                                                                <form method="post" asp-page-handler="RejectCompany" style="display:inline;">
+                                                                    @Html.AntiForgeryToken()
+                                                                    <input type="hidden" name="companyId" value="@co.CompanyID">
+                                                                    <button type="submit" class="btn btn-red btn-sm">Reject</button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-head">
+                                <span class="card-title"><span data-feather="briefcase"></span> All Companies</span>
+                                <span class="badge badge-default">@Model.AllCompanies.Count total</span>
+                            </div>
+                            <div class="card-body-p0">
+                                <div class="table-scroll">
+                                    <table class="data-table" style="min-width:600px;">
+                                        <thead>
+                                            <tr><th>Company</th><th>Industry</th><th>Status</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var co in Model.AllCompanies)
+                                            {
+                                                <tr>
+                                                    <td><strong>@co.CompanyName</strong></td>
+                                                    <td>@co.Industry</td>
+                                                    <td><span class="status @(co.IsApproved ? "st-active" : "st-reject")">@(co.IsApproved ? "Approved" : "Pending")</span></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SKILL LIBRARY PANEL -->
+                <div class="panel @(Model.ActivePanel == "ad-skills" ? "active" : "")" id="ad-skills">
+                    <div class="dash-body">
+                        @await Html.PartialAsync("_AdminSkillLibrary", Model)
+                    </div>
+                </div>
+
+                <!-- LIVE ACTIVITY PANEL -->
+                <div class="panel @(Model.ActivePanel == "ad-live" ? "active" : "")" id="ad-live">
+                    <div class="dash-body">
+                        @await Html.PartialAsync("_AdminLiveActivity", Model)
+                    </div>
+                </div>
+
+                <!-- STUDENTS PANEL -->
+                <div class="panel @(Model.ActivePanel == "ad-users" ? "active" : "")" id="ad-users">
+                    <div class="dash-body">
+                        <div class="card">
+                            <div class="card-head">
+                                <span class="card-title"><span data-feather="users"></span> Student Accounts</span>
+                                <span class="badge badge-default">@Model.AllStudents.Count students</span>
+                            </div>
+                            <div class="card-body-p0">
+                                <div class="table-scroll">
+                                    <table class="data-table" style="min-width:600px;">
+                                        <thead>
+                                            <tr><th>Name</th><th>Email</th><th>University</th><th>Status</th><th>Actions</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var st in Model.AllStudents)
+                                            {
+                                                <tr>
+                                                    <td><strong>@st.FullName</strong></td>
+                                                    <td style="font-family:var(--f-mono);font-size:11px;">@(string.IsNullOrEmpty(st.Email) ? "—" : st.Email)</td>
+                                                    <td>@(string.IsNullOrEmpty(st.University) ? "—" : st.University)</td>
+                                                    <td><span class="status @(st.IsActive ? "st-active" : "st-reject")">@(st.IsActive ? "Active" : "Inactive")</span></td>
+                                                    <td>
+                                                        <div class="actions-wrap">
+                                                            @if (st.IsActive)
+                                                            {
+                                                                <form method="post" asp-page-handler="ToggleStudent" style="display:inline;">
+                                                                    @Html.AntiForgeryToken()
+                                                                    <input type="hidden" name="studentId" value="@st.StudentId">
+                                                                    <input type="hidden" name="isActive" value="false">
+                                                                    <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red);">Deactivate</button>
+                                                                </form>
+                                                            }
+                                                            else
+                                                            {
+                                                                <form method="post" asp-page-handler="ToggleStudent" style="display:inline;">
+                                                                    @Html.AntiForgeryToken()
+                                                                    <input type="hidden" name="studentId" value="@st.StudentId">
+                                                                    <input type="hidden" name="isActive" value="true">
+                                                                    <button type="submit" class="btn btn-lime btn-sm">Activate</button>
+                                                                </form>
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    </div>
-  </div>
 </div>
 
 <script>
-(function initDashDrawer() {
-  var btn = document.getElementById('dash-menu-btn');
-  var sidebar = document.getElementById('dash-sidebar');
-  var overlay = document.getElementById('dash-drawer-overlay');
-  if (!btn || !sidebar || !overlay) return;
-  function openDrawer() {
-    sidebar.classList.add('is-open');
-    overlay.classList.add('is-visible');
-    overlay.setAttribute('aria-hidden', 'false');
-    btn.setAttribute('aria-expanded', 'true');
-    btn.setAttribute('aria-label', 'Close menu');
-  }
-  function closeDrawer() {
-    sidebar.classList.remove('is-open');
-    overlay.classList.remove('is-visible');
-    overlay.setAttribute('aria-hidden', 'true');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-label', 'Open menu');
-  }
-  btn.addEventListener('click', function() {
-    if (sidebar.classList.contains('is-open')) closeDrawer();
-    else openDrawer();
-  });
-  overlay.addEventListener('click', closeDrawer);
-  document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(link) {
-    link.addEventListener('click', closeDrawer);
-  });
-})();
+    // Feather Icons replacement
+    feather.replace();
 
-var adminPanelTitles = {'ad-overview':'Platform Overview','ad-analytics':'Analytics','ad-companies':'Companies','ad-skills':'Skill Library','ad-users':'Students','ad-live':'Live Activity'};
+    // Sidebar & panel switching
+    function sw(panelId, title) {
+        var panels = document.querySelectorAll('#admin-panels .panel');
+        panels.forEach(function(p) {
+            p.classList.remove('active');
+            p.setAttribute('inert', '');
+        });
+        var el = document.getElementById(panelId);
+        if (el) {
+            el.classList.add('active');
+            el.removeAttribute('inert');
+        }
+        document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(l) { l.classList.remove('on'); });
+        var lnkMap = { 'ad-overview':'lnk-overview', 'ad-analytics':'lnk-analytics', 'ad-companies':'lnk-companies', 'ad-skills':'lnk-skills', 'ad-users':'lnk-users', 'ad-live':'lnk-live' };
+        var lnk = document.getElementById(lnkMap[panelId]);
+        if (lnk) lnk.classList.add('on');
+        var heading = document.getElementById('page-title');
+        if (heading) heading.innerHTML = '<span data-feather="' + (panelId === 'ad-analytics' ? 'bar-chart-2' : panelId === 'ad-companies' ? 'briefcase' : panelId === 'ad-skills' ? 'cpu' : panelId === 'ad-users' ? 'users' : panelId === 'ad-live' ? 'zap' : 'cpu') + '"></span> ' + (title || (panelId === 'ad-overview' ? 'Platform Overview' : panelId === 'ad-analytics' ? 'Analytics' : panelId === 'ad-companies' ? 'Companies' : panelId === 'ad-skills' ? 'Skill Library' : panelId === 'ad-users' ? 'Students' : 'Live Activity'));
+        feather.replace();
+    }
 
-function sw(panelId, title) {
-  var panels = document.querySelectorAll('#admin-panels .panel');
-  panels.forEach(function(p) {
-    p.classList.remove('active');
-    p.setAttribute('inert', '');
-  });
-  var el = document.getElementById(panelId);
-  if (el) {
-    el.classList.add('active');
-    el.removeAttribute('inert');
-  }
-  document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(l){ l.classList.remove('on'); });
-  var lnkMap = {'ad-overview':'lnk-overview','ad-analytics':'lnk-analytics','ad-companies':'lnk-companies','ad-skills':'lnk-skills','ad-users':'lnk-users','ad-live':'lnk-live'};
-  var lnk = document.getElementById(lnkMap[panelId]);
-  if (lnk) lnk.classList.add('on');
-  var heading = document.getElementById('page-title');
-  if (heading) heading.textContent = title || adminPanelTitles[panelId] || 'Dashboard';
-}
+    function showToast(msg, cls) {
+        var t = document.getElementById('toast');
+        if (!t) return;
+        var msgEl = document.getElementById('toast-msg');
+        if (msgEl) msgEl.textContent = msg;
+        t.className = 'toast ' + (cls || 't-lime');
+        t.classList.add('show');
+        setTimeout(function(){ t.classList.remove('show'); }, 3200);
+    }
 
-function showToast(msg, cls) {
-  var t = document.getElementById('toast');
-  if (!t) return;
-  var msgEl = document.getElementById('toast-msg');
-  if (msgEl) msgEl.textContent = msg;
-  t.className = 'toast ' + (cls || 't-lime');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 3200);
-}
+    // Drawer for mobile
+    (function initDashDrawer() {
+        var btn = document.getElementById('dash-menu-btn');
+        var sidebar = document.getElementById('dash-sidebar');
+        var overlay = document.getElementById('dash-drawer-overlay');
+        if (!btn || !sidebar || !overlay) return;
+        function openDrawer() { sidebar.classList.add('is-open'); overlay.classList.add('is-visible'); overlay.setAttribute('aria-hidden', 'false'); btn.setAttribute('aria-expanded', 'true'); }
+        function closeDrawer() { sidebar.classList.remove('is-open'); overlay.classList.remove('is-visible'); overlay.setAttribute('aria-hidden', 'true'); btn.setAttribute('aria-expanded', 'false'); }
+        btn.addEventListener('click', function() { if (sidebar.classList.contains('is-open')) closeDrawer(); else openDrawer(); });
+        overlay.addEventListener('click', closeDrawer);
+        document.querySelectorAll('.dash-sidebar .sb-link').forEach(function(link) { link.addEventListener('click', closeDrawer); });
+    })();
 
-function filterSkillLib(q) {
-  q = (q || '').toLowerCase().trim();
-  document.querySelectorAll('#skill-lib-table tbody tr').forEach(function(row) {
-    var name = row.getAttribute('data-name') || '';
-    var cat = row.getAttribute('data-cat') || '';
-    row.style.display = (!q || name.indexOf(q) >= 0 || cat.indexOf(q) >= 0) ? '' : 'none';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  var active = document.querySelector('#admin-panels .panel.active');
-  document.querySelectorAll('#admin-panels .panel').forEach(function(p) {
-    if (p === active) p.removeAttribute('inert');
-    else p.setAttribute('inert', '');
-  });
-
-  var sidebar = document.querySelector('.dash-sidebar');
-  if (sidebar) {
-    sidebar.addEventListener('click', function(e) {
-      var link = e.target.closest('a[data-panel]');
-      if (!link) return;
-      e.preventDefault();
-      var panelId = link.getAttribute('data-panel');
-      sw(panelId, adminPanelTitles[panelId]);
+    document.addEventListener('DOMContentLoaded', function() {
+        var active = document.querySelector('#admin-panels .panel.active');
+        document.querySelectorAll('#admin-panels .panel').forEach(function(p) {
+            if (p === active) p.removeAttribute('inert');
+            else p.setAttribute('inert', '');
+        });
+        var sidebar = document.querySelector('.dash-sidebar');
+        if (sidebar) {
+            sidebar.addEventListener('click', function(e) {
+                var link = e.target.closest('a[data-panel]');
+                if (!link) return;
+                e.preventDefault();
+                var panelId = link.getAttribute('data-panel');
+                sw(panelId, null);
+            });
+        }
+        var toast = document.getElementById('toast');
+        if (toast && toast.classList.contains('show')) {
+            setTimeout(function(){ toast.classList.remove('show'); }, 3200);
+        }
     });
-  }
 
-  var toast = document.getElementById('toast');
-  if (toast && toast.classList.contains('show')) {
-    setTimeout(function(){ toast.classList.remove('show'); }, 3200);
-  }
-});
+    // Live activity polling (preserved)
+    var lastActivityTicks = @(Model.RecentActivities.Any() ? Model.RecentActivities.Max(a => a.OccurredAt).Ticks : DateTime.UtcNow.Ticks);
+    function formatActivityTime(ticks) {
+        var d = new Date(ticks);
+        var diff = (Date.now() - d.getTime()) / 1000;
+        if (diff < 120) return 'JUST NOW';
+        if (diff < 3600) return Math.floor(diff / 60) + 'M AGO';
+        if (diff < 86400) return Math.floor(diff / 3600) + 'H AGO';
+        return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }).toUpperCase();
+    }
+    function prependLiveActivity(ev) {
+        var feed = document.getElementById('live-feed');
+        if (!feed) return;
+        var empty = document.getElementById('live-feed-empty');
+        if (empty) empty.remove();
+        if (feed.querySelector('[data-ticks="' + ev.occurredAtTicks + '"]')) return;
+        var row = document.createElement('div');
+        row.className = 'live-row';
+        row.setAttribute('data-ticks', ev.occurredAtTicks);
+        row.style.opacity = '0';
+        row.style.transition = 'opacity .4s';
+        row.innerHTML = '<div class="live-dot ' + ev.dotClass + '"></div><div><div class="live-t">' + ev.title + '</div><div class="live-d">' + ev.description + '</div><div class="live-ts">' + formatActivityTime(ev.occurredAtTicks) + '</div></div>';
+        feed.insertBefore(row, feed.firstChild);
+        setTimeout(function(){ row.style.opacity = '1'; }, 20);
+        while (feed.children.length > 30) feed.removeChild(feed.lastChild);
+        if (ev.occurredAtTicks > lastActivityTicks) lastActivityTicks = ev.occurredAtTicks;
+    }
+    function pollLiveActivity() {
+        fetch(window.location.pathname + '?handler=ActivityFeed&afterTicks=' + lastActivityTicks, { headers: { 'Accept': 'application/json' } })
+            .then(function(r) { return r.ok ? r.json() : []; })
+            .then(function(events) {
+                if (!Array.isArray(events) || !events.length) return;
+                events.slice().reverse().forEach(prependLiveActivity);
+            })
+            .catch(function() {});
+    }
+    setInterval(pollLiveActivity, 5000);
 
-var lastActivityTicks = @(Model.RecentActivities.Any() ? Model.RecentActivities.Max(a => a.OccurredAt).Ticks : DateTime.UtcNow.Ticks);
-
-function formatActivityTime(ticks) {
-  var d = new Date(ticks);
-  var diff = (Date.now() - d.getTime()) / 1000;
-  if (diff < 120) return 'JUST NOW';
-  if (diff < 3600) return Math.floor(diff / 60) + 'M AGO';
-  if (diff < 86400) return Math.floor(diff / 3600) + 'H AGO';
-  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }).toUpperCase();
-}
-
-function prependLiveActivity(ev) {
-  var feed = document.getElementById('live-feed');
-  if (!feed) return;
-  var empty = document.getElementById('live-feed-empty');
-  if (empty) empty.remove();
-  if (feed.querySelector('[data-ticks="' + ev.occurredAtTicks + '"]')) return;
-  var row = document.createElement('div');
-  row.className = 'live-row';
-  row.setAttribute('data-ticks', ev.occurredAtTicks);
-  row.style.opacity = '0';
-  row.style.transition = 'opacity .4s';
-  row.innerHTML = '<div class="live-dot ' + ev.dotClass + '"></div><div><div class="live-t">' + ev.title + '</div><div class="live-d">' + ev.description + '</div><div class="live-ts">' + formatActivityTime(ev.occurredAtTicks) + '</div></div>';
-  feed.insertBefore(row, feed.firstChild);
-  setTimeout(function(){ row.style.opacity = '1'; }, 20);
-  while (feed.children.length > 30) feed.removeChild(feed.lastChild);
-  if (ev.occurredAtTicks > lastActivityTicks) lastActivityTicks = ev.occurredAtTicks;
-}
-
-function pollLiveActivity() {
-  fetch(window.location.pathname + '?handler=ActivityFeed&afterTicks=' + lastActivityTicks, { headers: { 'Accept': 'application/json' } })
-    .then(function(r) { return r.ok ? r.json() : []; })
-    .then(function(events) {
-      if (!Array.isArray(events) || !events.length) return;
-      events.slice().reverse().forEach(prependLiveActivity);
-    })
-    .catch(function() {});
-}
-
-setInterval(pollLiveActivity, 5000);
+    // Countup on load
+    (function(){
+        function countUp(el, target, suffix, dur) {
+            dur = dur || 1100;
+            var start = performance.now();
+            (function step(now) {
+                var p = Math.min((now - start) / dur, 1);
+                var ease = 1 - Math.pow(1 - p, 3);
+                el.textContent = Math.round(ease * target) + suffix;
+                if (p < 1) requestAnimationFrame(step);
+            })(performance.now());
+        }
+        function runCounters() {
+            document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
+                el.dataset.done = '1';
+                countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
+            });
+        }
+        window.addEventListener('load', runCounters);
+    })();
 </script>
 
-    <style>
-    @@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(8px,-6px) scale(1.05)}66%{transform:translate(-5px,4px) scale(.97)}}
-    .hero-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(40px);animation:orbFloat 6s ease-in-out infinite}
-    .countup{display:inline-block}
-    </style>
-    <script>
-    (function(){
-      function countUp(el, target, suffix, dur) {
-        dur = dur || 1100;
-        var start = performance.now();
-        (function step(now) {
-          var p = Math.min((now - start) / dur, 1);
-          var ease = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(ease * target) + suffix;
-          if (p < 1) requestAnimationFrame(step);
-        })(performance.now());
-      }
-      function runCounters() {
-        document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
-          el.dataset.done = '1';
-          countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
-        });
-      }
-      window.addEventListener('load', runCounters);
-    })();
-    </script>
 </body>
 </html>
