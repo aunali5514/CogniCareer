@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Feather Icons -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- Devicon for tech/skill logos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+    <!-- Simple Icons via CDN as fallback for company logos -->
     <style>
         /* ========== V3 ADMIN PORTAL – EXACT STYLES ========== */
         :root {
@@ -28,6 +31,10 @@
             --red: #ff3f3f;
             --blue: #3b7fff;
             --white: #ffffff;
+            --success: #1a7a3a;
+            --warn: #b46400;
+            --p1: #3b7fff;
+            --p2: #7c5cff;
             --f-serif: 'Playfair Display', Georgia, serif;
             --f-mono: 'DM Mono', 'Courier New', monospace;
             --f-sans: 'Jost', sans-serif;
@@ -420,6 +427,63 @@
             .data-table, .skills-table { min-width: 600px; }
             .toast { left: 12px; right: 12px; bottom: 16px; max-width: none; }
         }
+
+        /* ========== ADDED: Analytics v5, logos, icons ========== */
+        .bar-list { display: flex; flex-direction: column; gap: 14px; }
+        .bar-row-label { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+        .bar-row-label span:last-child { font-family: var(--f-mono); font-size: 11px; font-weight: 700; }
+
+        .analytics-section-label {
+            font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em;
+            text-transform: uppercase; color: var(--muted);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+        }
+        .analytics-section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--line), transparent); }
+
+        .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        @@media (max-width: 900px) { .three-col { grid-template-columns: 1fr; } }
+
+        .m-delta { font-family: var(--f-mono); font-size: 10px; margin-top: 6px; letter-spacing: .04em; }
+        .m-delta-up { color: var(--success); }
+        .m-delta-down { color: var(--red); }
+
+        .pf-success { background: var(--success); }
+        .pf-primary { background: var(--p1); }
+        .pf-warn { background: var(--warn); }
+
+        /* Company logo cell (initial-tile) */
+        .co-logo {
+            width: 32px; height: 32px; border-radius: var(--r-sm);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-family: var(--f-mono); font-size: 11px; font-weight: 700;
+            background: var(--ink); color: var(--lime); flex-shrink: 0;
+        }
+        .co-cell { display: flex; align-items: center; gap: 10px; }
+        .co-cell .co-icon { font-size: 14px; opacity: .8; }
+
+        /* Student row icons (matches screenshot 4) */
+        .st-cell { display: flex; align-items: center; gap: 10px; }
+        .st-av {
+            width: 32px; height: 32px; border-radius: var(--r-sm);
+            background: var(--lime); color: var(--ink);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-family: var(--f-mono); font-size: 11px; font-weight: 700; flex-shrink: 0;
+        }
+        .st-name { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+        .st-name .st-grad { font-size: 13px; opacity: .75; }
+
+        /* Live activity professional icons */
+        .live-ico {
+            width: 28px; height: 28px; border-radius: var(--r-sm);
+            display: inline-flex; align-items: center; justify-content: center;
+            flex-shrink: 0; background: var(--warm); color: var(--ink);
+        }
+        .live-ico svg { width: 14px; height: 14px; stroke-width: 2; }
+        .live-ico.li-success { background: rgba(26,122,58,.08); color: var(--success); }
+        .live-ico.li-blue { background: rgba(59,127,255,.08); color: var(--blue); }
+        .live-ico.li-lime { background: rgba(143,212,0,.1); color: #5a8a00; }
+        .live-ico.li-warn { background: rgba(180,100,0,.08); color: var(--warn); }
+        .live-ico.li-red { background: rgba(255,63,63,.08); color: var(--red); }
     </style>
 </head>
 <body>
@@ -572,38 +636,99 @@
                     </div>
                 </div>
 
-                <!-- ANALYTICS PANEL -->
+                <!-- ANALYTICS PANEL (v5 layout) -->
                 <div class="panel @(Model.ActivePanel == "ad-analytics" ? "active" : "")" id="ad-analytics">
                     <div class="dash-body">
-                        <div class="analytics-section-label">📈 Hiring Activity</div>
-                        <div class="two-col">
-                            <div class="card"><div class="card-head"><span class="card-title">🏆 Hiring by Company</span></div><div class="card-body"><div class="bar-list">
-                                <div><div class="bar-row-label"><span>🏢 Arbisoft</span><span>142 apps · 12 hired</span></div><div class="progress-track"><div class="progress-fill pf-lime" style="width:85%"></div></div></div>
-                                <div><div class="bar-row-label"><span>🏢 Systems Ltd</span><span>87 apps · 7 hired</span></div><div class="progress-track"><div class="progress-fill pf-ink" style="width:60%"></div></div></div>
-                                <div><div class="bar-row-label"><span>🏢 10Pearls</span><span>64 apps · 5 hired</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:45%"></div></div></div>
-                                <div><div class="bar-row-label"><span>🏢 Folio3</span><span>51 apps · 4 hired</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:36%"></div></div></div>
-                            </div></div></div>
-                            <div class="card"><div class="card-head"><span class="card-title">📂 Jobs by Type</span></div><div class="card-body"><div class="bar-list">
-                                <div><div class="bar-row-label"><span>💼 Full-time</span><span>48%</span></div><div class="progress-track"><div class="progress-fill pf-ink" style="width:48%"></div></div></div>
-                                <div><div class="bar-row-label"><span>🎓 Internship</span><span>29%</span></div><div class="progress-track"><div class="progress-fill pf-lime" style="width:29%"></div></div></div>
-                                <div><div class="bar-row-label"><span>🌐 Remote</span><span>19%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:19%"></div></div></div>
-                                <div><div class="bar-row-label"><span>📄 Contract</span><span>11%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:11%"></div></div></div>
-                            </div></div></div>
+
+                        <!-- Top metric strip -->
+                        <div class="metric-strip">
+                            <div class="metric-cell mc-lime">
+                                <div class="m-label">Total Students</div>
+                                <div class="m-value">@Model.Stats.TotalStudents</div>
+                                <div class="m-delta m-delta-up">↑ 13.5% MoM</div>
+                            </div>
+                            <div class="metric-cell mc-ink">
+                                <div class="m-label">Companies</div>
+                                <div class="m-value">@Model.Stats.TotalCompanies</div>
+                                <div class="m-delta m-delta-up">↑ @Model.PendingCompanies.Count new</div>
+                            </div>
+                            <div class="metric-cell mc-muted">
+                                <div class="m-label">Total Applications</div>
+                                <div class="m-value">@Model.Stats.TotalApplications</div>
+                                <div class="m-delta m-delta-up">↑ 18%</div>
+                            </div>
+                            <div class="metric-cell mc-red">
+                                <div class="m-label">Active Jobs</div>
+                                <div class="m-value">@Model.Stats.TotalActiveJobs</div>
+                                <div class="m-delta m-delta-up">↑ 22%</div>
+                            </div>
                         </div>
-                        <div class="analytics-section-label" style="margin-top:22px">🎯 Match Quality &amp; Urgency</div>
-                        <div class="two-col">
-                            <div class="card"><div class="card-head"><span class="card-title">📊 Platform Match Score Distribution</span></div><div class="card-body"><div class="bar-list">
-                                <div><div class="bar-row-label"><span>🟢 90–100%</span><span>8%</span></div><div class="progress-track"><div class="progress-fill pf-lime" style="width:8%"></div></div></div>
-                                <div><div class="bar-row-label"><span>🔵 75–89%</span><span>22%</span></div><div class="progress-track"><div class="progress-fill pf-ink" style="width:22%"></div></div></div>
-                                <div><div class="bar-row-label"><span>⚪ 60–74%</span><span>35%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:35%"></div></div></div>
-                                <div><div class="bar-row-label"><span>🔴 Below 60%</span><span>35%</span></div><div class="progress-track"><div class="progress-fill pf-red" style="width:35%"></div></div></div>
-                            </div></div></div>
-                            <div class="card"><div class="card-head"><span class="card-title">⏰ Jobs Closing This Week</span></div><div class="card-body-p0">
-                                <div class="job-row" style="padding:12px 18px"><div style="flex:1"><div class="job-co">🏢 10Pearls</div><div class="job-title" style="font-size:13px">Full Stack Developer</div></div><span class="status st-reject">Jun 20</span></div>
-                                <div class="job-row" style="padding:12px 18px"><div style="flex:1"><div class="job-co">🏢 NetSol</div><div class="job-title" style="font-size:13px">React Native Dev</div></div><span class="status st-pending">Jun 22</span></div>
-                                <div class="job-row" style="padding:12px 18px"><div style="flex:1"><div class="job-co">🏢 Arbisoft</div><div class="job-title" style="font-size:13px">DevOps Engineer</div></div><span class="status st-pending">Jun 25</span></div>
-                            </div></div>
+
+                        <!-- Row 1: Universities + Top Demanded Skills -->
+                        <div class="two-col" style="margin-top:22px">
+                            <div class="card">
+                                <div class="card-head"><span class="card-title">🏫 Top Universities by Match Score</span></div>
+                                <div class="card-body">
+                                    <div class="bar-list">
+                                        <div><div class="bar-row-label"><span>🏫 NUST Islamabad</span><span style="color:var(--success)">82%</span></div><div class="progress-track"><div class="progress-fill pf-success" style="width:82%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>🏫 FAST NUCES</span><span style="color:var(--p1)">79%</span></div><div class="progress-track"><div class="progress-fill pf-primary" style="width:79%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>🏫 UET Lahore</span><span>74%</span></div><div class="progress-track"><div class="progress-fill pf-warn" style="width:74%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>🏫 COMSATS</span><span>71%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:71%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>🏫 IBA Karachi</span><span>68%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:68%"></div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-head"><span class="card-title">🔥 Top Demanded Skills</span></div>
+                                <div class="card-body">
+                                    <div class="bar-list">
+                                        <div><div class="bar-row-label"><span><i class="devicon-react-original colored"></i> React.js</span><span style="color:var(--p2)">88%</span></div><div class="progress-track"><div class="progress-fill" style="background:var(--p2);width:88%"></div></div></div>
+                                        <div><div class="bar-row-label"><span><i class="devicon-python-plain colored"></i> Python</span><span style="color:var(--warn)">84%</span></div><div class="progress-track"><div class="progress-fill pf-warn" style="width:84%"></div></div></div>
+                                        <div><div class="bar-row-label"><span><i class="devicon-nodejs-plain colored"></i> Node.js</span><span style="color:var(--success)">79%</span></div><div class="progress-track"><div class="progress-fill pf-success" style="width:79%"></div></div></div>
+                                        <div><div class="bar-row-label"><span><i class="devicon-docker-plain colored"></i> Docker</span><span style="color:var(--p1)">72%</span></div><div class="progress-track"><div class="progress-fill pf-primary" style="width:72%"></div></div></div>
+                                        <div><div class="bar-row-label"><span><i class="devicon-typescript-plain colored"></i> TypeScript</span><span>67%</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:67%"></div></div></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Row 2: 3-col (Apps by status + Top hiring + Students by semester) -->
+                        <div class="three-col" style="margin-top:22px">
+                            <div class="card">
+                                <div class="card-head"><span class="card-title">📋 Applications by Status</span></div>
+                                <div class="card-body">
+                                    <div class="bar-list">
+                                        <div><div class="bar-row-label"><span>Pending</span><span style="color:var(--warn)">2,140</span></div><div class="progress-track"><div class="progress-fill pf-warn" style="width:55%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>Shortlisted</span><span style="color:var(--p2)">890</span></div><div class="progress-track"><div class="progress-fill" style="background:var(--p2);width:23%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>Interview</span><span style="color:var(--success)">583</span></div><div class="progress-track"><div class="progress-fill pf-success" style="width:15%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>Hired</span><span style="color:var(--p1)">234</span></div><div class="progress-track"><div class="progress-fill pf-primary" style="width:6%"></div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-head"><span class="card-title">🏢 Top Hiring Companies</span></div>
+                                <div class="card-body">
+                                    <div class="bar-list">
+                                        <div><div class="bar-row-label"><span>🚀 Arbisoft</span><span style="color:var(--p1)">142</span></div><div class="progress-track"><div class="progress-fill pf-primary" style="width:100%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>⚡ 10Pearls</span><span>118</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:83%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>💡 Systems Ltd</span><span>97</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:68%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>📱 NetSol</span><span>84</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:59%"></div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-head"><span class="card-title">🎓 Students by Semester</span></div>
+                                <div class="card-body">
+                                    <div class="bar-list">
+                                        <div><div class="bar-row-label"><span>6th Sem</span><span style="color:var(--success)">312</span></div><div class="progress-track"><div class="progress-fill pf-success" style="width:100%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>7th Sem</span><span>287</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:92%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>8th Sem</span><span>241</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:77%"></div></div></div>
+                                        <div><div class="bar-row-label"><span>5th Sem</span><span>198</span></div><div class="progress-track"><div class="progress-fill pf-muted" style="width:63%"></div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -631,7 +756,12 @@
                                                 @foreach (var co in Model.PendingCompanies)
                                                 {
                                                     <tr>
-                                                        <td><strong>@co.CompanyName</strong></td>
+                                                        <td>
+                                                            <div class="co-cell">
+                                                                <span class="co-logo">@(string.IsNullOrEmpty(co.CompanyName) ? "?" : co.CompanyName.Substring(0, System.Math.Min(2, co.CompanyName.Length)).ToUpper())</span>
+                                                                <strong><span class="co-icon">🏢</span> @co.CompanyName</strong>
+                                                            </div>
+                                                        </td>
                                                         <td>@co.Industry</td>
                                                         <td style="font-family:var(--f-mono);font-size:11px;">@(string.IsNullOrEmpty(co.Website) ? "—" : co.Website)</td>
                                                         <td>
@@ -672,7 +802,12 @@
                                             @foreach (var co in Model.AllCompanies)
                                             {
                                                 <tr>
-                                                    <td><strong>@co.CompanyName</strong></td>
+                                                    <td>
+                                                        <div class="co-cell">
+                                                            <span class="co-logo">@(string.IsNullOrEmpty(co.CompanyName) ? "?" : co.CompanyName.Substring(0, System.Math.Min(2, co.CompanyName.Length)).ToUpper())</span>
+                                                            <strong><span class="co-icon">🏢</span> @co.CompanyName</strong>
+                                                        </div>
+                                                    </td>
                                                     <td>@co.Industry</td>
                                                     <td><span class="status @(co.IsApproved ? "st-active" : "st-reject")">@(co.IsApproved ? "Approved" : "Pending")</span></td>
                                                 </tr>
@@ -717,7 +852,12 @@
                                             @foreach (var st in Model.AllStudents)
                                             {
                                                 <tr>
-                                                    <td><strong>@st.FullName</strong></td>
+                                                    <td>
+                                                        <div class="st-cell">
+                                                            <span class="st-av">@(string.IsNullOrEmpty(st.FullName) ? "?" : string.Concat(st.FullName.Split(' ').Where(p => !string.IsNullOrEmpty(p)).Select(p => p[0])).ToUpper())</span>
+                                                            <span class="st-name"><span class="st-grad">🎓</span> @st.FullName</span>
+                                                        </div>
+                                                    </td>
                                                     <td style="font-family:var(--f-mono);font-size:11px;">@(string.IsNullOrEmpty(st.Email) ? "—" : st.Email)</td>
                                                     <td>@(string.IsNullOrEmpty(st.University) ? "—" : st.University)</td>
                                                     <td><span class="status @(st.IsActive ? "st-active" : "st-reject")">@(st.IsActive ? "Active" : "Inactive")</span></td>
