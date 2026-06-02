@@ -23,8 +23,8 @@
             --warm: #ede8e0;
             --line: #d6cfc4;
             --muted: #8a847b;
-            --lime: #b8ff35;
-            --lime-d: #8fd400;
+            --lime: #C6F135;
+            --lime-d: #9ABF1A;
             --red: #ff3f3f;
             --blue: #3b7fff;
             --white: #ffffff;
@@ -432,8 +432,15 @@
         </button>
         <div class="dash-drawer-overlay" id="dash-drawer-overlay" aria-hidden="true"></div>
         <aside class="dash-sidebar" id="dash-sidebar">
-            <div class="sidebar-logo" onclick="window.location.href='/'">Cogni<span>Career</span></div>
-            <div class="sb-section">Company</div>
+            <div class="sidebar-logo" onclick="window.location.href='/" style="display:flex;align-items:center;gap:10px;">
+                <div style="width:28px;height:28px;background:var(--ink);border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                    <svg viewBox="0 0 12 12" style="width:12px;height:12px;stroke:var(--lime);fill:none;stroke-width:2;stroke-linecap:round">
+                        <path d="M2 9 L6 3 L10 9" />
+                        <path d="M4 7h4" />
+                    </svg>
+                </div>
+                Cogni<span>Career</span>
+            </div>            <div class="sb-section">Company</div>
             <a class="sb-link on" id="lnk-overview" onclick="sw('cp-overview','Overview')"><span class="sb-ico">⬡</span> Overview</a>
             <div class="sb-section">Hiring</div>
             <a class="sb-link" id="lnk-post" onclick="sw('cp-post','Post a Job')"><span class="sb-ico">◈</span> Post Job</a>
