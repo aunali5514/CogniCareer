@@ -106,30 +106,9 @@ input,select,textarea{font-family:var(--f-sans)}
 .data-table td{padding:12px 16px;border-bottom:1px solid var(--warm);vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:linear-gradient(to right,rgba(143,212,0,.035),var(--paper),rgba(143,212,0,.035))!important}
-.job-desc-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.job-desc-full{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px;white-space:pre-wrap}
-/* ── Change 2: v5 welcome banner — dark ink background, white text ── */
-.wb-banner{
-  background:var(--ink);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:var(--r-lg);padding:22px 28px;margin-bottom:22px;
-  position:relative;overflow:hidden;
-  background-image:
-    repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px),
-    linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
-  background-size:auto,32px 32px,32px 32px;
-}
-.wb-banner::before{
-  content:'';position:absolute;right:-40px;top:-40px;
-  width:200px;height:200px;border-radius:50%;
-  background:var(--lime);opacity:.06;pointer-events:none;
-}
-.wb-banner::after{
-  content:'';position:absolute;left:38%;bottom:-50px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(59,127,255,.05);pointer-events:none;
-}
+.wb-banner{background:var(--ink);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:22px 28px;margin-bottom:22px;position:relative;overflow:hidden;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.007) 3px,rgba(255,255,255,.007) 4px),linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:auto,32px 32px,32px 32px}
+.wb-banner::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:var(--lime);opacity:.06;pointer-events:none}
+.wb-banner::after{content:'';position:absolute;left:38%;bottom:-50px;width:120px;height:120px;border-radius:50%;background:rgba(59,127,255,.05);pointer-events:none}
 .wb-greeting{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;font-weight:600}
 .wb-name{font-family:var(--f-serif);font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--paper)}
 .wb-name em{color:var(--lime);font-style:italic;font-weight:400}
@@ -140,71 +119,35 @@ input,select,textarea{font-family:var(--f-sans)}
 .wb-stat:hover{transform:translateY(-2px);border-color:rgba(184,255,53,.3)}
 .wb-stat-val{font-family:var(--f-serif);font-size:22px;font-weight:700;letter-spacing:-.04em;line-height:1}
 .wb-stat-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
-/* Stat pill accent colors — all from ZIP tokens */
-.wb-stat-match::before{background:var(--lime-d)}
-.wb-stat-match .wb-stat-val{color:var(--lime-d)}
-.wb-stat-rank::before{background:var(--blue)}
-.wb-stat-rank .wb-stat-val{color:var(--blue)}
-.wb-stat-applied::before{background:#1a7a3a}
-.wb-stat-applied .wb-stat-val{color:#1a7a3a}
-.wb-stat-profile::before{background:var(--red)}
-.wb-stat-profile .wb-stat-val{color:var(--red)}
-/* ── Change 3: v5 KPI cards exactly matching screenshot 5 — individual cards, gradient top border ── */
-/* Override metric-strip base: break the joined bar into separate cards */
-.v5-kpi{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:14px;margin-bottom:22px;
-  border:none !important;border-radius:0 !important;
-  background:transparent !important;overflow:visible !important;
-}
-.v5-kpi .metric-cell{
-  background:var(--white) !important;
-  border:1px solid var(--line) !important;
-  border-right:1px solid var(--line) !important;
-  border-top:none !important;
-  border-radius:var(--r-lg) !important;
-  padding:22px 24px !important;
-  overflow:hidden !important;
-  box-shadow:0 2px 12px rgba(15,14,13,.05);
-  transition:transform .18s,box-shadow .18s;
-}
-.v5-kpi .metric-cell:hover{transform:translateY(-3px) !important;box-shadow:0 10px 32px rgba(15,14,13,.1);background:var(--white) !important}
-/* Gradient top border via pseudo */
-.v5-kpi .metric-cell::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;
-}
+.wb-stat-match::before{background:var(--lime-d)}.wb-stat-match .wb-stat-val{color:var(--lime-d)}
+.wb-stat-rank::before{background:var(--blue)}.wb-stat-rank .wb-stat-val{color:var(--blue)}
+.wb-stat-applied::before{background:#1a7a3a}.wb-stat-applied .wb-stat-val{color:#1a7a3a}
+.wb-stat-profile::before{background:var(--red)}.wb-stat-profile .wb-stat-val{color:var(--red)}
+.v5-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;border:none!important;border-radius:0!important;background:transparent!important;overflow:visible!important}
+.v5-kpi .metric-cell{background:var(--white)!important;border:1px solid var(--line)!important;border-right:1px solid var(--line)!important;border-top:none!important;border-radius:var(--r-lg)!important;padding:22px 24px!important;overflow:hidden!important;box-shadow:0 2px 12px rgba(15,14,13,.05);transition:transform .18s,box-shadow .18s}
+.v5-kpi .metric-cell:hover{transform:translateY(-3px)!important;box-shadow:0 10px 32px rgba(15,14,13,.1);background:var(--white)!important}
+.v5-kpi .metric-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0}
 .v5-kpi .mc-ink::before{background:linear-gradient(to right,var(--lime-d),var(--lime))}
 .v5-kpi .mc-lime::before{background:linear-gradient(to right,var(--blue),rgba(59,127,255,.5))}
 .v5-kpi .mc-muted::before{background:linear-gradient(to right,#1a7a3a,rgba(26,122,58,.5))}
 .v5-kpi .mc-blue::before{background:linear-gradient(to right,var(--red),rgba(255,63,63,.5))}
-/* Remove old tiny dot */
-.v5-kpi-dot{display:none}
-/* Label */
 .v5-kpi .m-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:600;display:block}
-/* Huge serif number */
-.v5-kpi .m-value{font-family:var(--f-serif) !important;font-size:38px !important;font-weight:900 !important;letter-spacing:-.05em !important;line-height:1 !important;margin-bottom:6px;color:var(--ink) !important}
-.v5-kpi .metric-cell:hover .m-value{color:var(--ink) !important}
-/* Context line */
+.v5-kpi .m-value{font-family:var(--f-serif)!important;font-size:38px!important;font-weight:900!important;letter-spacing:-.05em!important;line-height:1!important;margin-bottom:6px;color:var(--ink)!important}
+.v5-kpi .metric-cell:hover .m-value{color:var(--ink)!important}
 .v5-kpi .m-sub{font-size:12px;color:var(--muted);font-weight:400;margin-bottom:0;display:block}
-/* Trend line — green mono bold */
 .v5-kpi .m-delta{font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;color:#1a7a3a;font-weight:700;margin-top:7px;display:block}
-/* ── Change 4: browse jobs header strip ── */
 .v5-jobs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:4px 0}
 .v5-jobs-count{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-/* ── Search bar ── */
 .browse-search-bar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
 .browse-search-input-wrap{flex:1;min-width:220px;position:relative;display:flex;align-items:center}
 .browse-search-icon{position:absolute;left:12px;width:16px;height:16px;color:var(--muted);pointer-events:none}
 .browse-search-input{width:100%;padding:10px 14px 10px 36px;border:1px solid var(--line);border-radius:var(--r);font-family:var(--f-sans);font-size:13px;background:var(--white);color:var(--ink);outline:none;transition:border-color .15s}
-.browse-search-input:focus{border-color:var(--ink)}
-.browse-search-input::placeholder{color:var(--muted)}
+.browse-search-input:focus{border-color:var(--ink)}.browse-search-input::placeholder{color:var(--muted)}
 .browse-filter-select{padding:10px 14px;border:1px solid var(--line);border-radius:var(--r);font-family:var(--f-sans);font-size:13px;background:var(--white);color:var(--ink);cursor:pointer;outline:none;transition:border-color .15s;min-width:120px}
 .browse-filter-select:focus{border-color:var(--ink)}
-/* ── Job row right column — ring + action stacked, aligned ── */
 .job-right-col{display:flex;align-items:center;gap:14px;flex-shrink:0}
 .job-action-col{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:90px}
 .job-action-btn{display:block;width:100%;text-align:center;white-space:nowrap}
-/* ── v5 My Applications rows ── */
 .v5-app-row{display:flex;align-items:stretch;border-bottom:1px solid var(--line);position:relative;transition:background .12s}
 .v5-app-row:last-child{border-bottom:none}
 .v5-app-row:hover{background:rgba(245,240,232,.5)}
@@ -214,34 +157,24 @@ input,select,textarea{font-family:var(--f-sans)}
 .v5-app-bar-row{display:flex;align-items:center;gap:10px;margin-top:4px}
 .btn-notes{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s}
 .btn-notes:hover{border-color:var(--ink);color:var(--ink)}
-/* Status accent bars (left stripe color matches status) */
 .v5-app-row .v5-app-accent.status-applied{background:var(--blue)}
 .v5-app-row .v5-app-accent.status-shortlisted{background:var(--lime-d)}
 .v5-app-row .v5-app-accent.status-interview{background:#1a7a3a}
 .v5-app-row .v5-app-accent.status-rejected{background:var(--red)}
 .v5-app-row .v5-app-accent.status-not-selected{background:var(--red)}
-/* Skill chips: colored dot + label */
 .skill-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-family:var(--f-mono);font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border:1px solid;line-height:1.4;white-space:nowrap;transition:opacity .15s}
-.skill-chip:hover{opacity:.8}
-.skill-chip .sc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.scc-0{background:rgba(59,127,255,.08);border-color:rgba(59,127,255,.3);color:var(--blue)}
-.scc-0 .sc-dot{background:var(--blue)}
-.scc-1{background:rgba(26,122,58,.08);border-color:rgba(26,122,58,.3);color:#1a7a3a}
-.scc-1 .sc-dot{background:#1a7a3a}
-.scc-2{background:rgba(184,100,0,.08);border-color:rgba(184,100,0,.3);color:#b46400}
-.scc-2 .sc-dot{background:#b46400}
-.scc-3{background:rgba(143,212,0,.08);border-color:rgba(143,212,0,.4);color:var(--lime-d)}
-.scc-3 .sc-dot{background:var(--lime-d)}
-.scc-4{background:rgba(255,63,63,.08);border-color:rgba(255,63,63,.3);color:var(--red)}
-.scc-4 .sc-dot{background:var(--red)}
-.scc-5{background:rgba(138,102,246,.08);border-color:rgba(138,102,246,.3);color:#7c3aed}
-.scc-5 .sc-dot{background:#7c3aed}
+.skill-chip:hover{opacity:.8}.skill-chip .sc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.scc-0{background:rgba(59,127,255,.08);border-color:rgba(59,127,255,.3);color:var(--blue)}.scc-0 .sc-dot{background:var(--blue)}
+.scc-1{background:rgba(26,122,58,.08);border-color:rgba(26,122,58,.3);color:#1a7a3a}.scc-1 .sc-dot{background:#1a7a3a}
+.scc-2{background:rgba(184,100,0,.08);border-color:rgba(184,100,0,.3);color:#b46400}.scc-2 .sc-dot{background:#b46400}
+.scc-3{background:rgba(143,212,0,.08);border-color:rgba(143,212,0,.4);color:var(--lime-d)}.scc-3 .sc-dot{background:var(--lime-d)}
+.scc-4{background:rgba(255,63,63,.08);border-color:rgba(255,63,63,.3);color:var(--red)}.scc-4 .sc-dot{background:var(--red)}
+.scc-5{background:rgba(138,102,246,.08);border-color:rgba(138,102,246,.3);color:#7c3aed}.scc-5 .sc-dot{background:#7c3aed}
 .jlb-green{background:rgba(26,122,58,.1);color:#1a7a3a}
 .jlb-amber{background:rgba(184,100,0,.1);color:#b46400}
 .jlb-purple{background:rgba(138,102,246,.1);color:#7c3aed}
 .jlb-red{background:rgba(255,63,63,.1);color:var(--red)}
 .jlb-teal{background:rgba(0,180,180,.1);color:#0e7490}
-/* Application cards */
 .appl-card-rich{display:flex;gap:14px;padding:16px 22px;border-bottom:1px solid var(--line);position:relative;transition:background .15s,padding-left .16s;cursor:default}
 .appl-card-rich::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lime-d);border-radius:0 2px 2px 0;transform:scaleY(0);transform-origin:center;transition:transform .25s cubic-bezier(.4,0,.2,1)}
 .appl-card-rich:hover{background:rgba(245,240,232,.6);padding-left:28px}
@@ -249,8 +182,7 @@ input,select,textarea{font-family:var(--f-sans)}
 .appl-card-rich:last-child{border-bottom:none}
 .acr-logo{width:48px;height:48px;flex-shrink:0;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid var(--line);transition:transform .18s;background:rgba(59,127,255,.07)}
 .appl-card-rich:hover .acr-logo{transform:scale(1.08) rotate(-3deg)}
-.acr-body{flex:1;min-width:0}
-.acr-top{display:flex;gap:12px;justify-content:space-between;margin-bottom:10px}
+.acr-body{flex:1;min-width:0}.acr-top{display:flex;gap:12px;justify-content:space-between;margin-bottom:10px}
 .acr-job{font-family:var(--f-serif);font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:3px}
 .acr-company{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.06em;color:var(--muted);margin-bottom:7px}
 .acr-tags{display:flex;gap:5px;flex-wrap:wrap}
@@ -260,7 +192,6 @@ input,select,textarea{font-family:var(--f-sans)}
 .acr-bar-fill{height:100%;border-radius:3px;width:0%;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
 .acr-bar-pct{font-family:var(--f-serif);font-size:13px;font-weight:900;letter-spacing:-.03em;flex-shrink:0}
 .acr-ring{position:relative;flex-shrink:0;width:44px;height:44px}
-/* App stat cards */
 .app-stat-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:22px}
 .app-stat-card{border-radius:var(--r-lg);padding:16px 18px;background:var(--white);border:1px solid var(--line);position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s;cursor:default}
 .app-stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(15,14,13,.1)}
@@ -270,7 +201,6 @@ input,select,textarea{font-family:var(--f-sans)}
 .asi-total{background:rgba(15,14,13,.07)}.asi-pending{background:rgba(180,100,0,.1)}.asi-short{background:rgba(143,212,0,.12)}.asi-inter{background:rgba(59,127,255,.1)}.asi-reject{background:rgba(255,63,63,.08)}
 .app-stat-num{font-family:var(--f-serif);font-size:32px;font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:4px}
 .app-stat-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-/* Job cards */
 .job-row-wow{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--line);position:relative;cursor:pointer;transition:background .12s,padding-left .15s}
 .job-row-wow::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .15s}
 .job-row-wow:hover::before{background:var(--lime-d)}
@@ -279,7 +209,6 @@ input,select,textarea{font-family:var(--f-sans)}
 .job-logo-bubble{width:44px;height:44px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--line);transition:transform .15s}
 .job-row-wow:hover .job-logo-bubble{transform:scale(1.08)}
 .jlb-blue{background:rgba(59,127,255,.07)}.jlb-green{background:rgba(26,122,58,.07)}.jlb-orange{background:rgba(180,100,0,.07)}.jlb-purple{background:rgba(123,94,167,.07)}.jlb-teal{background:rgba(0,180,150,.07)}.jlb-red{background:rgba(255,63,63,.07)}
-/* Match ring */
 .match-ring-wow{width:58px;height:58px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .match-ring-wow svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
 .match-ring-wow svg circle{fill:none;stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
@@ -289,16 +218,13 @@ input,select,textarea{font-family:var(--f-sans)}
 .match-ring-wow .ring-fill-low{stroke:var(--red)}
 .ring-pct{font-family:var(--f-serif);font-weight:900;font-size:12px;letter-spacing:-.04em;line-height:1;z-index:1}
 .ring-pct-high{color:#1a7a3a}.ring-pct-mid{color:#b46400}.ring-pct-low{color:var(--red)}
-/* Gap analysis */
 .gap-visual-section{display:flex;gap:0;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:22px}
-.gap-col{flex:1;padding:22px 24px}
-.gap-col-have{border-right:1px solid var(--line)}
+.gap-col{flex:1;padding:22px 24px}.gap-col-have{border-right:1px solid var(--line)}
 .gap-col-head{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .gap-col-head-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .gap-skill-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:var(--r-sm);margin-bottom:7px;font-size:13px;font-weight:600;border:1px solid}
 .gap-row-have{background:rgba(26,122,58,.05);border-color:rgba(26,122,58,.2);color:#1a7a3a}
 .gap-row-miss{background:rgba(255,63,63,.04);border-color:rgba(255,63,63,.2);color:var(--red)}
-/* Skill section */
 .skill-card-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--white);margin-bottom:8px;transition:border-color .15s,transform .15s,box-shadow .15s;cursor:default}
 .skill-card-item:hover{border-color:var(--ink);transform:translateX(4px);box-shadow:0 2px 12px rgba(15,14,13,.07)}
 .skill-card-item:last-child{margin-bottom:0}
@@ -309,65 +235,137 @@ input,select,textarea{font-family:var(--f-sans)}
 .sci-fill{height:100%;border-radius:2px;transition:width 1s ease}
 .scif-adv{background:var(--lime-d)}.scif-int{background:var(--blue)}.scif-beg{background:var(--muted)}
 .sci-pct{font-family:var(--f-mono);font-size:10px;color:var(--muted);min-width:28px}
-.sci-pct{font-family:var(--f-mono);font-size:10px;color:var(--muted);min-width:28px}
-/* Profile */
+/* ===== PEER BENCH (FOUR CARD STATS) ===== */
+.peer-bench {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 20px 0 0;
+}
+.peer-cell {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 20px 16px;
+  text-align: center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 2px 12px rgba(15, 14, 13, 0.05);
+}
+.peer-cell:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(15, 14, 13, 0.1);
+}
+.peer-label {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.peer-value {
+  font-family: var(--f-serif);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+/* ===== PROFILE SECTION STYLES (V3) ===== */
 .profile-hero{background:var(--ink);border-radius:var(--r-lg);margin-bottom:20px;overflow:hidden;position:relative}
+.profile-hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(184,255,53,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 20%,rgba(59,127,255,.05) 0%,transparent 60%)}
+.profile-hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:32px 32px}
 .profile-hero-inner{position:relative;z-index:1;display:flex;align-items:center;gap:28px;padding:28px 32px}
-.profile-av-circle{width:72px;height:72px;border-radius:50%;background:var(--ink-2);border:2px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:26px;font-weight:900;color:var(--lime);flex-shrink:0}
+.profile-avatar-ring{position:relative;flex-shrink:0}
+.profile-avatar-ring svg{position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);animation:spinSlow 8s linear infinite}
+@@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.profile-av-circle{width:72px;height:72px;border-radius:50%;background:var(--ink-2);border:2px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-size:26px;font-weight:900;color:var(--lime);position:relative;z-index:1}
 .profile-hero-name{font-family:var(--f-serif);font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--paper);line-height:1.1;margin-bottom:4px}
 .profile-hero-sub{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px}
 .profile-hero-chips{display:flex;gap:7px;flex-wrap:wrap}
 .profile-hero-chip{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid;display:inline-flex;align-items:center;gap:5px}
 .phc-uni{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.05)}
 .phc-deg{color:var(--lime);border-color:rgba(184,255,53,.25);background:rgba(184,255,53,.07)}
-.profile-section-block{background:var(--white);border:1px solid var(--line);border-left:3px solid transparent;border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
-.profile-section-block:hover{border-left-color:var(--lime-d);box-shadow:0 4px 24px rgba(15,14,13,.07)}
+.phc-sem{color:rgba(120,170,255,.9);border-color:rgba(59,127,255,.25);background:rgba(59,127,255,.08)}
+.profile-hero-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.profile-completion-ring{position:relative;width:80px;height:80px}
+.profile-completion-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.profile-completion-ring svg circle{fill:none;stroke-width:4;stroke-linecap:round}
+.pcr-track{stroke:rgba(255,255,255,.08)}
+.pcr-fill{stroke:var(--lime);stroke-dasharray:220;stroke-dashoffset:55;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.pcr-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pcr-pct{font-family:var(--f-serif);font-size:18px;font-weight:900;color:var(--lime);letter-spacing:-.04em;line-height:1}
+.pcr-sub{font-family:var(--f-mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.profile-steps-strip{display:flex;border-top:1px solid rgba(255,255,255,.06)}
+.profile-step{flex:1;padding:14px 20px;border-right:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;transition:background .15s;cursor:default}
+.profile-step:last-child{border-right:none}
+.profile-step:hover{background:rgba(255,255,255,.025)}
+.ps-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ps-done .ps-icon{background:rgba(26,122,58,.2)}.ps-now .ps-icon{background:rgba(184,255,53,.12)}.ps-todo .ps-icon{background:rgba(255,255,255,.05)}
+.ps-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;line-height:1.4}
+.ps-done .ps-label{color:rgba(255,255,255,.5)}.ps-now .ps-label{color:var(--lime);font-weight:600}.ps-todo .ps-label{color:rgba(255,255,255,.2)}
+.ps-check{margin-left:auto;font-size:12px}
+.ps-done .ps-check{color:#1a7a3a}.ps-now .ps-check{color:var(--lime);animation:pulseDot 1.8s infinite}.ps-todo .ps-check{color:rgba(255,255,255,.15)}
+.profile-section-block{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;transition:box-shadow .2s}
+.profile-section-block:hover{box-shadow:0 4px 24px rgba(15,14,13,.07)}
 .psb-header{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line);background:linear-gradient(to right,var(--warm),var(--white))}
 .psb-icon{width:34px;height:34px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.psb-title{font-size:14px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.psbi-academic{background:rgba(59,127,255,.1)}
+.psbi-progress{background:rgba(143,212,0,.12)}
+.psbi-grad{background:rgba(180,100,0,.1)}
+.psb-title{font-family:var(--f-sans);font-size:14px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.psb-subtitle{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .psb-body{padding:20px 22px}
-/* Alert cards */
-.alert-card-wow{display:flex;align-items:flex-start;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);position:relative;cursor:default}
-.alert-card-wow::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0;transition:width .2s ease}
-.alert-card-wow:hover::before{width:4px}
-.alert-card-wow.aw-app::before{background:var(--lime-d)}
-.alert-card-wow.aw-job::before{background:var(--blue)}
-.alert-card-wow.aw-alert::before{background:var(--red)}
-.alert-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.alert-body{flex:1}
-.alert-msg{font-size:13px;font-weight:500;margin-bottom:3px}
-.alert-time{font-family:var(--f-mono);font-size:9.5px;color:var(--muted);letter-spacing:.04em}
-/* Proficiency UI */
-.prof-row{display:flex;gap:6px}
-.prof-btn{padding:5px 12px;border:1.5px solid var(--line);border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;background:transparent;color:var(--muted)}
-.prof-btn.p-beg{border-color:rgba(59,127,255,.5);background:rgba(59,127,255,.1);color:var(--blue)}
-.prof-btn.p-int{border-color:rgba(180,100,0,.5);background:rgba(180,100,0,.1);color:#b46400}
-.prof-btn.p-adv{border-color:rgba(143,212,0,.5);background:rgba(143,212,0,.12);color:var(--lime-d);box-shadow:0 0 0 2px rgba(143,212,0,.3),0 2px 8px rgba(143,212,0,.2)}
-/* Skill dropdown */
-.skill-dd-wrap{position:relative}
-.skill-dd{position:absolute;left:0;right:0;top:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-lg);z-index:100;display:none;max-height:200px;overflow-y:auto}
-.skill-opt{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;transition:background .12s}
-.skill-opt:hover{background:var(--lime)!important;color:var(--ink)}
-.skill-opt-name{font-size:13px;font-weight:600}
-.skill-opt-cat{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.06em}
-.peer-bench{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--white);margin-bottom:22px}
-.peer-cell{padding:18px 22px;border-right:1px solid var(--line);position:relative;overflow:hidden;transition:background .15s;cursor:default}
-.peer-cell:last-child{border-right:none}
-.peer-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--lime-d);transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.4,0,.2,1)}
-.peer-cell:hover::before{transform:scaleX(1)}
-.peer-cell:hover{background:var(--warm)}
-.peer-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.peer-value{font-family:var(--f-serif);font-size:28px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.stepper-pro{display:flex;flex-direction:column;gap:6px}
+.stepper-pro-label{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stepper-pro-control{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:var(--r);background:var(--white);overflow:hidden;height:50px;transition:border-color .15s,box-shadow .15s}
+.stepper-pro-control:focus-within{border-color:var(--ink);box-shadow:0 0 0 3px rgba(15,14,13,.06)}
+.spc-btn{width:46px;height:100%;border:none;background:var(--warm);color:var(--muted);cursor:pointer;font-size:20px;font-weight:300;display:flex;align-items:center;justify-content:center;transition:all .14s;flex-shrink:0;line-height:1}
+.spc-btn:hover{background:var(--ink);color:var(--paper)}.spc-btn:active{transform:scale(.88)}
+.spc-display{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line);border-right:1px solid var(--line);padding:0 12px;user-select:none}
+.spc-value{font-family:var(--f-serif);font-size:22px;font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--ink);transition:transform .15s,opacity .15s}
+.spc-unit{font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);line-height:1.2}
+.stepper-pro-track{height:3px;background:var(--warm);border-radius:2px;overflow:hidden;margin-top:4px}
+.stepper-pro-fill{height:100%;border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.spf-sem{background:var(--blue)}.spf-gpa{background:var(--lime-d)}
+.stepper-pro-ticks{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:8px;color:rgba(15,14,13,.2);margin-top:3px}
+.grad-pill-row{display:flex;gap:8px}
+.grad-pill{flex:1;padding:14px 16px;border-radius:var(--r);border:1.5px solid var(--line);background:var(--white);font-family:var(--f-serif);font-size:22px;font-weight:900;letter-spacing:-.04em;text-align:center;cursor:pointer;transition:all .17s;color:var(--muted)}
+.grad-pill:hover{border-color:var(--ink);color:var(--ink);background:var(--warm);transform:translateY(-2px)}
+.grad-pill.on{border-color:var(--ink);background:var(--ink);color:var(--lime);box-shadow:0 4px 18px rgba(15,14,13,.15);transform:translateY(-2px)}
+.grad-pill-sub{font-family:var(--f-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:inherit;display:block;opacity:.5;margin-top:3px}
+.profile-save-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(to right,var(--ink),var(--ink-2));border-radius:var(--r-lg);margin-top:4px}
+.psb-hint{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;color:rgba(255,255,255,.3);text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.psb-hint-dot{width:5px;height:5px;border-radius:50%;background:var(--lime-d);animation:pulseDot 2s infinite}
+@@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+/* ===== ALERT SECTION STYLES ===== */
+.alert-card-wow{display:flex;gap:14px;align-items:flex-start;padding:16px 22px;border-bottom:1px solid var(--line);transition:background .12s,padding-left .14s;position:relative}
+.alert-card-wow::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
+.acw-green::before{background:#1a7a3a}.acw-orange::before{background:#b46400}.acw-blue::before{background:var(--blue)}
+.alert-card-wow:hover{padding-left:28px;background:var(--paper)}
+.alert-card-wow:last-child{border-bottom:none}
+.alert-icon-wow{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;margin-top:1px}
+.aiw-green{background:rgba(26,122,58,.1)}.aiw-orange{background:rgba(180,100,0,.1)}.aiw-blue{background:rgba(59,127,255,.1)}
+.alert-badge-wow{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px;border:1px solid;display:inline-flex;align-items:center;gap:4px;margin-bottom:4px}
+.abw-green{color:#1a7a3a;border-color:rgba(26,122,58,.3);background:rgba(26,122,58,.07)}
+.abw-orange{color:#b46400;border-color:rgba(180,100,0,.25);background:rgba(180,100,0,.06)}
+.abw-blue{color:var(--blue);border-color:rgba(59,127,255,.25);background:rgba(59,127,255,.06)}
+.abw-dot{width:5px;height:5px;border-radius:50%;animation:pulseDot 1.8s infinite}
+.abw-dot-green{background:#1a7a3a}.abw-dot-orange{background:#b46400}.abw-dot-blue{background:var(--blue)}
+.alert-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.alert-desc{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300}
+.alert-time{font-family:var(--f-mono);font-size:9px;color:var(--line);margin-top:4px}
+.metric-row-fill.pf-lime{background:var(--lime-d)}.metric-row-fill.pf-ink{background:var(--ink)}.metric-row-fill.pf-blue{background:var(--blue)}.metric-row-fill.pf-muted{background:var(--muted)}
 .demand-bar-item{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .demand-bar-item:last-child{margin-bottom:0}
-.dbi-rank{font-family:var(--f-mono);font-size:10px;color:var(--muted);width:22px;flex-shrink:0}
-.dbi-name{font-size:12px;font-weight:600;width:80px;flex-shrink:0}
+.dbi-rank{font-family:var(--f-mono);font-size:10px;color:var(--muted);width:28px;flex-shrink:0}
+.dbi-name{font-size:13px;font-weight:600;width:100px;flex-shrink:0;display:flex;align-items:center;gap:6px}
 .dbi-track{flex:1;height:6px;background:var(--warm);border-radius:3px;overflow:hidden}
 .dbi-fill{height:100%;border-radius:3px;transition:width 1s ease}
-.dbi-pct{font-family:var(--f-mono);font-size:11px;color:var(--muted);width:32px;text-align:right;flex-shrink:0}
-@@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-.au{animation:fadeUp .55s ease both}
-/* ===== NEW: AI Resume Analyzer + AI Advisor styles ===== */
+.dbi-pct{font-family:var(--f-mono);font-size:11px;color:var(--muted);width:38px;text-align:right;flex-shrink:0}
+.dash-menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:none;border-radius:var(--r-sm);background:var(--ink);color:var(--paper);cursor:pointer;flex-direction:column;gap:5px;flex-shrink:0}
+.dash-menu-btn span{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
+.dash-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:85}.dash-drawer-overlay.is-visible{display:block}
 .ai-sub{font-size:12px;color:var(--muted);margin-bottom:14px;font-family:var(--f-mono);letter-spacing:.04em}
 .resume-textarea{width:100%;min-height:220px;padding:14px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-mono);font-size:13px;line-height:1.55;color:var(--ink);resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s}
 .resume-textarea:focus{border-color:var(--lime-d);box-shadow:0 0 0 3px rgba(143,212,0,.15)}
@@ -405,295 +403,43 @@ input,select,textarea{font-family:var(--f-sans)}
 .chat-send{padding:0 26px;background:var(--ink);color:var(--paper);border:none;font-family:var(--f-sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:6px}
 .chat-send:hover{background:var(--ink-2)}
 .chat-send:disabled{background:var(--muted);cursor:not-allowed}
-            /* ===== Explain Match modal ===== */
-            .ai-modal-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(20,20,20,.55);
-                backdrop-filter: blur(4px);
-                display: none;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                padding: 20px;
-                animation: fadeUp .2s ease
-            }
-
-                .ai-modal-overlay.is-open {
-                    display: flex
-                }
-
-            .ai-modal {
-                background: var(--paper);
-                border: 1px solid var(--line);
-                border-radius: var(--r);
-                max-width: 560px;
-                width: 100%;
-                max-height: 88vh;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                box-shadow: 0 30px 80px rgba(0,0,0,.35)
-            }
-
-            .ai-modal-head {
-                padding: 18px 22px;
-                border-bottom: 1px solid var(--line);
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                gap: 14px;
-                background: var(--white)
-            }
-
-            .ai-modal-title {
-                font-family: var(--f-serif);
-                font-size: 20px;
-                font-weight: 900;
-                letter-spacing: -.025em;
-                line-height: 1.2
-            }
-
-            .ai-modal-sub {
-                font-family: var(--f-mono);
-                font-size: 10px;
-                color: var(--muted);
-                letter-spacing: .06em;
-                margin-top: 4px;
-                text-transform: uppercase
-            }
-
-            .ai-modal-close {
-                background: transparent;
-                border: none;
-                font-size: 22px;
-                line-height: 1;
-                color: var(--muted);
-                cursor: pointer;
-                padding: 0 4px
-            }
-
-                .ai-modal-close:hover {
-                    color: var(--ink)
-                }
-
-            .ai-modal-body {
-                padding: 22px;
-                overflow-y: auto;
-                line-height: 1.65;
-                font-size: 14px;
-                color: var(--ink)
-            }
-
-                .ai-modal-body .match-line {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    margin-bottom: 16px;
-                    padding-bottom: 14px;
-                    border-bottom: 1px dashed var(--line)
-                }
-
-                .ai-modal-body .match-pill {
-                    font-family: var(--f-mono);
-                    font-size: 11px;
-                    padding: 4px 10px;
-                    border-radius: 100px;
-                    background: var(--ink);
-                    color: var(--paper);
-                    letter-spacing: .04em
-                }
-
-            .btn-explain {
-                background: transparent;
-                border: 1px solid var(--line);
-                border-radius: 6px;
-                font-family: var(--f-sans);
-                font-size: 10.5px;
-                font-weight: 600;
-                padding: 5px 11px;
-                cursor: pointer;
-                color: var(--ink);
-                letter-spacing: .02em;
-                margin-left: 8px;
-                transition: all .15s
-            }
-
-                .btn-explain:hover {
-                    background: var(--ink);
-                    color: var(--paper);
-                    border-color: var(--ink)
-                }
-
-                .btn-explain:disabled {
-                    opacity: .5;
-                    cursor: wait
-                }
-                /* ===== PDF Upload button ===== */
+.ai-modal-overlay{position:fixed;inset:0;background:rgba(20,20,20,.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;animation:fadeUp .2s ease}
+.ai-modal-overlay.is-open{display:flex}
+.ai-modal{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);max-width:560px;width:100%;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.ai-modal-head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:14px;background:var(--white)}
+.ai-modal-title{font-family:var(--f-serif);font-size:20px;font-weight:900;letter-spacing:-.025em;line-height:1.2}
+.ai-modal-sub{font-family:var(--f-mono);font-size:10px;color:var(--muted);letter-spacing:.06em;margin-top:4px;text-transform:uppercase}
+.ai-modal-close{background:transparent;border:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
+.ai-modal-close:hover{color:var(--ink)}
+.ai-modal-body{padding:22px;overflow-y:auto;line-height:1.65;font-size:14px;color:var(--ink)}
+.ai-modal-body .match-line{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.ai-modal-body .match-pill{font-family:var(--f-mono);font-size:11px;padding:4px 10px;border-radius:100px;background:var(--ink);color:var(--paper);letter-spacing:.04em}
+.btn-explain{background:transparent;border:1px solid var(--line);border-radius:6px;font-family:var(--f-sans);font-size:10.5px;font-weight:600;padding:5px 11px;cursor:pointer;color:var(--ink);letter-spacing:.02em;margin-left:8px;transition:all .15s}
+.btn-explain:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn-explain:disabled{opacity:.5;cursor:wait}
 .resume-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:14px;flex-wrap:wrap}
 .upload-pdf-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px dashed var(--line);border-radius:6px;background:var(--white);font-family:var(--f-sans);font-size:11.5px;color:var(--ink);cursor:pointer;transition:all .15s;white-space:nowrap}
 .upload-pdf-btn:hover{border-color:var(--ink);background:var(--ink);color:var(--paper)}
 .upload-pdf-btn.is-busy{pointer-events:none;opacity:.7}
-            /* ===== Cover Letter modal ===== */
-            .btn-cover {
-                display: inline-flex;
-                align-items: center;
-                gap: 5px;
-                background: transparent;
-                border: 1px solid var(--line);
-                border-radius: 6px;
-                font-family: var(--f-sans);
-                font-size: 10.5px;
-                font-weight: 600;
-                padding: 5px 11px;
-                cursor: pointer;
-                color: var(--ink);
-                letter-spacing: .02em;
-                margin-left: 6px;
-                transition: all .15s
-            }
-
-                .btn-cover:hover {
-                    background: var(--lime);
-                    border-color: var(--lime-d)
-                }
-
-            .cl-modal {
-                max-width: 680px
-            }
-
-            .cl-tone-row {
-                display: flex;
-                gap: 6px;
-                padding: 12px 22px;
-                border-bottom: 1px solid var(--line);
-                background: var(--paper);
-                align-items: center;
-                flex-wrap: wrap
-            }
-
-            .cl-tone-label {
-                font-family: var(--f-mono);
-                font-size: 9px;
-                letter-spacing: .12em;
-                text-transform: uppercase;
-                color: var(--muted);
-                margin-right: 6px
-            }
-
-            .cl-tone-btn {
-                font-family: var(--f-sans);
-                font-size: 11px;
-                padding: 5px 11px;
-                border: 1px solid var(--line);
-                border-radius: 100px;
-                background: var(--white);
-                color: var(--ink);
-                cursor: pointer;
-                transition: all .15s
-            }
-
-                .cl-tone-btn:hover {
-                    border-color: var(--ink)
-                }
-
-                .cl-tone-btn.is-active {
-                    background: var(--ink);
-                    color: var(--paper);
-                    border-color: var(--ink)
-                }
-
-            .cl-body {
-                padding: 22px;
-                overflow-y: auto;
-                font-family: 'Times New Roman',Georgia,serif;
-                font-size: 13px;
-                line-height: 1.65;
-                color: var(--ink);
-                background: var(--white);
-                white-space: pre-wrap;
-                min-height: 300px;
-                max-height: 55vh
-            }
-
-                .cl-body.is-loading {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: var(--muted);
-                    font-family: var(--f-mono);
-                    font-size: 12px
-                }
-
-            .cl-actions {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 14px 22px;
-                border-top: 1px solid var(--line);
-                background: var(--paper);
-                gap: 10px
-            }
-
-                .cl-actions .left {
-                    display: flex;
-                    gap: 8px
-                }
-
-                .cl-actions .right {
-                    display: flex;
-                    gap: 8px
-                }
-
-            .cl-copy-btn {
-                font-family: var(--f-sans);
-                font-size: 11px;
-                font-weight: 700;
-                padding: 8px 16px;
-                background: var(--ink);
-                color: var(--paper);
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                letter-spacing: .04em;
-                text-transform: uppercase;
-                transition: background .15s
-            }
-
-                .cl-copy-btn:hover {
-                    background: var(--ink-2)
-                }
-
-                .cl-copy-btn.is-copied {
-                    background: var(--lime-d)
-                }
-
-            .cl-regen-btn {
-                font-family: var(--f-sans);
-                font-size: 11px;
-                padding: 8px 14px;
-                background: var(--white);
-                color: var(--ink);
-                border: 1px solid var(--line);
-                border-radius: 6px;
-                cursor: pointer;
-                letter-spacing: .04em
-            }
-
-                .cl-regen-btn:hover {
-                    border-color: var(--ink)
-                }
-
-                .cl-regen-btn:disabled {
-                    opacity: .5;
-                    cursor: wait
-                }
-/* ===== END NEW AI styles ===== */
-.dash-menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:none;border-radius:var(--r-sm);background:var(--ink);color:var(--paper);cursor:pointer;flex-direction:column;gap:5px;flex-shrink:0}
-.dash-menu-btn span{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
-.dash-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:85}
-.dash-drawer-overlay.is-visible{display:block}
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.btn-cover{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--line);border-radius:6px;font-family:var(--f-sans);font-size:10.5px;font-weight:600;padding:5px 11px;cursor:pointer;color:var(--ink);letter-spacing:.02em;margin-left:6px;transition:all .15s}
+.btn-cover:hover{background:var(--lime);border-color:var(--lime-d)}
+.cl-modal{max-width:680px}
+.cl-tone-row{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--line);background:var(--paper);align-items:center;flex-wrap:wrap}
+.cl-tone-label{font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:6px}
+.cl-tone-btn{font-family:var(--f-sans);font-size:11px;padding:5px 11px;border:1px solid var(--line);border-radius:100px;background:var(--white);color:var(--ink);cursor:pointer;transition:all .15s}
+.cl-tone-btn:hover{border-color:var(--ink)}
+.cl-tone-btn.is-active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cl-body{padding:22px;overflow-y:auto;font-family:'Times New Roman',Georgia,serif;font-size:13px;line-height:1.65;color:var(--ink);background:var(--white);white-space:pre-wrap;min-height:300px;max-height:55vh}
+.cl-body.is-loading{display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:var(--f-mono);font-size:12px}
+.cl-actions{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;border-top:1px solid var(--line);background:var(--paper);gap:10px}
+.cl-actions .left{display:flex;gap:8px}
+.cl-actions .right{display:flex;gap:8px}
+.cl-copy-btn{font-family:var(--f-sans);font-size:11px;font-weight:700;padding:8px 16px;background:var(--ink);color:var(--paper);border:none;border-radius:6px;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:background .15s}
+.cl-copy-btn:hover{background:var(--ink-2)}
+.cl-copy-btn.is-copied{background:var(--lime-d)}
+.cl-regen-btn{font-family:var(--f-sans);font-size:11px;padding:8px 14px;background:var(--white);color:var(--ink);border:1px solid var(--line);border-radius:6px;cursor:pointer;letter-spacing:.04em}
+.cl-regen-btn:hover{border-color:var(--ink)}
+.cl-regen-btn:disabled{opacity:.5;cursor:wait}
 @@media(max-width:900px){
   .dash-menu-btn{display:flex;position:fixed;top:10px;left:10px;z-index:95}
   .dash-sidebar{width:280px;left:-280px;transition:none}
@@ -710,24 +456,15 @@ input,select,textarea{font-family:var(--f-sans)}
   .wb-stats{width:100%;justify-content:space-between}
   .profile-hero-inner{flex-direction:column;align-items:flex-start;padding:22px 20px}
   .score-head{flex-direction:column;align-items:flex-start}
-}
-@@media(prefers-reduced-motion:no-preference){
-  @@media(max-width:900px){
-    .dash-sidebar{transition:left .25s ease}
-  }
+  .peer-bench{grid-template-columns:repeat(2,1fr);gap:10px}
 }
 @@media(max-width:640px){
-  .dash-topbar{padding:0 12px 0 52px;height:50px}
-  .dash-topbar-title{font-size:17px}
-  .topbar-date{display:none!important}
+  .dash-topbar{padding:0 12px 0 52px;height:50px}.dash-topbar-title{font-size:17px}.topbar-date{display:none!important}
   .dash-content,.dash-body{padding:16px 12px}
   .metric-strip,.peer-bench,.app-stat-cards{grid-template-columns:1fr}
   .metric-cell,.peer-cell{border-right:none!important}
-  .card{margin-left:auto;margin-right:auto;max-width:calc(100% - 0px)}
-  .card-head{padding:12px 14px}
-  .card-body{padding:14px}
-  .wb-banner{padding:18px 16px;margin-bottom:16px}
-  .wb-stat-val{font-size:18px}
+  .card-head{padding:12px 14px}.card-body{padding:14px}
+  .wb-banner{padding:18px 16px;margin-bottom:16px}.wb-stat-val{font-size:18px}
   .job-row-wow{flex-wrap:wrap;align-items:flex-start;padding:14px 16px}
   .job-row-wow .job-logo-bubble{order:1}
   .job-row-wow>div[style*="flex:1"]{order:2;flex:1 1 calc(100% - 58px);min-width:0}
@@ -735,8 +472,7 @@ input,select,textarea{font-family:var(--f-sans)}
   .job-row-wow .match-ring-wow{order:3;flex:0 0 100%;width:100%;margin-top:10px;justify-content:flex-start;padding-left:58px;box-sizing:border-box}
   .chat-msg{max-width:88%}
   .chat-send{padding:0 18px;font-size:10px;min-height:44px}
-  .quick-row{flex-wrap:wrap}
-  .quick-btn{min-height:44px}
+  .quick-row{flex-wrap:wrap}.quick-btn{min-height:44px}
   .field-input,.field-select,.field-textarea{min-height:44px}
   .btn,.sb-link{min-height:44px}
   .sb-link{align-items:center}
@@ -748,15 +484,12 @@ input,select,textarea{font-family:var(--f-sans)}
   .toast{left:12px;right:12px;bottom:16px;max-width:none}
   .data-table{min-width:600px}
 }
-@@media(max-width:380px){
-  .dash-topbar-title{font-size:15px}
-  .hc-score{font-size:22px}
-}
+@@media(max-width:380px){.dash-topbar-title{font-size:15px}.hc-score{font-size:22px}}
 </style>
 </head>
 <body>
 <div id="toast" class="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
-    <!-- ===== Explain Match modal (used by Browse Jobs) ===== -->
+    <!-- AI explanation modal -->
     <div class="ai-modal-overlay" id="explain-modal" onclick="if(event.target===this)closeExplainModal()">
         <div class="ai-modal">
             <div class="ai-modal-head">
@@ -775,7 +508,7 @@ input,select,textarea{font-family:var(--f-sans)}
             </div>
         </div>
     </div>
-    <!-- ===== Cover Letter modal ===== -->
+    <!-- Cover Letter modal -->
     <div class="ai-modal-overlay" id="cover-modal" onclick="if(event.target===this)closeCoverModal()">
         <div class="ai-modal cl-modal">
             <div class="ai-modal-head">
@@ -793,12 +526,8 @@ input,select,textarea{font-family:var(--f-sans)}
             </div>
             <div class="cl-body is-loading" id="cl-body"><span class="ai-spinner"></span>&nbsp; Writing your cover letter...</div>
             <div class="cl-actions">
-                <div class="left">
-                    <button class="cl-regen-btn" id="cl-regen" onclick="regenerateCoverLetter()" disabled>↻ Regenerate</button>
-                </div>
-                <div class="right">
-                    <button class="cl-copy-btn" id="cl-copy" onclick="copyCoverLetter()" disabled>Copy to clipboard</button>
-                </div>
+                <div class="left"><button class="cl-regen-btn" id="cl-regen" onclick="regenerateCoverLetter()" disabled>↻ Regenerate</button></div>
+                <div class="right"><button class="cl-copy-btn" id="cl-copy" onclick="copyCoverLetter()" disabled>Copy to clipboard</button></div>
             </div>
         </div>
     </div>
@@ -823,8 +552,8 @@ input,select,textarea{font-family:var(--f-sans)}
     </a>
     <div class="sb-section">Intelligence</div>
     <a class="sb-link" id="lnk-gap" onclick="sw('sp-gap','Skill Gap Analysis')"><span class="sb-ico">△</span>Skill Gap</a>
-<a class="sb-link" id="lnk-resume" onclick="sw('sp-resume','Resume Score')"><span class="sb-ico">▤</span>Resume Score</a>
-<a class="sb-link" id="lnk-advisor" onclick="sw('sp-advisor','AI Advisor')"><span class="sb-ico">◎</span>AI Advisor</a>
+    <a class="sb-link" id="lnk-resume" onclick="sw('sp-resume','Resume Score')"><span class="sb-ico">▤</span>Resume Score</a>
+    <a class="sb-link" id="lnk-advisor" onclick="sw('sp-advisor','AI Advisor')"><span class="sb-ico">◎</span>AI Advisor</a>
     <div class="sb-section">Account</div>
     <a class="sb-link" id="lnk-alerts" onclick="sw('sp-alerts','Alerts')"><span class="sb-ico">◉</span>Alerts @if (Model.UnreadAlerts > 0) { <span class="sb-badge">@Model.UnreadAlerts</span> }</a>
     <a class="sb-link" id="lnk-profile" onclick="sw('sp-profile','My Profile')"><span class="sb-ico">◌</span>Profile</a>
@@ -859,7 +588,6 @@ input,select,textarea{font-family:var(--f-sans)}
 
       <!-- ── OVERVIEW ── -->
       <div class="panel active" id="sp-overview">
-        <!-- Change 2: v5 light welcome banner layout; same data sources as before -->
         <div class="wb-banner au">
           <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
             <div>
@@ -902,7 +630,6 @@ input,select,textarea{font-family:var(--f-sans)}
           <div class="notice notice-warn">⚠ Complete your profile to start applying for jobs. <a onclick="sw('sp-profile','My Profile')" style="cursor:pointer;text-decoration:underline">Set up profile →</a></div>
         }
 
-        <!-- Change 3: v5 four-card KPI layout matching screenshot 5 exactly -->
         <div class="metric-strip v5-kpi au">
           <div class="metric-cell mc-ink">
             <div class="m-label">Top Match Score</div>
@@ -977,9 +704,8 @@ input,select,textarea{font-family:var(--f-sans)}
         </div>
       </div>
 
-      <!-- ── BROWSE JOBS ── v5 layout with search bar, type+sort dropdowns, skill chips, aligned ring/action column -->
+      <!-- ── BROWSE JOBS ── -->
       <div class="panel" id="sp-browse">
-        <!-- Search bar + filter dropdowns -->
         <div class="browse-search-bar">
           <div class="browse-search-input-wrap">
             <svg class="browse-search-icon" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M13 13l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -1006,7 +732,6 @@ input,select,textarea{font-family:var(--f-sans)}
           <div class="card-body-p0">
             @{
               var _jobSkillData = new CogniCareer.Data.JobSkillData();
-              // Icon tiles cycle through 6 variants
               string[] _tileClasses = {"jlb-blue","jlb-green","jlb-amber","jlb-purple","jlb-red","jlb-teal"};
               string[] _tileIcons   = {"🚀","💡","📱","🔬","⚡","🔧"};
               int _rowIdx = 0;
@@ -1027,13 +752,10 @@ input,select,textarea{font-family:var(--f-sans)}
               var jobSkills = _jobSkillData.GetByJobID(jm.Job.JobID);
               _rowIdx++;
               <div class="job-row-wow">
-                <!-- Company icon tile -->
                 <div class="job-logo-bubble @tileClass" style="flex-shrink:0;font-size:18px">@tileIcon</div>
-                <!-- Info column -->
                 <div style="flex:1;min-width:0">
                   <div class="job-co">@jm.Job.CompanyName &middot; @jm.Job.JobType &middot; Deadline @jm.Job.Deadline.ToString("MMMM dd").ToUpper()</div>
                   <div class="job-title">@jm.Job.Title</div>
-                  <!-- Skill chips with colored dots -->
                   <div class="job-tags" style="margin-top:7px;display:flex;flex-wrap:wrap;gap:5px">
                     @{int _ci = 0;}
                     @foreach (var sk in jobSkills.Take(4))
@@ -1047,10 +769,9 @@ input,select,textarea{font-family:var(--f-sans)}
                     }
                   </div>
                 </div>
-                <!-- Right: ring column (fixed width) + action column (fixed width) — aligned vertically -->
                 <div class="job-right-col">
                   <div class="match-ring-wow">
-                    <svg viewBox="0 0 58 58"><circle class="ring-track" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="0"/><circle class="@ringClass" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="@offset"/></svg>
+                    <svg viewBox="0 0 58 58"><circle class="ring-track" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="0"/><circle class="@ringClass" cx="29" cy="29" r="23" stroke-dasharray="145" stroke-dashoffset="@(offset.ToString(System.Globalization.CultureInfo.InvariantCulture))"/></svg>
                     <span class="ring-pct @pctClass">@sc%</span>
                   </div>
                   <div class="job-action-col">
@@ -1058,7 +779,7 @@ input,select,textarea{font-family:var(--f-sans)}
                     {
                       <span class="badge badge-dark job-action-btn">&#10003; Applied</span>
                       <button type="button" class="btn-explain job-action-btn" onclick="explainMatch(@jm.Job.JobID)">✨ Why?</button>
-                      <button type="button" class="btn-cover job-action-btn" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\'")', '@jm.Job.CompanyName.Replace("'", "\'")')">&#128221; Cover</button>
+                      <button type="button" class="btn-cover job-action-btn" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\\'")', '@jm.Job.CompanyName.Replace("'", "\\'")')">📄 Cover</button>
                     }
                     else if (jm.Job.Deadline < DateTime.Now)
                     {
@@ -1073,7 +794,7 @@ input,select,textarea{font-family:var(--f-sans)}
                         <button type="submit" class="btn btn-dark btn-sm job-action-btn">Apply →</button>
                       </form>
                       <button type="button" class="btn-explain job-action-btn" onclick="explainMatch(@jm.Job.JobID)">✨ Why?</button>
-                      <button type="button" class="btn-cover job-action-btn" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\'")', '@jm.Job.CompanyName.Replace("'", "\'")')">&#128221; Cover</button>
+                      <button type="button" class="btn-cover job-action-btn" onclick="generateCoverLetter(@jm.Job.JobID, '@jm.Job.Title.Replace("'", "\\'")', '@jm.Job.CompanyName.Replace("'", "\\'")')">📄 Cover</button>
                     }
                   </div>
                 </div>
@@ -1083,7 +804,7 @@ input,select,textarea{font-family:var(--f-sans)}
         </div>
       </div>
 
-      <!-- ── MY APPLICATIONS ── v5 layout matching screenshot 4 -->
+      <!-- ── MY APPLICATIONS ── -->
       <div class="panel" id="sp-apps">
         @{
           var _appsAll      = Model.Applications;
@@ -1145,16 +866,12 @@ input,select,textarea{font-family:var(--f-sans)}
               var appTile = _appTileClasses[_appIdx % 6];
               var appIcon = _appTileIcons[_appIdx % 6];
               var appJobSkills = _appJobSkillData.GetByJobID(app.JobID);
-              // Find matching job for type/location from AllJobs
               var matchedJob = Model.AllJobs.FirstOrDefault(j => j.Job.JobID == app.JobID)?.Job;
               var jobType = matchedJob?.JobType ?? "Full-time";
               _appIdx++;
               <div class="v5-app-row">
-                <!-- Left accent bar (status color) -->
                 <div class="v5-app-accent @stClass"></div>
-                <!-- Icon tile -->
                 <div class="job-logo-bubble @appTile" style="flex-shrink:0;margin:14px 14px 0 16px;width:40px;height:40px;font-size:18px;line-height:1;align-self:flex-start">@appIcon</div>
-                <!-- Body -->
                 <div style="flex:1;min-width:0;padding:16px 0">
                   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
                     <div>
@@ -1166,7 +883,6 @@ input,select,textarea{font-family:var(--f-sans)}
                       <button type="button" class="btn-notes" onclick="openNotes(@app.ApplicationID)">NOTES</button>
                     </div>
                   </div>
-                  <!-- Skill chips -->
                   <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;margin-bottom:10px">
                     @{int _aci=0;}
                     @foreach(var sk in appJobSkills.Take(3))
@@ -1175,7 +891,6 @@ input,select,textarea{font-family:var(--f-sans)}
                       _aci++;
                     }
                   </div>
-                  <!-- Match bar + ring -->
                   <div class="v5-app-bar-row">
                     <span class="acr-bar-label">MATCH</span>
                     <div class="acr-bar-track" style="flex:1"><div class="acr-bar-fill" style="background:@scoreColor;width:@sc%"></div></div>
@@ -1183,7 +898,7 @@ input,select,textarea{font-family:var(--f-sans)}
                     <div class="acr-ring" style="position:relative;width:36px;height:36px">
                       <svg viewBox="0 0 44 44" style="width:36px;height:36px;transform:rotate(-90deg)">
                         <circle cx="22" cy="22" r="18" fill="none" stroke="var(--warm)" stroke-width="3"/>
-                        <circle cx="22" cy="22" r="18" fill="none" stroke="@scoreColor" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="@offset" stroke-linecap="round"/>
+                        <circle cx="22" cy="22" r="18" fill="none" stroke="@scoreColor" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="@(offset.ToString(System.Globalization.CultureInfo.InvariantCulture))" stroke-linecap="round"/>
                       </svg>
                       <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:8px;font-weight:700;color:@scoreColor">@sc%</span>
                     </div>
@@ -1405,289 +1120,302 @@ input,select,textarea{font-family:var(--f-sans)}
                   }
                 </div>
               </div>
+              <!-- FIXED: Four separate stat cards -->
               <div class="peer-bench">
                 <div class="peer-cell"><div class="peer-label">Total Applicants</div><div class="peer-value">@Model.TopBenchmark.TotalApplicants</div></div>
                 <div class="peer-cell"><div class="peer-label">Top Score</div><div class="peer-value">@Model.TopBenchmark.TopScore%</div></div>
                 <div class="peer-cell"><div class="peer-label">Your Score</div><div class="peer-value" style="color:var(--lime-d)">@Model.TopBenchmark.MyScore%</div></div>
                 <div class="peer-cell"><div class="peer-label">Your Percentile</div><div class="peer-value">@Model.TopBenchmark.Percentile%</div></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    @if (Model.LearningResources.Any())
-                    {
-                        <div class="card" style="margin-bottom:20px">
-                            <div class="card-head">
-                                <span class="card-title">Learning Resources for Missing Skills</span>
-                                <span class="badge badge-default">@Model.LearningResources.Count resource@(Model.LearningResources.Count == 1 ? "" : "s")</span>
-                            </div>
-                            <div class="card-body" style="padding:0">
-                                @foreach (var skillGroup in Model.LearningResources.GroupBy(r => r.SkillID))
-                                {
-                                    var skillName = Model.TopGap.MissingSkills.FirstOrDefault(s => s.SkillID == skillGroup.Key)?.SkillName ?? "";
-                                    var priority = Model.TopGap.MissingSkills.FirstOrDefault(s => s.SkillID == skillGroup.Key)?.Priority ?? "";
-                                    <div style="padding:16px 22px;border-bottom:1px solid var(--line)">
-                                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-                                            <span style="font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--ink)">@skillName</span>
-                                            @if (priority == "Required")
-                                            {
-                                                <span class="badge badge-red" style="font-size:9px">REQUIRED</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-blue" style="font-size:9px">PREFERRED</span>
-                                            }
-                                        </div>
-                                        @foreach (var resource in skillGroup)
-                                        {
-                                            <a href="@resource.URL" target="_blank" rel="noopener noreferrer"
-                                               style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--warm);margin-bottom:8px;text-decoration:none;color:var(--ink);transition:border-color .15s,background .15s"
-                                               onmouseover="this.style.borderColor='var(--ink)';this.style.background='var(--white)'"
-                                               onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--warm)'">
-                                                <div style="display:flex;align-items:center;gap:10px">
-                                                    <span style="font-size:15px">
-                                                        @(resource.ResourceType switch
-                                                        {
-                                                            "video" => "▶",
-                                                            "course" => "🎓",
-                                                            "book" => "📖",
-                                                            "tutorial" => "🎯",
-                                                            "guide" => "📋",
-                                                            _ => "🔗"
-                                                        })
-                                                    </span>
-                                                    <div>
-                                                        <div style="font-size:13px;font-weight:600">@resource.Title</div>
-                                                        <div style="font-size:11px;color:var(--muted);font-family:var(--f-mono)">@resource.Provider · @resource.ResourceType@(resource.IsFree ? " · Free" : "")</div>
-                                                    </div>
-                                                </div>
-                                                <span style="font-size:11px;font-family:var(--f-mono);color:var(--muted);flex-shrink:0">OPEN →</span>
-                                            </a>
-                                        }
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    }
-                }
+              </div>
             </div>
-            <!-- ── RESUME SCORE (AI) ── -->
-<div class="panel" id="sp-resume">
-  <div class="two-col">
-    <!-- LEFT: Resume Analyzer -->
-    <div class="card">
-      <div class="card-head"><span class="card-title">Resume Analyzer</span></div>
-      <div class="card-body">
-        <div class="resume-head-row">
-  <div class="ai-sub" style="margin-bottom:0">Paste your resume text, or upload a PDF</div>
-  <label class="upload-pdf-btn" id="btn-upload-pdf">
-    <input type="file" accept="application/pdf,.pdf" onchange="uploadResumePdf(this)" style="display:none">
-    <span class="upload-label">📎 Upload PDF</span>
-  </label>
-</div>
-        <textarea id="resume-input" class="resume-textarea" placeholder="Paste your resume text here...
+          </div>
 
-Example: John Doe | john@email.com
-EDUCATION: BS Computer Science, UET (2022–2026)
-SKILLS: React.js, Node.js, Python, SQL, Git
-EXPERIENCE: Built full-stack e-commerce app using React and Node..."></textarea>
-        <button class="btn btn-dark btn-w" style="margin-top:14px" id="btn-analyze" onclick="analyzeResume()">ANALYZE RESUME →</button>
-        <div id="resume-status" style="text-align:center;margin-top:14px;color:var(--muted);font-size:12px;font-family:var(--f-mono);display:none">
-          <span class="ai-spinner"></span>&nbsp; Analyzing with AI...
+          @if (Model.LearningResources.Any())
+          {
+            <div class="card" style="margin-bottom:20px">
+              <div class="card-head">
+                <span class="card-title">Learning Resources for Missing Skills</span>
+                <span class="badge badge-default">@Model.LearningResources.Count resource@(Model.LearningResources.Count == 1 ? "" : "s")</span>
+              </div>
+              <div class="card-body" style="padding:0">
+                @foreach (var skillGroup in Model.LearningResources.GroupBy(r => r.SkillID))
+                {
+                  var skillName = Model.TopGap.MissingSkills.FirstOrDefault(s => s.SkillID == skillGroup.Key)?.SkillName ?? "";
+                  var priority = Model.TopGap.MissingSkills.FirstOrDefault(s => s.SkillID == skillGroup.Key)?.Priority ?? "";
+                  <div style="padding:16px 22px;border-bottom:1px solid var(--line)">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                      <span style="font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--ink)">@skillName</span>
+                      @if (priority == "Required")
+                      {
+                        <span class="badge badge-red" style="font-size:9px">REQUIRED</span>
+                      }
+                      else
+                      {
+                        <span class="badge badge-blue" style="font-size:9px">PREFERRED</span>
+                      }
+                    </div>
+                    @foreach (var resource in skillGroup)
+                    {
+                      <a href="@resource.URL" target="_blank" rel="noopener noreferrer"
+                         style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--warm);margin-bottom:8px;text-decoration:none;color:var(--ink);transition:border-color .15s,background .15s"
+                         onmouseover="this.style.borderColor='var(--ink)';this.style.background='var(--white)'"
+                         onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--warm)'">
+                        <div style="display:flex;align-items:center;gap:10px">
+                          <span style="font-size:15px">
+                            @(resource.ResourceType switch
+                            {
+                              "video" => "▶",
+                              "course" => "🎓",
+                              "book" => "📖",
+                              "tutorial" => "🎯",
+                              "guide" => "📋",
+                              _ => "🔗"
+                            })
+                          </span>
+                          <div>
+                            <div style="font-size:13px;font-weight:600">@resource.Title</div>
+                            <div style="font-size:11px;color:var(--muted);font-family:var(--f-mono)">@resource.Provider · @resource.ResourceType@(resource.IsFree ? " · Free" : "")</div>
+                          </div>
+                        </div>
+                        <span style="font-size:11px;font-family:var(--f-mono);color:var(--muted);flex-shrink:0">OPEN →</span>
+                      </a>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        }
+      </div>
+
+      <!-- ── RESUME SCORE (AI) ── -->
+      <div class="panel" id="sp-resume">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-head"><span class="card-title">Resume Analyzer</span></div>
+            <div class="card-body">
+              <div class="resume-head-row">
+                <div class="ai-sub" style="margin-bottom:0">Paste your resume text, or upload a PDF</div>
+                <label class="upload-pdf-btn" id="btn-upload-pdf">
+                  <input type="file" accept="application/pdf,.pdf" onchange="uploadResumePdf(this)" style="display:none">
+                  <span class="upload-label">📎 Upload PDF</span>
+                </label>
+              </div>
+              <textarea id="resume-input" class="resume-textarea" placeholder="Paste your resume text here..."></textarea>
+              <button class="btn btn-dark btn-w" style="margin-top:14px" id="btn-analyze" onclick="analyzeResume()">ANALYZE RESUME →</button>
+              <div id="resume-status" style="text-align:center;margin-top:14px;color:var(--muted);font-size:12px;font-family:var(--f-mono);display:none">
+                <span class="ai-spinner"></span>&nbsp; Analyzing with AI...
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Score Breakdown</span></div>
+            <div class="card-body">
+              <div class="score-head">
+                <div class="score-circle" id="score-circle">
+                  <span id="score-num">—</span>
+                  <span class="sc-sub" id="score-sub">/100</span>
+                </div>
+                <div class="score-head-text">
+                  <div class="score-head-title" id="score-title">Paste resume</div>
+                  <div class="score-head-sub" id="score-tagline">to get your score</div>
+                </div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-row-head"><span class="metric-row-label">Skills Alignment</span><span class="metric-row-val" id="m-skills">—</span></div>
+                <div class="metric-row-bar"><div class="metric-row-fill" id="f-skills"></div></div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-row-head"><span class="metric-row-label">Completeness</span><span class="metric-row-val" id="m-complete">—</span></div>
+                <div class="metric-row-bar"><div class="metric-row-fill" id="f-complete"></div></div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-row-head"><span class="metric-row-label">Experience Language</span><span class="metric-row-val" id="m-exp">—</span></div>
+                <div class="metric-row-bar"><div class="metric-row-fill" id="f-exp"></div></div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-row-head"><span class="metric-row-label">Keyword Density</span><span class="metric-row-val" id="m-key">—</span></div>
+                <div class="metric-row-bar"><div class="metric-row-fill" id="f-key"></div></div>
+              </div>
+              <div class="ai-feedback is-empty" id="ai-feedback">Feedback will appear here after analysis.</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- RIGHT: Score Breakdown -->
-    <div class="card">
-      <div class="card-head"><span class="card-title">Score Breakdown</span></div>
-      <div class="card-body">
-        <div class="score-head">
-          <div class="score-circle" id="score-circle">
-            <span id="score-num">—</span>
-            <span class="sc-sub" id="score-sub">/100</span>
+      <!-- ── AI CAREER ADVISOR ── -->
+      <div class="panel" id="sp-advisor">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">AI Career Advisor</span>
+            <div style="display:flex;align-items:center;gap:14px">
+              <button class="quick-btn" style="font-size:10px;padding:4px 10px" onclick="clearChat()" id="btn-clear-chat">Clear chat</button>
+              <span class="online-dot">Online</span>
+            </div>
           </div>
-          <div class="score-head-text">
-            <div class="score-head-title" id="score-title">Paste resume</div>
-            <div class="score-head-sub" id="score-tagline">to get your score</div>
+          <div class="quick-row">
+            <span class="quick-label">Quick ask:</span>
+            <button class="quick-btn" onclick="askAdvisor('What should I learn next to improve my match score?')">What to learn next?</button>
+            <button class="quick-btn" onclick="askAdvisor('How can I improve my match score for my top job?')">Improve match score</button>
+            <button class="quick-btn" onclick="askAdvisor('Give me a 5-step interview prep plan based on my skills.')">Interview prep</button>
+            <button class="quick-btn" onclick="askAdvisor('What are my biggest career strengths right now?')">My career strengths</button>
+          </div>
+          <div class="chat-area" id="chat-area">
+            @if (Model.ChatHistory.Any())
+            {
+              foreach (var msg in Model.ChatHistory)
+              {
+                <div class="chat-msg from-@(msg.Role == "user" ? "user" : "ai")" data-content="@msg.Content"></div>
+              }
+            }
+            else
+            {
+              <div class="chat-msg from-ai">👋 Hi @(string.IsNullOrEmpty(Model.UserName) ? "there" : Model.UserName.Split(' ')[0])! I'm your AI career advisor. I can help you figure out what to learn next, how to improve your match score, or how to prepare for an interview. What's on your mind?</div>
+            }
+          </div>
+          <div class="chat-input-row">
+            <input id="chat-input" class="chat-input" type="text" placeholder="Ask anything about your career..." onkeydown="if(event.key==='Enter')sendChat()">
+            <button class="chat-send" id="chat-send" onclick="sendChat()">SEND →</button>
           </div>
         </div>
-
-        <div class="metric-row">
-          <div class="metric-row-head"><span class="metric-row-label">Skills Alignment</span><span class="metric-row-val" id="m-skills">—</span></div>
-          <div class="metric-row-bar"><div class="metric-row-fill" id="f-skills"></div></div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-row-head"><span class="metric-row-label">Completeness</span><span class="metric-row-val" id="m-complete">—</span></div>
-          <div class="metric-row-bar"><div class="metric-row-fill" id="f-complete"></div></div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-row-head"><span class="metric-row-label">Experience Language</span><span class="metric-row-val" id="m-exp">—</span></div>
-          <div class="metric-row-bar"><div class="metric-row-fill" id="f-exp"></div></div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-row-head"><span class="metric-row-label">Keyword Density</span><span class="metric-row-val" id="m-key">—</span></div>
-          <div class="metric-row-bar"><div class="metric-row-fill" id="f-key"></div></div>
-        </div>
-
-        <div class="ai-feedback is-empty" id="ai-feedback">Feedback will appear here after analysis.</div>
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- ── AI CAREER ADVISOR ── -->
-<div class="panel" id="sp-advisor">
-  <div class="card">
-<div class="card-head">
-  <span class="card-title">AI Career Advisor</span>
-  <div style="display:flex;align-items:center;gap:14px">
-    <button class="quick-btn" style="font-size:10px;padding:4px 10px" onclick="clearChat()" id="btn-clear-chat">Clear chat</button>
-    <span class="online-dot">Online</span>
-  </div>
-</div>
-    <div class="quick-row">
-      <span class="quick-label">Quick ask:</span>
-      <button class="quick-btn" onclick="askAdvisor('What should I learn next to improve my match score?')">What to learn next?</button>
-      <button class="quick-btn" onclick="askAdvisor('How can I improve my match score for my top job?')">Improve match score</button>
-      <button class="quick-btn" onclick="askAdvisor('Give me a 5-step interview prep plan based on my skills.')">Interview prep</button>
-      <button class="quick-btn" onclick="askAdvisor('What are my biggest career strengths right now?')">My career strengths</button>
-    </div>
-<div class="chat-area" id="chat-area">
-  @if (Model.ChatHistory.Any())
-  {
-      foreach (var msg in Model.ChatHistory)
-      {
-          <div class="chat-msg from-@(msg.Role == "user" ? "user" : "ai")" data-content="@msg.Content"></div>
-      }
-  }
-  else
-  {
-      <div class="chat-msg from-ai">👋 Hi @(string.IsNullOrEmpty(Model.UserName) ? "there" : Model.UserName.Split(' ')[0])! I'm your AI career advisor. I can help you figure out what to learn next, how to improve your match score, or how to prepare for an interview. What's on your mind?</div>
-  }
-</div>
-    <div class="chat-input-row">
-      <input id="chat-input" class="chat-input" type="text" placeholder="Ask anything about your career..." onkeydown="if(event.key==='Enter')sendChat()">
-      <button class="chat-send" id="chat-send" onclick="sendChat()">SEND →</button>
-    </div>
-  </div>
-</div>
-            <!-- ── PROFILE ── -->
+      <!-- ── PROFILE (V3) ── -->
       <div class="panel" id="sp-profile">
         <div class="profile-hero">
-          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(184,255,53,.06),transparent 70%)"></div>
+          <div class="profile-hero-bg"></div>
+          <div class="profile-hero-grid"></div>
+          <div class="hero-orb" style="width:180px;height:180px;top:-60px;right:80px;background:rgba(184,255,53,.07);animation-duration:7s;position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none"></div>
+          <div class="hero-orb" style="width:120px;height:120px;bottom:-40px;right:240px;background:rgba(59,127,255,.05);animation-duration:9s;animation-delay:-3s;position:absolute;border-radius:50%;filter:blur(32px);pointer-events:none"></div>
           <div class="profile-hero-inner">
-            <div class="profile-av-circle">@Model.Initials</div>
+            <div class="profile-avatar-ring">
+              <svg viewBox="0 0 84 84" fill="none"><circle cx="42" cy="42" r="38" stroke="rgba(184,255,53,.15)" stroke-width="1" stroke-dasharray="4 6" stroke-linecap="round"/><circle cx="42" cy="42" r="38" stroke="rgba(184,255,53,.4)" stroke-width="1.5" stroke-dasharray="20 220" stroke-linecap="round"/></svg>
+              <div class="profile-av-circle">@Model.Initials</div>
+            </div>
             <div>
               <div class="profile-hero-name">@Model.UserName</div>
-              <div class="profile-hero-sub">@(Model.Profile?.Degree ?? "Add your degree") · @(Model.Profile?.University ?? "Add your university")</div>
+              <div class="profile-hero-sub">Student Profile · CogniCareer</div>
               <div class="profile-hero-chips">
-                @if (Model.Profile != null)
-                {
-                  <span class="profile-hero-chip phc-uni">@Model.Profile.University</span>
-                  <span class="profile-hero-chip phc-deg">@Model.Profile.Degree</span>
-                  <span class="profile-hero-chip" style="color:rgba(120,170,255,.9);border-color:rgba(59,127,255,.25);background:rgba(59,127,255,.08)">Sem @Model.Profile.Semester</span>
-                }
+                <span class="profile-hero-chip phc-uni">🏛 @(Model.Profile?.University ?? "University")</span>
+                <span class="profile-hero-chip phc-deg">🎓 @(Model.Profile?.Degree ?? "Degree")</span>
+                <span class="profile-hero-chip phc-sem">◈ @(Model.Profile?.Semester ?? 0)th Semester</span>
+              </div>
+            </div>
+            <div class="profile-hero-right">
+              <div class="profile-completion-ring">
+                <svg viewBox="0 0 80 80"><circle class="pcr-track" cx="40" cy="40" r="33"/><circle class="pcr-fill" cx="40" cy="40" r="33" style="stroke-dashoffset:@(220 - (Model.ProfileComplete ? 220 : 110))"/></svg>
+                <div class="pcr-label"><div class="pcr-pct">@(Model.ProfileComplete ? "100" : "50")%</div><div class="pcr-sub">Complete</div></div>
+              </div>
+              <div style="font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);text-align:right">1 step remaining</div>
+            </div>
+          </div>
+          <div class="profile-steps-strip">
+            <div class="profile-step ps-done"><div class="ps-icon">🎓</div><div class="ps-label">Academic<br>Info</div><div class="ps-check">✓</div></div>
+            <div class="profile-step ps-done"><div class="ps-icon">🛠</div><div class="ps-label">Skills<br>Added</div><div class="ps-check">✓</div></div>
+            <div class="profile-step ps-now"><div class="ps-icon">📋</div><div class="ps-label">Academic<br>Progress</div><div class="ps-check">●</div></div>
+            <div class="profile-step ps-todo"><div class="ps-icon">📄</div><div class="ps-label">Resume<br>Upload</div><div class="ps-check">○</div></div>
+          </div>
+        </div>
+
+        <form method="post" asp-page-handler="SaveProfile">
+          @Html.AntiForgeryToken()
+          <div class="profile-section-block">
+            <div class="psb-header"><div class="psb-icon psbi-academic">🏛</div><div><div class="psb-title">Academic Details</div><div class="psb-subtitle">University, degree and institution info</div></div></div>
+            <div class="psb-body">
+              <div class="field-row"><div class="field"><label class="field-label">University</label><input class="field-input" name="University" value="@(Model.Profile?.University ?? "")"></div><div class="field"><label class="field-label">Degree</label><input class="field-input" name="Degree" value="@(Model.Profile?.Degree ?? "")"></div></div>
+            </div>
+          </div>
+          <div class="profile-section-block">
+            <div class="psb-header"><div class="psb-icon psbi-progress">📊</div><div><div class="psb-title">Academic Progress</div><div class="psb-subtitle">Semester and CGPA affect your match scores</div></div></div>
+            <div class="psb-body">
+              <div class="field-row" style="gap:28px">
+                <div class="stepper-pro">
+                  <div class="stepper-pro-label">Current Semester</div>
+                  <div class="stepper-pro-control">
+                    <button type="button" class="spc-btn" onclick="stepperChange('sem',-1)">−</button>
+                    <div class="spc-display"><div class="spc-value" id="sem-val">@(Model.Profile?.Semester ?? 6)</div><div class="spc-unit">th Semester</div></div>
+                    <button type="button" class="spc-btn" onclick="stepperChange('sem',1)">+</button>
+                  </div>
+                  <div class="stepper-pro-track"><div class="stepper-pro-fill spf-sem" id="sem-bar" style="width:@(Math.Round((Model.Profile?.Semester ?? 6) / 8m * 100))%"></div></div>
+                  <div class="stepper-pro-ticks"><span>1st</span><span>2nd</span><span>3rd</span><span>4th</span><span>5th</span><span>6th</span><span>7th</span><span>8th</span></div>
+                </div>
+                <div class="stepper-pro">
+                  <div class="stepper-pro-label">CGPA <span style="color:var(--muted);font-weight:300">/ 4.0</span></div>
+                  <div class="stepper-pro-control">
+                    <button type="button" class="spc-btn" onclick="stepperChange('gpa',-1)">−</button>
+                    <div class="spc-display"><div class="spc-value" id="gpa-val">@((Model.Profile?.GPA ?? 3.4m).ToString(System.Globalization.CultureInfo.InvariantCulture))</div><div class="spc-unit">out of 4.0</div></div>
+                    <button type="button" class="spc-btn" onclick="stepperChange('gpa',1)">+</button>
+                  </div>
+                  <div class="stepper-pro-track"><div class="stepper-pro-fill spf-gpa" id="gpa-bar" style="width:@(Math.Round((Model.Profile?.GPA ?? 3.4m) / 4m * 100))%"></div></div>
+                  <div class="stepper-pro-ticks"><span>0.0</span><span>1.0</span><span>2.0</span><span>3.0</span><span>4.0</span></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        @if (!string.IsNullOrEmpty(Model.ProfileMessage))
-        {
-          <div class="notice notice-ok">@Model.ProfileMessage</div>
-        }
-
-        <div class="profile-section-block">
-          <div class="psb-header">
-            <div class="psb-icon" style="background:rgba(59,127,255,.1)">🎓</div>
-            <div><div class="psb-title">Academic Information</div></div>
+          <div class="profile-section-block">
+            <div class="psb-header"><div class="psb-icon psbi-grad">🎓</div><div><div class="psb-title">Expected Graduation</div><div class="psb-subtitle">Select your graduation year</div></div></div>
+            <div class="psb-body">
+              <div class="grad-pill-row">
+                @{
+                  var currentYear = Model.Profile?.ExpectedGradYear ?? 2026;
+                }
+                <div class="grad-pill @(currentYear == 2026 ? "on" : "")" onclick="selectGradYear(this,2026)">2026<span class="grad-pill-sub">This Year</span></div>
+                <div class="grad-pill @(currentYear == 2027 ? "on" : "")" onclick="selectGradYear(this,2027)">2027<span class="grad-pill-sub">Next Year</span></div>
+                <div class="grad-pill @(currentYear == 2028 ? "on" : "")" onclick="selectGradYear(this,2028)">2028<span class="grad-pill-sub">+2 Years</span></div>
+                <div class="grad-pill @(currentYear == 2029 ? "on" : "")" onclick="selectGradYear(this,2029)">2029<span class="grad-pill-sub">+3 Years</span></div>
+              </div>
+              <input type="hidden" name="ExpectedGradYear" id="grad-year-input" value="@currentYear">
+            </div>
           </div>
-          <div class="psb-body">
-            <form method="post" asp-page-handler="SaveProfile">
-              @Html.AntiForgeryToken()
-              <div class="field-row">
-                <div class="field">
-                  <label class="field-label">University</label>
-                  <input name="University" class="field-input" placeholder="e.g. NUST, LUMS, UET" value="@(Model.Profile?.University ?? "")">
-                </div>
-                <div class="field">
-                  <label class="field-label">Degree</label>
-                  <input name="Degree" class="field-input" placeholder="e.g. BS Computer Science" value="@(Model.Profile?.Degree ?? "")">
-                </div>
-              </div>
-              <div class="field-row">
-                <div class="field">
-                  <label class="field-label">Current Semester</label>
-                  <select name="Semester" class="field-input field-select">
-                    @for (int s = 1; s <= 8; s++)
-                    {
-                      <option value="@s" selected="@(Model.Profile?.Semester == s ? "selected" : null)">Semester @s</option>
-                    }
-                  </select>
-                </div>
-                <div class="field">
-                  <label class="field-label">GPA</label>
-                  <input name="GPA" type="number" step="0.01" min="0" max="4" class="field-input" placeholder="e.g. 3.5" value="@(Model.Profile?.GPA.ToString("F2") ?? "")">
-                </div>
-              </div>
-              <div class="field">
-                <label class="field-label">Expected Graduation Year</label>
-                <select name="ExpectedGradYear" class="field-input field-select">
-                  @for (int y = DateTime.Now.Year; y <= DateTime.Now.Year + 6; y++)
-                  {
-                    <option value="@y" selected="@(Model.Profile?.ExpectedGradYear == y ? "selected" : null)">@y</option>
-                  }
-                </select>
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(to right,var(--ink),var(--ink-2));border-radius:var(--r-lg);margin-top:4px">
-                <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;color:rgba(255,255,255,.3);text-transform:uppercase;display:flex;align-items:center;gap:7px">
-                  <div style="width:5px;height:5px;border-radius:50%;background:var(--lime-d)"></div>
-                  Profile auto-saved to your account
-                </div>
-                <button type="submit" class="btn btn-lime">Save Profile →</button>
-              </div>
-            </form>
-          </div>
-        </div>
+          <div class="profile-save-bar"><div class="psb-hint"><div class="psb-hint-dot"></div>Changes immediately update your match scores</div><button type="submit" class="btn btn-lime">Save Profile →</button></div>
+        </form>
       </div>
 
       <!-- ── ALERTS ── -->
       <div class="panel" id="sp-alerts">
         <div class="card">
           <div class="card-head">
-            <span class="card-title">🔔 Alerts & Notifications</span>
+            <span class="card-title">Smart Alerts</span>
             @if (Model.UnreadAlerts > 0)
             {
-              <form method="post" asp-page-handler="MarkAllRead" style="display:inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-ghost btn-sm">Mark All Read</button>
-              </form>
+              <form method="post" asp-page-handler="MarkAllRead" style="display:inline"><button type="submit" class="btn btn-ghost btn-sm">Mark all read</button></form>
             }
           </div>
           <div class="card-body-p0">
-            @if (!Model.Alerts.Any())
-            {
-              <div style="padding:28px;text-align:center;color:var(--muted);font-size:13px">No alerts yet. Apply to jobs to get started!</div>
-            }
             @foreach (var alert in Model.Alerts)
             {
-              var awClass = alert.AlertType == "Application" ? "aw-app" : alert.AlertType == "Job" ? "aw-job" : "aw-alert";
-              var iconBg = alert.AlertType == "Application" ? "rgba(143,212,0,.12)" : alert.AlertType == "Job" ? "rgba(59,127,255,.1)" : "rgba(255,63,63,.08)";
-              var icon = alert.AlertType == "Application" ? "📋" : alert.AlertType == "Job" ? "💼" : "🔔";
+              var awClass = "";
+              var icon = "";
+              var badgeClass = "";
+              var dotClass = "";
+              var title = "";
+              if (alert.Message.Contains("improved", StringComparison.OrdinalIgnoreCase))
+              {
+                awClass = "acw-green"; icon = "📈"; badgeClass = "abw-green"; dotClass = "abw-dot-green"; title = "Score Improved";
+              }
+              else if (alert.Message.Contains("rank", StringComparison.OrdinalIgnoreCase))
+              {
+                awClass = "acw-orange"; icon = "🏆"; badgeClass = "abw-orange"; dotClass = "abw-dot-orange"; title = "Rank Alert";
+              }
+              else if (alert.Message.Contains("match", StringComparison.OrdinalIgnoreCase))
+              {
+                awClass = "acw-blue"; icon = "💼"; badgeClass = "abw-blue"; dotClass = "abw-dot-blue"; title = "New Match";
+              }
+              else
+              {
+                awClass = "acw-blue"; icon = "🔔"; badgeClass = "abw-blue"; dotClass = "abw-dot-blue"; title = "Alert";
+              }
               <div class="alert-card-wow @awClass" style="@(alert.IsRead ? "opacity:.6" : "")">
-                <div class="alert-icon" style="background:@iconBg">@icon</div>
-                <div class="alert-body">
-                  <div class="alert-msg">@alert.Message</div>
+                <div class="alert-icon-wow" style="background: rgba(0,0,0,.05)">@icon</div>
+                <div style="flex:1">
+                  <div class="alert-badge-wow @badgeClass"><span class="abw-dot @dotClass"></span>@title</div>
+                  <div class="alert-title">@alert.Message.Split('.')[0]</div>
+                  <div class="alert-desc">@alert.Message</div>
                   <div class="alert-time">@alert.CreatedAt.ToString("MMM dd, yyyy · h:mm tt")</div>
                 </div>
                 @if (!alert.IsRead)
                 {
-                  <form method="post" asp-page-handler="MarkRead" style="display:inline">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="alertId" value="@alert.AlertID">
-                    <button type="submit" class="btn btn-ghost btn-sm">✓</button>
-                  </form>
+                  <form method="post" asp-page-handler="MarkRead" style="display:inline"><input type="hidden" name="alertId" value="@alert.AlertID"><button type="submit" class="btn btn-ghost btn-sm">✓</button></form>
                 }
               </div>
             }
@@ -1736,12 +1464,11 @@ function sw(panelId, title) {
   var el = document.getElementById(panelId);
   if (el) el.classList.add('active');
   document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('on'); });
-var lnkMap = {'sp-overview':'lnk-overview','sp-browse':'lnk-browse','sp-apps':'lnk-apps','sp-skills':'lnk-skills','sp-gap':'lnk-gap','sp-resume':'lnk-resume','sp-advisor':'lnk-advisor','sp-profile':'lnk-profile','sp-alerts':'lnk-alerts'};
+  var lnkMap = {'sp-overview':'lnk-overview','sp-browse':'lnk-browse','sp-apps':'lnk-apps','sp-skills':'lnk-skills','sp-gap':'lnk-gap','sp-resume':'lnk-resume','sp-advisor':'lnk-advisor','sp-profile':'lnk-profile','sp-alerts':'lnk-alerts'};
   var lnk = document.getElementById(lnkMap[panelId]);
   if (lnk) lnk.classList.add('on');
   document.getElementById('page-title').textContent = title;
 }
-// ── Browse jobs: live search + filter + sort ──
 function browseFilter() {
   var q = (document.getElementById('browse-search').value || '').toLowerCase();
   var type = (document.getElementById('browse-type').value || '').toLowerCase();
@@ -1778,8 +1505,6 @@ function browseSort() {
   });
   rows.forEach(function(r){ list.appendChild(r); });
 }
-
-
 function showToast(msg, cls) {
   var t = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;
@@ -1815,399 +1540,345 @@ function setProf(btn, level) {
   btn.className = 'prof-btn ' + cls;
   document.getElementById('prof-input').value = level;
 }
-                /* =====================================================
-           AI helper — read anti-forgery token from the page
-           ===================================================== */
-        function getAfToken() {
-          var el = document.querySelector('input[name="__RequestVerificationToken"]');
-          return el ? el.value : '';
-        }
-                /* =====================================================
-           PDF RESUME UPLOAD → extract text → fill textarea
-           ===================================================== */
-        async function uploadResumePdf(inputEl) {
-          if (!inputEl.files || inputEl.files.length === 0) return;
-          var file = inputEl.files[0];
-
-          if (file.size > 5 * 1024 * 1024) {
-            showToast('File too large. Maximum 5 MB.', 't-red');
-            inputEl.value = '';
-            return;
-          }
-
-          var btn = document.getElementById('btn-upload-pdf');
-          var labelEl = btn.querySelector('.upload-label');
-          var originalLabel = labelEl.textContent;
-          btn.classList.add('is-busy');
-          labelEl.innerHTML = '<span class="ai-spinner"></span>&nbsp; Extracting...';
-
-          try {
-            var formData = new FormData();
-            formData.append('file', file);
-
-            var res = await fetch('?handler=ExtractPdf', {
-              method: 'POST',
-              headers: { 'RequestVerificationToken': getAfToken() },
-              body: formData
-            });
-            var raw = await res.text();
-            if (!res.ok) throw new Error('Server returned HTTP ' + res.status);
-            var data = JSON.parse(raw);
-            if (!data.success) throw new Error(data.errorMessage || 'Extraction failed');
-
-            document.getElementById('resume-input').value = data.text;
-            showToast('PDF extracted (' + data.text.length + ' chars). Click "Analyze Resume" to score it.', 't-lime');
-          } catch (err) {
-            console.error('PDF upload error:', err);
-            showToast('Could not extract PDF: ' + err.message, 't-red');
-          } finally {
-            btn.classList.remove('is-busy');
-            labelEl.textContent = originalLabel;
-            inputEl.value = ''; // reset so user can upload the same file again
-          }
-        }
-        /* =====================================================
-           AI RESUME ANALYZER
-           ===================================================== */
-        async function analyzeResume() {
-          var txt = document.getElementById('resume-input').value.trim();
-          if (txt.length < 50) {
-            showToast('Please paste your full resume (at least 50 characters).', 't-red');
-            return;
-          }
-          var btn = document.getElementById('btn-analyze');
-          var status = document.getElementById('resume-status');
-          btn.disabled = true; btn.style.opacity = '.6';
-          status.style.display = 'block';
-
-          try {
-            var res = await fetch('?handler=AnalyzeResume', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'RequestVerificationToken': getAfToken()
-              },
-              body: JSON.stringify({ text: txt })
-            });
-            var raw = await res.text();
-            if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
-            if (!raw) throw new Error('Server returned an empty response.');
-            var data = JSON.parse(raw);
-            if (!data.success) {
-              showToast(data.errorMessage || 'Analysis failed.', 't-red');
-              return;
-            }
-            renderResumeScore(data);
-            showToast('Resume analyzed!', 't-lime');
-          } catch (err) {
-            console.error('Resume analyze error:', err);
-            showToast(err.message || 'Network error', 't-red');
-          } finally {
-            btn.disabled = false; btn.style.opacity = '1';
-            status.style.display = 'none';
-          }
-        }
-
-        function renderResumeScore(d) {
-          document.getElementById('score-num').textContent = d.overallScore;
-          document.getElementById('score-circle').classList.add('has-score');
-          document.getElementById('score-title').textContent = scoreLabel(d.overallScore);
-          document.getElementById('score-tagline').textContent = 'AI overall score';
-
-          setMetric('skills',   d.skillsAlignment);
-          setMetric('complete', d.completeness);
-          setMetric('exp',      d.experienceLanguage);
-          setMetric('key',      d.keywordDensity);
-
-          var fb = document.getElementById('ai-feedback');
-          fb.textContent = d.feedback || 'No feedback returned.';
-          fb.classList.remove('is-empty');
-        }
-
-        function setMetric(id, val) {
-          document.getElementById('m-' + id).textContent = val + '/100';
-          setTimeout(function(){ document.getElementById('f-' + id).style.width = val + '%'; }, 60);
-        }
-
-        function scoreLabel(s) {
-          if (s >= 85) return 'Excellent';
-          if (s >= 70) return 'Strong';
-          if (s >= 55) return 'Decent';
-          if (s >= 40) return 'Needs Work';
-          return 'Weak';
-        }
-
-        /* =====================================================
-           AI CAREER ADVISOR (chat)
-           ===================================================== */
-        var chatHistory = @Html.Raw(Model.ChatHistoryJson);
-
-// Render any pre-loaded chat messages with proper formatting on page load
+function getAfToken() {
+  var el = document.querySelector('input[name="__RequestVerificationToken"]');
+  return el ? el.value : '';
+}
+async function uploadResumePdf(inputEl) {
+  if (!inputEl.files || inputEl.files.length === 0) return;
+  var file = inputEl.files[0];
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('File too large. Maximum 5 MB.', 't-red');
+    inputEl.value = '';
+    return;
+  }
+  var btn = document.getElementById('btn-upload-pdf');
+  var labelEl = btn.querySelector('.upload-label');
+  var originalLabel = labelEl.textContent;
+  btn.classList.add('is-busy');
+  labelEl.innerHTML = '<span class="ai-spinner"></span>&nbsp; Extracting...';
+  try {
+    var formData = new FormData();
+    formData.append('file', file);
+    var res = await fetch('?handler=ExtractPdf', {
+      method: 'POST',
+      headers: { 'RequestVerificationToken': getAfToken() },
+      body: formData
+    });
+    var raw = await res.text();
+    if (!res.ok) throw new Error('Server returned HTTP ' + res.status);
+    var data = JSON.parse(raw);
+    if (!data.success) throw new Error(data.errorMessage || 'Extraction failed');
+    document.getElementById('resume-input').value = data.text;
+    showToast('PDF extracted (' + data.text.length + ' chars). Click "Analyze Resume" to score it.', 't-lime');
+  } catch (err) {
+    console.error('PDF upload error:', err);
+    showToast('Could not extract PDF: ' + err.message, 't-red');
+  } finally {
+    btn.classList.remove('is-busy');
+    labelEl.textContent = originalLabel;
+    inputEl.value = '';
+  }
+}
+async function analyzeResume() {
+  var txt = document.getElementById('resume-input').value.trim();
+  if (txt.length < 50) {
+    showToast('Please paste your full resume (at least 50 characters).', 't-red');
+    return;
+  }
+  var btn = document.getElementById('btn-analyze');
+  var status = document.getElementById('resume-status');
+  btn.disabled = true; btn.style.opacity = '.6';
+  status.style.display = 'block';
+  try {
+    var res = await fetch('?handler=AnalyzeResume', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getAfToken() },
+      body: JSON.stringify({ text: txt })
+    });
+    var raw = await res.text();
+    if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
+    if (!raw) throw new Error('Server returned an empty response.');
+    var data = JSON.parse(raw);
+    if (!data.success) {
+      showToast(data.errorMessage || 'Analysis failed.', 't-red');
+      return;
+    }
+    renderResumeScore(data);
+    showToast('Resume analyzed!', 't-lime');
+  } catch (err) {
+    console.error('Resume analyze error:', err);
+    showToast(err.message || 'Network error', 't-red');
+  } finally {
+    btn.disabled = false; btn.style.opacity = '1';
+    status.style.display = 'none';
+  }
+}
+function renderResumeScore(d) {
+  document.getElementById('score-num').textContent = d.overallScore;
+  document.getElementById('score-circle').classList.add('has-score');
+  document.getElementById('score-title').textContent = d.overallScore >= 85 ? 'Excellent' : d.overallScore >= 70 ? 'Strong' : d.overallScore >= 55 ? 'Decent' : 'Needs Work';
+  document.getElementById('score-tagline').textContent = 'AI overall score';
+  function setMetric(id, val) {
+    document.getElementById('m-' + id).textContent = val + '/100';
+    setTimeout(function(){ document.getElementById('f-' + id).style.width = val + '%'; }, 60);
+  }
+  setMetric('skills', d.skillsAlignment);
+  setMetric('complete', d.completeness);
+  setMetric('exp', d.experienceLanguage);
+  setMetric('key', d.keywordDensity);
+  var fb = document.getElementById('ai-feedback');
+  fb.textContent = d.feedback || 'No feedback returned.';
+  fb.classList.remove('is-empty');
+}
+var chatHistory = @Html.Raw(Model.ChatHistoryJson);
 window.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.chat-msg[data-content]').forEach(function(el) {
     var content = el.getAttribute('data-content');
     if (el.classList.contains('from-user')) {
       el.textContent = content;
     } else {
-      el.innerHTML = formatChatText(content);
+      el.innerHTML = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
     }
   });
-  // Scroll chat to bottom if there's history
   var area = document.getElementById('chat-area');
   if (area) area.scrollTop = area.scrollHeight;
 });
-
-        function askAdvisor(presetText) {
-          document.getElementById('chat-input').value = presetText;
-          sendChat();
-        }
-
-        async function sendChat() {
-          var inputEl = document.getElementById('chat-input');
-          var question = inputEl.value.trim();
-          if (!question) return;
-          inputEl.value = '';
-
-          appendChatMsg('user', question);
-          var thinkingEl = appendChatMsg('ai', '…thinking', true);
-
-          var sendBtn = document.getElementById('chat-send');
-          sendBtn.disabled = true;
-
-          try {
-            var res = await fetch('?handler=AskAdvisor', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'RequestVerificationToken': getAfToken()
-              },
-              body: JSON.stringify({ question: question, history: chatHistory })
-            });
-            var raw = await res.text();
-            if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
-            if (!raw) throw new Error('Server returned an empty response.');
-            var data = JSON.parse(raw);
-            var reply = data.reply || 'No response.';
-            thinkingEl.classList.remove('thinking');
-            thinkingEl.innerHTML = formatChatText(reply);
-            chatHistory.push({ role: 'user',  content: question });
-            chatHistory.push({ role: 'model', content: reply });
-          } catch (err) {
-            console.error('Advisor error:', err);
-            thinkingEl.textContent = err.message || 'Network error';
-            thinkingEl.classList.remove('thinking');
-          } finally {
-            sendBtn.disabled = false;
-            var area = document.getElementById('chat-area');
-            area.scrollTop = area.scrollHeight;
-          }
-        }
-
-        function appendChatMsg(who, text, isThinking) {
-          var area = document.getElementById('chat-area');
-          var div = document.createElement('div');
-          div.className = 'chat-msg ' + (who === 'user' ? 'from-user' : 'from-ai') + (isThinking ? ' thinking' : '');
-          if (who === 'user') {
-            div.textContent = text;
-          } else {
-            div.innerHTML = isThinking ? text : formatChatText(text);
-          }
-          area.appendChild(div);
-          area.scrollTop = area.scrollHeight;
-          return div;
-        }
-
-        function formatChatText(t) {
-          var safe = t
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-          safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-          safe = safe.replace(/\n/g, '<br>');
-          return safe;
-        }
-                async function clearChat() {
-          if (!confirm('Clear all chat history? This cannot be undone.')) return;
-          try {
-            var res = await fetch('?handler=ClearChat', {
-              method: 'POST',
-              headers: { 'RequestVerificationToken': getAfToken() }
-            });
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            var data = await res.json();
-            if (!data.success) throw new Error('Server refused');
-            chatHistory = [];
-            var area = document.getElementById('chat-area');
-            area.innerHTML = '<div class="chat-msg from-ai">👋 Chat cleared. Ask me anything.</div>';
-            showToast('Chat history cleared.', 't-lime');
-          } catch (err) {
-            showToast('Could not clear chat: ' + err.message, 't-red');
-          }
-        }
-                /* =====================================================
-           EXPLAIN MATCH SCORE (per-job AI breakdown)
-           ===================================================== */
-        async function explainMatch(jobId) {
-          var modal = document.getElementById('explain-modal');
-          var textEl = document.getElementById('em-text');
-          var matchLine = document.getElementById('em-match-line');
-          var pillEl = document.getElementById('em-pill');
-          var titleEl = document.getElementById('em-title');
-          var subEl = document.getElementById('em-sub');
-
-          // Reset modal to loading state and show it
-          titleEl.textContent = 'Why this match?';
-          subEl.textContent = 'AI-generated breakdown';
-          matchLine.style.display = 'none';
-          textEl.innerHTML = '<span class="ai-spinner"></span>&nbsp; Asking AI...';
-          modal.classList.add('is-open');
-
-          try {
-            var res = await fetch('?handler=ExplainMatch', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'RequestVerificationToken': getAfToken()
-              },
-              body: JSON.stringify({ jobId: jobId })
-            });
-            var raw = await res.text();
-            if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
-            if (!raw) throw new Error('Server returned an empty response.');
-            var data = JSON.parse(raw);
-
-            if (data.jobTitle) {
-              titleEl.textContent = data.jobTitle;
-              subEl.textContent = (data.companyName || '') + ' — AI breakdown';
-              pillEl.textContent = (data.matchScore || 0) + '% match';
-              matchLine.style.display = 'flex';
-            }
-            textEl.innerHTML = formatChatText(data.explanation || 'No explanation returned.');
-          } catch (err) {
-            console.error('Explain match error:', err);
-            textEl.textContent = 'Error: ' + err.message;
-          }
-        }
-
-        function closeExplainModal() {
-          document.getElementById('explain-modal').classList.remove('is-open');
-        }
-                /* =====================================================
-           COVER LETTER GENERATOR
-           ===================================================== */
-        var clState = { jobId: 0, jobTitle: '', companyName: '', tone: 'professional' };
-
-        function generateCoverLetter(jobId, jobTitle, companyName) {
-          clState = { jobId: jobId, jobTitle: jobTitle, companyName: companyName, tone: 'professional' };
-
-          // Reset tone buttons
-          document.querySelectorAll('#cover-modal .cl-tone-btn').forEach(function(btn){
-            btn.classList.toggle('is-active', btn.getAttribute('data-tone') === 'professional');
-          });
-
-          document.getElementById('cl-title').textContent = jobTitle;
-          document.getElementById('cl-sub').textContent = companyName + ' · AI-generated';
-          document.getElementById('cover-modal').classList.add('is-open');
-          fetchCoverLetter();
-        }
-
-        function setCoverTone(btn) {
-          var tone = btn.getAttribute('data-tone');
-          if (clState.tone === tone) return;
-          document.querySelectorAll('#cover-modal .cl-tone-btn').forEach(function(b){
-            b.classList.toggle('is-active', b === btn);
-          });
-          clState.tone = tone;
-          fetchCoverLetter();
-        }
-
-        function regenerateCoverLetter() {
-          fetchCoverLetter();
-        }
-
-        async function fetchCoverLetter() {
-          var body = document.getElementById('cl-body');
-          var copyBtn = document.getElementById('cl-copy');
-          var regenBtn = document.getElementById('cl-regen');
-
-          body.classList.add('is-loading');
-          body.innerHTML = '<span class="ai-spinner"></span>&nbsp; Writing your cover letter...';
-          copyBtn.disabled = true;
-          copyBtn.classList.remove('is-copied');
-          copyBtn.textContent = 'Copy to clipboard';
-          regenBtn.disabled = true;
-
-          try {
-            var res = await fetch('?handler=GenerateCoverLetter', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'RequestVerificationToken': getAfToken()
-              },
-              body: JSON.stringify({ jobId: clState.jobId, tone: clState.tone })
-            });
-            var raw = await res.text();
-            if (!res.ok) throw new Error('Server returned HTTP ' + res.status);
-            var data = JSON.parse(raw);
-            if (!data.success) throw new Error(data.errorMessage || 'Generation failed');
-
-            body.classList.remove('is-loading');
-            body.textContent = data.letter; // textContent preserves whitespace inside white-space:pre-wrap
-            copyBtn.disabled = false;
-            regenBtn.disabled = false;
-          } catch (err) {
-            console.error('Cover letter error:', err);
-            body.classList.remove('is-loading');
-            body.textContent = 'Error: ' + err.message;
-            regenBtn.disabled = false;
-          }
-        }
-
-        async function copyCoverLetter() {
-          var body = document.getElementById('cl-body');
-          var copyBtn = document.getElementById('cl-copy');
-          try {
-            await navigator.clipboard.writeText(body.textContent);
-            copyBtn.classList.add('is-copied');
-            copyBtn.textContent = '✓ Copied!';
-            setTimeout(function(){
-              copyBtn.classList.remove('is-copied');
-              copyBtn.textContent = 'Copy to clipboard';
-            }, 2000);
-          } catch (err) {
-            // Fallback for older browsers
-            var range = document.createRange();
-            range.selectNodeContents(body);
-            var sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-            try { document.execCommand('copy'); copyBtn.textContent = '✓ Copied!'; } catch(e) {}
-            sel.removeAllRanges();
-          }
-        }
-
-        function closeCoverModal() {
-          document.getElementById('cover-modal').classList.remove('is-open');
-        }
-        // V3 countup animation
-        function countUp(el, target, suffix, dur) {
-          dur = dur || 1100;
-          var start = performance.now();
-          (function step(now) {
-            var p = Math.min((now - start) / dur, 1);
-            var ease = 1 - Math.pow(1 - p, 3);
-            el.textContent = Math.round(ease * target) + suffix;
-            if (p < 1) requestAnimationFrame(step);
-          })(performance.now());
-        }
-        function runCounters() {
-          document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
-            el.dataset.done = '1';
-            countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
-          });
-        }
-        window.addEventListener('load', runCounters);
-
+function askAdvisor(presetText) {
+  document.getElementById('chat-input').value = presetText;
+  sendChat();
+}
+async function sendChat() {
+  var inputEl = document.getElementById('chat-input');
+  var question = inputEl.value.trim();
+  if (!question) return;
+  inputEl.value = '';
+  function appendChatMsg(who, text, isThinking) {
+    var area = document.getElementById('chat-area');
+    var div = document.createElement('div');
+    div.className = 'chat-msg ' + (who === 'user' ? 'from-user' : 'from-ai') + (isThinking ? ' thinking' : '');
+    if (who === 'user') div.textContent = text;
+    else div.innerHTML = isThinking ? text : text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+    return div;
+  }
+  appendChatMsg('user', question, false);
+  var thinkingEl = appendChatMsg('ai', '…thinking', true);
+  var sendBtn = document.getElementById('chat-send');
+  sendBtn.disabled = true;
+  try {
+    var res = await fetch('?handler=AskAdvisor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getAfToken() },
+      body: JSON.stringify({ question: question, history: chatHistory })
+    });
+    var raw = await res.text();
+    if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
+    if (!raw) throw new Error('Server returned an empty response.');
+    var data = JSON.parse(raw);
+    var reply = data.reply || 'No response.';
+    thinkingEl.classList.remove('thinking');
+    thinkingEl.innerHTML = reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    chatHistory.push({ role: 'user', content: question });
+    chatHistory.push({ role: 'model', content: reply });
+  } catch (err) {
+    console.error('Advisor error:', err);
+    thinkingEl.textContent = err.message || 'Network error';
+    thinkingEl.classList.remove('thinking');
+  } finally {
+    sendBtn.disabled = false;
+    var area = document.getElementById('chat-area');
+    area.scrollTop = area.scrollHeight;
+  }
+}
+async function clearChat() {
+  if (!confirm('Clear all chat history? This cannot be undone.')) return;
+  try {
+    var res = await fetch('?handler=ClearChat', {
+      method: 'POST',
+      headers: { 'RequestVerificationToken': getAfToken() }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var data = await res.json();
+    if (!data.success) throw new Error('Server refused');
+    chatHistory = [];
+    var area = document.getElementById('chat-area');
+    area.innerHTML = '<div class="chat-msg from-ai">👋 Chat cleared. Ask me anything.</div>';
+    showToast('Chat history cleared.', 't-lime');
+  } catch (err) {
+    showToast('Could not clear chat: ' + err.message, 't-red');
+  }
+}
+async function explainMatch(jobId) {
+  var modal = document.getElementById('explain-modal');
+  var textEl = document.getElementById('em-text');
+  var matchLine = document.getElementById('em-match-line');
+  var pillEl = document.getElementById('em-pill');
+  var titleEl = document.getElementById('em-title');
+  var subEl = document.getElementById('em-sub');
+  titleEl.textContent = 'Why this match?';
+  subEl.textContent = 'AI-generated breakdown';
+  matchLine.style.display = 'none';
+  textEl.innerHTML = '<span class="ai-spinner"></span>&nbsp; Asking AI...';
+  modal.classList.add('is-open');
+  try {
+    var res = await fetch('?handler=ExplainMatch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getAfToken() },
+      body: JSON.stringify({ jobId: jobId })
+    });
+    var raw = await res.text();
+    if (!res.ok) throw new Error('Server returned HTTP ' + res.status + (raw ? ' — ' + raw.substring(0, 180) : ''));
+    if (!raw) throw new Error('Server returned an empty response.');
+    var data = JSON.parse(raw);
+    if (data.jobTitle) {
+      titleEl.textContent = data.jobTitle;
+      subEl.textContent = (data.companyName || '') + ' — AI breakdown';
+      pillEl.textContent = (data.matchScore || 0) + '% match';
+      matchLine.style.display = 'flex';
+    }
+    textEl.innerHTML = (data.explanation || 'No explanation returned.').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  } catch (err) {
+    console.error('Explain match error:', err);
+    textEl.textContent = 'Error: ' + err.message;
+  }
+}
+function closeExplainModal() {
+  document.getElementById('explain-modal').classList.remove('is-open');
+}
+var clState = { jobId: 0, jobTitle: '', companyName: '', tone: 'professional' };
+function generateCoverLetter(jobId, jobTitle, companyName) {
+  clState = { jobId: jobId, jobTitle: jobTitle, companyName: companyName, tone: 'professional' };
+  document.querySelectorAll('#cover-modal .cl-tone-btn').forEach(function(btn){
+    btn.classList.toggle('is-active', btn.getAttribute('data-tone') === 'professional');
+  });
+  document.getElementById('cl-title').textContent = jobTitle;
+  document.getElementById('cl-sub').textContent = companyName + ' · AI-generated';
+  document.getElementById('cover-modal').classList.add('is-open');
+  fetchCoverLetter();
+}
+function setCoverTone(btn) {
+  var tone = btn.getAttribute('data-tone');
+  if (clState.tone === tone) return;
+  document.querySelectorAll('#cover-modal .cl-tone-btn').forEach(function(b){
+    b.classList.toggle('is-active', b === btn);
+  });
+  clState.tone = tone;
+  fetchCoverLetter();
+}
+function regenerateCoverLetter() {
+  fetchCoverLetter();
+}
+async function fetchCoverLetter() {
+  var body = document.getElementById('cl-body');
+  var copyBtn = document.getElementById('cl-copy');
+  var regenBtn = document.getElementById('cl-regen');
+  body.classList.add('is-loading');
+  body.innerHTML = '<span class="ai-spinner"></span>&nbsp; Writing your cover letter...';
+  copyBtn.disabled = true;
+  copyBtn.classList.remove('is-copied');
+  copyBtn.textContent = 'Copy to clipboard';
+  regenBtn.disabled = true;
+  try {
+    var res = await fetch('?handler=GenerateCoverLetter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getAfToken() },
+      body: JSON.stringify({ jobId: clState.jobId, tone: clState.tone })
+    });
+    var raw = await res.text();
+    if (!res.ok) throw new Error('Server returned HTTP ' + res.status);
+    var data = JSON.parse(raw);
+    if (!data.success) throw new Error(data.errorMessage || 'Generation failed');
+    body.classList.remove('is-loading');
+    body.textContent = data.letter;
+    copyBtn.disabled = false;
+    regenBtn.disabled = false;
+  } catch (err) {
+    console.error('Cover letter error:', err);
+    body.classList.remove('is-loading');
+    body.textContent = 'Error: ' + err.message;
+    regenBtn.disabled = false;
+  }
+}
+async function copyCoverLetter() {
+  var body = document.getElementById('cl-body');
+  var copyBtn = document.getElementById('cl-copy');
+  try {
+    await navigator.clipboard.writeText(body.textContent);
+    copyBtn.classList.add('is-copied');
+    copyBtn.textContent = '✓ Copied!';
+    setTimeout(function(){
+      copyBtn.classList.remove('is-copied');
+      copyBtn.textContent = 'Copy to clipboard';
+    }, 2000);
+  } catch (err) {
+    var range = document.createRange();
+    range.selectNodeContents(body);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    try { document.execCommand('copy'); copyBtn.textContent = '✓ Copied!'; } catch(e) {}
+    sel.removeAllRanges();
+  }
+}
+function closeCoverModal() {
+  document.getElementById('cover-modal').classList.remove('is-open');
+}
+let semIdx = @(Model.Profile?.Semester ?? 6) - 1;
+let gpaVal = @((Model.Profile?.GPA ?? 3.4m).ToString(System.Globalization.CultureInfo.InvariantCulture));
+function stepperChange(type, dir) {
+  if (type === 'sem') {
+    semIdx = Math.max(0, Math.min(7, semIdx + dir));
+    const el = document.getElementById('sem-val');
+    if (el) {
+      el.style.transition = 'transform .12s,opacity .12s';
+      el.style.transform = 'translateY(' + (dir > 0 ? '-8px' : '8px') + ')';
+      el.style.opacity = '0';
+      setTimeout(() => { el.textContent = semIdx + 1; el.style.transform = 'translateY(0)'; el.style.opacity = '1'; }, 120);
+    }
+    const bar = document.getElementById('sem-bar');
+    if (bar) bar.style.width = ((semIdx + 1) / 8 * 100) + '%';
+  } else {
+    let step = 0.1;
+    let newGpa = Math.round((parseFloat(gpaVal) + dir * step) * 10) / 10;
+    if (newGpa >= 0 && newGpa <= 4.0) {
+      gpaVal = newGpa.toFixed(1);
+      const el = document.getElementById('gpa-val');
+      if (el) {
+        el.style.transition = 'transform .12s,opacity .12s';
+        el.style.transform = 'translateY(' + (dir > 0 ? '-8px' : '8px') + ')';
+        el.style.opacity = '0';
+        setTimeout(() => { el.textContent = gpaVal; el.style.transform = 'translateY(0)'; el.style.opacity = '1'; }, 120);
+      }
+      const bar = document.getElementById('gpa-bar');
+      if (bar) bar.style.width = (parseFloat(gpaVal) / 4.0 * 100) + '%';
+    }
+  }
+}
+function selectGradYear(btn, year) {
+  document.querySelectorAll('#sp-profile .grad-pill').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('grad-year-input').value = year;
+}
+function openNotes(appId) { showToast('Notes feature coming soon.', 't-lime'); }
+function countUp(el, target, suffix, dur) {
+  dur = dur || 1100;
+  var start = performance.now();
+  (function step(now) {
+    var p = Math.min((now - start) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+function runCounters() {
+  document.querySelectorAll('.countup:not([data-done])').forEach(function(el) {
+    el.dataset.done = '1';
+    countUp(el, parseInt(el.dataset.target || el.textContent) || 0, el.dataset.suffix || '');
+  });
+}
+window.addEventListener('load', runCounters);
 @if (!string.IsNullOrEmpty(Model.ToastMessage))
 {
   <text>window.addEventListener('load', function(){ showToast('@Model.ToastMessage', '@Model.ToastClass'); });</text>

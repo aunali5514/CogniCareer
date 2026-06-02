@@ -1,5 +1,53 @@
 @model CogniCareer.Pages.Admin.DashboardModel
+
+<style>
+    /* ── Skill icon tile ── */
+    .sk-icon-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .sk-devicon {
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--warm);
+        border: 1px solid var(--line);
+        flex-shrink: 0;
+        overflow: hidden;
+        font-size: 19px;
+        line-height: 1;
+    }
+
+        .sk-devicon i {
+            font-size: 19px;
+            line-height: 1;
+            display: block;
+        }
+
+    /* Initials fallback tile */
+    .sk-init {
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink);
+        color: var(--lime);
+        font-family: var(--f-mono);
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+</style>
+
 <div class="skills-layout">
+    <!-- Left: add skill form (unchanged) -->
     <div class="card skills-add-card">
         <div class="card-head"><span class="card-title">Add Skill</span></div>
         <div class="card-body">
@@ -25,6 +73,8 @@
             </form>
         </div>
     </div>
+
+    <!-- Right: skills table -->
     <div class="card">
         <div class="card-head">
             <span class="card-title">Skill Library</span>
@@ -43,12 +93,19 @@
             {
                 <div class="table-scroll">
                     <table class="skills-table" id="skill-lib-table" style="min-width:600px">
-                        <thead><tr><th>Skill</th><th>Category</th><th style="width:48px"></th></tr></thead>
+                        <thead>
+                            <tr><th>Skill</th><th>Category</th><th style="width:48px"></th></tr>
+                        </thead>
                         <tbody>
                             @foreach (var sk in Model.AllSkills.OrderBy(s => s.Category).ThenBy(s => s.SkillName))
                             {
                                 <tr data-name="@sk.SkillName.ToLowerInvariant()" data-cat="@sk.Category.ToLowerInvariant()">
-                                    <td><strong>@sk.SkillName</strong></td>
+                                    <td>
+                                        <div class="sk-icon-cell">
+                                            <div class="sk-devicon" data-skill="@sk.SkillName"></div>
+                                            <strong>@sk.SkillName</strong>
+                                        </div>
+                                    </td>
                                     <td><span class="sk-cat">@sk.Category</span></td>
                                     <td>
                                         <form method="post" asp-page-handler="DeleteSkill" onsubmit="return confirm(@System.Text.Json.JsonSerializer.Serialize($"Remove {sk.SkillName} from the library?"));">
@@ -66,3 +123,165 @@
         </div>
     </div>
 </div>
+
+<script>
+    /* ── Original filter function (unchanged) ── */
+    function filterSkillLib(q) {
+        q = q.toLowerCase().trim();
+        document.querySelectorAll('#skill-lib-table tbody tr').forEach(function(row) {
+            var name = row.getAttribute('data-name') || '';
+            var cat  = row.getAttribute('data-cat')  || '';
+            row.style.display = (!q || name.indexOf(q) !== -1 || cat.indexOf(q) !== -1) ? '' : 'none';
+        });
+    }
+
+    /* ── Skill icon resolver ── */
+    (function () {
+        var DEVICONS = {
+            'react':           'devicon-react-original colored',
+            'react native':    'devicon-react-original colored',
+            'vue':             'devicon-vuejs-plain colored',
+            'angular':         'devicon-angularjs-plain colored',
+            'javascript':      'devicon-javascript-plain colored',
+            'typescript':      'devicon-typescript-plain colored',
+            'html':            'devicon-html5-plain colored',
+            'css':             'devicon-css3-plain colored',
+            'sass':            'devicon-sass-original colored',
+            'tailwind':        'devicon-tailwindcss-plain colored',
+            'bootstrap':       'devicon-bootstrap-plain colored',
+            'python':          'devicon-python-plain colored',
+            'django':          'devicon-django-plain colored',
+            'flask':           'devicon-flask-original colored',
+            'node':            'devicon-nodejs-plain colored',
+            'express':         'devicon-express-original colored',
+            'java':            'devicon-java-plain colored',
+            'spring':          'devicon-spring-plain colored',
+            'c#':              'devicon-csharp-plain colored',
+            'csharp':          'devicon-csharp-plain colored',
+            '.net':            'devicon-dot-net-plain colored',
+            'dotnet':          'devicon-dot-net-plain colored',
+            'php':             'devicon-php-plain colored',
+            'laravel':         'devicon-laravel-plain colored',
+            'ruby':            'devicon-ruby-plain colored',
+            'rails':           'devicon-rails-plain colored',
+            'go':              'devicon-go-plain colored',
+            'rust':            'devicon-rust-plain colored',
+            'swift':           'devicon-swift-plain colored',
+            'kotlin':          'devicon-kotlin-plain colored',
+            'dart':            'devicon-dart-plain colored',
+            'flutter':         'devicon-flutter-plain colored',
+            'sql':             'devicon-mysql-plain colored',
+            'mysql':           'devicon-mysql-plain colored',
+            'postgresql':      'devicon-postgresql-plain colored',
+            'postgres':        'devicon-postgresql-plain colored',
+            'mongodb':         'devicon-mongodb-plain colored',
+            'redis':           'devicon-redis-plain colored',
+            'sqlite':          'devicon-sqlite-plain colored',
+            'oracle':          'devicon-oracle-original colored',
+            'mssql':           'devicon-microsoftsqlserver-plain colored',
+            'sql server':      'devicon-microsoftsqlserver-plain colored',
+            'docker':          'devicon-docker-plain colored',
+            'kubernetes':      'devicon-kubernetes-plain colored',
+            'aws':             'devicon-amazonwebservices-plain colored',
+            'azure':           'devicon-azure-plain colored',
+            'gcp':             'devicon-googlecloud-plain colored',
+            'google cloud':    'devicon-googlecloud-plain colored',
+            'git':             'devicon-git-plain colored',
+            'github':          'devicon-github-original colored',
+            'gitlab':          'devicon-gitlab-plain colored',
+            'linux':           'devicon-linux-plain colored',
+            'bash':            'devicon-bash-plain colored',
+            'nginx':           'devicon-nginx-original colored',
+            'graphql':         'devicon-graphql-plain colored',
+            'tensorflow':      'devicon-tensorflow-original colored',
+            'pytorch':         'devicon-pytorch-original colored',
+            'pandas':          'devicon-pandas-original colored',
+            'numpy':           'devicon-numpy-original colored',
+            'jupyter':         'devicon-jupyter-plain colored',
+            'figma':           'devicon-figma-plain colored',
+            'photoshop':       'devicon-photoshop-plain colored',
+            'illustrator':     'devicon-illustrator-plain colored',
+            'xd':              'devicon-xd-plain colored',
+            'android':         'devicon-android-plain colored',
+            'jenkins':         'devicon-jenkins-line colored',
+            'jira':            'devicon-jira-plain colored',
+            'trello':          'devicon-trello-plain colored',
+            'firebase':        'devicon-firebase-plain colored',
+            'next.js':         'devicon-nextjs-original colored',
+            'nextjs':          'devicon-nextjs-original colored',
+            'nuxt':            'devicon-nuxtjs-plain colored',
+            'webpack':         'devicon-webpack-plain colored',
+            'jest':            'devicon-jest-plain colored',
+            'scala':           'devicon-scala-plain colored',
+            'c++':             'devicon-cplusplus-plain colored',
+            'cpp':             'devicon-cplusplus-plain colored',
+            'c ':              'devicon-c-plain colored',
+            'matlab':          'devicon-matlab-plain colored',
+            'heroku':          'devicon-heroku-plain colored',
+            'terraform':       'devicon-terraform-plain colored',
+            'ansible':         'devicon-ansible-plain colored',
+            'selenium':        'devicon-selenium-original colored',
+            'cassandra':       'devicon-cassandra-plain colored',
+            'neo4j':           'devicon-neo4j-plain colored',
+            'vscode':          'devicon-vscode-plain colored',
+            'anaconda':        'devicon-anaconda-original colored',
+        };
+
+        var EMOJI = {
+            'machine learning': '🤖', 'ml': '🤖',
+            'deep learning': '🧠', 'ai': '✨',
+            'data science': '📊', 'data analysis': '📊',
+            'system design': '🏗️', 'algorithms': '🔢',
+            'agile': '🔄', 'scrum': '🔄',
+            'cloud': '☁️', 'devops': '⚙️', 'ci/cd': '🚀',
+            'testing': '🧪', 'security': '🔒',
+            'blockchain': '⛓️', 'ux': '🎨', 'ui': '🎨',
+            'excel': '📊', 'powerpoint': '📑', 'word': '📝',
+            'communication': '💬', 'project management': '📋',
+            'leadership': '🌟', 'problem solving': '🧩',
+        };
+
+        function resolveIcon(name) {
+            if (!name) return null;
+            var lower = name.toLowerCase().trim();
+            for (var key in DEVICONS) {
+                if (lower === key || lower.indexOf(key) !== -1 || key.indexOf(lower) !== -1) {
+                    return { type: 'devicon', cls: DEVICONS[key] };
+                }
+            }
+            for (var ekey in EMOJI) {
+                if (lower === ekey || lower.indexOf(ekey) !== -1) {
+                    return { type: 'emoji', char: EMOJI[ekey] };
+                }
+            }
+            return { type: 'init', text: name.substring(0, 2).toUpperCase() };
+        }
+
+        function renderIcons() {
+            document.querySelectorAll('.sk-devicon[data-skill]').forEach(function(el) {
+                var skill = el.getAttribute('data-skill');
+                var res = resolveIcon(skill);
+                if (!res) return;
+                el.removeAttribute('data-skill'); /* prevent double-run */
+                el.innerHTML = '';
+                if (res.type === 'devicon') {
+                    var i = document.createElement('i');
+                    i.className = res.cls;
+                    el.appendChild(i);
+                } else if (res.type === 'emoji') {
+                    el.textContent = res.char;
+                } else {
+                    el.classList.remove('sk-devicon');
+                    el.classList.add('sk-init');
+                    el.textContent = res.text;
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() { setTimeout(renderIcons, 60); });
+        } else {
+            setTimeout(renderIcons, 60);
+        }
+    })();
+</script>
