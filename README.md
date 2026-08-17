@@ -2,7 +2,7 @@
 
 **An AI-powered career intelligence platform connecting students, companies, and institutions.**
 
-🔗 **Live:** [cognicareer-app.azurewebsites.net](https://cognicareer-app.azurewebsites.net)
+🔗 **Live:** [cognicareer-app-bdasd6eebsh8efcy.centralus-01.azurewebsites.net](https://cognicareer-app-bdasd6eebsh8efcy.centralus-01.azurewebsites.net)
 
 ---
 
