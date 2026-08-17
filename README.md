@@ -2,6 +2,8 @@
 
 **An AI-powered career intelligence platform connecting students, companies, and institutions.**
 
+🔗 **Live:** [cognicareer-app-bdasd6eebsh8efcy.centralus-01.azurewebsites.net](https://cognicareer-app-bdasd6eebsh8efcy.centralus-01.azurewebsites.net)
+
 ---
 
 ## Overview
@@ -38,20 +40,13 @@ Pages/      → Razor Pages (Student / Company / Admin portals)
 
 All data access goes through stored procedures — no inline SQL in application code — for security and maintainability.
 
-## My Role
-
-I owned the **Intelligence & AI** backend, including:
-- `MatchScoreService` — the weighted skill-matching engine
-- `AIService` and `AIChatData` — the multi-provider AI fallback chain and conversational assistant
-- All six AI-driven Dashboard analytics handlers
-
 ## Team
 
 Built with **Ahmad Sohail**, **Areej Ahmad**, and **Tasbeeha Moeed**, under the mentorship of Prof. Esha Hayat (OOP) and Prof. Amna Adnan (Database Systems), as a second-semester project at UET Lahore.
 
-## Deployment Note
+## Deployment
 
-Originally targeted for Azure, deployment moved to SomeeHosting after new-account Azure VM quota restrictions blocked provisioning. (Not yet live — deployment in progress.)
+Hosted on **Azure App Service** with an **Azure SQL Database** backend, with GitHub Actions handling continuous deployment on every push to `main`.
 
 ## Setup
 
